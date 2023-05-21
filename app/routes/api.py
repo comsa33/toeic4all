@@ -67,12 +67,8 @@ def get_subtypes():
     })
 
 
-# Get questions
-@api.route('/questions', methods=['GET'])
-def get_questions():
-    question_lv = request.args.get('QuestionLv', type=int)
-    question_subtype_id = request.args.get('QuestionSubtypeId', type=int)
-    limit = request.args.get('Limit', type=int)
+# internal function to get questions
+def fetch_questions(question_lv, question_subtype_id, limit):
     # Add filters based on the parameters received
     filters = []
     if question_lv and question_subtype_id:
@@ -83,10 +79,21 @@ def get_questions():
     if limit:
         questions_query = questions_query.limit(limit)
     questions = questions_query.order_by(func.random()).all()
-    return jsonify({
+    return {
         "count": len(questions),
         "data": [{"QuestionId": question.id, "QuestionText": question.question_text} for question in questions]
-    })
+    }
+
+
+# Get questions
+@api.route('/questions', methods=['GET'])
+def get_questions():
+    question_lv = request.args.get('QuestionLv', type=int)
+    question_subtype_id = request.args.get('QuestionSubtypeId', type=int)
+    limit = request.args.get('Limit', type=int)
+
+    questions = fetch_questions(question_lv, question_subtype_id, limit)
+    return jsonify(questions)
 
 
 # Get question choices
@@ -198,7 +205,7 @@ def generate_test():
         for lv in question_lv:
             print(lv, subtype_id)
             print(type(lv), type(subtype_id))
-            question_data = get_questions(QuestionLv=lv, QuestionSubtypeId=subtype_id, Limit=2).json['data']
+            question_data = fetch_questions(lv, subtype_id, 2)['data']
             questions += question_data
 
     # Randomly select 30 questions
