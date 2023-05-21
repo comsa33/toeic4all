@@ -1,26 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Test Questions</title>
+    <title>{{ test_level }} TOEIC Part 5 Mock Test</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 <div class="container">
+    <h1 class="text-center my-4">{{ test_level }} TOEIC Part 5 Mock Test</h1>
     <div class="row">
         {% for question in questions %}
         <div class="col-md-6">
-            <p><strong>{{ loop.index }}. {{ question.text }}</strong><small> (ID: {{ question.id }})</small></p>
-            <ul>
-                {% for choice in choices[question.id] %}
-                <li>({{ loop.index }}) {{ choice }}</li>
+            <p><strong>{{ loop.index + 100 }}. {{ question.QuestionText }}</strong></p>
+            <ol type="A">
+                {% for choice in choices[question.QuestionId] %}
+                <li>{{ choice }}</li>
                 {% endfor %}
-            </ul>
+            </ol>
+            <small class="text-muted">ID: {{ question.QuestionId }}</small>
         </div>
         {% if loop.index % 2 == 0 %}
         </div><div class="row">
         {% endif %}
         {% endfor %}
     </div>
+    <footer class="text-center my-4">
+        <small>&copy; toeic4all - Created at {{ creation_time }}</small>
+    </footer>
 </div>
 </body>
 </html>

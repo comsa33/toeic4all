@@ -2,19 +2,35 @@
 <html>
 <head>
     <title>Test Answers</title>
+    <style>
+        table {
+            width: 100%;
+            text-align: center;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
+        }
+    </style>
 </head>
 <body>
+    <h1 class="text-center">{{ test_level }} TOEIC Part 5 Mock Test Answers</h1>
+    <p class="text-center">Created at {{ creation_time }}</p>
+    <hr>
     <table>
         <tr>
             <th>Question No.</th>
             <th>Answer</th>
         </tr>
-        {% for question_id, answer in answers.items() %}
+        {% for idx, answer in enumerate(answers, start=101) %}
         <tr>
-            <td>{{ question_id }}</td>
-            <td>{{ answer }}</td>
+            <td>{{ idx }}</td>
+            <td>{{ answer.AnswerText | join(', ') }}</td>
         </tr>
         {% endfor %}
     </table>
+    <hr>
+    <p class="text-center">All rights reserved by toeic4all. Unauthorized distribution is strictly prohibited.</p>
 </body>
 </html>

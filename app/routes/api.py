@@ -222,7 +222,6 @@ def generate_test():
     for subtype in subtypes:
         subtype_id = subtype['SubTypeId']
         for lv in question_lv:
-            print(type(lv), type(subtype_id))
             question_data = fetch_questions(lv, subtype_id, 2)['data']
             questions += question_data
 
@@ -243,7 +242,8 @@ def generate_test():
     vocas = fetch_vocas(question_ids)['data']
 
     # Render to HTML
-    questions_html = render_template('questions.html', questions=questions, choices=choices)
+    creation_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    questions_html = render_template('questions.html', questions=questions, choices=choices, test_level=test_lv, creation_time=creation_time)
     answers_html = render_template('answers.html', answers=answers)
     explanations_html = render_template('explanations.html', explanations=explanations, vocas=vocas)
 
