@@ -96,12 +96,8 @@ def get_questions():
     return jsonify(questions)
 
 
-# Get question choices
-@api.route('/choices', methods=['GET'])
-def get_choices():
-    question_ids = request.args.get('QuestionIds')
+def fetch_choices(question_ids):
     if question_ids:
-        question_ids = list(map(int, question_ids.split(',')))
         choices_query = GeneratedAnswer.query.filter(GeneratedAnswer.question_id.in_(question_ids))
         choices = choices_query.all()
         grouped_choices = {}
@@ -109,20 +105,27 @@ def get_choices():
             if choice.question_id not in grouped_choices:
                 grouped_choices[choice.question_id] = []
             grouped_choices[choice.question_id].append(choice.answer_text)
-        return jsonify({
+        return {
             "count": len(grouped_choices),
             "data": [{"QuestionId": qid, "Choices": grouped_choices[qid]} for qid in grouped_choices]
-        })
+        }
+    else:
+        return {"error": "QuestionIds parameter is required"}, 400
+
+
+# Get question choices
+@api.route('/choices', methods=['GET'])
+def get_choices():
+    question_ids = request.args.get('QuestionIds')
+    if question_ids:
+        question_ids = list(map(int, question_ids.split(',')))
+        return jsonify(fetch_choices(question_ids))
     else:
         return jsonify({"error": "QuestionIds parameter is required"}), 400
 
 
-# Get question answers
-@api.route('/answer', methods=['GET'])
-def get_answer():
-    question_ids = request.args.get('QuestionIds')
+def fetch_answers(question_ids):
     if question_ids:
-        question_ids = list(map(int, question_ids.split(',')))
         answers_query = GeneratedAnswer.query.filter(and_(GeneratedAnswer.question_id.in_(question_ids), GeneratedAnswer.is_correct==True))
         answers = answers_query.all()
         grouped_answers = {}
@@ -130,35 +133,46 @@ def get_answer():
             if answer.question_id not in grouped_answers:
                 grouped_answers[answer.question_id] = []
             grouped_answers[answer.question_id].append(answer.answer_text)
-        return jsonify({
+        return {
             "count": len(grouped_answers),
             "data": [{"QuestionId": qid, "AnswerText": grouped_answers[qid]} for qid in grouped_answers]
-        })
+        }
+    else:
+        return {"error": "QuestionIds parameter is required"}, 400
+
+
+@api.route('/answer', methods=['GET'])
+def get_answer():
+    question_ids = request.args.get('QuestionIds')
+    if question_ids:
+        question_ids = list(map(int, question_ids.split(',')))
+        return jsonify(fetch_answers(question_ids))
     else:
         return jsonify({"error": "QuestionIds parameter is required"}), 400
 
 
-# Get explanations
-@api.route('/explanation', methods=['GET'])
-def get_explanations():
-    question_ids = request.args.getlist('QuestionId', type=int)
+def fetch_explanations(question_ids):
     explanations_query = db.session.query(GeneratedQuestion, GeneratedQuestionSubType).filter(
         GeneratedQuestion.question_sub_type_id == GeneratedQuestionSubType.id,
         GeneratedQuestion.id.in_(question_ids)
     )
     explanations = explanations_query.all()
-    return jsonify({
+    return {
         "count": len(explanations),
         "data": [{"question_id": question.id,
                   "translation": question.translation,
                   "explanation": question.explanation,
                   "sub_type": subtype.name_kor} for question, subtype in explanations]
-    })
+    }
 
 
-@api.route('/vocas', methods=['GET'])
-def get_vocas():
-    question_ids = request.args.getlist('questionId', type=int)
+@api.route('/explanation', methods=['GET'])
+def get_explanations():
+    question_ids = request.args.getlist('QuestionId', type=int)
+    return jsonify(fetch_explanations(question_ids))
+
+
+def fetch_vocas(question_ids):
     voca_query = db.session.query(
         GeneratedVocabulary.question_id,
         GeneratedVocabulary.word,
@@ -171,11 +185,16 @@ def get_vocas():
         vocas[question_id].append((word, explanation))
 
     vocas_data = [{"question_id": qid, "vocas": vocas[qid]} for qid in vocas]
-
-    return jsonify({
+    return {
         "count": len(vocas_data),
         "data": vocas_data
-    })
+    }
+
+
+@api.route('/vocas', methods=['GET'])
+def get_vocas():
+    question_ids = request.args.getlist('questionId', type=int)
+    return jsonify(fetch_vocas(question_ids))
 
 
 # store test data
@@ -203,7 +222,6 @@ def generate_test():
     for subtype in subtypes:
         subtype_id = subtype['SubTypeId']
         for lv in question_lv:
-            print(lv, subtype_id)
             print(type(lv), type(subtype_id))
             question_data = fetch_questions(lv, subtype_id, 2)['data']
             questions += question_data
@@ -213,16 +231,16 @@ def generate_test():
     question_ids = [q['QuestionId'] for q in questions]
 
     # Get choices
-    choices = get_choices(QuestionIds=question_ids).json['data']
+    choices = fetch_choices(question_ids)['data']
 
     # Get answers
-    answers = get_answer(QuestionIds=question_ids).json['data']
+    answers = fetch_answers(question_ids)['data']
 
     # Get translations and explanations
-    explanations = get_explanations(QuestionId=question_ids).json['data']
+    explanations = fetch_explanations(question_ids)['data']
 
     # Get vocabularies
-    vocas = get_vocas(questionId=question_ids).json['data']
+    vocas = fetch_vocas(question_ids)['data']
 
     # Render to HTML
     questions_html = render_template('questions.html', questions=questions, choices=choices)
