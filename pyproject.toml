@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "toeic4all-flask"
+name = "toeic4all_flask"
 version = "0.1.0"
 description = ""
 authors = ["ruo <comsa333@gmail.com>"]
