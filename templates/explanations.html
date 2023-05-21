@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Explanations</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        {% for explanation in explanations %}
+        <div class="col-md-6">
+            <p><strong>{{ explanation.id }}. [{{ explanation.sub_type }}]</strong></p>
+            <p>질문 번역 : {{ explanation.translation }}</p>
+            <p>정답 해설 : {{ explanation.explanation }}</p>
+            <p>어휘 :</p>
+            <ul>
+                {% for voca in vocas[explanation.id] %}
+                <li>{{ voca[0] }}: {{ voca[1] }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% if loop.index % 2 == 0 %}
+        </div><div class="row">
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+</body>
+</html>

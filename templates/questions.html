@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Questions</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        {% for question in questions %}
+        <div class="col-md-6">
+            <p><strong>{{ loop.index }}. {{ question.text }}</strong><small> (ID: {{ question.id }})</small></p>
+            <ul>
+                {% for choice in choices[question.id] %}
+                <li>({{ loop.index }}) {{ choice }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% if loop.index % 2 == 0 %}
+        </div><div class="row">
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+</body>
+</html>

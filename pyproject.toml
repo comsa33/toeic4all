@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "toeic4all-flask"
+version = "0.1.0"
+description = ""
+authors = ["ruo <ruo@gravylab.co.kr>"]
+readme = "README.md"
+packages = [{include = "toeic4all_flask"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+flask = "^2.3.2"
+flask-restful = "^0.3.10"
+flask-sqlalchemy = "^3.0.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

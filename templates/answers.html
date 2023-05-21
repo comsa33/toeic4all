@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Answers</title>
+</head>
+<body>
+    <table>
+        <tr>
+            <th>Question No.</th>
+            <th>Answer</th>
+        </tr>
+        {% for question_id, answer in answers.items() %}
+        <tr>
+            <td>{{ question_id }}</td>
+            <td>{{ answer }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
