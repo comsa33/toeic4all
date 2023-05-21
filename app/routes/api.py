@@ -67,26 +67,43 @@ def get_subtypes():
     })
 
 
-# Get questions
 @api.route('/questions', methods=['GET'])
 def get_questions():
     question_lv = request.args.get('QuestionLv')
+
+    # If question level is a tuple, convert it into a list
+    if isinstance(question_lv, tuple):
+        question_lv = list(question_lv)
+
     question_subtype_id = request.args.get('QuestionSubtypeId')
     limit = request.args.get('Limit', type=int)
+
     # Add filters based on the parameters received
     filters = []
-    if question_lv and question_subtype_id:
-        filters.append(GeneratedQuestion.question_level == question_lv)
+
+    if question_lv:
+        # if question_lv is a list, use the in_ function
+        if isinstance(question_lv, list):
+            filters.append(GeneratedQuestion.question_level.in_(question_lv))
+        else:
+            filters.append(GeneratedQuestion.question_level == question_lv)
+
+    if question_subtype_id:
         filters.append(GeneratedQuestion.question_sub_type_id == question_subtype_id)
+
     questions_query = GeneratedQuestion.query.filter(and_(*filters))
+
     # Limit the number of questions returned
     if limit:
         questions_query = questions_query.limit(limit)
+
     questions = questions_query.order_by(func.random()).all()
+
     return jsonify({
         "count": len(questions),
         "data": [{"QuestionId": question.id, "QuestionText": question.question_text} for question in questions]
     })
+
 
 
 # Get question choices
