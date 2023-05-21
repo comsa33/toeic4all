@@ -7,15 +7,15 @@
 <body>
 <div class="container">
     <div class="row">
-        {% for idx, explanation in enumerate(explanations, start=101) %}
+        {% for (idx, explanation), voca in enumerate(explanations, start=101), vocas %}
         <div class="col-md-6">
             <p><strong>{{ idx }}. [{{ explanation.sub_type }}]</strong></p>
             <p>질문 번역 : {{ explanation.translation }}</p>
             <p>정답 해설 : {{ explanation.explanation }}</p>
             <p>어휘 :</p>
             <ul>
-                {% for voca in vocas %}
-                <li>{{ voca["vocas"][0] }}: {{ voca["vocas"][1] }}</li>
+                {% for w, e in voca["vocas"] %}
+                <li>{{ w }}: {{ e }}</li>
                 {% endfor %}
             </ul>
         </div>

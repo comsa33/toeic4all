@@ -8,12 +8,12 @@
 <div class="container">
     <h1 class="text-center my-4">{{ test_level }} TOEIC Part 5 Mock Test</h1>
     <div class="row">
-        {% for question in questions %}
+        {% for question, choice in questions, choices %}
         <div class="col-md-6">
             <p><strong>{{ loop.index + 100 }}. {{ question.QuestionText }}</strong></p>
             <ol type="A">
-                {% for choice in choices %}
-                <li>{{ choice["Choices"] }}</li>
+                {% for selection in choice["Choices"] %}
+                <li>{{ selection }}</li>
                 {% endfor %}
             </ol>
             <small class="text-muted">ID: {{ question.QuestionId }}</small>
