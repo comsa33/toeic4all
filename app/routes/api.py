@@ -74,11 +74,11 @@ def fetch_questions(question_lv, question_subtype_id, limit):
     if question_lv and question_subtype_id:
         filters.append(GeneratedQuestion.question_level == question_lv)
         filters.append(GeneratedQuestion.question_sub_type_id == question_subtype_id)
-    questions_query = GeneratedQuestion.query.filter(and_(*filters))
+    questions_query = GeneratedQuestion.query.filter(and_(*filters)).order_by(func.random())  # Move order_by() here
     # Limit the number of questions returned
     if limit:
         questions_query = questions_query.limit(limit)
-    questions = questions_query.order_by(func.random()).all()
+    questions = questions_query.all()
     return {
         "count": len(questions),
         "data": [{"QuestionId": question.id, "QuestionText": question.question_text} for question in questions]
