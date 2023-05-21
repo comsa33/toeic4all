@@ -181,9 +181,9 @@ def generate_test():
 
     # Define difficulty levels
     lv_mapping = {
-        'easy': (1, 2),
-        'mid': (2, 3, 4),
-        'difficult': (4, 5)
+        'easy': [1, 2],
+        'mid': [2, 3, 4],
+        'difficult': [4, 5]
     }
 
     question_lv = lv_mapping[test_lv]
@@ -196,6 +196,8 @@ def generate_test():
     for subtype in subtypes:
         subtype_id = subtype['SubTypeId']
         for lv in question_lv:
+            print(lv, subtype_id)
+            print(type(lv), type(subtype_id))
             question_data = get_questions(QuestionLv=lv, QuestionSubtypeId=subtype_id, Limit=2).json['data']
             questions += question_data
 
