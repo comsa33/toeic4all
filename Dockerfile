@@ -1,14 +1,23 @@
-# Use an official Python runtime as a parent image
-FROM python:3.9-slim-buster
+FROM python:3.10.10-slim-bullseye
 
-# Set the working directory in the container to /app
-WORKDIR /app
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUTF8=1 \
+    PIP_NO_CACHE_DIR=on \
+    PIP_DISABLE_PIP_VERSION_CHECK=on
 
-# Add the current directory contents into the container at /app
-ADD . /app
+WORKDIR /usr/src
 
-# Install any needed packages specified in requirements.txt
-RUN pip install --no-cache-dir poetry && poetry config virtualenvs.create false && poetry install --no-dev
+COPY requirements.txt pyproject.toml poetry.lock /usr/src/
+
+RUN apt update -y
+RUN apt upgrade -y
+RUN pip install -r requirements.txt
+RUN poetry config virtualenvs.create false
+RUN if [ -f pyproject.toml ]; then poetry install --verbose; fi
+
+COPY . /usr/src/app
+WORKDIR /usr/src/app/
 
 # Make port 5000 available to the world outside this container
 EXPOSE 5000
