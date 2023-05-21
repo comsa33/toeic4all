@@ -7,7 +7,7 @@
 <body>
 <div class="container">
     <div class="row">
-        {% for (idx, explanation), voca in enumerate(explanations, start=101), vocas %}
+        {% for idx, explanation, voca in enumerate(zip(explanations, vocas), start=101) %}
         <div class="col-md-6">
             <p><strong>{{ idx }}. [{{ explanation.sub_type }}]</strong></p>
             <p>질문 번역 : {{ explanation.translation }}</p>

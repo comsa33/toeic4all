@@ -6,9 +6,8 @@
 </head>
 <body>
 <div class="container">
-    <h1 class="text-center my-4">{{ test_level }} TOEIC Part 5 Mock Test</h1>
     <div class="row">
-        {% for question, choice in questions, choices %}
+        {% for question, choice in zip(questions, choices) %}
         <div class="col-md-6">
             <p><strong>{{ loop.index + 100 }}. {{ question.QuestionText }}</strong></p>
             <ol type="A">

@@ -7,7 +7,8 @@ db = SQLAlchemy()
 
 def create_app():
     app = Flask(__name__, template_folder='../templates', static_folder='../static')
-    app.jinja_env.globals.update(enumerate=enumerate)  # Add this line
+    app.jinja_env.globals.update(enumerate=enumerate)
+    app.jinja_env.globals.update(zip=zip)
 
     # Load configurations
     with open('config.json') as f:
@@ -19,12 +20,12 @@ def create_app():
     db.init_app(app)
 
     # Register blueprints
-    from .routes import api, main_bp  # Add this line
+    from .routes import api, main_bp
     app.register_blueprint(api.api, url_prefix='/api')
-    app.register_blueprint(main_bp)  # Add this line
+    app.register_blueprint(main_bp)
 
-    from .errors import handlers  # Changed this line
-    app.register_blueprint(handlers.errors)  # And this line
+    from .errors import handlers
+    app.register_blueprint(handlers.errors)
 
     with app.app_context():
         db.create_all()
