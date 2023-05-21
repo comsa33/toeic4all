@@ -17,7 +17,7 @@ RUN poetry config virtualenvs.create false
 RUN if [ -f pyproject.toml ]; then poetry install --verbose; fi
 
 COPY . /usr/src/app
-WORKDIR /usr/src/app/app
+WORKDIR /usr/src/app
 ENV FLASK_APP=run.py
 
 EXPOSE 5000
