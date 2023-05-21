@@ -184,7 +184,7 @@ def fetch_vocas(question_ids):
     for question_id, word, explanation in voca_query:
         vocas[question_id].append((word, explanation))
 
-    vocas_data = [{"question_id": qid, "vocas": vocas[qid]} for qid in vocas]
+    vocas_data = [{"QuestionId": qid, "Vocas": vocas[qid]} for qid in vocas]
     return {
         "count": len(vocas_data),
         "data": vocas_data
@@ -193,7 +193,7 @@ def fetch_vocas(question_ids):
 
 @api.route('/vocas', methods=['GET'])
 def get_vocas():
-    question_ids = request.args.getlist('questionId', type=int)
+    question_ids = request.args.getlist('QuestionId', type=int)
     return jsonify(fetch_vocas(question_ids))
 
 
