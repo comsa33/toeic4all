@@ -6,7 +6,7 @@ ENV PYTHONUNBUFFERED=1 \
     PIP_NO_CACHE_DIR=on \
     PIP_DISABLE_PIP_VERSION_CHECK=on
 
-WORKDIR /usr/src/toeic4all_flask
+WORKDIR /usr/src
 
 COPY pyproject.toml poetry.lock ./
 
