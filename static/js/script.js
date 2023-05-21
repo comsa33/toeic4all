@@ -9,6 +9,9 @@ document.getElementById('generate-btn').onclick = function() {
     xhr.open('GET', '/api/test?TestLv=' + difficulty);
     xhr.onload = function() {
         if (xhr.status === 200) {
+
+            console.log(xhr.responseText);
+
             var data = JSON.parse(xhr.responseText).data;
             var questionHtml = data.questions;
             var answerHtml = data.answers;
