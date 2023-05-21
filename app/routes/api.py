@@ -104,7 +104,7 @@ def fetch_choices(question_ids):
         for choice in choices:
             if choice.question_id not in grouped_choices:
                 grouped_choices[choice.question_id] = []
-            grouped_choices[choice.question_id].append(choice.answer_text)
+            grouped_choices[choice.question_id].append(choice.text)
         return {
             "count": len(grouped_choices),
             "data": [{"QuestionId": qid, "Choices": grouped_choices[qid]} for qid in grouped_choices]
@@ -132,7 +132,7 @@ def fetch_answers(question_ids):
         for answer in answers:
             if answer.question_id not in grouped_answers:
                 grouped_answers[answer.question_id] = []
-            grouped_answers[answer.question_id].append(answer.answer_text)
+            grouped_answers[answer.question_id].append(answer.text)
         return {
             "count": len(grouped_answers),
             "data": [{"QuestionId": qid, "AnswerText": grouped_answers[qid]} for qid in grouped_answers]
