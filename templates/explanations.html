@@ -7,14 +7,14 @@
 <body>
 <div class="container">
     <div class="row">
-        {% for number, explanation in explanations %}
+        {% for idx, explanation in enumerate(explanations, start=101) %}
         <div class="col-md-6">
-            <p><strong>{{ number }}. [{{ explanation.sub_type }}]</strong></p>
+            <p><strong>{{ idx }}. [{{ explanation.sub_type }}]</strong></p>
             <p>질문 번역 : {{ explanation.translation }}</p>
             <p>정답 해설 : {{ explanation.explanation }}</p>
             <p>어휘 :</p>
             <ul>
-                {% for voca in vocas[explanation.question_id] %}
+                {% for voca in vocas[explanation.id] %}
                 <li>{{ voca[0] }}: {{ voca[1] }}</li>
                 {% endfor %}
             </ul>

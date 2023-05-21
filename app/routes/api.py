@@ -241,14 +241,14 @@ def generate_test():
     # Get vocabularies
     vocas = fetch_vocas(question_ids)['data']
 
-    # Render to HTML
-    creation_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    questions_html = render_template('questions.html', questions=questions, choices=choices, test_level=test_lv, creation_time=creation_time)
-    answers_html = render_template('answers.html', answers=answers)
-    explanations_html = render_template('explanations.html', explanations=explanations, vocas=vocas)
-
     # Generate test number based on current time
     test_no = datetime.now().strftime("%Y%m%d%H%M%S")
+
+    # Render to HTML
+    questions_html = render_template('questions.html', questions=questions, choices=choices, test_level=test_lv, creation_time=test_no)
+    answers_html = render_template('answers.html', answers=answers, test_level=test_lv, creation_time=test_no)
+    explanations_html = render_template('explanations.html', explanations=explanations, vocas=vocas)
+
 
     # Store test data
     tests[test_no] = {
