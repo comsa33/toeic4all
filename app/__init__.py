@@ -18,8 +18,9 @@ def create_app():
     db.init_app(app)
 
     # Register blueprints
-    from .routes import api
+    from .routes import api, app  # Add this line
     app.register_blueprint(api.api, url_prefix='/api')
+    app.register_blueprint(app.app)  # Add this line
 
     from .errors import handlers  # Changed this line
     app.register_blueprint(handlers.errors)  # And this line
