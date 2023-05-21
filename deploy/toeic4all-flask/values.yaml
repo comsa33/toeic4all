@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: localhost:32000/toeic4all_flask
+  repository: localhost:32000/toeic4all-flask
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
