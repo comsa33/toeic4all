@@ -8,16 +8,16 @@ ENV PYTHONUNBUFFERED=1 \
 
 WORKDIR /usr/src
 
-COPY pyproject.toml poetry.lock ./
+COPY requirements.txt pyproject.toml poetry.lock /usr/src/
 
-RUN apt update -y && \
-    apt upgrade -y && \
-    pip install poetry && \
-    poetry config virtualenvs.create false
+RUN apt update -y
+RUN apt upgrade -y
+RUN pip install -r requirements.txt
+RUN poetry config virtualenvs.create false
+RUN if [ -f pyproject.toml ]; then poetry install --verbose; fi
 
-RUN if [ -f pyproject.toml ]; then poetry install --only main; fi
-
-COPY . .
+COPY . /usr/src/app
+WORKDIR /usr/src/app/
 
 EXPOSE 5000
 

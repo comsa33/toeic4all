@@ -2,9 +2,7 @@
 name = "toeic4all-flask"
 version = "0.1.0"
 description = ""
-authors = ["ruo <ruo@gravylab.co.kr>"]
-readme = "README.md"
-packages = [{include = "toeic4all_flask"}]
+authors = ["ruo <comsa333@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
