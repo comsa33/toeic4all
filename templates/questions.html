@@ -13,7 +13,7 @@
             <p><strong>{{ loop.index + 100 }}. {{ question.QuestionText }}</strong></p>
             <ol type="A">
                 {% for choice in choices %}
-                <li>{{ choice[question.Choices] }}</li>
+                <li>{{ choice["Choices"] }}</li>
                 {% endfor %}
             </ol>
             <small class="text-muted">ID: {{ question.QuestionId }}</small>
