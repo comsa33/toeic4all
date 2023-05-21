@@ -7,6 +7,7 @@ db = SQLAlchemy()
 
 def create_app():
     app = Flask(__name__, template_folder='../templates', static_folder='../static')
+    app.jinja_env.globals.update(enumerate=enumerate)  # Add this line
 
     # Load configurations
     with open('config.json') as f:
