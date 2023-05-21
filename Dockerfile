@@ -8,15 +8,16 @@ ENV PYTHONUNBUFFERED=1 \
 
 WORKDIR /usr/src/toeic4all_flask
 
-COPY pyproject.toml poetry.lock /usr/src/toeic4all_flask/
+COPY pyproject.toml poetry.lock ./
 
-RUN apt update -y
-RUN apt upgrade -y
-RUN pip install poetry
-RUN poetry config virtualenvs.create false
-RUN if [ -f pyproject.toml ]; then poetry install --no-dev; fi
+RUN apt update -y && \
+    apt upgrade -y && \
+    pip install poetry && \
+    poetry config virtualenvs.create false
 
-COPY . /usr/src/toeic4all_flask
+RUN if [ -f pyproject.toml ]; then poetry install --only main; fi
+
+COPY . .
 
 EXPOSE 5000
 
