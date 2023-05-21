@@ -9,6 +9,7 @@ from sqlalchemy import and_, func
 from app.models import GeneratedQuestionType, GeneratedQuestionSubType, GeneratedQuestion, GeneratedAnswer, GeneratedVocabulary
 from app import db
 
+
 api = Blueprint('api', __name__)
 
 
