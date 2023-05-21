@@ -19,10 +19,10 @@ def create_app():
 
     # Register blueprints
     from .routes import api
-    app.register_blueprint(api, url_prefix='/api')
+    app.register_blueprint(api.api, url_prefix='/api')
 
-    from .errors import errors  # Changed this line
-    app.register_blueprint(errors)  # And this line
+    from .errors import handlers  # Changed this line
+    app.register_blueprint(handlers.errors)  # And this line
 
     with app.app_context():
         db.create_all()
