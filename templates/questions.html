@@ -8,8 +8,7 @@
           margin: 0 auto;
         }
 
-        .col-question {
-          max-width: 350px;
+        .col-md-6 {
           text-align: left;
         }
 
@@ -29,7 +28,7 @@
     <div class="container-test">
         <div class="row">
             {% for question, choice in zip(questions, choices) %}
-            <div class="col-question">
+            <div class="col-md-6">
                 <p><strong>{{ loop.index + 100 }}. {{ question.QuestionText }}</strong></p>
                 <ol type="A">
                     {% for selection in choice["Choices"] %}
@@ -38,7 +37,7 @@
                 </ol>
                 <small class="text-muted">ID: {{ question.QuestionId }}</small>
             </div>
-            {% if loop.index % 2 == 0 %}
+            {% if loop.index % 2 == 1 %}
             </div><div class="row">
             {% endif %}
             {% endfor %}
