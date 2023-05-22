@@ -9,6 +9,7 @@ def create_app():
     app = Flask(__name__, template_folder='../templates', static_folder='../static')
     app.jinja_env.globals.update(enumerate=enumerate)
     app.jinja_env.globals.update(zip=zip)
+    app.jinja_env.globals.update(len=len)
 
     # Load configurations
     with open('config.json') as f:
