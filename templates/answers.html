@@ -9,16 +9,18 @@
             justify-content: space-between;
         }
         .answers-column {
-            width: 16%;
+            width: 48%;
         }
         table {
-            width: 100%;
+            width: 80%;
             text-align: center;
             border-collapse: collapse;
+            font-size: 0.7em; /* smaller font size */
+            font-weight: bold; /* bold text */
         }
         th, td {
             border: 1px solid black;
-            padding: 10px;
+            padding: 5px; /* smaller padding */
         }
     </style>
 </head>
@@ -27,14 +29,14 @@
     <small class="text-center">시험지 번호: {{ creation_time }}</small>
     <hr>
     <div class="answers-table">
-        {% for i in range(0, len(answers), 5) %}
+        {% for i in range(0, len(answers), 15) %}
         <div class="answers-column">
             <table>
                 <tr>
                     <th>문제 번호</th>
                     <th>정답</th>
                 </tr>
-                {% for idx, answer in enumerate(answers[i:i+5], start=i+101) %}
+                {% for idx, answer in enumerate(answers[i:i+15], start=i+101) %}
                 <tr>
                     <td>{{ idx }}</td>
                     <td>{{ answer.AnswerText | join(', ') }}</td>
