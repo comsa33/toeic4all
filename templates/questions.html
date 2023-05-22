@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>{{ test_level }} TOEIC Part 5 Mock Test</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+    <title>{{ test_level }} 모두의 토익</title>
     <style>
-        body {
+        .container-test {
           max-width: 800px;
           margin: 0 auto;
         }
 
-        .col-md-6 {
+        .col-question {
           max-width: 350px;
           text-align: left;
         }
@@ -18,29 +17,36 @@
           text-align: right;
           display: block;
         }
+
+        .text-center {
+          text-align: center;
+        }
     </style>
 </head>
 <body>
-<div class="container">
-    <div class="row">
-        {% for question, choice in zip(questions, choices) %}
-        <div class="col-md-6">
-            <p><strong>{{ loop.index + 100 }}. {{ question.QuestionText }}</strong></p>
-            <ol type="A">
-                {% for selection in choice["Choices"] %}
-                <li>{{ selection }}</li>
-                {% endfor %}
-            </ol>
-            <small class="text-muted">ID: {{ question.QuestionId }}</small>
+    <h2 class="text-center">{{ test_level }} TOEIC Part 5 모의고사</h2>
+    <small class="text-center">시험지 번호: {{ creation_time }}</small>
+    <div class="container-test">
+        <div class="row">
+            {% for question, choice in zip(questions, choices) %}
+            <div class="col-question">
+                <p><strong>{{ loop.index + 100 }}. {{ question.QuestionText }}</strong></p>
+                <ol type="A">
+                    {% for selection in choice["Choices"] %}
+                    <li>{{ selection }}</li>
+                    {% endfor %}
+                </ol>
+                <small class="text-muted">ID: {{ question.QuestionId }}</small>
+            </div>
+            {% if loop.index % 2 == 0 %}
+            </div><div class="row">
+            {% endif %}
+            {% endfor %}
         </div>
-        {% if loop.index % 2 == 0 %}
-        </div><div class="row">
-        {% endif %}
-        {% endfor %}
+        <footer class="text-center">
+            <small>&copy; toeic4all - Created at {{ creation_time }}</small>
+            <small class="text-center">All rights reserved by toeic4all. Unauthorized distribution is strictly prohibited.</small>
+        </footer>
     </div>
-    <footer class="text-center my-4">
-        <small>&copy; toeic4all - Created at {{ creation_time }}</small>
-    </footer>
-</div>
 </body>
 </html>

@@ -4,7 +4,7 @@
     <title>Test Answers</title>
     <style>
         table {
-            width: 100%;
+            width: 80%;
             text-align: center;
             border-collapse: collapse;
         }
@@ -15,13 +15,13 @@
     </style>
 </head>
 <body>
-    <h1 class="text-center">{{ test_level }} TOEIC Part 5 Mock Test Answers</h1>
-    <p class="text-center">Created at {{ creation_time }}</p>
+    <h2 class="text-center">{{ test_level }} TOEIC Part 5 모의고사 정답</h2>
+    <small class="text-center">시험지 번호: {{ creation_time }}</small>
     <hr>
     <table>
         <tr>
-            <th>Question No.</th>
-            <th>Answer</th>
+            <th>문제 번호</th>
+            <th>정답</th>
         </tr>
         {% for idx, answer in enumerate(answers, start=101) %}
         <tr>
@@ -31,6 +31,9 @@
         {% endfor %}
     </table>
     <hr>
-    <p class="text-center">All rights reserved by toeic4all. Unauthorized distribution is strictly prohibited.</p>
+    <footer class="text-center">
+        <small>&copy; toeic4all - Created at {{ creation_time }}</small>
+        <small class="text-center">All rights reserved by toeic4all. Unauthorized distribution is strictly prohibited.</small>
+    </footer>
 </body>
 </html>

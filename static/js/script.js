@@ -18,9 +18,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 var answerHtml = data.answers;
                 var explanationHtml = data.explanations;
 
-                var testResultDiv = document.getElementById('test-result');
-                testResultDiv.innerHTML = '<h2>' + difficulty + ' 파트5 모의고사</h2>' + questionHtml;
-
                 var downloadQuestionBtn = document.getElementById('download-question-btn');
                 downloadQuestionBtn.style.display = 'block';
                 downloadQuestionBtn.onclick = function() {

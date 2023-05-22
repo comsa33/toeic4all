@@ -211,6 +211,11 @@ def generate_test():
         'mid': [2, 3, 4],
         'difficult': [4, 5]
     }
+    lv_mapping_kor = {
+        'easy': '초급',
+        'mid': '중급',
+        'difficult': '고급'
+    }
 
     question_lv = lv_mapping[test_lv]
 
@@ -245,8 +250,8 @@ def generate_test():
     test_no = datetime.now().strftime("%Y%m%d%H%M%S")
 
     # Render to HTML
-    questions_html = render_template('questions.html', questions=questions, choices=choices, test_level=test_lv, creation_time=test_no)
-    answers_html = render_template('answers.html', answers=answers, test_level=test_lv, creation_time=test_no)
+    questions_html = render_template('questions.html', questions=questions, choices=choices, test_level=lv_mapping_kor[test_lv], creation_time=test_no)
+    answers_html = render_template('answers.html', answers=answers, test_level=lv_mapping_kor[test_lv], creation_time=test_no)
     explanations_html = render_template('explanations.html', explanations=explanations, vocas=vocas)
 
 
