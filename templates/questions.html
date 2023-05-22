@@ -19,9 +19,12 @@
           padding: 0 10px;
         }
 
+        .question-container {
+          text-align: left;
+        }
+
         .text-muted {
           text-align: right;
-          display: block;
         }
 
         .text-center {
@@ -36,12 +39,14 @@
         <div class="row">
             {% for question, choice in zip(questions, choices) %}
             <div class="col">
-                <p><strong>{{ loop.index + 100 }}. {{ question.QuestionText }}</strong></p>
-                <ol type="A">
-                    {% for selection in choice["Choices"] %}
-                    <li>{{ selection }}</li>
-                    {% endfor %}
-                </ol>
+                <div class="question-container">
+                    <p><strong>{{ loop.index + 100 }}. {{ question.QuestionText }}</strong></p>
+                    <ol type="A">
+                        {% for selection in choice["Choices"] %}
+                        <li>{{ selection }}</li>
+                        {% endfor %}
+                    </ol>
+                </div>
                 <small class="text-muted">ID: {{ question.QuestionId }}</small>
                 {% if loop.index % 15 == 0 %}
                 </div><div class="col">
