@@ -1,10 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Test Answers</title>
+    <title>모의고사 정답</title>
     <style>
+        .answers-table {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        .answers-column {
+            width: 16%;
+        }
         table {
-            width: 80%;
+            width: 100%;
             text-align: center;
             border-collapse: collapse;
         }
@@ -18,18 +26,24 @@
     <h2 class="text-center">{{ test_level }} TOEIC Part 5 모의고사 정답</h2>
     <small class="text-center">시험지 번호: {{ creation_time }}</small>
     <hr>
-    <table>
-        <tr>
-            <th>문제 번호</th>
-            <th>정답</th>
-        </tr>
-        {% for idx, answer in enumerate(answers, start=101) %}
-        <tr>
-            <td>{{ idx }}</td>
-            <td>{{ answer.AnswerText | join(', ') }}</td>
-        </tr>
+    <div class="answers-table">
+        {% for i in range(0, len(answers), 5) %}
+        <div class="answers-column">
+            <table>
+                <tr>
+                    <th>문제 번호</th>
+                    <th>정답</th>
+                </tr>
+                {% for idx, answer in enumerate(answers[i:i+5], start=i+101) %}
+                <tr>
+                    <td>{{ idx }}</td>
+                    <td>{{ answer.AnswerText | join(', ') }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
         {% endfor %}
-    </table>
+    </div>
     <hr>
     <footer class="text-center">
         <small>&copy; toeic4all - Created at {{ creation_time }}</small>
