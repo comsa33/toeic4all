@@ -8,8 +8,15 @@
           margin: 0 auto;
         }
 
-        .col-md-6 {
-          text-align: left;
+        .row {
+          display: flex;
+          flex-wrap: wrap;
+        }
+
+        .col {
+          flex: 50%;
+          box-sizing: border-box;
+          padding: 0 10px;
         }
 
         .text-muted {
@@ -28,7 +35,7 @@
     <div class="container-test">
         <div class="row">
             {% for question, choice in zip(questions, choices) %}
-            <div class="col-md-6">
+            <div class="col">
                 <p><strong>{{ loop.index + 100 }}. {{ question.QuestionText }}</strong></p>
                 <ol type="A">
                     {% for selection in choice["Choices"] %}
@@ -36,10 +43,10 @@
                     {% endfor %}
                 </ol>
                 <small class="text-muted">ID: {{ question.QuestionId }}</small>
+                {% if loop.index % 15 == 0 %}
+                </div><div class="col">
+                {% endif %}
             </div>
-            {% if loop.index % 2 == 1 %}
-            </div><div class="row">
-            {% endif %}
             {% endfor %}
         </div>
         <footer class="text-center">
