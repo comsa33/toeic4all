@@ -14,7 +14,7 @@
         }
 
         .col {
-          flex: 50%;
+          flex: 100%;
           box-sizing: border-box;
           padding: 0 10px;
         }
@@ -29,6 +29,12 @@
 
         .text-center {
           text-align: center;
+        }
+
+        @media only screen and (min-width: 768px) {
+            .col {
+                flex: 50%;
+            }
         }
     </style>
 </head>
@@ -48,9 +54,6 @@
                     </ol>
                 </div>
                 <small class="text-muted">ID: {{ question.QuestionId }}</small>
-                {% if loop.index % 15 == 0 %}
-                </div><div class="col">
-                {% endif %}
             </div>
             {% endfor %}
         </div>
