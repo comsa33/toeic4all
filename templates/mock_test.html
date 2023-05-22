@@ -1,19 +1,18 @@
 {% extends "layout.html" %}
 
 {% block content %}
-    <h1>AI Mock Test</h1>
+    <h2 style="text-align:center;">AI 모의고사</h2>
 
     <div class="content">
-        <div class="dropdown">
+        <div class="dropdown" style="display: flex; justify-content: center; gap: 1rem;">
             <select id="difficulty" class="select">
                 <option value="">-- 난이도를 선택하세요 --</option>
                 <option value="easy">초급</option>
                 <option value="mid">중급</option>
                 <option value="difficult">고급</option>
             </select>
+            <button id="generate-btn" class="button">AI 모의고사 생성</button>
         </div>
-
-        <button id="generate-btn" class="button">AI 모의고사 생성</button>
 
         <div id="test-result" style="text-align: center; margin-top: 2rem;"></div>
 
