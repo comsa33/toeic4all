@@ -8,9 +8,16 @@
 
     <!-- 질문을 생성할 수 있는 폼 -->
     <form id="new-question-form">
-        <label for="new-question">새 질문:</label>
-        <textarea id="new-question"></textarea>
+        <input type="text" id="new-question-title" placeholder="질문 제목">
+        <textarea id="new-question-content" placeholder="질문 내용"></textarea>
         <button type="button" onclick="createQuestion()">질문하기</button>
+    </form>
+
+    <!-- 질문을 수정할 수 있는 폼 (초기에는 숨겨져 있습니다) -->
+    <form id="edit-question-form" style="display:none;">
+        <input type="text" id="edit-question-title">
+        <textarea id="edit-question-content"></textarea>
+        <button type="button" id="edit-question-submit">질문 수정하기</button>
     </form>
 
     <!-- 답변을 보여주고 생성할 수 있는 섹션. 초기에는 숨겨져 있습니다. -->
@@ -27,4 +34,5 @@
             <button type="button" onclick="createAnswer()">답변하기</button>
         </form>
     </div>
+    <script src="{{ url_for('static', filename='js/board.js') }}"></script>
 {% endblock %}
