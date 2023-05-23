@@ -5,14 +5,10 @@ body {
     background-color: #f3f3f3;
 }
 
-h2 {
-    color: #333;
-}
-
 nav {
     background-color: #333;
     color: #fff;
-    padding: 10px 15px;
+    padding: 20px 50px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -20,23 +16,37 @@ nav {
 
 nav h2 {
     margin: 0;
-    color: #fff; /* 네비게이션 바 타이틀 색상 변경 */
+    color: #fff;
+}
+
+nav h2 a {
+    color: #fff;
+    text-decoration: none;
 }
 
 nav ul {
     list-style-type: none;
+    margin: 0;
     padding: 0;
     display: flex;
-    gap: 10px;
+    gap: 20px;
 }
 
 nav ul li {
-    display: inline;
+    color: #fff;
 }
 
 nav ul li a {
-    color: #fff; /* 메뉴 아이템 색상 변경 */
+    color: #fff;
     text-decoration: none;
+}
+
+nav ul li a:hover {
+    color: #ddd;
+}
+
+nav ul .active a {
+    color: #ff6347;
 }
 
 .content {
