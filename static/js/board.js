@@ -59,21 +59,6 @@ function getQuestion(id) {
         });
 }
 
-function editQuestion(id) {
-    const apiEndpoint = "/api/board/";
-
-    fetch(apiEndpoint + 'board_questions/' + id)
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById('edit-question-title').value = data.title;
-            document.getElementById('edit-question-content').value = data.content;
-            document.getElementById('edit-question-form').style.display = 'block';
-            document.getElementById('edit-question-submit').onclick = function() {
-                updateQuestion(id);
-            };
-        });
-}
-
 function createQuestion() {
     const apiEndpoint = "/api/board/";
     const title = document.getElementById('new-question-title').value;
