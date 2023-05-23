@@ -10,7 +10,7 @@
     <form id="new-question-form">
         <input type="text" id="new-question-title" placeholder="질문 제목">
         <textarea id="new-question-content" placeholder="질문 내용"></textarea>
-        <button type="button" onclick="createQuestion()">질문하기</button>
+        <button type="button" id="create-question-button">질문하기</button>
     </form>
 
     <!-- 질문을 수정할 수 있는 폼 (초기에는 숨겨져 있습니다) -->
@@ -31,7 +31,7 @@
         <form id="new-answer-form">
             <label for="new-answer">새 답변:</label>
             <textarea id="new-answer"></textarea>
-            <button type="button" onclick="createAnswer()">답변하기</button>
+            <button type="button" id="create-answer-button">답변하기</button>
         </form>
     </div>
     <script src="{{ url_for('static', filename='js/board.js') }}"></script>

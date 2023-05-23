@@ -1,16 +1,12 @@
 document.addEventListener('DOMContentLoaded', function() {
     const apiEndpoint = "/api/board/";
 
-    // Fetch all questions
     function getQuestions() {
         fetch(apiEndpoint + 'board_questions')
             .then(response => response.json())
             .then(data => {
                 const board = document.getElementById('board');
-                // Clear the board
                 board.innerHTML = '';
-
-                // Add each question to the board
                 data.forEach(question => {
                     const div = document.createElement('div');
                     div.className = 'question';
@@ -26,38 +22,28 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     }
 
-    // Fetch a question and its answers
     function getQuestion(id) {
         fetch(apiEndpoint + 'board_questions/' + id)
             .then(response => response.json())
             .then(data => {
-                // TODO: Show the question and its answers in the DOM
+                // Show the question and its answers in the DOM
             });
     }
 
-    // Edit a question
     function editQuestion(id) {
-        // Fetch the question
         fetch(apiEndpoint + 'board_questions/' + id)
             .then(response => response.json())
             .then(data => {
-                // Fill the form with the question data
                 document.getElementById('edit-question-title').value = data.title;
                 document.getElementById('edit-question-content').value = data.content;
-
-                // Show the edit form
                 document.getElementById('edit-question-form').style.display = 'block';
-
-                // Set the onclick event of the submit button
                 document.getElementById('edit-question-submit').onclick = function() {
                     updateQuestion(id);
                 };
             });
     }
 
-    // Create a new question
     function createQuestion() {
-        // Get input values
         const title = document.getElementById('new-question-title').value;
         const content = document.getElementById('new-question-content').value;
 
@@ -75,15 +61,12 @@ document.addEventListener('DOMContentLoaded', function() {
             if (response.ok) {
                 getQuestions();
             } else {
-                // Show an error message
                 alert('질문 생성 실패!');
             }
         });
     }
 
-    // Update a question
     function updateQuestion(id) {
-        // Get input values
         const title = document.getElementById('edit-question-title').value;
         const content = document.getElementById('edit-question-content').value;
 
@@ -101,13 +84,11 @@ document.addEventListener('DOMContentLoaded', function() {
             if (response.ok) {
                 getQuestions();
             } else {
-                // Show an error message
                 alert('질문 수정 실패!');
             }
         });
     }
 
-    // Delete a question
     function deleteQuestion(id) {
         fetch(apiEndpoint + 'board_questions/' + id, {
             method: 'DELETE'
@@ -116,12 +97,10 @@ document.addEventListener('DOMContentLoaded', function() {
             if (response.ok) {
                 getQuestions();
             } else {
-                // Show an error message
                 alert('질문 삭제 실패!');
             }
         });
     }
 
-    // When the page is loaded, fetch all questions
     window.onload = getQuestions;
 });
