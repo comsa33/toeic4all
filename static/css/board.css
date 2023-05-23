@@ -49,3 +49,28 @@ body {
 #new-question-form button:active, #edit-question-form button:active, #new-answer-form button:active {
     background-color: #3e8e41;
 }
+
+#board .question {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.question-title {
+    font-size: 2em;
+    font-weight: bold;
+}
+
+.question-author {
+    font-size: 1em;
+    color: gray;
+    font-weight: bold;
+}
