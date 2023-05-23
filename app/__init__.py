@@ -21,8 +21,9 @@ def create_app():
     db.init_app(app)
 
     # Register blueprints
-    from .routes import api, main_bp
+    from .routes import api, main_bp, board
     app.register_blueprint(api.api, url_prefix='/api')
+    app.register_blueprint(board.board, url_prefix='/api/board')
     app.register_blueprint(main_bp)
 
     from .errors import handlers

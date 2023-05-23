@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <h2 style="text-align:center;">Q&A 게시판</h2>
+    <div id="board">
+        <!-- Q&A 게시판 내용이 여기에 들어갑니다. -->
+    </div>
+
+    <script src="{{ url_for('static', filename='js/board.js') }}"></script>
+{% endblock %}

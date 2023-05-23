@@ -1,0 +1,12 @@
+#board {
+    width: 800px;
+    margin: auto;
+}
+
+#question-list {
+    margin-bottom: 20px;
+}
+
+#question-form {
+    margin-bottom: 20px;
+}

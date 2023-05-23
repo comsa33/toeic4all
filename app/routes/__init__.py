@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template
 
-main_bp = Blueprint('main', __name__)  # Change 'app' to 'main_bp'
+main_bp = Blueprint('main', __name__)
 
 
 @main_bp.route('/')
@@ -13,6 +13,6 @@ def mock_test():
     return render_template('mock_test.html')
 
 
-@main_bp.route('/community')
-def forum():
-    return render_template('forum.html')
+@main_bp.route('/board')
+def board():
+    return render_template('board.html')
