@@ -65,6 +65,12 @@ function createQuestion() {
     const content = document.getElementById('new-question-content').value;
     const author = document.getElementById('new-question-author').value;
 
+    // 필수 입력 필드를 확인합니다.
+    if (!title || !content || !author) {
+        alert('모든 필드를 채워주세요!');
+        return;
+    }
+
     fetch(apiEndpoint + 'board_questions', {
         method: 'POST',
         headers: {
@@ -90,6 +96,12 @@ function updateQuestion(id) {
     const title = document.getElementById('edit-question-title').value;
     const content = document.getElementById('edit-question-content').value;
 
+    // 필수 입력 필드를 확인합니다.
+    if (!title || !content) {
+        alert('모든 필드를 채워주세요!');
+        return;
+    }
+
     fetch(apiEndpoint + 'board_questions/' + id, {
         method: 'PUT',
         headers: {
@@ -103,6 +115,7 @@ function updateQuestion(id) {
     .then(response => {
         if (response.ok) {
             getQuestions();
+            document.getElementById('myModal').style.display = "none";
         } else {
             alert('질문 수정 실패!');
         }
