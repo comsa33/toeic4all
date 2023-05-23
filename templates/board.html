@@ -3,7 +3,28 @@
 {% block content %}
     <h2 style="text-align:center;">Q&A 게시판</h2>
     <div id="board">
-        <!-- Q&A 게시판 내용이 여기에 들어갑니다. -->
+        <!-- 게시판의 각 질문은 여기에 추가됩니다. -->
     </div>
 
+    <!-- 질문을 생성할 수 있는 폼 -->
+    <form id="new-question-form">
+        <label for="new-question">새 질문:</label>
+        <textarea id="new-question"></textarea>
+        <button type="button" onclick="createQuestion()">질문하기</button>
+    </form>
+
+    <!-- 답변을 보여주고 생성할 수 있는 섹션. 초기에는 숨겨져 있습니다. -->
+    <div id="answers-section" style="display: none;">
+        <h3>답변:</h3>
+        <div id="answers">
+            <!-- 답변은 여기에 추가됩니다. -->
+        </div>
+
+        <!-- 답변을 생성할 수 있는 폼 -->
+        <form id="new-answer-form">
+            <label for="new-answer">새 답변:</label>
+            <textarea id="new-answer"></textarea>
+            <button type="button" onclick="createAnswer()">답변하기</button>
+        </form>
+    </div>
 {% endblock %}

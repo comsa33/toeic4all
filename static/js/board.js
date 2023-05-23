@@ -6,7 +6,21 @@ function getQuestions() {
     fetch(apiEndpoint + 'board_questions')
         .then(response => response.json())
         .then(data => {
-            // TODO: Populate the question list in the DOM
+            const board = document.getElementById('board');
+            // Clear the board
+            board.innerHTML = '';
+
+            // Add each question to the board
+            data.forEach(question => {
+                const div = document.createElement('div');
+                div.className = 'question';
+                div.innerHTML = `
+                    <h3>${question.title}</h3>
+                    <p>${question.content}</p>
+                    <button type="button" onclick="getQuestion(${question.id})">자세히 보기</button>
+                `;
+                board.appendChild(div);
+            });
         });
 }
 
@@ -15,7 +29,24 @@ function getQuestion(id) {
     fetch(apiEndpoint + 'board_questions/' + id)
         .then(response => response.json())
         .then(data => {
-            // TODO: Show the question and its answers in the DOM
+            const answersSection = document.getElementById('answers-section');
+            const answersDiv = document.getElementById('answers');
+            // Show the answers section
+            answersSection.style.display = 'block';
+
+            // Clear the answers
+            answersDiv.innerHTML = '';
+
+            // Add each answer to the answers div
+            data.answers.forEach(answer => {
+                const div = document.createElement('div');
+                div.className = 'answer';
+                div.innerHTML = `
+                    <h4>${answer.title}</h4>
+                    <p>${answer.content}</p>
+                `;
+                answersDiv.appendChild(div);
+            });
         });
 }
 
