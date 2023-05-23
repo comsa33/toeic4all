@@ -22,6 +22,8 @@ def get_board_question(id):
 @board.route('/board_questions', methods=['POST'])
 def create_board_question():
     data = request.get_json()
+    if not data['title'] or not data['content'] or not data['author']:
+        return jsonify({'error': '모든 필드를 채워주세요.'}), 400
     question = BoardQuestion(title=data['title'], content=data['content'], author=data['author'])
     db.session.add(question)
     db.session.commit()
@@ -46,6 +48,11 @@ def delete_board_question(id):
     question = BoardQuestion.query.get(id)
     if question is None:
         return jsonify({'error': 'Question not found'}), 404
+
+    # 이 질문에 답변이 있는지 확인합니다.
+    if question.board_answers:
+        return jsonify({'error': '댓글이 있는 글은 삭제할 수 없습니다.'}), 400
+
     db.session.delete(question)
     db.session.commit()
     return '', 204
@@ -60,10 +67,13 @@ def get_board_answers(question_id):
 @board.route('/board_questions/<int:question_id>/answers', methods=['POST'])
 def create_board_answer(question_id):
     data = request.get_json()
+    if not data['content'] or not data['author']:
+        return jsonify({'error': '모든 필드를 채워주세요.'}), 400
     answer = BoardAnswer(content=data['content'], author=data['author'], question_id=question_id)
     db.session.add(answer)
     db.session.commit()
     return jsonify(answer.to_dict()), 201
+
 
 
 @board.route('/board_answers/<int:id>', methods=['PUT'])

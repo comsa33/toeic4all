@@ -83,11 +83,16 @@ function createQuestion() {
         })
     })
     .then(response => {
-        if (response.ok) {
-            getQuestions();
-        } else {
-            alert('질문 생성 실패!');
+        if (!response.ok) {
+            return response.json().then(err => {throw err;});
         }
+        return response.json();
+    })
+    .then(data => {
+        getQuestions();
+    })
+    .catch(error => {
+        alert(error.error);
     });
 }
 
@@ -129,11 +134,16 @@ function deleteQuestion(id) {
         method: 'DELETE'
     })
     .then(response => {
-        if (response.ok) {
-            getQuestions();
-        } else {
-            alert('질문 삭제 실패!');
+        if (!response.ok) {
+            return response.json().then(err => {throw err;});
         }
+        return response;
+    })
+    .then(response => {
+        getQuestions();
+    })
+    .catch(error => {
+        alert(error.error);
     });
 }
 
@@ -153,11 +163,16 @@ function createAnswer() {
         })
     })
     .then(response => {
-        if (response.ok) {
-            getQuestion(currentQuestionId);
-        } else {
-            alert('답변 생성 실패!');
+        if (!response.ok) {
+            return response.json().then(err => {throw err;});
         }
+        return response.json();
+    })
+    .then(data => {
+        getQuestion(currentQuestionId);
+    })
+    .catch(error => {
+        alert(error.error);
     });
 }
 
