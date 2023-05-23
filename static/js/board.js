@@ -30,27 +30,31 @@ function getQuestion(id) {
     fetch(apiEndpoint + 'board_questions/' + id)
         .then(response => response.json())
         .then(data => {
-            const questionDetail = document.getElementById('question-detail');
-            questionDetail.innerHTML = `
+            const board = document.getElementById('board');
+            board.innerHTML = `
                 <h3>${data.title}</h3>
                 <p>${data.content}</p>
                 <p>작성자: ${data.author}</p>
+                <button type="button" onclick="editQuestion(${id})">질문 수정하기</button>
             `;
             currentQuestionId = id;
+            document.getElementById('answers-section').style.display = 'block';
             fetch(apiEndpoint + 'board_questions/' + id + '/answers')
                 .then(response => response.json())
                 .then(answers => {
-                    const answerSection = document.getElementById('answer-section');
-                    answerSection.innerHTML = '';
-                    answers.forEach(answer => {
-                        const div = document.createElement('div');
-                        div.className = 'answer';
-                        div.innerHTML = `
-                            <p>${answer.content}</p>
-                            <p>작성자: ${answer.author}</p>
-                        `;
-                        answerSection.appendChild(div);
-                    });
+                    const answerSection = document.getElementById('answers');
+                    if (answerSection) {
+                        answerSection.innerHTML = '';
+                        answers.forEach(answer => {
+                            const div = document.createElement('div');
+                            div.className = 'answer';
+                            div.innerHTML = `
+                                <p>${answer.content}</p>
+                                <p>작성자: ${answer.author}</p>
+                            `;
+                            answerSection.appendChild(div);
+                        });
+                    }
                 });
         });
 }
@@ -137,7 +141,7 @@ function deleteQuestion(id) {
 
 function createAnswer() {
     const apiEndpoint = "/api/board/";
-    const content = document.getElementById('new-answer-content').value;
+    const content = document.getElementById('new-answer').value;
     const author = document.getElementById('new-answer-author').value;
 
     fetch(apiEndpoint + 'board_questions/' + currentQuestionId + '/answers', {
