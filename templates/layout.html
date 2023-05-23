@@ -14,7 +14,7 @@
         <h2><a href="{{ url_for('main.main_page') }}">모두의 토익</a></h2>
         <ul>
             <li class="{{ 'active' if request.endpoint.endswith('mock_test') }}"><a href="{{ url_for('main.mock_test') }}">모의고사</a></li>
-            <li class="{{ 'active' if request.endpoint.endswith('forum') }}"><a href="{{ url_for('board.board') }}">Q&A 게시판</a></li>
+            <li class="{{ 'active' if request.endpoint.endswith('board_page') }}"><a href="{{ url_for('main.board_page') }}">Q&A 게시판</a></li>
         </ul>
     </nav>
 

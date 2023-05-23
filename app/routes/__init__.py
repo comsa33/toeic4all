@@ -14,5 +14,5 @@ def mock_test():
 
 
 @main_bp.route('/board')
-def board():
+def board_page():
     return render_template('board.html')
