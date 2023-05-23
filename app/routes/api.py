@@ -234,17 +234,24 @@ def generate_test():
     questions = random.sample(questions, 30)
     question_ids = [q['QuestionId'] for q in questions]
 
+    # Sort everything by the order of question_ids
+    questions.sort(key=lambda x: question_ids.index(x['QuestionId']))
+
     # Get choices
     choices = fetch_choices(question_ids)['data']
+    choices.sort(key=lambda x: question_ids.index(x['QuestionId']))
 
     # Get answers
     answers = fetch_answers(question_ids)['data']
+    answers.sort(key=lambda x: question_ids.index(x['QuestionId']))
 
     # Get translations and explanations
     explanations = fetch_explanations(question_ids)['data']
+    explanations.sort(key=lambda x: question_ids.index(x['question_id']))
 
     # Get vocabularies
     vocas = fetch_vocas(question_ids)['data']
+    vocas.sort(key=lambda x: question_ids.index(x['QuestionId']))
 
     # Generate test number based on current time
     test_no = datetime.now().strftime("%Y%m%d%H%M%S")
@@ -253,7 +260,6 @@ def generate_test():
     questions_html = render_template('questions.html', questions=questions, choices=choices, test_level=lv_mapping_kor[test_lv], creation_time=test_no)
     answers_html = render_template('answers.html', answers=answers, test_level=lv_mapping_kor[test_lv], creation_time=test_no)
     explanations_html = render_template('explanations.html', explanations=explanations, vocas=vocas)
-
 
     # Store test data
     tests[test_no] = {
