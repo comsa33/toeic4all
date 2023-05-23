@@ -21,6 +21,7 @@ function getQuestions() {
                 `;
                 board.appendChild(div);
             });
+            document.getElementById('answers-section').style.display = 'none'; // 답변 섹션을 숨깁니다.
         });
 }
 
