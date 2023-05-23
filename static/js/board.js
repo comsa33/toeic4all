@@ -13,11 +13,15 @@ document.addEventListener('DOMContentLoaded', function() {
                     div.innerHTML = `
                         <h3>${question.title}</h3>
                         <p>${question.content}</p>
-                        <button type="button" onclick="getQuestion(${question.id})">자세히 보기</button>
-                        <button type="button" onclick="editQuestion(${question.id})">수정하기</button>
-                        <button type="button" onclick="deleteQuestion(${question.id})">삭제하기</button>
+                        <button type="button" id="get-question-button-${question.id}">자세히 보기</button>
+                        <button type="button" id="edit-question-button-${question.id}">수정하기</button>
+                        <button type="button" id="delete-question-button-${question.id}">삭제하기</button>
                     `;
                     board.appendChild(div);
+
+                    document.getElementById(`get-question-button-${question.id}`).addEventListener('click', () => getQuestion(question.id));
+                    document.getElementById(`edit-question-button-${question.id}`).addEventListener('click', () => editQuestion(question.id));
+                    document.getElementById(`delete-question-button-${question.id}`).addEventListener('click', () => deleteQuestion(question.id));
                 });
             });
     }
@@ -101,6 +105,8 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+
+    document.getElementById('create-question-button').addEventListener('click', createQuestion);
 
     window.onload = getQuestions;
 });
