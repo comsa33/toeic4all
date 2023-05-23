@@ -1,3 +1,5 @@
+let currentQuestionId = null;
+
 function getQuestions() {
     const apiEndpoint = "/api/board/";
 
@@ -34,6 +36,7 @@ function getQuestion(id) {
                 <p>${data.content}</p>
                 <p>작성자: ${data.author}</p>
             `;
+            currentQuestionId = id;
             fetch(apiEndpoint + 'board_questions/' + id + '/answers')
                 .then(response => response.json())
                 .then(answers => {
@@ -132,7 +135,32 @@ function deleteQuestion(id) {
     });
 }
 
+function createAnswer() {
+    const apiEndpoint = "/api/board/";
+    const content = document.getElementById('new-answer-content').value;
+    const author = document.getElementById('new-answer-author').value;
+
+    fetch(apiEndpoint + 'board_questions/' + currentQuestionId + '/answers', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            content: content,
+            author: author
+        })
+    })
+    .then(response => {
+        if (response.ok) {
+            getQuestion(currentQuestionId);
+        } else {
+            alert('답변 생성 실패!');
+        }
+    });
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     getQuestions();
     document.getElementById('create-question-button').addEventListener('click', createQuestion);
+    document.getElementById('create-answer-button').addEventListener('click', createAnswer);
 });
