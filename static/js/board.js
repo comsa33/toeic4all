@@ -1,3 +1,5 @@
+const apiEndpoint = "/api/board/";
+
 // Fetch all questions
 function getQuestions() {
     fetch(apiEndpoint + 'board_questions')
