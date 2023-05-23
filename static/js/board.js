@@ -1,112 +1,118 @@
-document.addEventListener('DOMContentLoaded', function() {
+function getQuestions() {
     const apiEndpoint = "/api/board/";
 
-    function getQuestions() {
-        fetch(apiEndpoint + 'board_questions')
-            .then(response => response.json())
-            .then(data => {
-                const board = document.getElementById('board');
-                board.innerHTML = '';
-                data.forEach(question => {
-                    const div = document.createElement('div');
-                    div.className = 'question';
-                    div.innerHTML = `
-                        <h3>${question.title}</h3>
-                        <p>${question.content}</p>
-                        <p>작성자: ${question.author}</p>  // 작성자 정보 추가
-                        <button type="button" onclick="getQuestion(${question.id})">자세히 보기</button>
-                        <button type="button" onclick="editQuestion(${question.id})">수정하기</button>
-                        <button type="button" onclick="deleteQuestion(${question.id})">삭제하기</button>
-                    `;
-                    board.appendChild(div);
-                });
+    fetch(apiEndpoint + 'board_questions')
+        .then(response => response.json())
+        .then(data => {
+            const board = document.getElementById('board');
+            board.innerHTML = '';
+            data.forEach(question => {
+                const div = document.createElement('div');
+                div.className = 'question';
+                div.innerHTML = `
+                    <h3>${question.title}</h3>
+                    <p>${question.content}</p>
+                    <p>작성자: ${question.author}</p>
+                    <button type="button" onclick="getQuestion(${question.id})">자세히 보기</button>
+                    <button type="button" onclick="editQuestion(${question.id})">수정하기</button>
+                    <button type="button" onclick="deleteQuestion(${question.id})">삭제하기</button>
+                `;
+                board.appendChild(div);
             });
-    }
-
-    function getQuestion(id) {
-        fetch(apiEndpoint + 'board_questions/' + id)
-            .then(response => response.json())
-            .then(data => {
-                // Show the question and its answers in the DOM
-            });
-    }
-
-    function editQuestion(id) {
-        fetch(apiEndpoint + 'board_questions/' + id)
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('edit-question-title').value = data.title;
-                document.getElementById('edit-question-content').value = data.content;
-                document.getElementById('edit-question-form').style.display = 'block';
-                document.getElementById('edit-question-submit').onclick = function() {
-                    updateQuestion(id);
-                };
-            });
-    }
-
-    function createQuestion() {
-        const title = document.getElementById('new-question-title').value;
-        const content = document.getElementById('new-question-content').value;
-        const author = document.getElementById('new-question-author').value;  // 작성자 이름 읽기
-    
-        fetch(apiEndpoint + 'board_questions', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                title: title,
-                content: content,
-                author: author  // 작성자 이름 추가
-            })
-        })
-        .then(response => {
-            if (response.ok) {
-                getQuestions();
-            } else {
-                alert('질문 생성 실패!');
-            }
         });
-    }
-    
+}
 
-    function updateQuestion(id) {
-        const title = document.getElementById('edit-question-title').value;
-        const content = document.getElementById('edit-question-content').value;
+function getQuestion(id) {
+    const apiEndpoint = "/api/board/";
 
-        fetch(apiEndpoint + 'board_questions/' + id, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                title: title,
-                content: content
-            })
-        })
-        .then(response => {
-            if (response.ok) {
-                getQuestions();
-            } else {
-                alert('질문 수정 실패!');
-            }
+    fetch(apiEndpoint + 'board_questions/' + id)
+        .then(response => response.json())
+        .then(data => {
+            // Show the question and its answers in the DOM
         });
-    }
+}
 
-    function deleteQuestion(id) {
-        fetch(apiEndpoint + 'board_questions/' + id, {
-            method: 'DELETE'
-        })
-        .then(response => {
-            if (response.ok) {
-                getQuestions();
-            } else {
-                alert('질문 삭제 실패!');
-            }
+function editQuestion(id) {
+    const apiEndpoint = "/api/board/";
+
+    fetch(apiEndpoint + 'board_questions/' + id)
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('edit-question-title').value = data.title;
+            document.getElementById('edit-question-content').value = data.content;
+            document.getElementById('edit-question-form').style.display = 'block';
+            document.getElementById('edit-question-submit').onclick = function() {
+                updateQuestion(id);
+            };
         });
-    }
+}
 
-    document.getElementById('create-question-button').addEventListener('click', createQuestion);
+function createQuestion() {
+    const apiEndpoint = "/api/board/";
+    const title = document.getElementById('new-question-title').value;
+    const content = document.getElementById('new-question-content').value;
+    const author = document.getElementById('new-question-author').value;
 
+    fetch(apiEndpoint + 'board_questions', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            title: title,
+            content: content,
+            author: author
+        })
+    })
+    .then(response => {
+        if (response.ok) {
+            getQuestions();
+        } else {
+            alert('질문 생성 실패!');
+        }
+    });
+}
+
+function updateQuestion(id) {
+    const apiEndpoint = "/api/board/";
+    const title = document.getElementById('edit-question-title').value;
+    const content = document.getElementById('edit-question-content').value;
+
+    fetch(apiEndpoint + 'board_questions/' + id, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            title: title,
+            content: content
+        })
+    })
+    .then(response => {
+        if (response.ok) {
+            getQuestions();
+        } else {
+            alert('질문 수정 실패!');
+        }
+    });
+}
+
+function deleteQuestion(id) {
+    const apiEndpoint = "/api/board/";
+
+    fetch(apiEndpoint + 'board_questions/' + id, {
+        method: 'DELETE'
+    })
+    .then(response => {
+        if (response.ok) {
+            getQuestions();
+        } else {
+            alert('질문 삭제 실패!');
+        }
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
     getQuestions();
+    document.getElementById('create-question-button').addEventListener('click', createQuestion);
 });
