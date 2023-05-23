@@ -58,7 +58,8 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             body: JSON.stringify({
                 title: title,
-                content: content
+                content: content,
+                author: 'anonymous'  // 'author' 필드 추가
             })
         })
         .then(response => {
