@@ -2,7 +2,7 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f0f0f0;
+    background-color: #f3f3f3;
 }
 
 h2 {
@@ -10,34 +10,52 @@ h2 {
 }
 
 nav {
-    padding: 20px 0;
+    background-color: #333;
+    color: #fff;
+    padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 nav h2 {
     margin: 0;
-    padding: 0 20px;
-    float: left;
-    color: #333; /* 네비게이션 바 타이틀 색상 변경 */
+    color: #fff; /* 네비게이션 바 타이틀 색상 변경 */
 }
 
 nav ul {
     list-style-type: none;
-    margin: 0;
     padding: 0;
-    float: right;
+    display: flex;
+    gap: 10px;
 }
 
 nav ul li {
     display: inline;
-    margin-right: 20px;
 }
 
 nav ul li a {
-    color: #333; /* 메뉴 아이템 색상 변경 */
+    color: #fff; /* 메뉴 아이템 색상 변경 */
     text-decoration: none;
 }
 
 .content {
-    clear: both;
+    max-width: 900px;
+    margin: 20px auto;
     padding: 20px;
+    background-color: #fff;
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+}
+
+.button {
+    background-color: #4CAF50; 
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
 }
