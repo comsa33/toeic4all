@@ -36,6 +36,7 @@ function getQuestion(id) {
                 <p>${data.content}</p>
                 <p>작성자: ${data.author}</p>
                 <button type="button" onclick="editQuestion(${id})">질문 수정하기</button>
+                <button type="button" onclick="getQuestions()">목록으로 돌아가기</button>
             `;
             currentQuestionId = id;
             document.getElementById('answers-section').style.display = 'block';
