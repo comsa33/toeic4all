@@ -163,6 +163,33 @@ function createAnswer() {
     });
 }
 
+function editQuestion(id) {
+    const apiEndpoint = "/api/board/";
+
+    fetch(apiEndpoint + 'board_questions/' + id)
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('edit-question-title').value = data.title;
+            document.getElementById('edit-question-content').value = data.content;
+            document.getElementById('myModal').style.display = "block";
+            document.getElementById('edit-question-submit').onclick = function() {
+                updateQuestion(id);
+                document.getElementById('myModal').style.display = "none";
+            };
+        });
+
+    var span = document.getElementsByClassName("close")[0];
+    span.onclick = function() {
+        document.getElementById('myModal').style.display = "none";
+    }
+
+    window.onclick = function(event) {
+        if (event.target == document.getElementById('myModal')) {
+            document.getElementById('myModal').style.display = "none";
+        }
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     getQuestions();
     document.getElementById('create-question-button').addEventListener('click', createQuestion);
