@@ -28,7 +28,27 @@ function getQuestion(id) {
     fetch(apiEndpoint + 'board_questions/' + id)
         .then(response => response.json())
         .then(data => {
-            // Show the question and its answers in the DOM
+            const questionDetail = document.getElementById('question-detail');
+            questionDetail.innerHTML = `
+                <h3>${data.title}</h3>
+                <p>${data.content}</p>
+                <p>작성자: ${data.author}</p>
+            `;
+            fetch(apiEndpoint + 'board_questions/' + id + '/answers')
+                .then(response => response.json())
+                .then(answers => {
+                    const answerSection = document.getElementById('answer-section');
+                    answerSection.innerHTML = '';
+                    answers.forEach(answer => {
+                        const div = document.createElement('div');
+                        div.className = 'answer';
+                        div.innerHTML = `
+                            <p>${answer.content}</p>
+                            <p>작성자: ${answer.author}</p>
+                        `;
+                        answerSection.appendChild(div);
+                    });
+                });
         });
 }
 
