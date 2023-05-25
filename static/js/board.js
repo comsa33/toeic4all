@@ -7,6 +7,9 @@ function getQuestions() {
         .then(response => response.json())
         .then(data => {
             const board = document.getElementById('board');
+            if (!board) {
+                return;
+            }
             board.innerHTML = '';
             data.forEach(question => {
                 const div = document.createElement('div');
@@ -21,7 +24,10 @@ function getQuestions() {
                 `;
                 board.appendChild(div);
             });
-            document.getElementById('answers-section').style.display = 'none'; // 답변 섹션을 숨깁니다.
+            const answersSection = document.getElementById('answers-section');
+            if (answersSection) {
+                answersSection.style.display = 'none'; // 답변 섹션을 숨깁니다.
+            }
         });
 }
 
@@ -184,29 +190,56 @@ function editQuestion(id) {
     fetch(apiEndpoint + 'board_questions/' + id)
         .then(response => response.json())
         .then(data => {
-            document.getElementById('edit-question-title').value = data.title;
-            document.getElementById('edit-question-content').value = data.content;
-            document.getElementById('myModal').style.display = "block";
-            document.getElementById('edit-question-submit').onclick = function() {
-                updateQuestion(id);
-                document.getElementById('myModal').style.display = "none";
-            };
+            const editQuestionTitle = document.getElementById('edit-question-title');
+            if (editQuestionTitle) {
+                editQuestionTitle.value = data.title;
+            }
+            const editQuestionContent = document.getElementById('edit-question-content');
+            if (editQuestionContent) {
+                editQuestionContent.value = data.content;
+            }
+            const myModal = document.getElementById('myModal');
+            if (myModal) {
+                myModal.style.display = "block";
+            }
+            const editQuestionSubmit = document.getElementById('edit-question-submit');
+            if (editQuestionSubmit) {
+                editQuestionSubmit.onclick = function() {
+                    updateQuestion(id);
+                    if (myModal) {
+                        myModal.style.display = "none";
+                    }
+                };
+            }
+
+            var spans = document.getElementsByClassName("close");
+            if (spans && spans.length > 0) {
+                var span = spans[0];
+                span.onclick = function() {
+                    if (myModal) {
+                        myModal.style.display = "none";
+                    }
+                }
+            }
+
+            window.onclick = function(event) {
+                if (myModal && event.target == myModal) {
+                    myModal.style.display = "none";
+                }
+            }
         });
-
-    var span = document.getElementsByClassName("close")[0];
-    span.onclick = function() {
-        document.getElementById('myModal').style.display = "none";
-    }
-
-    window.onclick = function(event) {
-        if (event.target == document.getElementById('myModal')) {
-            document.getElementById('myModal').style.display = "none";
-        }
-    }
 }
 
 document.addEventListener('DOMContentLoaded', function() {
     getQuestions();
-    document.getElementById('create-question-button').addEventListener('click', createQuestion);
-    document.getElementById('create-answer-button').addEventListener('click', createAnswer);
+
+    const createQuestionButton = document.getElementById('create-question-button');
+    if (createQuestionButton) {
+        createQuestionButton.addEventListener('click', createQuestion);
+    }
+
+    const createAnswerButton = document.getElementById('create-answer-button');
+    if (createAnswerButton) {
+        createAnswerButton.addEventListener('click', createAnswer);
+    }
 });
