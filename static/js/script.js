@@ -88,3 +88,18 @@ if (downloadExplanations) {
         window.open(url, "_blank");
     };
 }
+
+$(document).ready(function() {
+    $.getJSON('https://toeic4all.com/user/status', function(data) {
+        if (data.status === 'logged_in') {
+            $('#nav-user').html(data.username);
+            $('#nav-logout').show();
+            $('#nav-login').hide();
+            $('#nav-signup').hide();
+        } else {
+            $('#nav-logout').hide();
+            $('#nav-login').show();
+            $('#nav-signup').show();
+        }
+    });
+});

@@ -16,12 +16,13 @@
             <li class="{{ 'active' if request.endpoint.endswith('mock_test') }}"><a href="{{ url_for('main.mock_test') }}">모의고사</a></li>
             <li class="{{ 'active' if request.endpoint.endswith('board_page') }}"><a href="{{ url_for('main.board_page') }}">Q&A 게시판</a></li>
             {% if 'user_id' in session %}
-                <li><a href="#" id="logout">Logout</a></li>
+                <li id="nav-user">{{ session['username'] }}</li>
+                <li><a href="#" id="nav-logout">Logout</a></li>
             {% else %}
-                <li><a href="https://toeic4all.com/user/login">Login</a></li>
-                <li><a href="https://toeic4all.com/user/signup">Sign Up</a></li>
+                <li><a href="https://toeic4all.com/user/login" id="nav-login">Login</a></li>
+                <li><a href="https://toeic4all.com/user/signup" id="nav-signup">Sign Up</a></li>
             {% endif %}
-        </ul>              
+        </ul>               
     </nav>
 
     <div class="content">
