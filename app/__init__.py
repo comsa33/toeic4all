@@ -21,10 +21,11 @@ def create_app():
     db.init_app(app)
 
     # Register blueprints
-    from .routes import api, main_bp, board
+    from .routes import api, main_bp, board, auth
     app.register_blueprint(api.api, url_prefix='/api')
     app.register_blueprint(board.board, url_prefix='/api/board')
     app.register_blueprint(main_bp)
+    app.register_blueprint(auth, url_prefix='/auth')  # Add this line
 
     from .errors import handlers
     app.register_blueprint(handlers.errors)

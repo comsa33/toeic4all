@@ -2,6 +2,17 @@ document.addEventListener('DOMContentLoaded', function() {
     var generateBtn = document.getElementById('generate-btn');
     if (generateBtn) {
         generateBtn.onclick = function() {
+            // 로그인 상태 확인
+            var xhrCheck = new XMLHttpRequest();
+            xhrCheck.open('GET', '/protected');
+            xhrCheck.onload = function() {
+                if (xhrCheck.status !== 200) {
+                    alert('로그인이 필요한 서비스입니다.');
+                    return;
+                }
+            };
+            xhrCheck.send();
+
             var difficulty = document.getElementById('difficulty').value;
             if (!difficulty) {
                 alert('난이도를 선택해주세요.');

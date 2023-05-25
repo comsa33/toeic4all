@@ -15,7 +15,13 @@
         <ul>
             <li class="{{ 'active' if request.endpoint.endswith('mock_test') }}"><a href="{{ url_for('main.mock_test') }}">모의고사</a></li>
             <li class="{{ 'active' if request.endpoint.endswith('board_page') }}"><a href="{{ url_for('main.board_page') }}">Q&A 게시판</a></li>
-        </ul>
+            {% if 'user_id' in session %}
+                <li><a href="#" id="logout">Logout</a></li>
+            {% else %}
+                <li><a href="http://210.123.105.183:31335/login">Login</a></li>
+                <li><a href="http://210.123.105.183:31335/signup">Sign Up</a></li>
+            {% endif %}
+        </ul>              
     </nav>
 
     <div class="content">
