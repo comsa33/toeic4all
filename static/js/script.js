@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
         generateBtn.onclick = function() {
             // 로그인 상태 확인
             var xhrCheck = new XMLHttpRequest();
-            xhrCheck.open('GET', '/protected');
+            xhrCheck.open('GET', '/user/protected');
             xhrCheck.onload = function() {
                 if (xhrCheck.status !== 200) {
                     alert('로그인이 필요한 서비스입니다.');
