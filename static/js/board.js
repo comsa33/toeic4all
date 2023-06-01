@@ -23,6 +23,8 @@ function getUsername() {
 }
 
 function getQuestions() {
+    const apiEndpoint = "/api/board/";
+
     fetch(apiEndpoint + 'board_questions')
         .then(response => response.json())
         .then(data => {
@@ -39,8 +41,10 @@ function getQuestions() {
                     <p>${question.content}</p>
                     <p>작성자: ${question.author}</p>
                     <button type="button" onclick="getQuestion(${question.id})">자세히 보기</button>
+                    ${username === question.author ? `
                     <button type="button" onclick="editQuestion(${question.id})">수정하기</button>
                     <button type="button" onclick="deleteQuestion(${question.id})">삭제하기</button>
+                    ` : ''}
                 `;
                 board.appendChild(div);
             });
@@ -62,7 +66,9 @@ function getQuestion(id) {
                 <h3>${data.title}</h3>
                 <p>${data.content}</p>
                 <p>작성자: ${data.author}</p>
+                ${username === data.author ? `
                 <button type="button" onclick="editQuestion(${id})">질문 수정하기</button>
+                ` : ''}
                 <button type="button" onclick="getQuestions()">목록으로 돌아가기</button>
             `;
             currentQuestionId = id;
@@ -79,6 +85,10 @@ function getQuestion(id) {
                             div.innerHTML = `
                                 <p>${answer.content}</p>
                                 <p>작성자: ${answer.author}</p>
+                                ${username === answer.author ? `
+                                <button type="button" onclick="editAnswer(${answer.id})">수정하기</button>
+                                <button type="button" onclick="deleteAnswer(${answer.id})">삭제하기</button>
+                                ` : ''}
                             `;
                             answerSection.appendChild(div);
                         });

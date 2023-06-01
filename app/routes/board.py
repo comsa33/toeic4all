@@ -1,8 +1,13 @@
-from flask import request, jsonify, Blueprint
+from flask import request, jsonify, Blueprint, g
 from .. import db
 from app.models import BoardQuestion, BoardAnswer
 
 board = Blueprint('board', __name__)
+
+
+def verify_author(author):
+    if g.current_user != author:
+        return jsonify({'error': '작성자만 이 작업을 수행할 수 있습니다.'}), 403
 
 
 @board.route('/board_questions', methods=['GET'])
@@ -35,10 +40,10 @@ def update_board_question(id):
     question = BoardQuestion.query.get(id)
     if question is None:
         return jsonify({'error': 'Question not found'}), 404
+    verify_author(question.author)
     data = request.get_json()
     question.title = data.get('title', question.title)
     question.content = data.get('content', question.content)
-    question.author = data.get('author', question.author)
     db.session.commit()
     return jsonify(question.to_dict())
 
@@ -48,11 +53,7 @@ def delete_board_question(id):
     question = BoardQuestion.query.get(id)
     if question is None:
         return jsonify({'error': 'Question not found'}), 404
-
-    # 이 질문에 답변이 있는지 확인합니다.
-    if question.board_answers:
-        return jsonify({'error': '댓글이 있는 글은 삭제할 수 없습니다.'}), 400
-
+    verify_author(question.author)
     db.session.delete(question)
     db.session.commit()
     return '', 204
@@ -75,15 +76,14 @@ def create_board_answer(question_id):
     return jsonify(answer.to_dict()), 201
 
 
-
 @board.route('/board_answers/<int:id>', methods=['PUT'])
 def update_board_answer(id):
     answer = BoardAnswer.query.get(id)
     if answer is None:
         return jsonify({'error': 'Answer not found'}), 404
+    verify_author(answer.author)
     data = request.get_json()
     answer.content = data.get('content', answer.content)
-    answer.author = data.get('author', answer.author)
     db.session.commit()
     return jsonify(answer.to_dict())
 
@@ -93,6 +93,7 @@ def delete_board_answer(id):
     answer = BoardAnswer.query.get(id)
     if answer is None:
         return jsonify({'error': 'Answer not found'}), 404
+    verify_author(answer.author)
     db.session.delete(answer)
     db.session.commit()
     return '', 204
