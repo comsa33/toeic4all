@@ -1,27 +1,45 @@
 // 로그인 상태 확인 및 네비게이션 바 업데이트
 $(document).ready(function() {
-    $.getJSON('https://toeic4all.com/user/status', function(data) {
-        console.log(data);
-        if (data.status == 'logged_in') {
-            console.log('Logged in');
-            $('#nav-logout').show();
-            $('#nav-user').html(data.username);
-            $('#nav-login').hide();
-            $('#nav-signup').hide();
-        } else {
-            console.log('Not logged in');
-            $('#nav-logout').hide();
-            $('#nav-login').show();
-            $('#nav-signup').show();
+    $.ajax({
+        url: 'https://toeic4all.com/user/status',
+        headers: { 'Authorization': `Bearer ${localStorage.getItem('access_token')}` },
+        success: function(data) {
+            console.log(data);
+            if (data.status == 'logged_in') {
+                console.log('Logged in');
+                $('#nav-logout').show();
+                $('#nav-user').html(data.username);
+                $('#nav-login').hide();
+                $('#nav-signup').hide();
+            } else {
+                console.log('Not logged in');
+                $('#nav-logout').hide();
+                $('#nav-login').show();
+                $('#nav-signup').show();
+            }
         }
     });
 
     $('#nav-logout').click(function() {
-        $.post('https://toeic4all.com/user/logout', function() {
-            location.reload();
-        });
+        // 로컬 저장소에서 토큰을 삭제하고 페이지를 새로 고침합니다.
+        localStorage.removeItem('access_token');
+        location.reload();
     });
 });
+
+function checkLoginStatus(callback) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/user/protected');
+    xhr.setRequestHeader('Authorization', `Bearer ${localStorage.getItem('access_token')}`);
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            callback();
+        } else {
+            alert('로그인이 필요한 서비스입니다.');
+        }
+    };
+    xhr.send();
+}
 
 // 로그인이 필요한 버튼 클릭 시 로그인 상태 확인
 document.addEventListener('DOMContentLoaded', function() {
@@ -36,19 +54,6 @@ document.addEventListener('DOMContentLoaded', function() {
     setupDownloadButton('download-answers', 'answers');
     setupDownloadButton('download-explanations', 'explanations');
 });
-
-function checkLoginStatus(callback) {
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/user/protected');
-    xhr.onload = function() {
-        if (xhr.status === 200) {
-            callback();
-        } else {
-            alert('로그인이 필요한 서비스입니다.');
-        }
-    };
-    xhr.send();
-}
 
 function generateTest() {
     var difficulty = document.getElementById('difficulty').value;
