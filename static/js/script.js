@@ -1,6 +1,7 @@
 // 로그인 상태 확인 및 네비게이션 바 업데이트
 $(document).ready(function() {
     $.getJSON('https://toeic4all.com/user/status', function(data) {
+        console.log(data); // data 출력
         if (data.status == 'logged_in') {
             $('#nav-user').html(data.username);
             $('#nav-logout').show();
