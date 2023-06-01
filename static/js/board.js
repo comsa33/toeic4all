@@ -121,6 +121,9 @@ function createQuestion() {
     .catch(error => {
         alert(error.error);
     });
+
+    document.getElementById('new-question-title').value = "";
+    document.getElementById('new-question-content').value = "";
 }
 
 function updateQuestion(id) {
@@ -206,6 +209,8 @@ function createAnswer() {
     .catch(error => {
         alert(error.error);
     });
+
+    document.getElementById('new-answer').value = "";
 }
 
 function editQuestion(id) {
