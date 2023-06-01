@@ -1,12 +1,13 @@
 let currentQuestionId = null;
 let username = null;
+const apiEndpoint = "/api/board/";
 
 function getUsername() {
     const apiEndpoint = "https://toeic4all.com/user/status";
 
     fetch(apiEndpoint, {
         method: 'GET',
-        credentials: 'include' // 쿠키를 포함하기 위해 credentials 옵션을 'include'로 설정합니다.
+        credentials: 'include'
     })
         .then(response => response.json())
         .then(data => {
@@ -22,8 +23,6 @@ function getUsername() {
 }
 
 function getQuestions() {
-    const apiEndpoint = "/api/board/";
-
     fetch(apiEndpoint + 'board_questions')
         .then(response => response.json())
         .then(data => {
@@ -47,7 +46,7 @@ function getQuestions() {
             });
             const answersSection = document.getElementById('answers-section');
             if (answersSection) {
-                answersSection.style.display = 'none'; // 답변 섹션을 숨깁니다.
+                answersSection.style.display = 'none';
             }
         });
 }
@@ -89,10 +88,9 @@ function getQuestion(id) {
 }
 
 function createQuestion() {
-    const apiEndpoint = "/api/board/";
     const title = document.getElementById('new-question-title').value;
     const content = document.getElementById('new-question-content').value;
-    const author = session['username'];  // 수정된 부분
+    const author = username;  // 수정된 부분
 
     // 필수 입력 필드를 확인합니다.
     if (!title || !content || !author) {
@@ -108,7 +106,7 @@ function createQuestion() {
         body: JSON.stringify({
             title: title,
             content: content,
-            author: username
+            author: author  // 수정된 부분
         })
     })
     .then(response => {
