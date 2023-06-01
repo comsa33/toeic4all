@@ -4,8 +4,8 @@ $(document).ready(function() {
         console.log(data);
         if (data.status == 'logged_in') {
             console.log('Logged in');
-            $('#nav-user').html(data.username);
             $('#nav-logout').show();
+            $('#nav-user').html(data.username);
             $('#nav-login').hide();
             $('#nav-signup').hide();
         } else {
