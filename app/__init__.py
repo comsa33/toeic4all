@@ -7,6 +7,8 @@ db = SQLAlchemy()
 
 def create_app():
     app = Flask(__name__, template_folder='../templates', static_folder='../static')
+    app.secret_key = 'your_secret_key'  # Secret Key를 설정해주세요. 실제 서비스에서는 안전한 값을 사용해야 합니다.
+
     app.jinja_env.globals.update(enumerate=enumerate)
     app.jinja_env.globals.update(zip=zip)
     app.jinja_env.globals.update(len=len)

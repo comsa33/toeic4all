@@ -71,7 +71,7 @@ function createQuestion() {
     const apiEndpoint = "/api/board/";
     const title = document.getElementById('new-question-title').value;
     const content = document.getElementById('new-question-content').value;
-    const author = document.getElementById('new-question-author').value;
+    const author = session['username'];  // 수정된 부분
 
     // 필수 입력 필드를 확인합니다.
     if (!title || !content || !author) {
