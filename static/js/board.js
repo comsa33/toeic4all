@@ -1,4 +1,25 @@
 let currentQuestionId = null;
+let username = null;
+
+function getUsername() {
+    const apiEndpoint = "https://toeic4all.com/user/status";
+
+    fetch(apiEndpoint, {
+        method: 'GET',
+        credentials: 'include' // 쿠키를 포함하기 위해 credentials 옵션을 'include'로 설정합니다.
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'logged_in') {
+                username = data.username;
+            } else {
+                alert('로그인이 필요합니다!');
+            }
+        })
+        .catch(error => {
+            alert('사용자 정보를 불러오는데 실패하였습니다.');
+        });
+}
 
 function getQuestions() {
     const apiEndpoint = "/api/board/";
@@ -87,7 +108,7 @@ function createQuestion() {
         body: JSON.stringify({
             title: title,
             content: content,
-            author: author
+            author: username
         })
     })
     .then(response => {
@@ -158,7 +179,12 @@ function deleteQuestion(id) {
 function createAnswer() {
     const apiEndpoint = "/api/board/";
     const content = document.getElementById('new-answer').value;
-    const author = document.getElementById('new-answer-author').value;
+    const author = username; // 수정된 부분
+
+    if (!content || !author) {
+        alert('모든 필드를 채워주세요!');
+        return;
+    }
 
     fetch(apiEndpoint + 'board_questions/' + currentQuestionId + '/answers', {
         method: 'POST',
@@ -231,6 +257,7 @@ function editQuestion(id) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+    getUsername();
     getQuestions();
 
     const createQuestionButton = document.getElementById('create-question-button');
