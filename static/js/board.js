@@ -269,6 +269,46 @@ function editQuestion(id) {
         });
 }
 
+function deleteAnswer(id) {
+    const apiEndpoint = "/api/board/";
+    fetch(apiEndpoint + 'board_answers/' + id, {
+        method: 'DELETE',
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        getQuestion(currentQuestionId);
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+function editAnswer(id) {
+    const apiEndpoint = "/api/board/";
+    const answerContent = prompt("수정할 답변 내용을 입력해주세요.");
+    fetch(apiEndpoint + 'board_answers/' + id, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({content: answerContent}),
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        getQuestion(currentQuestionId);
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     getUsername();
     getQuestions();
