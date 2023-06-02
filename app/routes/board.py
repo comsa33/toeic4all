@@ -1,5 +1,5 @@
 from flask import request, jsonify, Blueprint, g
-from flask_jwt_extended import jwt_required, get_jwt_identity, jwt_optional  # 추가
+from flask_jwt_extended import jwt_required, get_jwt_identity  # 추가
 
 from .. import db
 from app.models import BoardQuestion, BoardAnswer
@@ -9,7 +9,7 @@ board = Blueprint('board', __name__)
 
 # JWT에서 사용자 ID를 얻는 코드 추가
 @board.before_request
-@jwt_optional
+@jwt_required(optional=True)
 def get_current_user():
     g.current_user = get_jwt_identity()
 
