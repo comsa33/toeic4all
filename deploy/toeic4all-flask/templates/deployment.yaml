@@ -21,3 +21,6 @@ spec:
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         ports:
         - containerPort: 5000
+        env:
+        - name: JWT_SECRET_KEY
+          value: {{ .Values.jwtSecretKey }}

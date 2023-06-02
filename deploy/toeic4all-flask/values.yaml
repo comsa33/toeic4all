@@ -13,3 +13,5 @@ image:
 service:
   type: NodePort
   port: 80
+
+jwtSecretKey: ""

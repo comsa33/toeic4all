@@ -1,8 +1,12 @@
+import os
+
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_jwt_extended import JWTManager
 import json
 
 db = SQLAlchemy()
+jwt = JWTManager()
 
 
 def create_app():
@@ -19,8 +23,13 @@ def create_app():
 
     app.config['SQLALCHEMY_DATABASE_URI'] = config['DATABASE_URL']
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY')
+    app.config['JWT_TOKEN_LOCATION'] = ['headers']
+    app.config['JWT_HEADER_NAME'] = 'Authorization'
+    app.config['JWT_HEADER_TYPE'] = 'Bearer'
 
     db.init_app(app)
+    jwt.init_app(app)
 
     # Register blueprints
     from .routes import api, main_bp, board
