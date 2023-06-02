@@ -29,7 +29,6 @@ class BoardAnswer(db.Model):
     content = db.Column(db.String)
     author = db.Column(db.String)
     question_id = db.Column(db.Integer, db.ForeignKey('board_questions.id'), nullable=False)
-    question = db.relationship('BoardQuestion', backref='answers')  # backref 'answers' here
 
     def to_dict(self):
         data = {
