@@ -5,7 +5,7 @@
         <h2>Q&A 게시판</h2>
         
         <!-- question creation form -->
-        <form id="new-question-form">
+        <form id="new-question-form" class="no-border">
             <div class="input-group">
                 <input type="text" id="new-question-title" placeholder="제목">
                 <textarea id="new-question-content" placeholder="내용을 입력하세요"></textarea>
@@ -27,7 +27,7 @@
             </div>
 
             <!-- answer creation form -->
-            <form id="new-answer-form">
+            <form id="new-answer-form" class="no-border">
                 <textarea id="new-answer" placeholder="댓글 입력"></textarea>
                 <button type="button" id="create-answer-button" class="submit">
                     <i class="fas fa-pencil-alt"></i>
@@ -40,7 +40,7 @@
             <!-- Modal content -->
             <div class="modal-content">
                 <span class="close">&times;</span>
-                <form id="edit-question-form">
+                <form id="edit-question-form" class="no-border">
                     <input type="text" id="edit-question-title">
                     <textarea id="edit-question-content"></textarea>
                     <button type="button" id="edit-question-submit" class="submit">
