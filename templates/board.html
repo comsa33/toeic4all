@@ -10,7 +10,9 @@
                 <input type="text" id="new-question-title" placeholder="제목">
                 <textarea id="new-question-content" placeholder="내용을 입력하세요"></textarea>
             </div>
-            <button type="button" id="create-question-button">게시하기</button>
+            <button type="button" id="create-question-button" class="submit">
+                <i class="fas fa-pencil-alt"></i>
+            </button>
         </form>
 
         <div id="board">
@@ -27,7 +29,9 @@
             <!-- answer creation form -->
             <form id="new-answer-form">
                 <textarea id="new-answer" placeholder="댓글 입력"></textarea>
-                <button type="button" id="create-answer-button">Post Answer</button>
+                <button type="button" id="create-answer-button" class="submit">
+                    <i class="fas fa-pencil-alt"></i>
+                </button>
             </form>
         </div>
 
@@ -39,7 +43,9 @@
                 <form id="edit-question-form">
                     <input type="text" id="edit-question-title">
                     <textarea id="edit-question-content"></textarea>
-                    <button type="button" id="edit-question-submit">Edit Question</button>
+                    <button type="button" id="edit-question-submit" class="submit">
+                        <i class="fas fa-pencil-alt"></i>
+                    </button>
                 </form>
             </div>
         </div>
