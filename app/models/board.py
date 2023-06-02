@@ -28,7 +28,7 @@ class BoardAnswer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String)
     author = db.Column(db.String)
-    question_id = db.Column(db.Integer, db.ForeignKey('board_question.id'), nullable=False)
+    question_id = db.Column(db.Integer, db.ForeignKey('board_questions.id'), nullable=False)
     question = db.relationship('BoardQuestion', backref='board_answers')
 
     def to_dict(self):
