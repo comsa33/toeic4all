@@ -27,13 +27,22 @@ button.delete {
     background-color: #DC3545;
 }
 
+.form {
+    position: relative;
+}
+
 button.submit {
-    padding: 10px 20px;
+    padding: 10px;
     font-size: 16px;
     background-color: #007BFF;
     color: white;
-    border-radius: 50px;
+    border-radius: 50%;  /* To make button circular */
     transition: background-color 0.3s ease;
+    position: absolute; /* Position relative to parent form */
+    right: 10px;       /* Position at right-bottom */
+    bottom: 10px;
+    width: 40px;       /* Adjust width and height as needed */
+    height: 40px;
 }
 
 button.submit:hover {

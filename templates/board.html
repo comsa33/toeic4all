@@ -5,14 +5,14 @@
         <h2>Q&A 게시판</h2>
         
         <!-- question creation form -->
-        <form id="new-question-form" class="no-border">
+        <form id="new-question-form" class="no-border form">
             <div class="input-group">
                 <input type="text" id="new-question-title" placeholder="제목">
                 <textarea id="new-question-content" placeholder="내용을 입력하세요"></textarea>
+                <button type="button" id="create-question-button" class="submit">
+                    <i class="fas fa-pencil-alt"></i>
+                </button>
             </div>
-            <button type="button" id="create-question-button" class="submit">
-                <i class="fas fa-pencil-alt"></i>
-            </button>
         </form>
 
         <div id="board">
