@@ -24,6 +24,8 @@ def get_board_questions():
     questions = BoardQuestion.query.all()
     for question in questions:
         question.answerCount = BoardAnswer.query.filter_by(question_id=question.id).count()
+        # Add the answers to each question.
+        question.answers = BoardAnswer.query.filter_by(question_id=question.id).all()
     return jsonify([question.to_dict() for question in questions])
 
 

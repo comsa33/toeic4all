@@ -10,13 +10,15 @@ class BoardQuestion(db.Model):
     author = db.Column(db.String)
 
     def to_dict(self):
-        return {
+        data = {
             'id': self.id,
             'title': self.title,
             'content': self.content,
             'author': self.author,
-            'answerCount': getattr(self, 'answerCount', 0),  # answerCount 필드 추가
+            'answers': [answer.to_dict() for answer in self.answers],
+            'answerCount': BoardAnswer.query.filter_by(question_id=self.id).count()
         }
+        return data
 
 
 class BoardAnswer(db.Model):
@@ -29,9 +31,10 @@ class BoardAnswer(db.Model):
     question = db.relationship('BoardQuestion', backref='board_answers')
 
     def to_dict(self):
-        return {
+        data = {
             'id': self.id,
             'content': self.content,
             'author': self.author,
-            'question_id': self.question_id,
+            'question_id': self.question_id
         }
+        return data
