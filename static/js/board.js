@@ -35,7 +35,7 @@ function fetchWithToken(url, options = {}) {
 }
 
 function getQuestions() {
-    fetchWithToken(apiEndpoint + 'board_questions')
+    fetch(apiEndpoint + 'board_questions')
         .then(response => response.json())
         .then(data => {
             const board = document.getElementById('board');
@@ -66,8 +66,6 @@ function getQuestions() {
 }
 
 function getQuestion(id) {
-    const apiEndpoint = "/api/board/";
-
     fetch(apiEndpoint + 'board_questions/' + id)
         .then(response => response.json())
         .then(data => {
@@ -318,8 +316,8 @@ function editAnswer(id) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    getQuestions();
     getUsername();
+    getQuestions();
 
     const createQuestionButton = document.getElementById('create-question-button');
     if (createQuestionButton) {
