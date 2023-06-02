@@ -69,7 +69,7 @@ function getQuestions() {
                 if (question.answers) {
                     question.answers.forEach(answer => {
                         const answerDiv = document.createElement('div');
-                        answerDiv.className = 'answer';
+                        answerDiv.className = 'answer separate-answer'; // class 추가
                         answerDiv.innerHTML = `
                             <p>${answer.content}</p>
                             <p>작성자: ${answer.author}</p>
@@ -109,7 +109,7 @@ function getQuestion(id) {
                         answerSection.innerHTML = '';
                         answers.forEach(answer => {
                             const div = document.createElement('div');
-                            div.className = 'answer';
+                            div.className = 'answer separate-answer'; // class 추가
                             div.innerHTML = `
                                 <p>${answer.content}</p>
                                 <p>작성자: ${answer.author}</p>
