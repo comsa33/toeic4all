@@ -1,8 +1,17 @@
 from flask import request, jsonify, Blueprint, g
+from flask_jwt_extended import jwt_required, get_jwt_identity  # 추가
+
 from .. import db
 from app.models import BoardQuestion, BoardAnswer
 
 board = Blueprint('board', __name__)
+
+
+# JWT에서 사용자 ID를 얻는 코드 추가
+@board.before_request
+@jwt_required()
+def get_current_user():
+    g.current_user = get_jwt_identity()
 
 
 def verify_author(author):
@@ -27,9 +36,9 @@ def get_board_question(id):
 @board.route('/board_questions', methods=['POST'])
 def create_board_question():
     data = request.get_json()
-    if not data['title'] or not data['content'] or not data['author']:
+    if not data['title'] or not data['content']:
         return jsonify({'error': '모든 필드를 채워주세요.'}), 400
-    question = BoardQuestion(title=data['title'], content=data['content'], author=data['author'])
+    question = BoardQuestion(title=data['title'], content=data['content'], author=g.current_user)
     db.session.add(question)
     db.session.commit()
     return jsonify(question.to_dict()), 201
@@ -68,9 +77,9 @@ def get_board_answers(question_id):
 @board.route('/board_questions/<int:question_id>/answers', methods=['POST'])
 def create_board_answer(question_id):
     data = request.get_json()
-    if not data['content'] or not data['author']:
+    if not data['content']:
         return jsonify({'error': '모든 필드를 채워주세요.'}), 400
-    answer = BoardAnswer(content=data['content'], author=data['author'], question_id=question_id)
+    answer = BoardAnswer(content=data['content'], author=g.current_user, question_id=question_id)
     db.session.add(answer)
     db.session.commit()
     return jsonify(answer.to_dict()), 201

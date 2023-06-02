@@ -4,11 +4,14 @@ const apiEndpoint = "/api/board/";
 
 function getUsername() {
     const apiEndpoint = "https://toeic4all.com/user/status";
+    const jwtToken = localStorage.getItem('jwt');
 
-    fetch(apiEndpoint, {
-        method: 'GET',
-        credentials: 'include'
-    })
+    if (!jwtToken) {
+        alert('로그인이 필요합니다!');
+        return;
+    }
+
+    fetchWithToken(apiEndpoint)
         .then(response => response.json())
         .then(data => {
             if (data.status === 'logged_in') {
@@ -22,10 +25,17 @@ function getUsername() {
         });
 }
 
-function getQuestions() {
-    const apiEndpoint = "/api/board/";
+function fetchWithToken(url, options = {}) {
+    const jwtToken = localStorage.getItem('jwt');
+    const headers = {
+        ...options.headers,
+        'Authorization': `Bearer ${jwtToken}`
+    };
+    return fetch(url, {...options, headers});
+}
 
-    fetch(apiEndpoint + 'board_questions')
+function getQuestions() {
+    fetchWithToken(apiEndpoint + 'board_questions')
         .then(response => response.json())
         .then(data => {
             const board = document.getElementById('board');
@@ -100,15 +110,14 @@ function getQuestion(id) {
 function createQuestion() {
     const title = document.getElementById('new-question-title').value;
     const content = document.getElementById('new-question-content').value;
-    const author = username;  // 수정된 부분
+    const author = username;
 
-    // 필수 입력 필드를 확인합니다.
     if (!title || !content || !author) {
         alert('모든 필드를 채워주세요!');
         return;
     }
 
-    fetch(apiEndpoint + 'board_questions', {
+    fetchWithToken(apiEndpoint + 'board_questions', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -116,7 +125,7 @@ function createQuestion() {
         body: JSON.stringify({
             title: title,
             content: content,
-            author: author  // 수정된 부분
+            author: author
         })
     })
     .then(response => {
@@ -137,17 +146,15 @@ function createQuestion() {
 }
 
 function updateQuestion(id) {
-    const apiEndpoint = "/api/board/";
     const title = document.getElementById('edit-question-title').value;
     const content = document.getElementById('edit-question-content').value;
 
-    // 필수 입력 필드를 확인합니다.
     if (!title || !content) {
         alert('모든 필드를 채워주세요!');
         return;
     }
 
-    fetch(apiEndpoint + 'board_questions/' + id, {
+    fetchWithToken(apiEndpoint + 'board_questions/' + id, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
@@ -168,9 +175,7 @@ function updateQuestion(id) {
 }
 
 function deleteQuestion(id) {
-    const apiEndpoint = "/api/board/";
-
-    fetch(apiEndpoint + 'board_questions/' + id, {
+    fetchWithToken(apiEndpoint + 'board_questions/' + id, {
         method: 'DELETE'
     })
     .then(response => {
@@ -188,16 +193,15 @@ function deleteQuestion(id) {
 }
 
 function createAnswer() {
-    const apiEndpoint = "/api/board/";
     const content = document.getElementById('new-answer').value;
-    const author = username; // 수정된 부분
+    const author = username;
 
     if (!content || !author) {
         alert('모든 필드를 채워주세요!');
         return;
     }
 
-    fetch(apiEndpoint + 'board_questions/' + currentQuestionId + '/answers', {
+    fetchWithToken(apiEndpoint + 'board_questions/' + currentQuestionId + '/answers', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -270,8 +274,7 @@ function editQuestion(id) {
 }
 
 function deleteAnswer(id) {
-    const apiEndpoint = "/api/board/";
-    fetch(apiEndpoint + 'board_answers/' + id, {
+    fetchWithToken(apiEndpoint + 'board_answers/' + id, {
         method: 'DELETE',
     })
     .then(response => {
@@ -286,9 +289,14 @@ function deleteAnswer(id) {
 }
 
 function editAnswer(id) {
-    const apiEndpoint = "/api/board/";
     const answerContent = prompt("수정할 답변 내용을 입력해주세요.");
-    fetch(apiEndpoint + 'board_answers/' + id, {
+
+    if (!answerContent) {
+        alert('답변 내용을 입력해주세요!');
+        return;
+    }
+
+    fetchWithToken(apiEndpoint + 'board_answers/' + id, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -310,8 +318,8 @@ function editAnswer(id) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    getUsername();
     getQuestions();
+    getUsername();
 
     const createQuestionButton = document.getElementById('create-question-button');
     if (createQuestionButton) {
