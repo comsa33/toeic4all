@@ -4,7 +4,7 @@ const apiEndpoint = "/api/board/";
 
 function getUsername() {
     const apiEndpoint = "https://toeic4all.com/user/status";
-    const jwtToken = localStorage.getItem('jwt');
+    const jwtToken = localStorage.getItem('access_token');
 
     if (!jwtToken) {
         alert('로그인이 필요합니다!');
@@ -26,7 +26,7 @@ function getUsername() {
 }
 
 function fetchWithToken(url, options = {}) {
-    const jwtToken = localStorage.getItem('jwt');
+    const jwtToken = localStorage.getItem('access_token');
     const headers = {
         ...options.headers,
         'Authorization': `Bearer ${jwtToken}`
@@ -108,9 +108,13 @@ function getQuestion(id) {
 function createQuestion() {
     const title = document.getElementById('new-question-title').value;
     const content = document.getElementById('new-question-content').value;
-    const author = username;
 
-    if (!title || !content || !author) {
+    if (!username) {
+        alert('글을 작성하려면 로그인이 필요합니다!');
+        return;
+    }
+
+    if (!title || !content) {
         alert('모든 필드를 채워주세요!');
         return;
     }
@@ -192,9 +196,13 @@ function deleteQuestion(id) {
 
 function createAnswer() {
     const content = document.getElementById('new-answer').value;
-    const author = username;
 
-    if (!content || !author) {
+    if (!username) {
+        alert('답변을 작성하려면 로그인이 필요합니다!');
+        return;
+    }
+
+    if (!content) {
         alert('모든 필드를 채워주세요!');
         return;
     }
