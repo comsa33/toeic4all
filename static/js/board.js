@@ -57,14 +57,14 @@ function getQuestions() {
                     <h3>${question.title}</h3>
                     <p>${question.content}</p>
                     <p>작성자: ${question.author}</p>
-                    <button type="button" onclick="getQuestion(${question.id})">자세히 보기</button>
+                    <button type="button" class="view" onclick="getQuestion(${question.id})">View</button>
                     ${username === question.author ? `
-                    <button type="button" onclick="editQuestion(${question.id})">수정하기</button>
-                    <button type="button" onclick="deleteQuestion(${question.id})">삭제하기</button>
+                    <button type="button" class="edit" onclick="editQuestion(${question.id})">Edit</button>
+                    <button type="button" class="delete" onclick="deleteQuestion(${question.id})">Delete</button>
                     ` : ''}
                 `;
                 board.appendChild(div);
-
+            
                 // If answers are included in the question data, append them as well.
                 if (question.answers) {
                     question.answers.forEach(answer => {
@@ -74,8 +74,8 @@ function getQuestions() {
                             <p>${answer.content}</p>
                             <p>작성자: ${answer.author}</p>
                             ${username === answer.author ? `
-                            <button type="button" onclick="editAnswer(${answer.id})">수정하기</button>
-                            <button type="button" onclick="deleteAnswer(${answer.id})">삭제하기</button>
+                            <button type="button" class="edit" onclick="editAnswer(${answer.id})">Edit</button>
+                            <button type="button" class="delete" onclick="deleteAnswer(${answer.id})">Delete</button>
                             ` : ''}
                         `;
                         board.appendChild(answerDiv);

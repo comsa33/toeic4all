@@ -5,6 +5,28 @@ body {
     background-color: #f5f8fa;  
 }
 
+button {
+    padding: 8px 12px;
+    font-size: 14px;
+    border-radius: 5px; 
+    border: none;
+    outline: none;
+    color: #fff;
+    cursor: pointer;
+}
+
+button.view {
+    background-color: #007BFF;
+}
+
+button.edit {
+    background-color: #FFC107;
+}
+
+button.delete {
+    background-color: #DC3545;
+}
+
 .container {
     max-width: 600px;  
     margin: 20px auto;
