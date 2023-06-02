@@ -1,45 +1,49 @@
 {% extends "layout.html" %}
 
 {% block content %}
-    <h2 style="text-align:center;">Q&A 게시판</h2>
-    
-    <!-- 질문을 생성할 수 있는 폼 -->
-    <form id="new-question-form">
-        <input type="text" id="new-question-title" placeholder="질문 제목">
-        <textarea id="new-question-content" placeholder="질문 내용"></textarea>
-        <button type="button" id="create-question-button">질문하기</button>
-    </form>
+    <div class="container">
+        <h2>Q&A Board</h2>
+        
+        <!-- question creation form -->
+        <form id="new-question-form">
+            <div class="input-group">
+                <input type="text" id="new-question-title" placeholder="Question Title">
+                <textarea id="new-question-content" placeholder="Question Content"></textarea>
+            </div>
+            <button type="button" id="create-question-button">Post Question</button>
+        </form>
 
-    <div id="board">
-        <!-- 게시판의 각 질문은 여기에 추가됩니다. -->
-    </div>
-
-    <!-- 답변을 보여주고 생성할 수 있는 섹션. 초기에는 숨겨져 있습니다. -->
-    <div id="answers-section" style="display: none;">
-        <h3>답변:</h3>
-        <div id="answers">
-            <!-- 답변은 여기에 추가됩니다. -->
+        <div id="board">
+            <!-- each question will be added here. -->
         </div>
 
-        <!-- 답변을 생성할 수 있는 폼 -->
-        <form id="new-answer-form">
-            <textarea id="new-answer" placeholder="답변 내용"></textarea>
-            <button type="button" id="create-answer-button">답변하기</button>
-        </form>
-    </div>
+        <!-- section to show and create answers. initially hidden. -->
+        <div id="answers-section" style="display: none;">
+            <h3>Answers:</h3>
+            <div id="answers">
+                <!-- answers will be added here. -->
+            </div>
 
-    <!-- The Modal -->
-    <div id="myModal" class="modal">
-        <!-- Modal content -->
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <form id="edit-question-form">
-                <input type="text" id="edit-question-title">
-                <textarea id="edit-question-content"></textarea>
-                <button type="button" id="edit-question-submit">질문 수정하기</button>
+            <!-- answer creation form -->
+            <form id="new-answer-form">
+                <textarea id="new-answer" placeholder="Answer"></textarea>
+                <button type="button" id="create-answer-button">Post Answer</button>
             </form>
         </div>
-    </div>
 
+        <!-- Modal -->
+        <div id="myModal" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <form id="edit-question-form">
+                    <input type="text" id="edit-question-title">
+                    <textarea id="edit-question-content"></textarea>
+                    <button type="button" id="edit-question-submit">Edit Question</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
     <script src="{{ url_for('static', filename='js/board.js') }}"></script>
 {% endblock %}
