@@ -140,7 +140,7 @@ function createQuestion() {
         body: JSON.stringify({
             title: title,
             content: content,
-            author: author
+            author: username
         })
     })
     .then(response => {
@@ -227,7 +227,7 @@ function createAnswer() {
         },
         body: JSON.stringify({
             content: content,
-            author: author
+            author: username
         })
     })
     .then(response => {
