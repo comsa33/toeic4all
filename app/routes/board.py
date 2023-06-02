@@ -22,6 +22,8 @@ def verify_author(author):
 @board.route('/board_questions', methods=['GET'])
 def get_board_questions():
     questions = BoardQuestion.query.all()
+    for question in questions:
+        question.answerCount = BoardAnswer.query.filter_by(question_id=question.id).count()
     return jsonify([question.to_dict() for question in questions])
 
 

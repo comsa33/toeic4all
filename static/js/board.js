@@ -50,6 +50,7 @@ function getQuestions() {
                     <h3>${question.title}</h3>
                     <p>${question.content}</p>
                     <p>작성자: ${question.author}</p>
+                    <p>답변 수: ${question.answerCount}</p> <!-- 답변 수를 추가 -->
                     <button type="button" onclick="getQuestion(${question.id})">자세히 보기</button>
                     ${username === question.author ? `
                     <button type="button" onclick="editQuestion(${question.id})">수정하기</button>

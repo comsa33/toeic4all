@@ -15,6 +15,7 @@ class BoardQuestion(db.Model):
             'title': self.title,
             'content': self.content,
             'author': self.author,
+            'answerCount': getattr(self, 'answerCount', 0),  # answerCount 필드 추가
         }
 
 
