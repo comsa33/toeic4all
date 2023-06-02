@@ -43,6 +43,13 @@ function getQuestions() {
                 return;
             }
             board.innerHTML = '';
+
+            const answerSection = document.getElementById('answers');
+            if (answerSection) {
+                answerSection.innerHTML = '';
+                document.getElementById('answers-section').style.display = 'none';
+            }
+
             data.forEach(question => {
                 const div = document.createElement('div');
                 div.className = 'question';
