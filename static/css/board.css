@@ -11,20 +11,20 @@ button {
     border-radius: 5px; 
     border: none;
     outline: none;
-    color: #fff;
+    color: #41b2e3;
     cursor: pointer;
 }
 
 button.view {
-    background-color: #007BFF;
+    background-color: #69a7ea;
 }
 
 button.edit {
-    background-color: #FFC107;
+    background-color: #d1c08a;
 }
 
 button.delete {
-    background-color: #DC3545;
+    background-color: #e7808a;
 }
 
 .form {
@@ -69,7 +69,7 @@ button.submit:hover {
     padding: 10px;
     border-radius: 5px;
     box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
-}
+
 
 input, textarea {
     width: 100%;

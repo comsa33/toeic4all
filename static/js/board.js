@@ -58,10 +58,6 @@ function getQuestions() {
                     <p>${question.content}</p>
                     <p>작성자: ${question.author}</p>
                     <button type="button" class="view" onclick="getQuestion(${question.id})">View</button>
-                    ${username === question.author ? `
-                    <button type="button" class="edit" onclick="editQuestion(${question.id})">Edit</button>
-                    <button type="button" class="delete" onclick="deleteQuestion(${question.id})">Delete</button>
-                    ` : ''}
                 `;
                 board.appendChild(div);
             
@@ -73,10 +69,6 @@ function getQuestions() {
                         answerDiv.innerHTML = `
                             <p>${answer.content}</p>
                             <p>작성자: ${answer.author}</p>
-                            ${username === answer.author ? `
-                            <button type="button" class="edit" onclick="editAnswer(${answer.id})">Edit</button>
-                            <button type="button" class="delete" onclick="deleteAnswer(${answer.id})">Delete</button>
-                            ` : ''}
                         `;
                         board.appendChild(answerDiv);
                     });
@@ -95,7 +87,8 @@ function getQuestion(id) {
                 <p>${data.content}</p>
                 <p>작성자: ${data.author}</p>
                 ${username === data.author ? `
-                <button type="button" onclick="editQuestion(${id})">질문 수정하기</button>
+                <button type="button" class="edit" onclick="editQuestion(${id})">수정</button>
+                <button type="button" class="delete" onclick="deleteQuestion(${id})">삭제</button>
                 ` : ''}
                 <button type="button" onclick="getQuestions()">목록으로 돌아가기</button>
             `;
@@ -114,8 +107,8 @@ function getQuestion(id) {
                                 <p>${answer.content}</p>
                                 <p>작성자: ${answer.author}</p>
                                 ${username === answer.author ? `
-                                <button type="button" onclick="editAnswer(${answer.id})">수정하기</button>
-                                <button type="button" onclick="deleteAnswer(${answer.id})">삭제하기</button>
+                                <button type="button" class="edit" onclick="editAnswer(${answer.id})">수정</button>
+                                <button type="button" class="delete" onclick="deleteAnswer(${answer.id})">삭제</button>
                                 ` : ''}
                             `;
                             answerSection.appendChild(div);
