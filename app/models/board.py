@@ -8,6 +8,7 @@ class BoardQuestion(db.Model):
     title = db.Column(db.String)
     content = db.Column(db.String)
     author = db.Column(db.String)
+    answers = db.relationship('BoardAnswer', backref='question', lazy=True)
 
     def to_dict(self):
         data = {
@@ -27,7 +28,7 @@ class BoardAnswer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String)
     author = db.Column(db.String)
-    question_id = db.Column(db.Integer, db.ForeignKey('board_questions.id'))
+    question_id = db.Column(db.Integer, db.ForeignKey('board_question.id'), nullable=False)
     question = db.relationship('BoardQuestion', backref='board_answers')
 
     def to_dict(self):
