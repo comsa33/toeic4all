@@ -1,24 +1,33 @@
 // 로그인 상태 확인 및 네비게이션 바 업데이트
 $(document).ready(function() {
-    $.ajax({
-        url: 'https://toeic4all.com/user/status',
-        headers: { 'Authorization': `Bearer ${localStorage.getItem('access_token')}` },
-        success: function(data) {
-            console.log(data);
-            if (data.status == 'logged_in') {
-                console.log('Logged in');
-                $('#nav-logout').show();
-                $('#nav-user').html(data.username);
-                $('#nav-login').hide();
-                $('#nav-signup').hide();
-            } else {
+    var token = localStorage.getItem('access_token');
+    if (token) {
+        $.ajax({
+            url: 'https://toeic4all.com/user/status',
+            headers: { 'Authorization': `Bearer ${token}` },
+            success: function(data) {
+                console.log(data);
+                if (data.status == 'logged_in') {
+                    console.log('Logged in');
+                    $('#nav-logout').show();
+                    $('#nav-user').html(data.username);
+                    $('#nav-login').hide();
+                    $('#nav-signup').hide();
+                } 
+            },
+            error: function() {
                 console.log('Not logged in');
                 $('#nav-logout').hide();
                 $('#nav-login').show();
                 $('#nav-signup').show();
             }
-        }
-    });
+        });
+    } else {
+        console.log('Not logged in');
+        $('#nav-logout').hide();
+        $('#nav-login').show();
+        $('#nav-signup').show();
+    }
 
     $('#nav-logout').click(function() {
         // 로컬 저장소에서 토큰을 삭제하고 페이지를 새로 고침합니다.
