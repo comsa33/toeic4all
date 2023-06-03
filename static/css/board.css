@@ -58,10 +58,19 @@ button:disabled {
     margin-bottom: 10px;
 }
 
+.input-group {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
 .input-group input, .input-group textarea {
     flex-grow: 1;
+    margin-right: 10px;
     margin-bottom: 10px;
     resize: none;
+    width: 80%;
 }
 
 #new-question-title, #edit-question-title {
