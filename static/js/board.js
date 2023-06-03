@@ -54,27 +54,27 @@ function getQuestions() {
                 const div = document.createElement('div');
                 div.className = 'question';
                 div.innerHTML = `
+                <hr>
                     <div class="question-header">
-                        <span class="question-author">${question.author}</span>
-                        <h3 class="question-title">${question.title}</h3>
+                        <div class="question-author">${question.author}</div>
+                        <div>
+                            <h3 class="question-title">${question.title}</h3>
+                            <p>${question.content}</p>
+                        </div>
                     </div>
-                    <p>${question.content}</p>
                     <button type="button" onclick="getQuestion(${question.id})">자세히 보기</button>
-                    <hr> <!-- 얇은 구분선 추가 -->
                 `;
                 board.appendChild(div);
-            
-                // If answers are included in the question data, append them as well.
+
                 if (question.answers) {
                     question.answers.forEach(answer => {
                         const answerDiv = document.createElement('div');
                         answerDiv.className = 'answer separate-answer';
                         answerDiv.innerHTML = `
                             <div class="question-header">
-                                <span class="question-author">${answer.author}</span>
+                                <div class="question-author">${answer.author}</div>
                                 <p>${answer.content}</p>
                             </div>
-                            <hr> <!-- 얇은 구분선 추가 -->
                         `;
                         board.appendChild(answerDiv);
                     });
@@ -90,16 +90,17 @@ function getQuestion(id) {
             const board = document.getElementById('board');
             board.innerHTML = `
                 <div class="question-header">
-                    <span class="question-author">${data.author}</span>
-                    <h3 class="question-title">${data.title}</h3>
+                    <div class="question-author">${data.author}</div>
+                    <div>
+                        <h3 class="question-title">${data.title}</h3>
+                        <p>${data.content}</p>
+                    </div>
                 </div>
-                <p>${data.content}</p>
                 ${username === data.author ? `
                 <button type="button" class="edit" onclick="editQuestion(${id})">수정</button>
                 <button type="button" class="delete" onclick="deleteQuestion(${id})">삭제</button>
                 ` : ''}
                 <button type="button" onclick="getQuestions()">목록으로 돌아가기</button>
-                <hr> <!-- 얇은 구분선 추가 -->
             `;
             currentQuestionId = id;
             document.getElementById('answers-section').style.display = 'block';
@@ -114,14 +115,13 @@ function getQuestion(id) {
                             div.className = 'answer separate-answer';
                             div.innerHTML = `
                                 <div class="question-header">
-                                    <span class="question-author">${answer.author}</span>
+                                    <div class="question-author">${answer.author}</div>
                                     <p>${answer.content}</p>
                                 </div>
                                 ${username === answer.author ? `
                                 <button type="button" onclick="editAnswer(${answer.id})">수정</button>
                                 <button type="button" onclick="deleteAnswer(${answer.id})">삭제</button>
                                 ` : ''}
-                                <hr> <!-- 얇은 구분선 추가 -->
                             `;
                             answerSection.appendChild(div);
                         });
