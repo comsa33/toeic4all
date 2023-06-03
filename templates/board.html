@@ -6,8 +6,10 @@
         
         <!-- question creation form -->
         <form id="new-question-form" class="no-border form">
-            <div class="input-group">
+            <div class="input-group" id="new-question-title-group">
                 <input type="text" id="new-question-title" placeholder="제목">
+            </div>
+            <div class="input-group" id="new-question-content-group">
                 <div id="new-question-content" style="position: relative;">
                     <textarea placeholder="내용을 입력하세요"></textarea>
                     <button type="button" id="create-question-button" class="submit">
@@ -36,7 +38,6 @@
             <div id="answers">
                 <!-- answers will be added here. -->
             </div>
-
         </div>
 
         <!-- Modal -->
@@ -61,7 +62,6 @@
                 </form>
             </div>
         </div>
-
     </div>
     <script src="{{ url_for('static', filename='js/board.js') }}"></script>
 {% endblock %}

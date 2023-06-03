@@ -52,6 +52,7 @@ button:disabled {
 
 .input-group {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 10px;
@@ -59,7 +60,8 @@ button:disabled {
 
 .input-group input, .input-group textarea {
     flex-grow: 1;
-    margin-right: 10px;
+    margin-bottom: 10px;
+    resize: none;
 }
 
 #new-question-title, #edit-question-title {
@@ -68,7 +70,6 @@ button:disabled {
 
 #new-question-content, #edit-question-content {
     height: 200px;
-    resize: none;
 }
 
 #new-question-form .submit, #edit-question-form .submit {
