@@ -54,10 +54,13 @@ function getQuestions() {
                 const div = document.createElement('div');
                 div.className = 'question';
                 div.innerHTML = `
-                    <h3>${question.title}</h3>
+                    <div class="question-header">
+                        <span class="question-author">${question.author}</span>
+                        <h3 class="question-title">${question.title}</h3>
+                    </div>
                     <p>${question.content}</p>
-                    <p>작성자: ${question.author}</p>
-                    <button type="button" class="view" onclick="getQuestion(${question.id})">View</button>
+                    <button type="button" onclick="getQuestion(${question.id})">자세히 보기</button>
+                    <hr> <!-- 얇은 구분선 추가 -->
                 `;
                 board.appendChild(div);
             
@@ -65,10 +68,13 @@ function getQuestions() {
                 if (question.answers) {
                     question.answers.forEach(answer => {
                         const answerDiv = document.createElement('div');
-                        answerDiv.className = 'answer separate-answer'; // class 추가
+                        answerDiv.className = 'answer separate-answer';
                         answerDiv.innerHTML = `
-                            <p>${answer.content}</p>
-                            <p>작성자: ${answer.author}</p>
+                            <div class="question-header">
+                                <span class="question-author">${answer.author}</span>
+                                <p>${answer.content}</p>
+                            </div>
+                            <hr> <!-- 얇은 구분선 추가 -->
                         `;
                         board.appendChild(answerDiv);
                     });
@@ -83,14 +89,17 @@ function getQuestion(id) {
         .then(data => {
             const board = document.getElementById('board');
             board.innerHTML = `
-                <h3>${data.title}</h3>
+                <div class="question-header">
+                    <span class="question-author">${data.author}</span>
+                    <h3 class="question-title">${data.title}</h3>
+                </div>
                 <p>${data.content}</p>
-                <p>작성자: ${data.author}</p>
                 ${username === data.author ? `
                 <button type="button" class="edit" onclick="editQuestion(${id})">수정</button>
                 <button type="button" class="delete" onclick="deleteQuestion(${id})">삭제</button>
                 ` : ''}
                 <button type="button" onclick="getQuestions()">목록으로 돌아가기</button>
+                <hr> <!-- 얇은 구분선 추가 -->
             `;
             currentQuestionId = id;
             document.getElementById('answers-section').style.display = 'block';
@@ -102,14 +111,17 @@ function getQuestion(id) {
                         answerSection.innerHTML = '';
                         answers.forEach(answer => {
                             const div = document.createElement('div');
-                            div.className = 'answer separate-answer'; // class 추가
+                            div.className = 'answer separate-answer';
                             div.innerHTML = `
-                                <p>${answer.content}</p>
-                                <p>작성자: ${answer.author}</p>
+                                <div class="question-header">
+                                    <span class="question-author">${answer.author}</span>
+                                    <p>${answer.content}</p>
+                                </div>
                                 ${username === answer.author ? `
-                                <button type="button" class="edit" onclick="editAnswer(${answer.id})">수정</button>
-                                <button type="button" class="delete" onclick="deleteAnswer(${answer.id})">삭제</button>
+                                <button type="button" onclick="editAnswer(${answer.id})">수정</button>
+                                <button type="button" onclick="deleteAnswer(${answer.id})">삭제</button>
                                 ` : ''}
+                                <hr> <!-- 얇은 구분선 추가 -->
                             `;
                             answerSection.appendChild(div);
                         });

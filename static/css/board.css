@@ -20,18 +20,6 @@ button:hover {
     background-color: #2d8eb6; /* 버튼 호버 색상 */
 }
 
-button.view {
-    background-color: #69a7ea;
-}
-
-button.edit {
-    background-color: #d1c08a;
-}
-
-button.delete {
-    background-color: #e7808a;
-}
-
 button.submit {
     padding: 10px;
     font-size: 16px;
