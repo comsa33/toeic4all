@@ -43,7 +43,6 @@ function getQuestions() {
                 return;
             }
             board.innerHTML = '';
-            closeModals();
 
             document.getElementById('answers-section').style.display = 'none';
 
