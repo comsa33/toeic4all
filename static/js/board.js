@@ -101,8 +101,8 @@ function getQuestion(id) {
                                     <p>${answer.content}</p>
                                 </div>
                                 ${username === answer.author ? `
-                                <button type="button" onclick="editAnswer(${answer.id})">수정</button>
-                                <button type="button" onclick="deleteAnswer(${answer.id})">삭제</button>
+                                <button type="button" class="edit" onclick="editAnswer(${answer.id})">수정</button>
+                                <button type="button" class="delete" onclick="deleteAnswer(${answer.id})">삭제</button>
                                 ` : ''}
                             `;
                             answerSection.appendChild(div);
@@ -250,40 +250,45 @@ function editQuestion(id) {
         .then(response => response.json())
         .then(data => {
             const editQuestionTitle = document.getElementById('edit-question-title');
+            const editQuestionContent = document.getElementById('edit-question-content');
+            const myModal = document.getElementById('myModal');
+            const editQuestionSubmit = document.getElementById('edit-question-submit');
+            const spans = document.getElementsByClassName("close");
+
             if (editQuestionTitle) {
                 editQuestionTitle.value = data.title;
             }
-            const editQuestionContent = document.getElementById('edit-question-content');
             if (editQuestionContent) {
                 editQuestionContent.value = data.content;
             }
-            const myModal = document.getElementById('myModal');
             if (myModal) {
                 myModal.style.display = "block";
             }
-            const editQuestionSubmit = document.getElementById('edit-question-submit');
             if (editQuestionSubmit) {
                 editQuestionSubmit.onclick = function() {
                     updateQuestion(id);
                     if (myModal) {
                         myModal.style.display = "none";
+                        editQuestionTitle.value = "";
+                        editQuestionContent.value = "";
                     }
                 };
             }
-
-            var spans = document.getElementsByClassName("close");
             if (spans && spans.length > 0) {
                 var span = spans[0];
                 span.onclick = function() {
                     if (myModal) {
                         myModal.style.display = "none";
+                        editQuestionTitle.value = "";
+                        editQuestionContent.value = "";
                     }
                 }
             }
-
             window.onclick = function(event) {
                 if (myModal && event.target == myModal) {
                     myModal.style.display = "none";
+                    editQuestionTitle.value = "";
+                    editQuestionContent.value = "";
                 }
             }
         });
