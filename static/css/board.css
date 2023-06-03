@@ -85,7 +85,7 @@ button:disabled {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.question-header, .answer {
+.question-header{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -96,6 +96,26 @@ button:disabled {
     font-weight: bold;
     color: #1da1f2;
     align-self: flex-start;
+}
+
+.answer {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    background-color: white;
+    margin-bottom: 10px;
+    border-radius: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.answer-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.button-container {
+    display: flex;
+    margin-top: 10px;
 }
 
 .separate-answer {

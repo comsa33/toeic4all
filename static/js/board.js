@@ -96,14 +96,18 @@ function getQuestion(id) {
                             const div = document.createElement('div');
                             div.className = 'answer separate-answer';
                             div.innerHTML = `
-                                <div class="question-header">
-                                    <div class="question-author">${answer.author}</div>
-                                    <p>${answer.content}</p>
+                                <div class="answer-content">
+                                    <div class="question-header">
+                                        <div class="question-author">${answer.author}</div>
+                                        <p>${answer.content}</p>
+                                    </div>
+                                    ${username === answer.author ? `
+                                    <div class="button-container">
+                                        <button type="button" class="edit" onclick="editAnswer(${answer.id})">수정</button>
+                                        <button type="button" class="delete" onclick="deleteAnswer(${answer.id})">삭제</button>
+                                    </div>
+                                    ` : ''}
                                 </div>
-                                ${username === answer.author ? `
-                                <button type="button" class="edit" onclick="editAnswer(${answer.id})">수정</button>
-                                <button type="button" class="delete" onclick="deleteAnswer(${answer.id})">삭제</button>
-                                ` : ''}
                             `;
                             answerSection.appendChild(div);
                         });
