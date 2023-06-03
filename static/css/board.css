@@ -2,7 +2,7 @@ body {
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f5f8fa;  
+    background-color: #f5f8fa;
 }
 
 button {
@@ -11,8 +11,13 @@ button {
     border-radius: 5px; 
     border: none;
     outline: none;
-    color: #41b2e3;
     cursor: pointer;
+    color: white;
+    background-color: #41b2e3; /* 기본 버튼 색상 */
+}
+
+button:hover {
+    background-color: #2d8eb6; /* 버튼 호버 색상 */
 }
 
 button.view {
@@ -27,21 +32,16 @@ button.delete {
     background-color: #e7808a;
 }
 
-.form {
-    position: relative;
-}
-
 button.submit {
     padding: 10px;
     font-size: 16px;
     background-color: #007BFF;
-    color: white;
-    border-radius: 50%;  /* To make button circular */
+    border-radius: 50%; 
     transition: background-color 0.3s ease;
-    position: absolute; /* Position relative to parent form */
-    right: 10px;       /* Position at right-bottom */
+    position: fixed; /* Fix position to bottom-right */
+    right: 10px;
     bottom: 10px;
-    width: 40px;       /* Adjust width and height as needed */
+    width: 40px; 
     height: 40px;
 }
 
@@ -49,109 +49,17 @@ button.submit:hover {
     background-color: #0056b3;
 }
 
-.container {
-    max-width: 600px;  
-    margin: 20px auto;
-}
-
-#board, #question-detail-section {
-    padding: 20px;
-    background-color: #fff;
-    box-shadow: 0 0 5px rgba(0,0,0,0.05); 
-}
-
-#new-question-form, #edit-question-form, #new-answer-form {
-    display: grid;
-    grid-template-rows: 1fr 2fr;
-    gap: 1px solid black; /* 가느다란 선을 추가합니다. */
-    background-color: #fff;
-    border: 1px solid #ccc;
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
-
-
-input, textarea {
-    width: 100%;
-    padding: 10px;
-    margin: 5px 0;
-    border: none;
-    background: transparent;
-    border-bottom: 1px solid #ddd;
-}
-
-.no-border input,
-.no-border textarea {
-    border: none;
-}
-
-#new-question-form input, #edit-question-form input {
-    grid-row: 1;
-}
-
-#new-question-form textarea, #edit-question-form textarea {
-    grid-row: 2;
-    resize: none; /* 사용자가 크기를 조절할 수 없게 합니다. */
-}
-
-#new-question-form input, #new-question-form textarea, 
-#edit-question-form input, #edit-question-form textarea, 
-#new-answer-form textarea {
-    padding: 10px;
-    font-size: 16px;
-    border-radius: 20px; 
-    border: 1px solid #e6ecf0; 
-    outline: none; 
-}
-
-#new-question-form button, #edit-question-form button, #new-answer-form button {
-    background-color: #1da1f2; 
-    border: none;
-    color: white;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    border-radius: 20px; 
-}
-
-#new-question-form button:hover, #edit-question-form button:hover, #new-answer-form button:hover {
-    background-color: #0c84d2; 
-}
-
-#new-question-form button:active, #edit-question-form button:active, #new-answer-form button:active {
-    background-color: #0576b9; 
-}
-
-#board .question, #question-detail, #answer-section {
-    border: 1px solid #e6ecf0; 
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 10px;
-    box-shadow: 0 0 5px rgba(0,0,0,0.05); 
-}
-
-.question-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-}
-
+/* 게시글 구분 */
 .question-title {
-    font-size: 1.5em; 
+    font-size: 1.8em; /* Make title bigger */
     font-weight: bold;
+    color: #333;
 }
 
 .question-author {
-    font-size: 0.9em; 
+    font-size: 1em; 
     color: #657786;
-    font-weight: bold;
-}
-
-#answer-section {
-    margin-top: 1rem;
+    font-weight: normal; /* Make author font normal */
 }
 
 #answers .answer, .separate-answer {
@@ -163,6 +71,7 @@ input, textarea {
     box-shadow: 0 0 5px rgba(0,0,0,0.05);
 }
 
+/* Modal CSS 수정 */
 .modal {
     display: none; 
     position: fixed; 
@@ -177,22 +86,8 @@ input, textarea {
 
 .modal-content {
     background-color: #fefefe;
-    margin: 15% auto; 
+    margin: 5% auto;  /* Modal 위치 수정 */
     padding: 20px;
     border: 1px solid #888;
-    width: 80%; 
-}
-
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
+    width: 80%;
 }
