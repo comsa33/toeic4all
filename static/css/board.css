@@ -67,8 +67,8 @@ button:disabled {
 
 .input-group input, .input-group textarea {
     flex-grow: 1;
-    margin-right: 10px;
-    margin-bottom: 10px;
+    margin-right: 0px;
+    margin-bottom: 5px;
     resize: none;
     width: 80%;
     box-sizing: border-box;
