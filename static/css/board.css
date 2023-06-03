@@ -59,6 +59,28 @@ button.submit:hover {
     box-shadow: 0 0 5px rgba(0,0,0,0.05);
 }
 
+.question-header {
+    display: flex;
+    align-items: start;
+}
+
+.question-author {
+    width: 150px;
+    margin-right: 20px;
+}
+
+.question-title {
+    font-weight: bold;
+}
+
+hr {
+    border: 0;
+    height: 1px;
+    background: #333;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
 /* Modal CSS 수정 */
 .modal {
     display: none; 
