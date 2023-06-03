@@ -78,6 +78,10 @@ button:disabled {
     height: 5em;
 }
 
+#new-question-content textarea, #edit-question-content {
+    height: 12.5em;
+}
+
 #new-answer {
     width: 80%;
     height: 5em;
