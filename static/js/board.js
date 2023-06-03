@@ -44,12 +44,6 @@ function getQuestions() {
             }
             board.innerHTML = '';
 
-            const answerSection = document.getElementById('answers');
-            if (answerSection) {
-                answerSection.innerHTML = '';
-                document.getElementById('answers-section').style.display = 'none';
-            }
-
             data.forEach(question => {
                 const div = document.createElement('div');
                 div.className = 'question';
@@ -65,20 +59,6 @@ function getQuestions() {
                     <button type="button" onclick="getQuestion(${question.id})">자세히 보기</button>
                 `;
                 board.appendChild(div);
-
-                if (question.answers) {
-                    question.answers.forEach(answer => {
-                        const answerDiv = document.createElement('div');
-                        answerDiv.className = 'answer separate-answer';
-                        answerDiv.innerHTML = `
-                            <div class="question-header">
-                                <div class="question-author">${answer.author}</div>
-                                <p>${answer.content}</p>
-                            </div>
-                        `;
-                        board.appendChild(answerDiv);
-                    });
-                }
             });
         });
 }
@@ -104,6 +84,7 @@ function getQuestion(id) {
             `;
             currentQuestionId = id;
             document.getElementById('answers-section').style.display = 'block';
+
             fetch(apiEndpoint + 'board_questions/' + id + '/answers')
                 .then(response => response.json())
                 .then(answers => {
@@ -219,8 +200,9 @@ function deleteQuestion(id) {
     });
 }
 
-function createAnswer() {
+const createAnswer = (questionId) => {
     const content = document.getElementById('new-answer').value;
+    const username = "Your username retrieval method here";
 
     if (!username) {
         alert('답변을 작성하려면 로그인이 필요합니다!');
@@ -232,7 +214,7 @@ function createAnswer() {
         return;
     }
 
-    fetchWithToken(apiEndpoint + 'board_questions/' + currentQuestionId + '/answers', {
+    fetch('/api/questions/' + questionId + '/answers', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -249,10 +231,12 @@ function createAnswer() {
         return response.json();
     })
     .then(data => {
-        getQuestion(currentQuestionId);
+        console.log('Answer created:', data);
+        // The page should be reloaded to display the new answer
+        location.reload();
     })
     .catch(error => {
-        alert(error.error);
+        console.error('There has been a problem with your fetch operation:', error);
     });
 
     document.getElementById('new-answer').value = "";

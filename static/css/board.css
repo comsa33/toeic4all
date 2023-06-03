@@ -1,129 +1,117 @@
 body {
-    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-    margin: 0;
-    padding: 0;
     background-color: #f5f8fa;
+    color: #14171a;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h2, h3, h4 {
+    color: #14171a;
+}
+
+input, textarea, button {
+    border: none;
+    border-radius: 20px;
+    padding: 10px;
+    outline: none;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+input::placeholder, textarea::placeholder {
+    color: #657786;
 }
 
 button {
-    padding: 8px 12px;
-    font-size: 14px;
-    border-radius: 5px; 
-    border: none;
-    outline: none;
-    cursor: pointer;
+    background-color: #1da1f2;
     color: white;
-    background-color: #41b2e3; /* 기본 버튼 색상 */
+    cursor: pointer;
 }
 
-button:hover {
-    background-color: #2d8eb6; /* 버튼 호버 색상 */
+button:disabled {
+    background-color: #aac9f1;
 }
 
-button.submit {
-    padding: 10px;
-    font-size: 16px;
-    background-color: #007BFF;
-    border-radius: 50%; 
-    transition: background-color 0.3s ease;
-    position: fixed; /* Fix position to bottom-right */
-    right: 10px;
-    bottom: 10px;
-    width: 40px; 
-    height: 40px;
+.button-group {
+    display: flex;
+    justify-content: flex-end;
 }
 
-button.submit:hover {
-    background-color: #0056b3;
+.no-border {
+    border: none;
+    box-shadow: none;
 }
 
-/* 게시글 구분 */
-.question-title {
-    font-size: 1.8em; /* Make title bigger */
-    font-weight: bold;
-    color: #333;
+.form {
+    margin-bottom: 20px;
 }
 
-.question-author {
-    font-size: 1em; 
-    color: #657786;
-    font-weight: normal; /* Make author font normal */
+.input-group {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
 }
 
-#answers .answer, .separate-answer {
-    border: 1px solid #e6ecf0;
-    padding: 10px;
-    margin: 10px 0;
-    background-color: #f9f9f9;
-    border-radius: 10px;
-    box-shadow: 0 0 5px rgba(0,0,0,0.05);
+.input-group input, .input-group textarea {
+    flex-grow: 1;
+    margin-right: 10px;
+}
+
+#new-question-title, #edit-question-title {
+    margin-bottom: 10px;
+}
+
+#new-question-content, #edit-question-content {
+    height: 200px;
+    resize: none;
+}
+
+#new-question-form .submit, #edit-question-form .submit {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+}
+
+.question, .answer {
+    padding: 20px;
+    background-color: white;
+    margin-bottom: 10px;
+    border-radius: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+hr {
+    border: none;
+    height: 1px;
+    background-color: #e1e8ed;
+    margin-bottom: 20px;
 }
 
 .question-header {
     display: flex;
-    align-items: start;
+    justify-content: space-between;
+    margin-bottom: 10px;
 }
 
 .question-author {
-    width: 150px;
-    margin-right: 20px;
-}
-
-.question-title {
     font-weight: bold;
+    color: #1da1f2;
 }
 
-hr {
-    border: 0;
-    height: 1px;
-    background: #333;
-    margin-top: 15px;
-    margin-bottom: 15px;
+.separate-answer {
+    margin-top: 10px;
+    margin-bottom: 20px;
 }
 
-/* Form layout */
-#new-question-form {
-    display: flex;
-    flex-direction: column; /* Puts title above content */
-    align-items: stretch; /* Makes title and content the same width */
-}
-
-/* Title input style */
-#new-question-title {
-    margin-bottom: 10px; /* Adds space between title and content */
-}
-
-/* Content textarea style */
-#new-question-content {
-    height: 200px; /* Fixed height */
-    resize: none; /* Disables resizing */
-    position: relative; /* Enables absolute positioning for children */
-}
-
-/* Submit button style */
-#new-question-form .submit {
-    position: absolute;
-    right: 10px;
-    bottom: 10px;
-}
-
-/* Modal CSS 수정 */
-.modal {
-    display: none; 
-    position: fixed; 
-    z-index: 1; 
-    left: 0;
-    top: 0;
-    width: 100%; 
-    height: 100%; 
-    overflow: auto; 
-    background-color: rgba(0,0,0,0.4);
-}
-
-.modal-content {
-    background-color: #fefefe;
-    margin: 5% auto;  /* Modal 위치 수정 */
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
+.edit, .delete {
+    margin-right: 10px;
+    background-color: white;
+    color: #1da1f2;
+    box-shadow: none;
+    font-size: 0.8em;
 }
