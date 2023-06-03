@@ -43,12 +43,15 @@ function getQuestions() {
                 return;
             }
             board.innerHTML = '';
+            closeModals();
+
+            // Hide answers section
+            document.getElementById('answers-section').style.display = 'none';
 
             data.forEach(question => {
                 const div = document.createElement('div');
                 div.className = 'question';
                 div.innerHTML = `
-                <hr>
                     <div class="question-header">
                         <div class="question-author">${question.author}</div>
                         <div>
@@ -77,7 +80,7 @@ function getQuestion(id) {
                     </div>
                 </div>
                 ${username === data.author ? `
-                <button type="button" class="edit" onclick="editQuestion(${id})">수정</button>
+                <button type="button" class="edit" onclick="openEditQuestionModal(${id})">수정</button>
                 <button type="button" class="delete" onclick="deleteQuestion(${id})">삭제</button>
                 ` : ''}
                 <button type="button" onclick="getQuestions()">목록으로 돌아가기</button>
@@ -346,3 +349,37 @@ document.addEventListener('DOMContentLoaded', function() {
         createAnswerButton.addEventListener('click', createAnswer);
     }
 });
+
+function openEditQuestionModal(id) {
+    const apiEndpoint = "/api/board/";
+
+    fetch(apiEndpoint + 'board_questions/' + id)
+        .then(response => response.json())
+        .then(data => {
+            const editQuestionTitle = document.getElementById('edit-question-title');
+            if (editQuestionTitle) {
+                editQuestionTitle.value = data.title;
+            }
+            const editQuestionContent = document.getElementById('edit-question-content');
+            if (editQuestionContent) {
+                editQuestionContent.value = data.content;
+            }
+            const myModal = document.getElementById('myModal');
+            if (myModal) {
+                myModal.style.display = "block";
+            }
+            const editQuestionSubmit = document.getElementById('edit-question-submit');
+            if (editQuestionSubmit) {
+                editQuestionSubmit.onclick = function() {
+                    updateQuestion(id);
+                };
+            }
+        });
+}
+
+function closeModals() {
+    const myModal = document.getElementById('myModal');
+    if (myModal) {
+        myModal.style.display = "none";
+    }
+}
