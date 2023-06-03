@@ -12,7 +12,6 @@ body {
 
 h2, h3, h4 {
     color: #14171a;
-    text-align: left; /* 추가 */
 }
 
 input, textarea, button {
@@ -31,7 +30,6 @@ button {
     background-color: #1da1f2;
     color: white;
     cursor: pointer;
-    border-radius: 0; /* 추가 */
 }
 
 button:disabled {
@@ -62,7 +60,6 @@ button:disabled {
 .input-group input, .input-group textarea {
     flex-grow: 1;
     margin-right: 10px;
-    text-align: left; /* 추가 */
 }
 
 #new-question-title, #edit-question-title {
@@ -110,7 +107,6 @@ button:disabled {
     color: #1da1f2;
     box-shadow: none;
     font-size: 0.8em;
-    border-radius: 0; /* 추가 */
 }
 
 .modal {
