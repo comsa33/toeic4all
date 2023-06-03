@@ -81,6 +81,32 @@ hr {
     margin-bottom: 15px;
 }
 
+/* Form layout */
+#new-question-form {
+    display: flex;
+    flex-direction: column; /* Puts title above content */
+    align-items: stretch; /* Makes title and content the same width */
+}
+
+/* Title input style */
+#new-question-title {
+    margin-bottom: 10px; /* Adds space between title and content */
+}
+
+/* Content textarea style */
+#new-question-content {
+    height: 200px; /* Fixed height */
+    resize: none; /* Disables resizing */
+    position: relative; /* Enables absolute positioning for children */
+}
+
+/* Submit button style */
+#new-question-form .submit {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+}
+
 /* Modal CSS 수정 */
 .modal {
     display: none; 
