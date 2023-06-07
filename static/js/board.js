@@ -219,7 +219,7 @@ const createAnswer = (questionId) => {
         return;
     }
 
-    fetch('/api/questions/' + questionId + '/answers', {
+    fetch('/api/board_questions/' + questionId + '/answers', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
