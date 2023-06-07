@@ -219,7 +219,7 @@ const createAnswer = (questionId) => {
         return;
     }
 
-    fetch('/api/board_questions/' + questionId + '/answers', {
+    fetch(apiEndpoint + 'board_questions/' + questionId + '/answers', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -248,8 +248,6 @@ const createAnswer = (questionId) => {
 }
 
 function editQuestion(id) {
-    const apiEndpoint = "/api/board/";
-
     fetch(apiEndpoint + 'board_questions/' + id)
         .then(response => response.json())
         .then(data => {
