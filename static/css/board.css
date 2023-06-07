@@ -39,6 +39,9 @@ button:disabled {
 .button-group {
     display: flex;
     justify-content: flex-end;
+    width: 80%;
+    margin: 0 auto;
+    margin-bottom: 20px;
 }
 
 .no-border {
