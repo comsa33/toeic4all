@@ -207,7 +207,7 @@ function deleteQuestion(id) {
 
 const createAnswer = (questionId) => {
     const content = document.getElementById('new-answer').value;
-    const username = "Your username retrieval method here";
+    const username = localStorage.getItem('username');
 
     if (!username) {
         alert('답변을 작성하려면 로그인이 필요합니다!');
