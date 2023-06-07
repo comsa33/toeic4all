@@ -18,6 +18,7 @@ $(document).ready(function() {
             error: function() {
                 console.log('Not logged in');
                 $('#nav-logout').hide();
+                $('#nav-user').hide();
                 $('#nav-login').show();
                 // $('#nav-signup').show();
             }
@@ -25,6 +26,7 @@ $(document).ready(function() {
     } else {
         console.log('Not logged in');
         $('#nav-logout').hide();
+        $('#nav-user').hide();
         $('#nav-login').show();
         // $('#nav-signup').show();
     }
