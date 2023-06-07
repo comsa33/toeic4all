@@ -237,8 +237,8 @@ const createAnswer = (questionId) => {
     })
     .then(data => {
         console.log('Answer created:', data);
-        // The page should be reloaded to display the new answer
-        location.reload();
+        // The question should be refreshed to display the new answer
+        getQuestion(currentQuestionId);
     })
     .catch(error => {
         console.error('There has been a problem with your fetch operation:', error);
