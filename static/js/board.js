@@ -3,26 +3,29 @@ let username = null;
 const apiEndpoint = "/api/board/";
 
 function getUsername() {
-    const apiEndpoint = "https://toeic4all.com/user/status";
-    const jwtToken = localStorage.getItem('access_token');
+    return new Promise((resolve, reject) => {
+        const apiEndpoint = "https://toeic4all.com/user/status";
+        const jwtToken = localStorage.getItem('access_token');
 
-    if (!jwtToken) {
-        alert('로그인이 필요합니다!');
-        return;
-    }
+        if (!jwtToken) {
+            reject('로그인이 필요합니다!');
+            return;
+        }
 
-    fetchWithToken(apiEndpoint)
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === 'logged_in') {
-                username = data.username;
-            } else {
-                alert('로그인이 필요합니다!');
-            }
-        })
-        .catch(error => {
-            alert('사용자 정보를 불러오는데 실패하였습니다.');
-        });
+        fetchWithToken(apiEndpoint)
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'logged_in') {
+                    username = data.username;
+                    resolve(username);
+                } else {
+                    reject('로그인이 필요합니다!');
+                }
+            })
+            .catch(error => {
+                reject('사용자 정보를 불러오는데 실패하였습니다.');
+            });
+    });
 }
 
 function fetchWithToken(url, options = {}) {
@@ -207,44 +210,47 @@ function deleteQuestion(id) {
 
 const createAnswer = (questionId) => {
     const content = document.getElementById('new-answer').value;
-    const username = localStorage.getItem('username');
-
-    if (!username) {
-        alert('답변을 작성하려면 로그인이 필요합니다!');
-        return;
-    }
 
     if (!content) {
         alert('모든 필드를 채워주세요!');
         return;
     }
 
-    fetch(apiEndpoint + 'board_questions/' + questionId + '/answers', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            content: content,
-            author: username
-        })
-    })
-    .then(response => {
-        if (!response.ok) {
-            return response.json().then(err => {throw err;});
+    getUsername().then(username => {
+        if (!username) {
+            alert('답변을 작성하려면 로그인이 필요합니다!');
+            return;
         }
-        return response.json();
-    })
-    .then(data => {
-        console.log('Answer created:', data);
-        // The question should be refreshed to display the new answer
-        getQuestion(currentQuestionId);
-    })
-    .catch(error => {
-        console.error('There has been a problem with your fetch operation:', error);
-    });
 
-    document.getElementById('new-answer').value = "";
+        fetch(apiEndpoint + 'board_questions/' + questionId + '/answers', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                content: content,
+                author: username
+            })
+        })
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(err => {throw err;});
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Answer created:', data);
+            // The question should be refreshed to display the new answer
+            getQuestion(currentQuestionId);
+        })
+        .catch(error => {
+            console.error('There has been a problem with your fetch operation:', error);
+        });
+
+        document.getElementById('new-answer').value = "";
+    }).catch(error => {
+        alert(error);
+    });
 }
 
 function editQuestion(id) {
