@@ -101,8 +101,13 @@ button:disabled {
     height: 200px;
 }
 
-#new-question-form .submit, #edit-question-form .submit {
+#edit-question-form .submit {
     position: absolute;
+    right: 20px;
+    bottom: 20px;
+}
+
+#new-question-form .submit {
     right: 20px;
     bottom: 20px;
 }
