@@ -353,7 +353,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const createAnswerButton = document.getElementById('create-answer-button');
     if (createAnswerButton) {
-        createAnswerButton.addEventListener('click', () => createAnswer(currentQuestionId));
+        createAnswerButton.addEventListener('click', createAnswer);
     }
 
     // New code to auto-resize textarea elements
