@@ -216,41 +216,36 @@ const createAnswer = (questionId) => {
         return;
     }
 
-    getUsername().then(username => {
-        if (!username) {
-            alert('답변을 작성하려면 로그인이 필요합니다!');
-            return;
+    if (!username) {
+        alert('답변을 작성하려면 로그인이 필요합니다!');
+        return;
+    }
+
+    fetchWithToken(apiEndpoint + 'board_questions/' + questionId + '/answers', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            content: content,
+        })
+    })
+    .then(response => {
+        if (!response.ok) {
+            return response.json().then(err => {throw err;});
         }
-
-        fetch(apiEndpoint + 'board_questions/' + questionId + '/answers', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                content: content,
-                author: username
-            })
-        })
-        .then(response => {
-            if (!response.ok) {
-                return response.json().then(err => {throw err;});
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log('Answer created:', data);
-            // The question should be refreshed to display the new answer
-            getQuestion(currentQuestionId);
-        })
-        .catch(error => {
-            console.error('There has been a problem with your fetch operation:', error);
-        });
-
-        document.getElementById('new-answer').value = "";
-    }).catch(error => {
-        alert(error);
+        return response.json();
+    })
+    .then(data => {
+        console.log('Answer created:', data);
+        // The question should be refreshed to display the new answer
+        getQuestion(currentQuestionId);
+    })
+    .catch(error => {
+        console.error('There has been a problem with your fetch operation:', error);
     });
+
+    document.getElementById('new-answer').value = "";
 }
 
 function editQuestion(id) {
