@@ -1,6 +1,15 @@
+:root {
+    --primary-color: #1da1f2;
+    --secondary-color: #14171a;
+    --placeholder-color: #657786;
+    --disabled-color: #aac9f1;
+    --background-color: #f5f8fa;
+    --box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
 body {
-    background-color: #f5f8fa;
-    color: #14171a;
+    background-color: var(--background-color);
+    color: var(--secondary-color);
     font-family: 'Helvetica Neue', Arial, sans-serif;
 }
 
@@ -11,29 +20,50 @@ body {
 }
 
 h2, h3, h4 {
-    color: #14171a;
+    color: var(--secondary-color);
 }
 
-input, textarea, button {
+input {
     border: none;
     border-radius: 20px;
     padding: 10px;
     outline: none;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--box-shadow);
+    resize: none;
+    width: 80%;
+    box-sizing: border-box;
 }
 
+textarea {
+    border: none;
+    border-radius: 20px;
+    padding: 10px;
+    outline: none;
+    box-shadow: var(--box-shadow);
+    resize: none;
+    width: 80%;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
+
 input::placeholder, textarea::placeholder {
-    color: #657786;
+    color: var(--placeholder-color);
 }
 
 button {
-    background-color: #1da1f2;
+    border: none;
+    border-radius: 20px;
+    padding: 10px;
+    outline: none;
+    background-color: var(--primary-color);
     color: white;
     cursor: pointer;
+    box-shadow: var(--box-shadow);
 }
 
 button:disabled {
-    background-color: #aac9f1;
+    background-color: var(--disabled-color);
 }
 
 .button-group {
@@ -57,14 +87,6 @@ button:disabled {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    margin-bottom: 10px;
-}
-
-.input-group {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     margin-bottom: 10px;
 }
 
@@ -72,9 +94,6 @@ button:disabled {
     flex-grow: 1;
     margin-right: 0px;
     margin-bottom: 5px;
-    resize: none;
-    width: 80%;
-    box-sizing: border-box;
 }
 
 .input-group textarea {
@@ -86,11 +105,7 @@ button:disabled {
 }
 
 #new-answer {
-    width: 80%;
     height: 5em;
-    resize: none;
-    box-sizing: border-box;
-    margin: 0 auto;
 }
 
 #new-question-title, #edit-question-title {
@@ -101,13 +116,8 @@ button:disabled {
     height: 200px;
 }
 
-#edit-question-form .submit {
+#edit-question-form .submit, #new-question-form .submit {
     position: absolute;
-    right: 20px;
-    bottom: 20px;
-}
-
-#new-question-form .submit {
     right: 20px;
     bottom: 20px;
 }
@@ -117,7 +127,7 @@ button:disabled {
     background-color: white;
     margin-bottom: 10px;
     border-radius: 20px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--box-shadow);
 }
 
 .question-header{
@@ -129,18 +139,8 @@ button:disabled {
 
 .question-author {
     font-weight: bold;
-    color: #1da1f2;
+    color: var(--primary-color);
     align-self: flex-start;
-}
-
-.answer {
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-    background-color: white;
-    margin-bottom: 10px;
-    border-radius: 20px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .answer-content {
@@ -161,7 +161,7 @@ button:disabled {
 .edit, .delete {
     margin-right: 10px;
     background-color: white;
-    color: #1da1f2;
+    color: var(--primary-color);
     box-shadow: none;
     font-size: 0.8em;
 }
