@@ -12,21 +12,21 @@ $(document).ready(function() {
                     $('#nav-logout').show();
                     $('#nav-user').html(data.username);
                     $('#nav-login').hide();
-                    $('#nav-signup').hide();
+                    // $('#nav-signup').hide();
                 } 
             },
             error: function() {
                 console.log('Not logged in');
                 $('#nav-logout').hide();
                 $('#nav-login').show();
-                $('#nav-signup').show();
+                // $('#nav-signup').show();
             }
         });
     } else {
         console.log('Not logged in');
         $('#nav-logout').hide();
         $('#nav-login').show();
-        $('#nav-signup').show();
+        // $('#nav-signup').show();
     }
 
     $('#nav-logout').click(function() {
