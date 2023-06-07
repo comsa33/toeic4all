@@ -55,6 +55,7 @@ function getQuestions() {
                 div.innerHTML = `
                     <div class="question-header">
                         <div class="question-author">${question.author}</div>
+                        <div class="question-date">${new Date(question.created_at).toLocaleString()}</div>
                         <div>
                             <h3 class="question-title">${question.title}</h3>
                             <p>${question.content}</p>
@@ -75,6 +76,7 @@ function getQuestion(id) {
             board.innerHTML = `
                 <div class="question-header">
                     <div class="question-author">${data.author}</div>
+                    <div class="question-date">${new Date(question.created_at).toLocaleString()}</div>
                     <div>
                         <h3 class="question-title">${data.title}</h3>
                         <p>${data.content}</p>
@@ -102,6 +104,7 @@ function getQuestion(id) {
                                 <div class="answer-content">
                                     <div class="question-header">
                                         <div class="question-author">${answer.author}</div>
+                                        <div class="question-date">${new Date(answer.created_at).toLocaleString()}</div>
                                         <p>${answer.content}</p>
                                     </div>
                                     ${username === answer.author ? `

@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from .. import db
 
 
@@ -8,14 +10,17 @@ class BoardQuestion(db.Model):
     title = db.Column(db.String)
     content = db.Column(db.String)
     author = db.Column(db.String)
-    answers = db.relationship('BoardAnswer', lazy=True)  # backref removed here
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)  # New line
+    answers = db.relationship('BoardAnswer', lazy=True)
 
+    # Include 'created_at' in to_dict
     def to_dict(self):
         data = {
             'id': self.id,
             'title': self.title,
             'content': self.content,
             'author': self.author,
+            'created_at': self.created_at.isoformat(),  # New line
             'answers': [answer.to_dict() for answer in self.answers],
             'answerCount': BoardAnswer.query.filter_by(question_id=self.id).count()
         }
@@ -28,13 +33,16 @@ class BoardAnswer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String)
     author = db.Column(db.String)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)  # New line
     question_id = db.Column(db.Integer, db.ForeignKey('board_questions.id'), nullable=False)
 
+    # Include 'created_at' in to_dict
     def to_dict(self):
         data = {
             'id': self.id,
             'content': self.content,
             'author': self.author,
+            'created_at': self.created_at.isoformat(),  # New line
             'question_id': self.question_id
         }
         return data
