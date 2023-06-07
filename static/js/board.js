@@ -76,7 +76,7 @@ function getQuestion(id) {
             board.innerHTML = `
                 <div class="question-header">
                     <div class="question-author">${data.author}</div>
-                    <div class="question-date">${new Date(question.created_at).toLocaleString()}</div>
+                    <div class="question-date">${new Date(data.created_at).toLocaleString()}</div>
                     <div>
                         <h3 class="question-title">${data.title}</h3>
                         <p>${data.content}</p>
