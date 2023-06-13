@@ -124,6 +124,16 @@ button:disabled {
     height: 5em;
 }
 
+#new-question-title {
+    border-bottom: 1px solid #ccc; /* 아주 얇은 회색의 구분선 */
+}
+
+#new-question-form {
+    border: 2px solid #888; /* 진한 회색의 얇은 선 */
+    padding: 10px; /* padding을 추가해서 내용과 테두리 사이에 공간을 만듭니다 */
+    border-radius: 10px; /* 테두리를 둥글게 만듭니다. 필요에 따라 조정하세요 */
+}
+
 #new-question-title, #edit-question-title {
     margin-bottom: 10px;
 }
