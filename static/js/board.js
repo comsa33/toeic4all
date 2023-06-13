@@ -67,7 +67,7 @@ function getQuestions(page = 1) {
                             <p>${contentWithBreaks}</p>
                         </div>
                     </div>
-                    <button type="button" class="button-text" onclick="getQuestion(${question.id}, 1)">답변확인</button>
+                    <button type="button" class="button-text" onclick="getQuestion(${question.id}, 1)">답변확인 (${question.answerCount})</button>
                 `;
                 board.appendChild(div);
             });
