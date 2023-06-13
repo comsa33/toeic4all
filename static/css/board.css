@@ -127,13 +127,15 @@ button:disabled {
 }
 
 #new-answer-form {
-    border: 1.5px solid #777; 
+    border: none;
     padding: 10px;
 }
 
 #new-answer {
     height: 5em;
-    border-bottom: 0.5px solid #d3d3d3;
+    border-bottom: none;
+    border-radius: 5px;
+    background-color: rgba(43, 43, 43, 0.05);
 }
 
 #new-question-title {
