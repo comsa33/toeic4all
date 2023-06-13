@@ -30,7 +30,7 @@ input {
     outline: none;
     box-shadow: var(--box-shadow);
     resize: none;
-    /* width: 80%; */
+    width: 100%;
     box-sizing: border-box;
 }
 
@@ -41,7 +41,7 @@ textarea {
     outline: none;
     box-shadow: var(--box-shadow);
     resize: none;
-    /* width: 80%; */
+    width: 100%;
     box-sizing: border-box;
     overflow-y: auto;
 }
@@ -84,7 +84,7 @@ button:disabled {
 }
 
 .input-group {
-    display: flex;
+    /* display: flex; */
     flex-direction: column;
     align-items: flex-start;
     margin-bottom: 10px;
