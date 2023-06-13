@@ -140,9 +140,9 @@ nav #nav-links-left {
     align-items: flex-start;
     justify-content: space-between;
     position: fixed;  /* 사이드바를 고정 */
-    top: 0;
+    top: 10px;
     left: 0;
-    width: 75%;
+    width: 60%;
     height: 100vh;
     background-color: #333333d0;
     padding: 1rem;
