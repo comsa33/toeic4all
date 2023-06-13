@@ -61,7 +61,7 @@ function getQuestions() {
                             <p>${question.content}</p>
                         </div>
                     </div>
-                    <button type="button" onclick="getQuestion(${question.id})">자세히 보기</button>
+                    <button type="button" class"button-text" onclick="getQuestion(${question.id})">답변확인</button>
                 `;
                 board.appendChild(div);
             });
