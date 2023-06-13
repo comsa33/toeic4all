@@ -5,6 +5,18 @@ body {
     background-color: #f3f3f3;
 }
 
+@media (max-width: 600px) {
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    nav ul li {
+        margin: 10px 0; /* 위 아래 간격을 조절합니다. */
+        font-size: 0.8em; /* 글자 크기를 줄입니다. */
+    }
+}
+
 nav {
     background-color: #333;
     color: #fff;
