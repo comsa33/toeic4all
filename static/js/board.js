@@ -91,7 +91,7 @@ function getQuestions() {
 let currentAnswerPage = 1;
 const answersPerPage = 10;
 
-function getQuestion(id) {
+function getQuestion(id, answerPage = 1) {
     fetch(apiEndpoint + 'board_questions/' + id)
         .then(response => response.json())
         .then(data => {
