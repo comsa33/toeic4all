@@ -101,7 +101,7 @@ function getQuestion(id) {
                         answerSection.innerHTML = '';
                         answers.forEach(answer => {
                             const div = document.createElement('div');
-                            div.className = 'answer separate-answer';
+                            div.className = 'answer';
                             div.innerHTML = `
                                 <div class="answer-content">
                                     <div class="question-header">
