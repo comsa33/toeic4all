@@ -21,29 +21,29 @@ $(document).ready(function() {
                 console.log(data);
                 if (data.status == 'logged_in') {
                     console.log('Logged in');
-                    $('#nav-logout').show();
-                    $('#nav-user').html(data.username + ' 님');
-                    $('#nav-login').hide();
-                    // $('#nav-signup').hide();
+                    $('#nav-logout, #mobile-nav-logout').show();
+                    $('#nav-user, #mobile-nav-user').html(data.username + ' 님');
+                    $('#nav-login, #mobile-nav-login').hide();
+                    // $('#nav-signup, #mobile-nav-signup').hide();
                 } 
             },
             error: function() {
                 console.log('Not logged in');
-                $('#nav-logout').hide();
-                $('#nav-user').hide();
-                $('#nav-login').show();
-                // $('#nav-signup').show();
+                $('#nav-logout, #mobile-nav-logout').hide();
+                $('#nav-user, #mobile-nav-user').hide();
+                $('#nav-login, #mobile-nav-login').show();
+                // $('#nav-signup, #mobile-nav-signup').show();
             }
         });
     } else {
         console.log('Not logged in');
-        $('#nav-logout').hide();
-        $('#nav-user').hide();
-        $('#nav-login').show();
-        // $('#nav-signup').show();
+        $('#nav-logout, #mobile-nav-logout').hide();
+        $('#nav-user, #mobile-nav-user').hide();
+        $('#nav-login, #mobile-nav-login').show();
+        // $('#nav-signup, #mobile-nav-signup').show();
     }
 
-    $('#nav-logout').click(function() {
+    $('#nav-logout, #mobile-nav-logout').click(function() {
         // 로컬 저장소에서 토큰을 삭제하고 페이지를 새로 고침합니다.
         localStorage.removeItem('access_token');
         location.reload();
