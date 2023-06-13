@@ -102,8 +102,9 @@ nav ul .active a {
 }
 
 #nav-user {
-    font-size: 60%;
+    font-size: 75%;
     font-weight: bold;
+    color: #9c9b9b;
 }
 
 nav #nav-center {
