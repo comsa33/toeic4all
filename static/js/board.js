@@ -244,7 +244,7 @@ function updateQuestion(id) {
     })
     .then(response => {
         if (response.ok) {
-            getQuestions();
+            getQuestion(id, currentAnswerPage)
             document.getElementById('myModal').style.display = "none";
         } else {
             alert('질문 수정 실패!');
