@@ -130,6 +130,10 @@ function getQuestion(id, answerPage = 1) {
             currentQuestionId = id;
             currentAnswerPage = answerPage;
             document.getElementById('answers-section').style.display = 'block';
+            
+            // Add answer count to the title
+            const answersTitle = document.querySelector("#answers-section h4");
+            answersTitle.textContent = `게시물 답변 (${data.answerCount})`;
 
             fetch(`${apiEndpoint}board_questions/${id}/answers?page=${currentAnswerPage}&per_page=${answersPerPage}`)
                 .then(response => response.json())
