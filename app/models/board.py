@@ -20,7 +20,7 @@ class BoardQuestion(db.Model):
             'title': self.title,
             'content': self.content,
             'author': self.author,
-            'created_at': self.created_at.isoformat(),  # New line
+            'created_at': self.created_at.strftime("%Y-%m-%dT%H:%M:%S.%fZ"),  # Change this line
             'answers': [answer.to_dict() for answer in self.answers],
             'answerCount': BoardAnswer.query.filter_by(question_id=self.id).count()
         }
@@ -42,7 +42,7 @@ class BoardAnswer(db.Model):
             'id': self.id,
             'content': self.content,
             'author': self.author,
-            'created_at': self.created_at.isoformat(),  # New line
+            'created_at': self.created_at.strftime("%Y-%m-%dT%H:%M:%S.%fZ"),  # Change this line
             'question_id': self.question_id
         }
         return data
