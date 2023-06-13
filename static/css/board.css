@@ -193,6 +193,7 @@ button:disabled {
 .button-container {
     display: flex;
     margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .separate-answer {
