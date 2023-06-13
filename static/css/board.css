@@ -108,10 +108,12 @@ button:disabled {
 }
 
 .input-group input, .input-group textarea {
+    -webkit-appearance: none;  /* This line disables the default Safari styling */
     flex-grow: 1;
     margin-bottom: 5px;
     margin-top: 5px;
     margin-left: auto;
+    border-radius: 0px;
 }
 
 .input-group textarea {
