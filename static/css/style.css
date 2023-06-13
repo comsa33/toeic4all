@@ -1,22 +1,13 @@
-:root {
-    --primary-color: #333;
-    --secondary-color: #fff;
-    --placeholder-color: #657786;
-    --disabled-color: #aac9f1;
-    --background-color: #f3f3f3;
-    --box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
 body {
     font-family: Pretendard, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: var(--background-color);
+    background-color: #f3f3f3;
 }
 
 nav {
-    background-color: var(--primary-color);
-    color: var(--secondary-color);
+    background-color: #333;
+    color: #fff;
     padding: 20px 50px;
     display: flex;
     justify-content: space-between;
@@ -25,11 +16,11 @@ nav {
 
 nav h2 {
     margin: 0;
-    color: var(--secondary-color);
+    color: #fff;
 }
 
 nav h2 a {
-    color: var(--secondary-color);
+    color: #fff;
     text-decoration: none;
 }
 
@@ -42,16 +33,16 @@ nav ul {
 }
 
 nav ul li {
-    color: var(--secondary-color);
+    color: #fff;
 }
 
 nav ul li a {
-    color: var(--secondary-color);
+    color: #fff;
     text-decoration: none;
 }
 
 nav ul li a:hover {
-    color: var(--placeholder-color);
+    color: #ddd;
 }
 
 nav ul .active a {
@@ -62,8 +53,8 @@ nav ul .active a {
     max-width: 900px;
     margin: 20px auto;
     padding: 20px;
-    background-color: var(--secondary-color);
-    box-shadow: var(--box-shadow);
+    background-color: #fff;
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
 }
 
 .dropdown {
@@ -82,9 +73,9 @@ nav ul .active a {
 }
 
 .button {
-    background-color: var(--primary-color); 
+    background-color: #4CAF50; 
     border: none;
-    color: var(--secondary-color);
+    color: white;
     padding: 10px 20px;
     text-align: center;
     text-decoration: none;
@@ -96,11 +87,11 @@ nav ul .active a {
 }
 
 .button:hover {
-    background-color: #292929;
+    background-color: #45a049;
 }
 
 .button:active {
-    background-color: #1a1a1a;
+    background-color: #3e8e41;
 }
 
 .button-container {
