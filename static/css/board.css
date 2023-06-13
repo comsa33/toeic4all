@@ -77,6 +77,7 @@ button:disabled {
     color: var(--primary-color);
     cursor: pointer;
     padding: 0;
+    box-shadow: none;
 }
 
 .no-border {
@@ -125,8 +126,14 @@ button:disabled {
     height: 12.5em;
 }
 
+#new-answer-form {
+    border: 1.5px solid #777; 
+    padding: 10px;
+}
+
 #new-answer {
     height: 5em;
+    border-bottom: 0.5px solid #d3d3d3;
 }
 
 #new-question-title {
