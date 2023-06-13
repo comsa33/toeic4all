@@ -89,6 +89,7 @@ function getQuestions(page = 1) {
                 ).join('')}
                 ${endPage < totalPage ? `<button onclick="getQuestions(${endPage + 1})">Next</button>` : ''}
             `;
+            pagination.style.display = 'block';
         });
 }
 
