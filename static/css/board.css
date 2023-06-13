@@ -72,12 +72,22 @@ button:disabled {
 }
 
 .button-text {
+    font-weight: bold;
     background-color: transparent;
     border: none;
     color: var(--primary-color);
     cursor: pointer;
     padding: 0;
     box-shadow: none;
+    transition: color 0.3s;
+}
+
+.button-text:hover {
+    color: #1a91da;
+}
+
+.button-text:active {
+    color: #0d5b8a;
 }
 
 .no-border {
@@ -247,6 +257,12 @@ button:disabled {
     color: var(--primary-color);
     box-shadow: none;
     font-size: 0.8em;
+    transition: color 0.3s, font-weight 0.3s;
+}
+
+.edit:hover, .delete:hover {
+    color: #1a91da;
+    font-weight: bold;
 }
 
 .modal {

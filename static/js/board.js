@@ -104,6 +104,7 @@ function getQuestion(id, answerPage = 1) {
             const board = document.getElementById('board');
             let contentWithBreaks = data.content.replace(/(?:\r\n|\r|\n)/g, '<br>');
             board.innerHTML = `
+                <button type="button" class="button-text" onclick="getQuestions()">전체목록보기</button>
                 <div class="question-box">
                     <div class="question-header">
                         <div class="question-author">${data.author}</div>
@@ -117,7 +118,6 @@ function getQuestion(id, answerPage = 1) {
                     <button type="button" class="edit" onclick="editQuestion(${id})">수정</button>
                     <button type="button" class="delete" onclick="deleteQuestion(${id})">삭제</button>
                     ` : ''}
-                    <button type="button" class="button-text" onclick="getQuestions()">전체목록보기</button>
                 </div>
             `;
 
