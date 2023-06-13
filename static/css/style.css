@@ -5,22 +5,42 @@ body {
     background-color: #f3f3f3;
 }
 
+/* 모바일 화면에서만 보여지는 햄버거 버튼 */
+#hamburger-btn {
+    display: none;
+}
+
+/* 사이드 네비게이션 바의 기본 스타일 */
+#side-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 75%; /* 화면의 75%를 차지 */
+    height: 100%;
+    background: #333;
+    padding: 20px;
+    box-sizing: border-box;
+    transition: transform 0.3s ease-in-out; /* 애니메이션 효과 */
+}
+
+/* 사이드 네비게이션 바가 숨겨져 있을 때의 스타일 */
+#side-nav.hidden {
+    transform: translateX(-100%);
+}
+
+/* 모바일 화면에서의 스타일 */
 @media (max-width: 600px) {
-    nav {
-        flex-direction: column;
+    /* 햄버거 버튼 보이기, 네비게이션 바 숨기기 */
+    #hamburger-btn {
+        display: block;
     }
-    #title {
-        order: 1; /* 제일 위로 이동 */
-    }
-    #nav-links-left {
-        order: 2; /* 그 다음으로 이동 */
-        align-self: flex-start; /* 좌측 정렬 */
-    }
+    
+    #nav-links-left,
     #nav-links-right {
-        order: 3; /* 마지막으로 이동 */
-        align-self: flex-end; /* 우측 정렬 */
+        display: none;
     }
 }
+
 
 nav {
     background-color: #333;

@@ -1,3 +1,15 @@
+// 햄버거 버튼과 사이드 네비게이션 바를 선택
+const hamburgerBtn = document.getElementById('hamburger-btn');
+const sideNav = document.getElementById('side-nav');
+
+// 햄버거 버튼을 누르면 사이드 네비게이션 바를 보여주거나 숨기는 함수
+function toggleNav() {
+    sideNav.classList.toggle('hidden');
+}
+
+// 햄버거 버튼에 클릭 이벤트 리스너 추가
+hamburgerBtn.addEventListener('click', toggleNav);
+
 // 로그인 상태 확인 및 네비게이션 바 업데이트
 $(document).ready(function() {
     var token = localStorage.getItem('access_token');
