@@ -21,11 +21,16 @@ body {
     padding: 20px;
     box-sizing: border-box;
     transition: transform 0.3s ease-in-out; /* 애니메이션 효과 */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    visibility: hidden;
 }
 
-/* 사이드 네비게이션 바가 숨겨져 있을 때의 스타일 */
-#side-nav.hidden {
-    transform: translateX(-100%);
+/* 사이드 네비게이션 바가 보이는 경우의 스타일 */
+#side-nav.visible {
+    transform: translateX(0);
+    visibility: visible;
 }
 
 /* 모바일 화면에서의 스타일 */
@@ -35,55 +40,27 @@ body {
         display: block;
     }
     
-    #nav-links-left,
-    #nav-links-right {
+    nav {
         display: none;
     }
-}
 
+    #side-nav {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 1rem;
+    }
 
-nav {
-    background-color: #333;
-    color: #fff;
-    padding: 20px 50px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
+    #side-nav ul {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        padding: 0;
+    }
 
-nav h2 {
-    margin: 0;
-    color: #fff;
-}
-
-nav h2 a {
-    color: #fff;
-    text-decoration: none;
-}
-
-nav ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    gap: 20px;
-}
-
-nav ul li {
-    color: #fff;
-}
-
-nav ul li a {
-    color: #fff;
-    text-decoration: none;
-}
-
-nav ul li a:hover {
-    color: #ddd;
-}
-
-nav ul .active a {
-    color: #ff6347;
+    #side-nav ul li {
+        padding: 1rem 0;
+    }
 }
 
 .content {
@@ -142,9 +119,4 @@ nav ul .active a {
     font-size: 75%;
     font-weight: bold;
     color: #9c9b9b;
-}
-
-nav #nav-links-left {
-    display: flex;
-    gap: 20px;
 }

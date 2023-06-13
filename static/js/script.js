@@ -4,7 +4,7 @@ const sideNav = document.getElementById('side-nav');
 
 // 햄버거 버튼을 누르면 사이드 네비게이션 바를 보여주거나 숨기는 함수
 function toggleNav() {
-    sideNav.classList.toggle('hidden');
+    sideNav.classList.toggle('visible');
 }
 
 // 햄버거 버튼에 클릭 이벤트 리스너 추가
