@@ -53,7 +53,7 @@ button {
     padding: 10px;
     outline: none;
     background-color: var(--primary-color);
-    color: transparent;
+    color: white;
     cursor: pointer;
     box-shadow: var(--box-shadow);
 }
@@ -138,6 +138,10 @@ button:disabled {
     padding: 20px;
     border-radius: 10px;
     background-color: #00000015;
+}
+
+#create-answer-button {
+    margin-left: 10px;
 }
 
 #new-question-content textarea, #edit-question-content {
