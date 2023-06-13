@@ -30,6 +30,7 @@ nav ul {
     margin: 0;
     padding: 0;
     display: flex;
+    flex-direction: row;
     gap: 20px;
 }
 
@@ -116,13 +117,11 @@ nav #nav-links-left {
 
 /* 햄버거 메뉴 및 모바일용 사이드 네비게이션 바 스타일 */
 #hamburger-btn {
-    display: none;
-    position: fixed;  /* 햄버거 버튼을 고정 */
+    position: fixed;
     top: 10px;
     right: 10px;
     z-index: 1001;  /* 사이드바보다 상위로 위치시킵니다 */
     color: #fff;  /* 버튼 색상을 흰색으로 변경 */
-    cursor: pointer;  /* 커서를 포인터로 변경 */
 }
 
 #side-nav {
