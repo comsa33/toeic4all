@@ -37,8 +37,11 @@ function fetchWithToken(url, options = {}) {
     return fetch(url, {...options, headers});
 }
 
+let currentPage = 1;  // 현재 페이지를 저장하는 전역 변수
+const perPage = 10;  // 한 페이지에 보여줄 게시글의 수
+
 function getQuestions() {
-    fetch(apiEndpoint + 'board_questions')
+    fetch(apiEndpoint + 'board_questions?page=' + currentPage + '&per_page=' + perPage)
         .then(response => response.json())
         .then(data => {
             document.getElementById('new-question-form').style.display = 'block';
@@ -50,7 +53,7 @@ function getQuestions() {
 
             document.getElementById('answers-section').style.display = 'none';
 
-            data.forEach(question => {
+            data.questions.forEach(question => {
                 let contentWithBreaks = question.content.replace(/(?:\r\n|\r|\n)/g, '<br>');
                 const div = document.createElement('div');
                 div.className = 'question';
@@ -67,6 +70,20 @@ function getQuestions() {
                 `;
                 board.appendChild(div);
             });
+
+            // 페이지네이션 업데이트
+            const totalPages = Math.ceil(data.total / perPage);
+            const pagination = document.getElementById('pagination');
+            pagination.innerHTML = '';
+            for (let i = 1; i <= totalPages; i++) {
+                const btn = document.createElement('button');
+                btn.innerText = i;
+                btn.onclick = function() {
+                    currentPage = i;
+                    getQuestions();
+                };
+                pagination.appendChild(btn);
+            }
         });
 }
 
