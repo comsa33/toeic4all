@@ -152,9 +152,9 @@ nav #nav-links-left {
 
 @media (max-width: 600px) {
     .welcome-title {
-        font-size: 80%;
+        font-size: 125%;
     }
-    
+
     #desktop-nav {
         display: none;
     }
