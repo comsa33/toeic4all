@@ -47,6 +47,7 @@ function getQuestions(page = 1) {
         .then(data => {
             document.getElementById('new-question-form').style.display = 'block';
             const board = document.getElementById('board');
+            board.className = 'board-wrapper';
             if (!board) {
                 return;
             }
@@ -102,6 +103,7 @@ function getQuestion(id, answerPage = 1) {
         .then(data => {
             document.getElementById('new-question-form').style.display = 'none';
             const board = document.getElementById('board');
+            board.className = 'detail-view';
             let contentWithBreaks = data.content.replace(/(?:\r\n|\r|\n)/g, '<br>');
             board.innerHTML = `
                 <button type="button" class="button-text" onclick="getQuestions()">﹤전체목록보기</button>

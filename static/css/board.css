@@ -140,6 +140,10 @@ button:disabled {
     background-color: #00000015;
 }
 
+.detail-view {
+    background-color: transparent;
+}
+
 #create-answer-button {
     margin-left: 10px;
 }
@@ -171,7 +175,8 @@ button:disabled {
 #new-question-form {
     padding: 10px;
     border-radius: 10px;
-    background-color: #0000000d;
+    background-color: #ffffff;
+    box-shadow: inset 0px 0px 10px rgba(0,0,0,0.25);
 }
 
 #edit-question-title {
@@ -179,7 +184,7 @@ button:disabled {
 }
 
 #new-question-content, #edit-question-content {
-    height: 200px;
+    height: 45px;
 }
 
 #new-question-form .submit {
