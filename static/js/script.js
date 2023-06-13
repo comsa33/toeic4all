@@ -97,27 +97,12 @@ function generateTest() {
 
 function displayTestResult(data) {
     var testResultDiv = document.getElementById('test-result');
-    testResultDiv.innerHTML = '<h2>' + 'AI 생성 결과</h2>' + data.questions;
+    testResultDiv.innerHTML = '<h2>' + 'AI 생성 결과</h2>';
 
-    // 해설지와 정답에 대한 div를 추가
     testResultDiv.innerHTML += `
-        <button id="answer-toggle">정답 및 해설 보기</button>
-        <div id="answer" style="display:none;">
-            ${data.answers}
-        </div>`;
-
-    // 클릭 이벤트 리스너를 버튼에 추가
-    document.getElementById('answer-toggle').addEventListener('click', function() {
-        var answerDiv = document.getElementById('answer');
-        if (answerDiv.style.display === 'none') {
-            answerDiv.style.display = 'block';
-        } else {
-            answerDiv.style.display = 'none';
-        }
-    });
-
-    setupHtmlDownloadButton('download-question-btn', data.questions, '문제집.html');
-    setupHtmlDownloadButton('download-answer-btn', data.answers + data.explanations, '해설지.html');
+        <button onclick="window.open('${data.data.questions}', '_blank')">문제집 보기</button>
+        <button onclick="window.open('${data.data.answers}', '_blank')">정답지 보기</button>
+        <button onclick="window.open('${data.data.explanations}', '_blank')">해설지 보기</button>`;
 }
 
 

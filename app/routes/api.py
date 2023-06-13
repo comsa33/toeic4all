@@ -1,10 +1,12 @@
 import random
 from datetime import datetime
 from collections import defaultdict
+import io
 
-from flask import render_template, abort
+from flask import render_template, abort, send_file
 from flask import Blueprint, jsonify, request
 from sqlalchemy import and_, func
+import pdfkit
 
 from app.models import GeneratedQuestionType, GeneratedQuestionSubType, GeneratedQuestion, GeneratedAnswer, GeneratedVocabulary
 from app import db
@@ -269,38 +271,76 @@ def generate_test():
     answers_html = render_template('answers.html', answers_left=answers_left, answers_right=answers_right, test_level=lv_mapping_kor[test_lv], creation_time=test_no)
     explanations_html = render_template('explanations.html', explanations_left=explanations_left, explanations_right=explanations_right, vocas_left=vocas_left, vocas_right=vocas_right)
 
+    # Convert to PDF
+    questions_pdf = pdfkit.from_string(questions_html, False)
+    answers_pdf = pdfkit.from_string(answers_html, False)
+    explanations_pdf = pdfkit.from_string(explanations_html, False)
+
     # Store test data
     tests[test_no] = {
-        'questions': questions_html,
-        'answers': answers_html,
-        'explanations': explanations_html,
+        'questions': questions_pdf,
+        'answers': answers_pdf,
+        'explanations': explanations_pdf,
     }
 
     return jsonify({
         "test_no": test_no,
         "test_level": test_lv,
         "data": {
-            "questions": questions_html,
-            "answers": answers_html,
-            "explanations": explanations_html
+            "questions": request.url_root + "test/questions/" + test_no,
+            "answers": request.url_root + "test/answers/" + test_no,
+            "explanations": request.url_root + "test/explanations/" + test_no
         }
     })
 
 
-@api.route('/download/<test_no>/<type>', methods=['GET'])
-def download_test(test_no, type):
-    # Check if test exists
-    if test_no not in tests:
-        return abort(404, description="Test not found.")
+@api.route('/test/questions/<test_no>', methods=['GET'])
+def get_test_questions(test_no):
+    # Assume tests[test_no] exists and contains 'questions' key
+    questions_pdf = tests[test_no]['questions']
 
-    # Check if type is valid
-    if type not in ['questions', 'answers', 'explanations']:
-        return abort(400, description="Invalid type.")
+    # Convert to a ByteIO stream
+    pdf_io = io.BytesIO(questions_pdf)
 
-    # Get test data
-    test_data = tests[test_no][type]
+    return send_file(pdf_io, mimetype='application/pdf', as_attachment=True, attachment_filename=f'questions_{test_no}.pdf')
 
-    # Create full HTML document
-    html = render_template('download.html', content=test_data)
 
-    return html
+@api.route('/test/answers/<test_no>', methods=['GET'])
+def get_test_answers(test_no):
+    # Assume tests[test_no] exists and contains 'answers' key
+    answers_pdf = tests[test_no]['answers']
+
+    # Convert to a ByteIO stream
+    pdf_io = io.BytesIO(answers_pdf)
+
+    return send_file(pdf_io, mimetype='application/pdf', as_attachment=True, attachment_filename=f'answers_{test_no}.pdf')
+
+
+@api.route('/test/explanations/<test_no>', methods=['GET'])
+def get_test_explanations(test_no):
+    # Assume tests[test_no] exists and contains 'explanations' key
+    explanations_pdf = tests[test_no]['explanations']
+
+    # Convert to a ByteIO stream
+    pdf_io = io.BytesIO(explanations_pdf)
+
+    return send_file(pdf_io, mimetype='application/pdf', as_attachment=True, attachment_filename=f'explanations_{test_no}.pdf')
+
+
+# @api.route('/download/<test_no>/<type>', methods=['GET'])
+# def download_test(test_no, type):
+#     # Check if test exists
+#     if test_no not in tests:
+#         return abort(404, description="Test not found.")
+
+#     # Check if type is valid
+#     if type not in ['questions', 'answers', 'explanations']:
+#         return abort(400, description="Invalid type.")
+
+#     # Get test data
+#     test_data = tests[test_no][type]
+
+#     # Create full HTML document
+#     html = render_template('download.html', content=test_data)
+
+#     return html
