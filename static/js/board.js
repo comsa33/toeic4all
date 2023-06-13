@@ -41,6 +41,7 @@ function getQuestions() {
     fetch(apiEndpoint + 'board_questions')
         .then(response => response.json())
         .then(data => {
+            document.getElementById('new-question-form').style.display = 'block';
             const board = document.getElementById('board');
             if (!board) {
                 return;
@@ -73,6 +74,7 @@ function getQuestion(id) {
     fetch(apiEndpoint + 'board_questions/' + id)
         .then(response => response.json())
         .then(data => {
+            document.getElementById('new-question-form').style.display = 'none';
             const board = document.getElementById('board');
             let contentWithBreaks = data.content.replace(/(?:\r\n|\r|\n)/g, '<br>');
             board.innerHTML = `
