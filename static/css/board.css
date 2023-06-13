@@ -30,7 +30,7 @@ input {
     outline: none;
     box-shadow: var(--box-shadow);
     resize: none;
-    width: 80%;
+    /* width: 80%; */
     box-sizing: border-box;
 }
 
@@ -41,7 +41,7 @@ textarea {
     outline: none;
     box-shadow: var(--box-shadow);
     resize: none;
-    width: 80%;
+    /* width: 80%; */
     box-sizing: border-box;
     overflow-y: auto;
 }
@@ -92,7 +92,6 @@ button:disabled {
 
 .input-group input, .input-group textarea {
     flex-grow: 1;
-    margin-right: 0px;
     margin-bottom: 5px;
     margin-top: 5px;
     margin-left: auto;
