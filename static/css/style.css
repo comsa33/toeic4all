@@ -8,7 +8,7 @@ body {
 nav {
     background-color: #333;
     color: #fff;
-    padding: 20px 50px;
+    padding: 10px 50px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -99,6 +99,13 @@ nav ul .active a {
     justify-content: flex-end;
     gap: 1rem;
     margin-bottom: 2rem;
+}
+
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000; /* 이것은 다른 요소 위에 상단 바가 위치하도록 합니다 */
 }
 
 #nav-user {

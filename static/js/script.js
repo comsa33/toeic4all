@@ -131,3 +131,12 @@ function setupDownloadButton(buttonId, fileType) {
         };
     }
 }
+
+// 사이드 바 외부를 탭할 때 사이드 바를 숨기는 이벤트 리스너 추가
+document.addEventListener('click', function(event) {
+    var isClickInside = sideNav.contains(event.target);
+    var isHamburgerClicked = hamburgerBtn.contains(event.target);
+    if (!isClickInside && !isHamburgerClicked) {
+        sideNav.classList.remove('visible');
+    }
+});
