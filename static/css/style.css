@@ -124,9 +124,7 @@ nav ul .active a {
     color: #9c9b9b;
 }
 
-nav #nav-center {
-    flex-grow: 1; /* nav 요소의 나머지 공간을 차지하도록 합니다. */
+nav #nav-links-left {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    gap: 20px;
 }
