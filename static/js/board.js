@@ -41,6 +41,7 @@ let currentPage = 1;  // 현재 페이지를 저장하는 전역 변수
 const perPage = 10;  // 한 페이지에 보여줄 게시글의 수
 
 function getQuestions() {
+    currentAnswerPage = 1;
     fetch(apiEndpoint + 'board_questions?page=' + currentPage + '&per_page=' + perPage)
         .then(response => response.json())
         .then(data => {
@@ -87,6 +88,9 @@ function getQuestions() {
         });
 }
 
+let currentAnswerPage = 1;
+const answersPerPage = 10;
+
 function getQuestion(id) {
     fetch(apiEndpoint + 'board_questions/' + id)
         .then(response => response.json())
@@ -119,15 +123,16 @@ function getQuestion(id) {
             }
 
             currentQuestionId = id;
+            currentAnswerPage = answerPage;
             document.getElementById('answers-section').style.display = 'block';
 
-            fetch(apiEndpoint + 'board_questions/' + id + '/answers')
+            fetch(`${apiEndpoint}board_questions/${id}/answers?page=${currentAnswerPage}&per_page=${answersPerPage}`)
                 .then(response => response.json())
-                .then(answers => {
+                .then(response => {
                     const answerSection = document.getElementById('answers');
                     if (answerSection) {
                         answerSection.innerHTML = '';
-                        answers.forEach(answer => {
+                        response.answers.forEach(answer => {
                             let answerContentWithBreaks = answer.content.replace(/(?:\r\n|\r|\n)/g, '<br>');
                             const div = document.createElement('div');
                             div.className = 'answer separate-answer';
@@ -148,6 +153,12 @@ function getQuestion(id) {
                             `;
                             answerSection.appendChild(div);
                         });
+                        const answersPagination = document.getElementById('answers-pagination');
+                        answersPagination.innerHTML = `
+                            <button ${currentAnswerPage === 1 ? 'disabled' : ''} onclick="getQuestion(${id}, ${currentAnswerPage - 1})">Previous</button>
+                            Page ${currentAnswerPage}
+                            <button ${currentAnswerPage * answersPerPage >= response.total ? 'disabled' : ''} onclick="getQuestion(${id}, ${currentAnswerPage + 1})">Next</button>
+                        `;
                     }
                 });
         });

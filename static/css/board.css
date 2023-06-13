@@ -172,14 +172,14 @@ button:disabled {
 }
 
 /* Pagination Styles */
-#pagination {
+#pagination, #answers-pagination {
     display: flex;
     justify-content: center;
     align-items: center;
     margin: 20px 0;
 }
 
-#pagination button {
+#pagination button, #answers-pagination button {
     background: none;
     border: none;
     color: grey;

@@ -75,8 +75,10 @@ def delete_board_question(id):
 
 @board.route('/board_questions/<int:question_id>/answers', methods=['GET'])
 def get_board_answers(question_id):
-    answers = BoardAnswer.query.filter_by(question_id=question_id).all()
-    return jsonify([answer.to_dict() for answer in answers])
+    page = request.args.get('page', 1, type=int)
+    per_page = request.args.get('per_page', 10, type=int)
+    answers = BoardAnswer.query.filter_by(question_id=question_id).order_by(BoardAnswer.created_at.desc()).paginate(page=page, per_page=per_page, error_out=False)
+    return jsonify({'answers': [answer.to_dict() for answer in answers.items], 'total': answers.total})
 
 
 @board.route('/board_questions/<int:question_id>/answers', methods=['POST'])
