@@ -138,7 +138,7 @@ button:disabled {
     height: 5em;
     border-bottom: none;
     border-radius: 5px;
-    background-color: rgba(43, 43, 43, 0.05);
+    background-color: rgba(0, 0, 0, 0.1);
     flex-grow: 1;
 }
 
