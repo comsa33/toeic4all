@@ -10,7 +10,7 @@ $(document).ready(function() {
                 if (data.status == 'logged_in') {
                     console.log('Logged in');
                     $('#nav-logout').show();
-                    $('#nav-user').html(data.username);
+                    $('#nav-user').html(data.username + ' 님');
                     $('#nav-login').hide();
                     // $('#nav-signup').hide();
                 } 

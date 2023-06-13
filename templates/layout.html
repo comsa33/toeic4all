@@ -14,15 +14,20 @@
 <body>
     <nav>
         <h2><a href="{{ url_for('main.main_page') }}">모두의 토익</a></h2>
+        <div id="nav-center"> <!-- 새로 추가된 div 요소 -->
+            <ul>
+                <li class="{{ 'active' if request.endpoint.endswith('mock_test') }}"><a href="{{ url_for('main.mock_test') }}">모의고사</a></li>
+                <li class="{{ 'active' if request.endpoint.endswith('board_page') }}"><a href="{{ url_for('main.board_page') }}">Q&A 게시판</a></li>
+            </ul>
+        </div>
         <ul>
-            <li class="{{ 'active' if request.endpoint.endswith('mock_test') }}"><a href="{{ url_for('main.mock_test') }}">모의고사</a></li>
-            <li class="{{ 'active' if request.endpoint.endswith('board_page') }}"><a href="{{ url_for('main.board_page') }}">Q&A 게시판</a></li>
-            <li id="nav-user">{{ session['username'] }} 님</li>
+            <li id="nav-user">{{ session['username'] }}</li>
             <li><a href="https://toeic4all.com/user/login" id="nav-login">로그인</a></li>
             <!-- <li><a href="https://toeic4all.com/user/signup" id="nav-signup">회원가입</a></li> -->
             <li><a href="#" id="nav-logout">로그아웃</a></li> <!-- 로그아웃 링크를 "#"로 변경했습니다. -->
         </ul>               
     </nav>
+    
 
     <div class="content">
         {% block content %}

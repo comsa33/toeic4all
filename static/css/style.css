@@ -100,3 +100,15 @@ nav ul .active a {
     gap: 1rem;
     margin-bottom: 2rem;
 }
+
+#nav-user {
+    font-size: 60%;
+    font-weight: bold;
+}
+
+nav #nav-center {
+    flex-grow: 1; /* nav 요소의 나머지 공간을 차지하도록 합니다. */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
