@@ -124,6 +124,10 @@ nav #nav-links-left {
 /* 햄버거 메뉴 및 모바일용 사이드 네비게이션 바 스타일 */
 #hamburger-btn {
     display: none;
+    position: fixed;  /* 햄버거 버튼을 고정 */
+    top: 10px;
+    left: 10px;
+    z-index: 1001;  /* 사이드바보다 상위로 위치시킵니다 */
 }
 
 #side-nav {
@@ -131,7 +135,7 @@ nav #nav-links-left {
     flex-direction: column;
     align-items: flex-start;
     justify-content: space-between;
-    position: fixed;
+    position: fixed;  /* 사이드바를 고정 */
     top: 0;
     left: 0;
     width: 75%;
@@ -145,30 +149,13 @@ nav #nav-links-left {
     z-index: 1000;
 }
 
-#side-nav.visible {
-    transform: translateX(0);
-}
-
-#side-nav ul:first-of-type {
-    flex-direction: column;
-}
-
-#side-nav ul:last-of-type {
-    flex-direction: column;
-}
-
-#side-nav ul {
-    flex-direction: column;
-    gap: 1rem;
-}
-
 /* 모바일 화면에서의 스타일 */
 @media (max-width: 600px) {
     /* 햄버거 버튼 보이기 */
     #hamburger-btn {
         display: block;
     }
-    
+
     /* 기존 네비게이션 바 숨기기 */
     nav:first-of-type {
         display: none;
@@ -186,4 +173,21 @@ nav #nav-links-left {
         transform: translateX(0);
         visibility: visible;
     }
+}
+
+#side-nav.visible {
+    transform: translateX(0);
+}
+
+#side-nav ul:first-of-type {
+    flex-direction: column;
+}
+
+#side-nav ul:last-of-type {
+    flex-direction: column;
+}
+
+#side-nav ul {
+    flex-direction: column;
+    gap: 1rem;
 }
