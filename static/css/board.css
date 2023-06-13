@@ -171,6 +171,23 @@ button:disabled {
     bottom: 20px;
 }
 
+/* Pagination Styles */
+#pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+}
+
+#pagination button {
+    background: none;
+    border: none;
+    color: grey;
+    font-size: 20px;
+    margin: 0 5px;
+    cursor: pointer;
+}
+
 .question, .answer {
     padding: 20px;
     background-color: white;
