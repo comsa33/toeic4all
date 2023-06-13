@@ -74,19 +74,21 @@ function getQuestion(id) {
         .then(data => {
             const board = document.getElementById('board');
             board.innerHTML = `
-                <div class="question-header">
-                    <div class="question-author">${data.author}</div>
-                    <div class="question-date">${new Date(data.created_at).toLocaleString()}</div>
-                    <div>
-                        <h3 class="question-title">${data.title}</h3>
-                        <p>${data.content}</p>
+                <div class="question-box">
+                    <div class="question-header">
+                        <div class="question-author">${data.author}</div>
+                        <div class="question-date">${new Date(data.created_at).toLocaleString()}</div>
+                        <div>
+                            <p class="question-title">${data.title}</p>
+                            <p>${data.content}</p>
+                        </div>
                     </div>
+                    ${username === data.author ? `
+                    <button type="button" class="edit" onclick="editQuestion(${id})">수정</button>
+                    <button type="button" class="delete" onclick="deleteQuestion(${id})">삭제</button>
+                    ` : ''}
+                    <button type="button" class="button-text" onclick="getQuestions()">전체목록보기</button>
                 </div>
-                ${username === data.author ? `
-                <button type="button" class="edit" onclick="editQuestion(${id})">수정</button>
-                <button type="button" class="delete" onclick="deleteQuestion(${id})">삭제</button>
-                ` : ''}
-                <button type="button" class="button-text" onclick="getQuestions()">전체목록보기</button>
             `;
             currentQuestionId = id;
             document.getElementById('answers-section').style.display = 'block';

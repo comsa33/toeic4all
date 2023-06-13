@@ -115,6 +115,12 @@ button:disabled {
     color: grey;
 }
 
+.question-box {
+    border: 1px solid #777;
+    padding: 20px;
+    border-radius: 10px;
+}
+
 #new-question-content textarea, #edit-question-content {
     height: 12.5em;
 }
