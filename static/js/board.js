@@ -61,7 +61,7 @@ function getQuestions() {
                             <p>${question.content}</p>
                         </div>
                     </div>
-                    <button type="button" class"button-text" onclick="getQuestion(${question.id})">답변확인</button>
+                    <button type="button" class="button-text" onclick="getQuestion(${question.id})">답변확인</button>
                 `;
                 board.appendChild(div);
             });
