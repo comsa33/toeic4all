@@ -106,9 +106,13 @@ button:disabled {
     height: 5em;
 }
 
+.question-title {
+    font-weight: bold;
+}
+
 .question-date {
-    font-size: 0.75em;  /* 작은 글씨 크기 */
-    color: grey;        /* 회색 텍스트 */
+    font-size: 0.75em;
+    color: grey;
 }
 
 #new-question-content textarea, #edit-question-content {

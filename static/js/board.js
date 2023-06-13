@@ -57,7 +57,7 @@ function getQuestions() {
                         <div class="question-author">${question.author}</div>
                         <div class="question-date">${new Date(question.created_at).toLocaleString()}</div>
                         <div>
-                            <h3 class="question-title">${question.title}</h3>
+                            <p class="question-title">${question.title}</p>
                             <p>${question.content}</p>
                         </div>
                     </div>
