@@ -8,7 +8,7 @@ body {
 nav {
     background-color: #333;
     color: #fff;
-    padding: 10px 50px;
+    padding: 20px 50px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -126,8 +126,10 @@ nav #nav-links-left {
     display: none;
     position: fixed;  /* 햄버거 버튼을 고정 */
     top: 10px;
-    left: 10px;
+    right: 10px;
     z-index: 1001;  /* 사이드바보다 상위로 위치시킵니다 */
+    color: #fff;  /* 버튼 색상을 흰색으로 변경 */
+    cursor: pointer;  /* 커서를 포인터로 변경 */
 }
 
 #side-nav {
