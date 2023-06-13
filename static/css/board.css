@@ -53,7 +53,7 @@ button {
     padding: 10px;
     outline: none;
     background-color: var(--primary-color);
-    color: white;
+    color: transparent;
     cursor: pointer;
     box-shadow: var(--box-shadow);
 }
@@ -114,6 +114,7 @@ button:disabled {
     margin-top: 5px;
     margin-left: auto;
     border-radius: 0px;
+    background-color: transparent;
 }
 
 .input-group textarea {
@@ -134,9 +135,9 @@ button:disabled {
 }
 
 .question-box {
-    border: 1px solid #777;
     padding: 20px;
     border-radius: 10px;
+    background-color: #00000015;
 }
 
 #new-question-content textarea, #edit-question-content {
@@ -155,7 +156,7 @@ button:disabled {
     height: 3em;
     border-bottom: none;
     border-radius: 5px;
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: #0000000d;
     flex-grow: 1;
 }
 
@@ -164,9 +165,9 @@ button:disabled {
 }
 
 #new-question-form {
-    border: 1.5px solid #888;
     padding: 10px;
     border-radius: 10px;
+    background-color: #0000000d;
 }
 
 #edit-question-title {
@@ -224,7 +225,7 @@ button:disabled {
 
 .question, .answer {
     padding: 20px;
-    background-color: white;
+    background-color: transparent;
     margin-bottom: 10px;
     border-bottom: 0.5px solid #d3d3d3;
 }
@@ -261,7 +262,7 @@ button:disabled {
 
 .edit, .delete {
     margin-right: 10px;
-    background-color: white;
+    background-color: transparent;
     color: var(--primary-color);
     box-shadow: none;
     font-size: 0.8em;
