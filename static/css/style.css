@@ -5,62 +5,48 @@ body {
     background-color: #f3f3f3;
 }
 
-/* 모바일 화면에서만 보여지는 햄버거 버튼 */
-#hamburger-btn {
-    display: none;
-}
-
-/* 사이드 네비게이션 바의 기본 스타일 */
-#side-nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 75%; /* 화면의 75%를 차지 */
-    height: 100%;
-    background: #333;
-    padding: 20px;
-    box-sizing: border-box;
-    transition: transform 0.3s ease-in-out; /* 애니메이션 효과 */
+nav {
+    background-color: #333;
+    color: #fff;
+    padding: 20px 50px;
     display: flex;
-    flex-direction: column;
     justify-content: space-between;
-    visibility: hidden;
+    align-items: center;
 }
 
-/* 사이드 네비게이션 바가 보이는 경우의 스타일 */
-#side-nav.visible {
-    transform: translateX(0);
-    visibility: visible;
+nav h2 {
+    margin: 0;
+    color: #fff;
 }
 
-/* 모바일 화면에서의 스타일 */
-@media (max-width: 600px) {
-    /* 햄버거 버튼 보이기, 네비게이션 바 숨기기 */
-    #hamburger-btn {
-        display: block;
-    }
-    
-    nav {
-        display: none;
-    }
+nav h2 a {
+    color: #fff;
+    text-decoration: none;
+}
 
-    #side-nav {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 1rem;
-    }
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 20px;
+}
 
-    #side-nav ul {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        padding: 0;
-    }
+nav ul li {
+    color: #fff;
+}
 
-    #side-nav ul li {
-        padding: 1rem 0;
-    }
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+nav ul li a:hover {
+    color: #ddd;
+}
+
+nav ul .active a {
+    color: #ff6347;
 }
 
 .content {
@@ -119,4 +105,60 @@ body {
     font-size: 75%;
     font-weight: bold;
     color: #9c9b9b;
+}
+
+nav #nav-links-left {
+    display: flex;
+    gap: 20px;
+}
+
+/* 햄버거 메뉴 및 모바일용 사이드 네비게이션 바 스타일 */
+#hamburger-btn {
+    display: none;
+}
+
+#side-nav {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 75%;
+    height: 100vh;
+    background-color: #333;
+    padding: 1rem;
+    box-sizing: border-box;
+    transition: transform 0.3s ease-in-out;
+    visibility: hidden;
+    z-index: 1000;
+}
+
+#side-nav ul {
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* 모바일 화면에서의 스타일 */
+@media (max-width: 600px) {
+    /* 햄버거 버튼 보이기 */
+    #hamburger-btn {
+        display: block;
+    }
+    
+    /* 기존 네비게이션 바 숨기기 */
+    nav:first-of-type {
+        display: none;
+    }
+
+    /* 사이드 네비게이션 바 보이기 */
+    #side-nav {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    /* 사이드 네비게이션 바가 보이는 경우의 스타일 */
+    #side-nav.visible {
+        transform: translateX(0);
+        visibility: visible;
+    }
 }
