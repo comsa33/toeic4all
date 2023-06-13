@@ -6,14 +6,19 @@ body {
 }
 
 @media (max-width: 600px) {
-    nav ul {
+    nav {
         flex-direction: column;
-        align-items: center;
     }
-
-    nav ul li {
-        margin: 10px 0; /* 위 아래 간격을 조절합니다. */
-        font-size: 0.8em; /* 글자 크기를 줄입니다. */
+    #title {
+        order: 1; /* 제일 위로 이동 */
+    }
+    #nav-links-left {
+        order: 2; /* 그 다음으로 이동 */
+        align-self: flex-start; /* 좌측 정렬 */
+    }
+    #nav-links-right {
+        order: 3; /* 마지막으로 이동 */
+        align-self: flex-end; /* 우측 정렬 */
     }
 }
 
