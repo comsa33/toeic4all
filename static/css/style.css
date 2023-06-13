@@ -151,6 +151,10 @@ nav #nav-links-left {
 }
 
 @media (max-width: 600px) {
+    .welcome-title {
+        font-size: 80%;
+    }
+    
     #desktop-nav {
         display: none;
     }
