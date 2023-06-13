@@ -11,8 +11,8 @@ WORKDIR /usr/src
 COPY requirements.txt pyproject.toml poetry.lock /usr/src/
 
 RUN apt update -y
-RUN apt upgrade -y
 RUN apt-get install -y wkhtmltopdf
+
 RUN pip install -r requirements.txt
 RUN poetry config virtualenvs.create false
 RUN if [ -f pyproject.toml ]; then poetry install --verbose; fi

@@ -13,7 +13,6 @@ sqlalchemy = "^2.0.15"
 psycopg2-binary = "^2.9.6"
 flask-jwt-extended = "^4.5.2"
 pdfkit = "^1.0.0"
-wkhtmltopdf = "^0.2"
 
 
 [build-system]
