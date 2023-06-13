@@ -5,7 +5,7 @@ body {
     background-color: #f3f3f3;
 }
 
-nav {
+nav #desktop-nav {
     background-color: #333;
     color: #fff;
     padding: 20px 50px;
@@ -115,6 +115,13 @@ nav #nav-links-left {
     gap: 20px;
 }
 
+nav #mobile-nav {
+    background-color: #333;
+    color: #fff;
+    padding: 20px 50px;
+    display: flex;
+}
+
 /* 햄버거 메뉴 및 모바일용 사이드 네비게이션 바 스타일 */
 #hamburger-btn {
     position: fixed;
@@ -148,8 +155,7 @@ nav #nav-links-left {
         display: none;
     }
     #mobile-nav {
-        display: block;
-        position: fixed;
+        display: flex;
     }
     #side-nav.visible {
         transform: translateX(0);
