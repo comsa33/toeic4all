@@ -287,9 +287,9 @@ def generate_test():
         "test_no": test_no,
         "test_level": test_lv,
         "data": {
-            "questions": request.url_root + "test/questions/" + test_no,
-            "answers": request.url_root + "test/answers/" + test_no,
-            "explanations": request.url_root + "test/explanations/" + test_no
+            "questions": request.url_root + "api/test/questions/" + test_no,
+            "answers": request.url_root + "api/test/answers/" + test_no,
+            "explanations": request.url_root + "api/test/explanations/" + test_no
         }
     })
 

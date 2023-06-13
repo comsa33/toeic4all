@@ -10,37 +10,53 @@ function toggleNav() {
 // 햄버거 버튼에 클릭 이벤트 리스너 추가
 hamburgerBtn.addEventListener('click', toggleNav);
 
-// 로그인 상태 확인 및 네비게이션 바 업데이트
+// AJAX 요청을 위한 함수
+function makeRequest(method, url, headers = {}, callback, errorCallback) {
+    var xhr = new XMLHttpRequest();
+    xhr.open(method, url);
+    Object.keys(headers).forEach(function(key) {
+        xhr.setRequestHeader(key, headers[key]);
+    });
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            callback(JSON.parse(xhr.responseText));
+        } else if (errorCallback) {
+            errorCallback();
+        }
+    };
+    xhr.send();
+}
+
+// 로그인 상태에 따른 UI 업데이트 함수
+function updateUI(isLoggedIn, username) {
+    $('#nav-logout, #mobile-nav-logout').toggle(isLoggedIn);
+    $('#nav-user, #mobile-nav-user').toggle(isLoggedIn).html(username + ' 님');
+    $('#nav-login, #mobile-nav-login').toggle(!isLoggedIn);
+    // $('#nav-signup, #mobile-nav-signup').toggle(!isLoggedIn);
+}
+
 $(document).ready(function() {
     var token = localStorage.getItem('access_token');
     if (token) {
-        $.ajax({
-            url: 'https://toeic4all.com/user/status',
-            headers: { 'Authorization': `Bearer ${token}` },
-            success: function(data) {
+        makeRequest(
+            'GET',
+            'https://toeic4all.com/user/status',
+            { 'Authorization': `Bearer ${token}` },
+            function(data) {
                 console.log(data);
                 if (data.status == 'logged_in') {
                     console.log('Logged in');
-                    $('#nav-logout, #mobile-nav-logout').show();
-                    $('#nav-user, #mobile-nav-user').html(data.username + ' 님');
-                    $('#nav-login, #mobile-nav-login').hide();
-                    // $('#nav-signup, #mobile-nav-signup').hide();
-                } 
+                    updateUI(true, data.username);
+                }
             },
-            error: function() {
+            function() {
                 console.log('Not logged in');
-                $('#nav-logout, #mobile-nav-logout').hide();
-                $('#nav-user, #mobile-nav-user').hide();
-                $('#nav-login, #mobile-nav-login').show();
-                // $('#nav-signup, #mobile-nav-signup').show();
+                updateUI(false);
             }
-        });
+        );
     } else {
         console.log('Not logged in');
-        $('#nav-logout, #mobile-nav-logout').hide();
-        $('#nav-user, #mobile-nav-user').hide();
-        $('#nav-login, #mobile-nav-login').show();
-        // $('#nav-signup, #mobile-nav-signup').show();
+        updateUI(false);
     }
 
     $('#nav-logout, #mobile-nav-logout').click(function() {
@@ -64,56 +80,32 @@ function checkLoginStatus(callback) {
     xhr.send();
 }
 
-// 로그인이 필요한 버튼 클릭 시 로그인 상태 확인
 document.addEventListener('DOMContentLoaded', function() {
     var generateBtn = document.getElementById('generate-btn');
     if (generateBtn) {
         generateBtn.onclick = function() {
-            checkLoginStatus(generateTest);
+            checkLoginStatus(function() {
+                var difficulty = document.getElementById('difficulty').value;
+                if (!difficulty) {
+                    alert('난이도를 선택하세요');
+                    return;
+                }
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', '/api/test?TestLv=' + difficulty, true);
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        var response = JSON.parse(xhr.responseText);
+                        displayTestResult(response);
+                    }
+                };
+                xhr.send();
+            });
         };
     }
-
     setupDownloadButton('download-questions', 'questions');
     setupDownloadButton('download-answers', 'answers');
     setupDownloadButton('download-explanations', 'explanations');
 });
-
-function generateTest() {
-    var difficulty = document.getElementById('difficulty').value;
-    if (!difficulty) {
-        alert('난이도를 선택해주세요.');
-        return;
-    }
-
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/api/test?TestLv=' + difficulty);
-    xhr.onload = function() {
-        if (xhr.status === 200) {
-            displayTestResult(JSON.parse(xhr.responseText).data);
-        }
-    };
-    xhr.send();
-}
-
-// function displayTestResult(data) {
-//     var testResultDiv = document.getElementById('test-result');
-//     testResultDiv.innerHTML = '<h2>' + 'AI 생성 결과</h2>';
-
-//     testResultDiv.innerHTML += `
-//         <button onclick="window.open('${data.data.questions}', '_blank')">문제집 보기</button>
-//         <button onclick="window.open('${data.data.answers}', '_blank')">정답지 보기</button>
-//         <button onclick="window.open('${data.data.explanations}', '_blank')">해설지 보기</button>`;
-// }
-
-// function downloadHtml(html, filename) {
-//     var element = document.createElement('a');
-//     element.setAttribute('href', 'data:text/html;charset=utf-8,' + encodeURIComponent(html));
-//     element.setAttribute('download', filename);
-//     element.style.display = 'none';
-//     document.body.appendChild(element);
-//     element.click();
-//     document.body.removeChild(element);
-// }
 
 function setupDownloadButton(buttonId, fileType) {
     var button = document.getElementById(buttonId);
@@ -135,23 +127,21 @@ document.addEventListener('click', function(event) {
     }
 });
 
+// 중복 코드를 제거한 AJAX 요청을 사용하는 코드
 document.getElementById('generate-btn').addEventListener('click', function() {
     var difficulty = document.getElementById('difficulty').value;
-
     if (!difficulty) {
         alert('난이도를 선택하세요');
         return;
     }
-
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/api/test?TestLv=' + difficulty, true);
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            var response = JSON.parse(xhr.responseText);
+    makeRequest(
+        'GET',
+        '/api/test?TestLv=' + difficulty,
+        {},
+        function(response) {
             displayTestResult(response);
         }
-    };
-    xhr.send();
+    );
 });
 
 function displayTestResult(data) {
@@ -178,14 +168,4 @@ function displayTestResult(data) {
             answerDiv.style.display = 'none';
         }
     });
-}
-
-function downloadAsHtml(filename, content) {
-    var element = document.createElement('a');
-    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(content));
-    element.setAttribute('download', filename);
-    element.style.display = 'none';
-    document.body.appendChild(element);
-    element.click();
-    document.body.removeChild(element);
 }
