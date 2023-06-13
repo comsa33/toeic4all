@@ -25,10 +25,8 @@ h2, h3, h4 {
 
 input {
     border: none;
-    border-radius: 20px;
     padding: 10px;
     outline: none;
-    /* box-shadow: var(--box-shadow); */
     resize: none;
     width: 100%;
     box-sizing: border-box;
@@ -36,10 +34,8 @@ input {
 
 textarea {
     border: none;
-    border-radius: 20px;
     padding: 10px;
     outline: none;
-    /* box-shadow: var(--box-shadow); */
     resize: none;
     width: 100%;
     box-sizing: border-box;
@@ -134,7 +130,7 @@ button:disabled {
     border-radius: 10px; /* 테두리를 둥글게 만듭니다. 필요에 따라 조정하세요 */
 }
 
-#new-question-title, #edit-question-title {
+#edit-question-title {
     margin-bottom: 10px;
 }
 
