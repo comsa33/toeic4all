@@ -129,6 +129,9 @@ button:disabled {
 #new-answer-form {
     border: none;
     padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
 }
 
 #new-answer {
@@ -136,6 +139,7 @@ button:disabled {
     border-bottom: none;
     border-radius: 5px;
     background-color: rgba(43, 43, 43, 0.05);
+    flex-grow: 1;
 }
 
 #new-question-title {
