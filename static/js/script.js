@@ -101,7 +101,7 @@ function displayTestResult(data) {
 
     // 해설지와 정답에 대한 div를 추가
     testResultDiv.innerHTML += `
-        <button id="answer-toggle" class="button">정답 및 해설 보기</button>
+        <button id="answer-toggle">정답 및 해설 보기</button>
         <div id="answer" style="display:none;">
             ${data.answers} ${data.explanations}
         </div>`;
@@ -119,6 +119,7 @@ function displayTestResult(data) {
     setupHtmlDownloadButton('download-question-btn', data.questions, '문제집.html');
     setupHtmlDownloadButton('download-answer-btn', data.answers + data.explanations, '해설지.html');
 }
+
 
 function setupHtmlDownloadButton(buttonId, html, filename) {
     var button = document.getElementById(buttonId);
