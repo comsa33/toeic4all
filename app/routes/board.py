@@ -23,7 +23,7 @@ def verify_author(author):
 def get_board_questions():
     page = request.args.get('page', 1, type=int)
     per_page = request.args.get('per_page', 10, type=int)
-    questions = BoardQuestion.query.order_by(BoardQuestion.created_at.desc()).paginate(page, per_page, error_out=False)
+    questions = BoardQuestion.query.order_by(BoardQuestion.created_at.desc()).paginate(page=page, per_page=per_page, error_out=False)
     for question in questions.items:
         question.answerCount = BoardAnswer.query.filter_by(question_id=question.id).count()
         question.answers = BoardAnswer.query.filter_by(question_id=question.id).all()
