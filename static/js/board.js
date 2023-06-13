@@ -153,11 +153,23 @@ function getQuestion(id, answerPage = 1) {
                             `;
                             answerSection.appendChild(div);
                         });
+
+                        // Pagination
+                        const startPage = Math.floor((currentAnswerPage - 1) / 10) * 10 + 1;
+                        let endPage = startPage + 9;
+                        const totalPage = Math.ceil(response.total / answersPerPage);
+
+                        if (endPage > totalPage) {
+                            endPage = totalPage;
+                        }
+
                         const answersPagination = document.getElementById('answers-pagination');
                         answersPagination.innerHTML = `
-                            <button ${currentAnswerPage === 1 ? 'disabled' : ''} onclick="getQuestion(${id}, ${currentAnswerPage - 1})">Previous</button>
-                            Page ${currentAnswerPage}
-                            <button ${currentAnswerPage * answersPerPage >= response.total ? 'disabled' : ''} onclick="getQuestion(${id}, ${currentAnswerPage + 1})">Next</button>
+                            ${startPage > 1 ? `<button onclick="getQuestion(${id}, ${startPage - 1})">Prev</button>` : ''}
+                            ${Array.from({length: endPage - startPage + 1}, (_, i) => startPage + i).map(page =>
+                                `<button ${page === currentAnswerPage ? 'class="active"' : ''} onclick="getQuestion(${id}, ${page})">${page}</button>`
+                            ).join('')}
+                            ${endPage < totalPage ? `<button onclick="getQuestion(${id}, ${endPage + 1})">Next</button>` : ''}
                         `;
                     }
                 });
