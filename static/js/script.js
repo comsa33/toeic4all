@@ -95,35 +95,35 @@ function generateTest() {
     xhr.send();
 }
 
-function displayTestResult(data) {
-    var testResultDiv = document.getElementById('test-result');
-    testResultDiv.innerHTML = '<h2>' + 'AI 생성 결과</h2>';
+// function displayTestResult(data) {
+//     var testResultDiv = document.getElementById('test-result');
+//     testResultDiv.innerHTML = '<h2>' + 'AI 생성 결과</h2>';
 
-    testResultDiv.innerHTML += `
-        <button onclick="window.open('${data.data.questions}', '_blank')">문제집 보기</button>
-        <button onclick="window.open('${data.data.answers}', '_blank')">정답지 보기</button>
-        <button onclick="window.open('${data.data.explanations}', '_blank')">해설지 보기</button>`;
-}
-
-
-function setupHtmlDownloadButton(buttonId, html, filename) {
-    var button = document.getElementById(buttonId);
-    button.style.display = 'block';
-    button.onclick = function() {
-        downloadHtml('<!DOCTYPE html>\n<html>\n<head>\n<meta charset="UTF-8">\n</head>\n<body>\n' + html + '\n</body>\n</html>', filename);
-    };
-}
+//     testResultDiv.innerHTML += `
+//         <button onclick="window.open('${data.data.questions}', '_blank')">문제집 보기</button>
+//         <button onclick="window.open('${data.data.answers}', '_blank')">정답지 보기</button>
+//         <button onclick="window.open('${data.data.explanations}', '_blank')">해설지 보기</button>`;
+// }
 
 
-function downloadHtml(html, filename) {
-    var element = document.createElement('a');
-    element.setAttribute('href', 'data:text/html;charset=utf-8,' + encodeURIComponent(html));
-    element.setAttribute('download', filename);
-    element.style.display = 'none';
-    document.body.appendChild(element);
-    element.click();
-    document.body.removeChild(element);
-}
+// function setupHtmlDownloadButton(buttonId, html, filename) {
+//     var button = document.getElementById(buttonId);
+//     button.style.display = 'block';
+//     button.onclick = function() {
+//         downloadHtml('<!DOCTYPE html>\n<html>\n<head>\n<meta charset="UTF-8">\n</head>\n<body>\n' + html + '\n</body>\n</html>', filename);
+//     };
+// }
+
+
+// function downloadHtml(html, filename) {
+//     var element = document.createElement('a');
+//     element.setAttribute('href', 'data:text/html;charset=utf-8,' + encodeURIComponent(html));
+//     element.setAttribute('download', filename);
+//     element.style.display = 'none';
+//     document.body.appendChild(element);
+//     element.click();
+//     document.body.removeChild(element);
+// }
 
 function setupDownloadButton(buttonId, fileType) {
     var button = document.getElementById(buttonId);
@@ -144,3 +144,65 @@ document.addEventListener('click', function(event) {
         sideNav.classList.remove('visible');
     }
 });
+
+document.getElementById('generate-btn').addEventListener('click', function() {
+    var difficulty = document.getElementById('difficulty').value;
+
+    if (!difficulty) {
+        alert('난이도를 선택하세요');
+        return;
+    }
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/api/test?difficulty=' + difficulty, true);
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            var response = JSON.parse(xhr.responseText);
+            displayTestResult(response);
+        }
+    };
+    xhr.send();
+});
+
+function displayTestResult(data) {
+    var testResultDiv = document.getElementById('test-result');
+    testResultDiv.innerHTML = '<h2>' + 'AI 생성 결과</h2>' + data.data.questions;
+
+    // 해설지와 정답에 대한 div를 추가
+    testResultDiv.innerHTML += `
+        <button id="answer-toggle" class="button">정답 및 해설 보기</button>
+        <div id="answer" style="display:none;">
+            ${data.data.answers}
+        </div>`;
+
+    // 클릭 이벤트 리스너를 버튼에 추가
+    document.getElementById('answer-toggle').addEventListener('click', function() {
+        var answerDiv = document.getElementById('answer');
+        if (answerDiv.style.display === 'none') {
+            answerDiv.style.display = 'block';
+        } else {
+            answerDiv.style.display = 'none';
+        }
+    });
+
+    setupHtmlDownloadButton('download-question-btn', data.data.questions, '문제집.html');
+    setupHtmlDownloadButton('download-answer-btn', data.data.answers + data.data.explanations, '해설지.html');
+}
+
+function setupHtmlDownloadButton(buttonId, content, filename) {
+    var button = document.getElementById(buttonId);
+    button.style.display = 'block';
+    button.addEventListener('click', function() {
+        downloadAsHtml(filename, content);
+    });
+}
+
+function downloadAsHtml(filename, content) {
+    var element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(content));
+    element.setAttribute('download', filename);
+    element.style.display = 'none';
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+}
