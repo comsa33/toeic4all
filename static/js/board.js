@@ -86,7 +86,7 @@ function getQuestion(id) {
                 <button type="button" class="edit" onclick="editQuestion(${id})">수정</button>
                 <button type="button" class="delete" onclick="deleteQuestion(${id})">삭제</button>
                 ` : ''}
-                <button type="button" onclick="getQuestions()">목록으로 돌아가기</button>
+                <button type="button" class="button-text" onclick="getQuestions()">전체목록보기</button>
             `;
             currentQuestionId = id;
             document.getElementById('answers-section').style.display = 'block';
