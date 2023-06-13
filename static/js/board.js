@@ -61,7 +61,7 @@ function getQuestions(page = 1) {
                 div.innerHTML = `
                     <div class="question-header">
                         <div class="question-author">${question.author}</div>
-                        <div class="question-date">${new Date(question.created_at).toLocaleString()}</div>
+                        <div class="question-date">${new Date(question.created_at).toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' })}</div>
                         <div>
                             <p class="question-title">${question.title}</p>
                             <p>${contentWithBreaks}</p>
@@ -108,7 +108,7 @@ function getQuestion(id, answerPage = 1) {
                 <div class="question-box">
                     <div class="question-header">
                         <div class="question-author">${data.author}</div>
-                        <div class="question-date">${new Date(data.created_at).toLocaleString()}</div>
+                        <div class="question-date">${new Date(data.created_at).toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' })}</div>
                         <div>
                             <p class="question-title">${data.title}</p>
                             <p>${contentWithBreaks}</p>
@@ -143,10 +143,10 @@ function getQuestion(id, answerPage = 1) {
                             div.className = 'answer separate-answer';
                             div.innerHTML = `
                                 <div class="answer-content">
-                                    <div class="question-header">
-                                        <div class="question-author">${answer.author}</div>
-                                        <div class="question-date">${new Date(answer.created_at).toLocaleString()}</div>
-                                        <p>${answerContentWithBreaks}</p>
+                                    <div class="answer-header">
+                                        <div class="answer-author">${answer.author}</div>
+                                        <div class="answer-date">${new Date(answer.created_at).toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' })}</div>
+                                        <p class="answer-text">${answerContentWithBreaks}</p>
                                     </div>
                                     ${username === answer.author ? `
                                     <div class="button-container">

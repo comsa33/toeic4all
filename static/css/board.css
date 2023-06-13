@@ -80,6 +80,7 @@ button:disabled {
     padding: 0;
     box-shadow: none;
     transition: color 0.3s;
+    margin-bottom: 20px;
 }
 
 .button-text:hover {
@@ -121,9 +122,13 @@ button:disabled {
     font-weight: bold;
 }
 
-.question-date {
+.question-date, .answer-date {
     font-size: 0.75em;
     color: grey;
+}
+
+.answer-text {
+    font-size:0.85em;
 }
 
 .question-box {
@@ -222,16 +227,16 @@ button:disabled {
     border-bottom: 0.5px solid #d3d3d3;
 }
 
-.question-header{
+.question-header, .answer-header{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     margin-bottom: 10px;
 }
 
-.question-author {
+.question-author, .answer-author {
     font-weight: bold;
-    color: var(--primary-color);
+    color: rgb(62, 62, 62);
     align-self: flex-start;
 }
 
