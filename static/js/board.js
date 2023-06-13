@@ -50,6 +50,7 @@ function getQuestions() {
             document.getElementById('answers-section').style.display = 'none';
 
             data.forEach(question => {
+                let contentWithBreaks = question.content.replace(/(?:\r\n|\r|\n)/g, '<br>');
                 const div = document.createElement('div');
                 div.className = 'question';
                 div.innerHTML = `
@@ -58,7 +59,7 @@ function getQuestions() {
                         <div class="question-date">${new Date(question.created_at).toLocaleString()}</div>
                         <div>
                             <p class="question-title">${question.title}</p>
-                            <p>${question.content}</p>
+                            <p>${contentWithBreaks}</p>
                         </div>
                     </div>
                     <button type="button" class="button-text" onclick="getQuestion(${question.id})">답변확인</button>
@@ -73,6 +74,7 @@ function getQuestion(id) {
         .then(response => response.json())
         .then(data => {
             const board = document.getElementById('board');
+            let contentWithBreaks = data.content.replace(/(?:\r\n|\r|\n)/g, '<br>');
             board.innerHTML = `
                 <div class="question-box">
                     <div class="question-header">
@@ -80,7 +82,7 @@ function getQuestion(id) {
                         <div class="question-date">${new Date(data.created_at).toLocaleString()}</div>
                         <div>
                             <p class="question-title">${data.title}</p>
-                            <p>${data.content}</p>
+                            <p>${contentWithBreaks}</p>
                         </div>
                     </div>
                     ${username === data.author ? `
@@ -90,6 +92,7 @@ function getQuestion(id) {
                     <button type="button" class="button-text" onclick="getQuestions()">전체목록보기</button>
                 </div>
             `;
+
             currentQuestionId = id;
             document.getElementById('answers-section').style.display = 'block';
 
@@ -100,14 +103,15 @@ function getQuestion(id) {
                     if (answerSection) {
                         answerSection.innerHTML = '';
                         answers.forEach(answer => {
+                            let answerContentWithBreaks = answer.content.replace(/(?:\r\n|\r|\n)/g, '<br>');
                             const div = document.createElement('div');
-                            div.className = 'answer';
+                            div.className = 'answer separate-answer';
                             div.innerHTML = `
                                 <div class="answer-content">
                                     <div class="question-header">
                                         <div class="question-author">${answer.author}</div>
                                         <div class="question-date">${new Date(answer.created_at).toLocaleString()}</div>
-                                        <p>${answer.content}</p>
+                                        <p>${answerContentWithBreaks}</p>
                                     </div>
                                     ${username === answer.author ? `
                                     <div class="button-container">
