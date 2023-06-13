@@ -107,9 +107,10 @@ function setupHtmlDownloadButton(buttonId, html, filename) {
     var button = document.getElementById(buttonId);
     button.style.display = 'block';
     button.onclick = function() {
-        downloadHtml(html, filename);
+        downloadHtml('<!DOCTYPE html>\n<html>\n<head>\n<meta charset="UTF-8">\n</head>\n<body>\n' + html + '\n</body>\n</html>', filename);
     };
 }
+
 
 function downloadHtml(html, filename) {
     var element = document.createElement('a');
