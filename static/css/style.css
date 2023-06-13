@@ -103,13 +103,6 @@ nav ul .active a {
     margin-bottom: 2rem;
 }
 
-.navbar {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 1000; /* 이것은 다른 요소 위에 상단 바가 위치하도록 합니다 */
-}
-
 #nav-user {
     font-size: 75%;
     font-weight: bold;
@@ -175,18 +168,6 @@ nav #nav-links-left {
         transform: translateX(0);
         visibility: visible;
     }
-}
-
-#side-nav.visible {
-    transform: translateX(0);
-}
-
-#side-nav ul:first-of-type {
-    flex-direction: column;
-}
-
-#side-nav ul:last-of-type {
-    flex-direction: column;
 }
 
 #side-nav ul {
