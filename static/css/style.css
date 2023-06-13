@@ -5,7 +5,7 @@ body {
     background-color: #f3f3f3;
 }
 
-nav #desktop-nav {
+#desktop-nav {
     background-color: #333;
     color: #fff;
     padding: 20px 50px;
@@ -115,7 +115,7 @@ nav #nav-links-left {
     gap: 20px;
 }
 
-nav #mobile-nav {
+#mobile-nav {
     background-color: #333;
     color: #fff;
     padding: 20px 50px;
