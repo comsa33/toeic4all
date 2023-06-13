@@ -149,6 +149,7 @@ nav #nav-links-left {
     }
     #mobile-nav {
         display: block;
+        position: fixed;
     }
     #side-nav.visible {
         transform: translateX(0);
@@ -161,7 +162,7 @@ nav #nav-links-left {
         display: none;
     }
     #desktop-nav {
-        display: block;
+        display: flex;
     }
 }
 
