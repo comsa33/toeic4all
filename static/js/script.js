@@ -154,7 +154,7 @@ document.getElementById('generate-btn').addEventListener('click', function() {
     }
 
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/api/test?difficulty=' + difficulty, true);
+    xhr.open('GET', '/api/test?TestLv=' + difficulty, true);
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4 && xhr.status === 200) {
             var response = JSON.parse(xhr.responseText);
