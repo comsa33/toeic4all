@@ -42,25 +42,40 @@
   <h2 class="text-center">{{ test_level }} TOEIC Part 5 모의고사</h2>
   <small class="text-center">시험지 번호: {{ creation_time }}</small>
   <div class="container-test">
-      {% for question, choice in zip(questions, choices) %}
-      <div class="row"> <!-- Move this inside the loop -->
-          <div class="col">
-              <div class="question-container">
-                  <p><strong>{{ loop.index + 100 }}. {{ question.QuestionText }}</strong></p>
-                  <ol type="A">
-                      {% for selection in choice["Choices"] %}
-                      <li>{{ selection }}</li>
-                      {% endfor %}
-                  </ol>
-              </div>
-              <small class="text-muted">ID: {{ question.QuestionId }}</small>
-          </div>
-      </div> <!-- Closing div for .row -->
-      {% endfor %}
-      <footer class="text-center">
+    <div class="row">
+        <div class="col">
+            <!-- Render the left column questions -->
+            {% for question, choice in zip(questions_left, choices_left) %}
+            <div class="question-container">
+                <p><strong>{{ loop.index + 100 }}. {{ question.QuestionText }}</strong></p>
+                <ol type="A">
+                    {% for selection in choice["Choices"] %}
+                    <li>{{ selection }}</li>
+                    {% endfor %}
+                </ol>
+                <small class="text-muted">ID: {{ question.QuestionId }}</small>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="col">
+            <!-- Render the right column questions -->
+            {% for question, choice in zip(questions_right, choices_right) %}
+            <div class="question-container">
+                <p><strong>{{ loop.index + 115 }}. {{ question.QuestionText }}</strong></p>
+                <ol type="A">
+                    {% for selection in choice["Choices"] %}
+                    <li>{{ selection }}</li>
+                    {% endfor %}
+                </ol>
+                <small class="text-muted">ID: {{ question.QuestionId }}</small>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <footer class="text-center">
         <div><small>&copy; 모두의 토익 | Unauthorized distribution is strictly prohibited.</small></div>
         <div><small>모의고사 번호: {{ creation_time }}</small></div>
-      </footer>
+    </footer>
   </div>
 </body>
 </html>

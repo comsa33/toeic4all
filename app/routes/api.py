@@ -253,13 +253,21 @@ def generate_test():
     vocas = fetch_vocas(question_ids)['data']
     vocas.sort(key=lambda x: question_ids.index(x['QuestionId']))
 
+    # Divide all questions, choices, answers, explanations, and vocas into two lists
+    half = len(questions) // 2
+    questions_left, questions_right = questions[:half], questions[half:]
+    choices_left, choices_right = choices[:half], choices[half:]
+    answers_left, answers_right = answers[:half], answers[half:]
+    explanations_left, explanations_right = explanations[:half], explanations[half:]
+    vocas_left, vocas_right = vocas[:half], vocas[half:]
+
     # Generate test number based on current time
     test_no = datetime.now().strftime("%Y%m%d%H%M%S")
 
     # Render to HTML
-    questions_html = render_template('questions.html', questions=questions, choices=choices, test_level=lv_mapping_kor[test_lv], creation_time=test_no)
-    answers_html = render_template('answers.html', answers=answers, test_level=lv_mapping_kor[test_lv], creation_time=test_no)
-    explanations_html = render_template('explanations.html', explanations=explanations, vocas=vocas)
+    questions_html = render_template('questions.html', questions_left=questions_left, questions_right=questions_right, choices_left=choices_left, choices_right=choices_right, test_level=lv_mapping_kor[test_lv], creation_time=test_no)
+    answers_html = render_template('answers.html', answers_left=answers_left, answers_right=answers_right, test_level=lv_mapping_kor[test_lv], creation_time=test_no)
+    explanations_html = render_template('explanations.html', explanations_left=explanations_left, explanations_right=explanations_right, vocas_left=vocas_left, vocas_right=vocas_right)
 
     # Store test data
     tests[test_no] = {
