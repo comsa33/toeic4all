@@ -144,29 +144,25 @@ nav #nav-links-left {
     z-index: 1000;
 }
 
-/* 모바일 화면에서의 스타일 */
 @media (max-width: 600px) {
-    /* 햄버거 버튼 보이기 */
-    #hamburger-btn {
-        display: block;
-    }
-
-    /* 기존 네비게이션 바 숨기기 */
-    nav:first-of-type {
+    #desktop-nav {
         display: none;
     }
-
-    /* 사이드 네비게이션 바 보이기 */
-    #side-nav {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
+    #mobile-nav {
+        display: block;
     }
-
-    /* 사이드 네비게이션 바가 보이는 경우의 스타일 */
     #side-nav.visible {
         transform: translateX(0);
         visibility: visible;
+    }
+}
+
+@media (min-width: 601px) {
+    #mobile-nav {
+        display: none;
+    }
+    #desktop-nav {
+        display: block;
     }
 }
 
