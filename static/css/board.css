@@ -183,9 +183,10 @@ button:disabled {
     background: none;
     border: none;
     color: grey;
-    font-size: 20px;
+    font-size: 10px;
     margin: 0 5px;
     cursor: pointer;
+    box-shadow: none;
 }
 
 .question, .answer {

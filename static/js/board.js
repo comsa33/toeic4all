@@ -112,6 +112,12 @@ function getQuestion(id) {
                 </div>
             `;
 
+            // Hide pagination
+            const pagination = document.getElementById('pagination');
+            if (pagination) {
+                pagination.style.display = 'none';
+            }
+
             currentQuestionId = id;
             document.getElementById('answers-section').style.display = 'block';
 
