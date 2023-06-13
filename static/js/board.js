@@ -89,7 +89,7 @@ function getQuestions(page = 1) {
                 ).join('')}
                 ${endPage < totalPage ? `<button onclick="getQuestions(${endPage + 1})">Next</button>` : ''}
             `;
-            pagination.style.display = 'block';
+            pagination.style.display = 'flex';
         });
 }
 
@@ -129,7 +129,7 @@ function getQuestion(id, answerPage = 1) {
 
             currentQuestionId = id;
             currentAnswerPage = answerPage;
-            document.getElementById('answers-section').style.display = 'block';
+            document.getElementById('answers-section').style.display = 'flex';
 
             fetch(`${apiEndpoint}board_questions/${id}/answers?page=${currentAnswerPage}&per_page=${answersPerPage}`)
                 .then(response => response.json())
