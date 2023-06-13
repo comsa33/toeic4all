@@ -278,6 +278,12 @@ button:disabled {
     font-weight: bold;
 }
 
+.board-wrapper {
+    background-color: rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    border-radius: 5px;
+}
+
 .modal {
     display: none; 
     position: fixed;
