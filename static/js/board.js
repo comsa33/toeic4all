@@ -129,7 +129,7 @@ function getQuestion(id, answerPage = 1) {
 
             currentQuestionId = id;
             currentAnswerPage = answerPage;
-            document.getElementById('answers-section').style.display = 'flex';
+            document.getElementById('answers-section').style.display = 'block';
 
             fetch(`${apiEndpoint}board_questions/${id}/answers?page=${currentAnswerPage}&per_page=${answersPerPage}`)
                 .then(response => response.json())
