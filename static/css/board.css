@@ -236,7 +236,8 @@ button:disabled {
 
 .question-author, .answer-author {
     font-weight: bold;
-    color: rgb(62, 62, 62);
+    font-size: 0.75em;
+    color: rgb(170, 170, 170);
     align-self: flex-start;
 }
 
