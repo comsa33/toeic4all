@@ -14,31 +14,31 @@ h1.display-4 {
 }
 
 .my-img-container {
+    position: relative;
     max-width: 100%;
     height: 70vh;
-    background-size: cover;
-    background-position: center;
-    position: relative;
-    overflow: hidden;  /* to make sure the pseudo-element won't exceed the div */
+    overflow: hidden;
 }
 
-.my-img-container::before {
-    content: "";
-    background-image: inherit; /* inherit the background image from the parent */
+.blur-bg-image {
     position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
     height: 100%;
-    filter: blur(1.7px); /* apply the blur effect */
-    transform: scale(1.02); /* scale up the image to hide the edges caused by the blur effect */
-    z-index: -1; /* put the pseudo-element under the content of the div */
+    background-size: cover;
+    background-position: center;
+    filter: blur(8px);
+    z-index: -1;
+}
+
+.my-img-text {
+    position: relative;
+    z-index: 1;
 }
 
 @keyframes animate-text {
     0% {
-        transform: scale(1.2);
-        letter-spacing: 6px;
+        transform: scale(20);
+        letter-spacing: 12px;
     }
     100% {
         transform: scale(1);

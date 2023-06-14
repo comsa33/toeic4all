@@ -7,7 +7,8 @@
 {% endblock %}
 
 {% block main_page %}
-<div id="my-img-container" class="my-img-container" data-bg-url="{{ url_for('static', filename='images/main-img1.jpg') }}">
+<div id="my-img-container" class="my-img-container">
+    <div class="blur-bg-image" data-bg-url="{{ url_for('static', filename='images/main-img1.jpg') }}"></div>
     <div class="my-img-text">
         <h1 class="h1-on-img animate-h1">모두의 토익에 오신걸 환영합니다</h1>
         <p class="p-on-img">AI가 만든 토익 파트5 모의고사를 풀어보세요.</p>
@@ -15,9 +16,9 @@
 </div>
 <script>
     // 이미지의 URL을 가져와서 CSS 스타일로 적용합니다.
-    var container = document.getElementById('my-img-container');
-    var bgUrl = container.getAttribute('data-bg-url');
-    container.style.backgroundImage = "url('" + bgUrl + "')";
+    var blurBgImage = document.querySelector('.blur-bg-image');
+    var bgUrl = blurBgImage.getAttribute('data-bg-url');
+    blurBgImage.style.backgroundImage = "url('" + bgUrl + "')";
 </script>
 {% endblock %}
 
