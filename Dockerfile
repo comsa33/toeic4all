@@ -18,6 +18,9 @@ RUN pip install -r requirements.txt
 RUN poetry config virtualenvs.create false
 RUN if [ -f pyproject.toml ]; then poetry install --verbose; fi
 
+# Add this line to copy the font file into Docker image
+COPY /font/NanumSquareNeo-bRg.ttf /usr/src/app/font/NanumSquareNeo-bRg.ttf
+
 COPY . /usr/src/app
 WORKDIR /usr/src/app
 ENV FLASK_APP=run.py

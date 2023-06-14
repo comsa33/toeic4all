@@ -302,7 +302,7 @@ def get_test_questions(test_no):
     questions_pdf = tests[test_no]['questions']
 
     # Register the Korean font before creating the PDF
-    pdfmetrics.registerFont(TTFont('NanumGothic', '/path/to/NanumGothic.ttf'))
+    pdfmetrics.registerFont(TTFont('NanumSquare', '/usr/src/app/font/NanumSquareNeo-bRg.ttf'))
 
     # Convert to a ByteIO stream
     pdf_io = io.BytesIO(questions_pdf)
@@ -318,7 +318,7 @@ def get_test_answers(test_no):
     answers_pdf = tests[test_no]['answers']
 
     # Register the Korean font before creating the PDF
-    pdfmetrics.registerFont(TTFont('NanumGothic', '/path/to/NanumGothic.ttf'))
+    pdfmetrics.registerFont(TTFont('NanumSquare', '/usr/src/app/font/NanumSquareNeo-bRg.ttf'))
 
     # Convert to a ByteIO stream
     pdf_io = io.BytesIO(answers_pdf)
@@ -334,7 +334,7 @@ def get_test_explanations(test_no):
     explanations_pdf = tests[test_no]['explanations']
 
     # Register the Korean font before creating the PDF
-    pdfmetrics.registerFont(TTFont('NanumGothic', '/path/to/NanumGothic.ttf'))
+    pdfmetrics.registerFont(TTFont('NanumSquare', '/usr/src/app/font/NanumSquareNeo-bRg.ttf'))
 
     # Convert to a ByteIO stream
     pdf_io = io.BytesIO(explanations_pdf)
