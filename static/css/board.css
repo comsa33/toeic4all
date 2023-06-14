@@ -92,13 +92,6 @@ button {
     box-shadow: var(--box-shadow);
 }
 
-button i {
-    width: 3.9em;
-    height: 3.75em;
-    border-radius: 0px;
-    box-shadow: none;
-}
-
 button:disabled {
     background-color: var(--disabled-color);
 }
@@ -195,7 +188,10 @@ button:disabled {
 }
 
 #create-answer-button {
-    margin-left: 10px;
+    width: 3.9em;
+    height: 3.75em;
+    border-radius: 0px;
+    box-shadow: none;
 }
 
 #new-question-content textarea, #edit-question-content {
