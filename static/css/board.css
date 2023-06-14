@@ -47,14 +47,20 @@ input::placeholder, textarea::placeholder {
 }
 
 button {
-    border: none;
     border-radius: 20px;
+    border: none;
     padding: 10px;
-    outline: none;
     background-color: var(--primary-color);
     color: white;
     cursor: pointer;
     box-shadow: var(--box-shadow);
+}
+
+button i {
+    width: 3.9em;
+    height: 3.75em;
+    border-radius: 0px;
+    box-shadow: none;
 }
 
 button:disabled {
@@ -141,7 +147,6 @@ button:disabled {
 
 .question-box {
     padding: 20px;
-    border-radius: 10px;
     background-color: #00000015;
 }
 
@@ -163,17 +168,14 @@ button:disabled {
 
 #new-answer-form {
     border: none;
-    padding: 10px;
     display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
+    align-items: center;
 }
 
 #new-answer {
-    height: 3em;
+    height: 3.75em;
     border-bottom: none;
-    border-radius: 5px;
-    background-color: #0000000d;
+    background-color: #00000015;
     flex-grow: 1;
 }
 
