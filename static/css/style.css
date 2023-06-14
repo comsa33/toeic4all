@@ -99,9 +99,9 @@ nav ul .active a {
 
 .button-container {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-around; /* 버튼을 가운데로 정렬하기 위해 변경 */
     gap: 40px;
-    margin-top: 40px;
+    margin-top: 40px; /* 버튼 사이의 간격 추가 */
 }
 
 .button-container .btn-link {
@@ -117,16 +117,19 @@ nav ul .active a {
     font-size: 0.8rem; /* 글씨를 작게 */
 }
 
-.button-container .btn-link i {
-    display: block;
-    margin-bottom: 10px;
-    color: white; /* 아이콘 색상을 흰색으로 변경 */
-    font-size: 1.3em; /* 아이콘 크기를 1.3배로 변경 */
-}
-
 .button-container .btn-link .button {
+    background-color: #4CAF50; 
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
     border-radius: 50%; /* 버튼을 원형으로 변경 */
 }
+
 
 #nav-user {
     font-size: 75%;
