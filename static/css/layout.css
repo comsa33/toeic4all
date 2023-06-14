@@ -113,6 +113,11 @@ nav #nav-links-left {
     gap: 20px;
 }
 
+#mobile-nav #nav-user, #mobile-nav #nav-login, #mobile-nav #nav-logout {
+    position: relative;
+    top: -20px;
+}
+
 #hamburger-btn {
     position: fixed;
     top: 30px;
