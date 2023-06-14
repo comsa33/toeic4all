@@ -1,9 +1,14 @@
 {% extends "layout.html" %}
 
-{% block content %}
-    <h2 style="text-align:center; margin-bottom: 2rem;">AI 모의고사</h2>
+{% block additional_css %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/mock_test.css') }}">
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+{% endblock %}
 
-    <div class="dropdown">
+{% block content %}
+    <h2 style="text-align:center; margin-bottom: 2rem;" data-aos="fade-down" data-aos-duration="1000">AI 모의고사</h2>
+
+    <div class="dropdown" data-aos="fade-up" data-aos-duration="1000">
         <select id="difficulty" class="select">
             <option value="">-- 난이도를 선택하세요 --</option>
             <option value="easy">초급</option>
@@ -13,7 +18,7 @@
         <button id="generate-btn" class="button">AI 모의고사 생성</button>
     </div>
     
-    <div id="test-links" style="display: none; text-align: center;">
+    <div id="test-links" style="display: none; text-align: center;" data-aos="zoom-in" data-aos-duration="1000">
         <h3>AI 모의고사가 생성되었습니다!</h3>
         <div class="button-container">
             <a class="btn-link" id="questions-link" href="#" target="_blank">
@@ -38,4 +43,11 @@
     </div>    
 
     <div id="test-result" style="text-align: center;"></div>
+{% endblock %}
+
+{% block additional_script %}
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init();
+</script>
 {% endblock %}
