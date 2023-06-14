@@ -14,13 +14,13 @@ h1.display-4 {
 }
 
 .jumbotron {
-    background-size: cover; /* 배경 이미지를 컨테이너에 맞춰 확장 */
-    height: 400px; /* jumbotron의 높이 설정 */
-    display: flex; /* flexbox를 이용해 내용을 중앙으로 정렬 */
+    background-size: cover;
+    height: 400px;
+    display: flex;
     justify-content: center;
     align-items: center;
-    color: #153f66; /* 글자색을 흰색으로 설정 */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* 글자에 그림자 추가 */
+    color: #ffffff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .container .jumbotron {
@@ -57,7 +57,7 @@ h1.display-4 {
 }
 
 .btn-primary {
-    background-color: #007BFF;
+    background-color: #1da1f2;
     border: none;
 }
 
