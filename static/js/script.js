@@ -151,3 +151,15 @@ if (generateBtn) {
         xhr.send();
     });
 }
+
+window.onscroll = function() {fadeGradient()};
+
+function fadeGradient() {
+    var scrollHeight = document.body.scrollHeight;
+    var scrollPosition = window.innerHeight + window.scrollY;
+    if ((scrollHeight - scrollPosition) / scrollHeight <= 0.1) {
+        document.body.style.background = "none";
+    } else {
+        document.body.style.background = "linear-gradient(to top, white 10%, transparent 100%)";
+    }
+}
