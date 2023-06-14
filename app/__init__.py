@@ -3,6 +3,7 @@ import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
+from flask_cors import CORS
 import json
 
 db = SQLAlchemy()
@@ -11,6 +12,7 @@ jwt = JWTManager()
 
 def create_app():
     app = Flask(__name__, template_folder='../templates', static_folder='../static')
+    CORS(app)
 
     app.jinja_env.globals.update(enumerate=enumerate)
     app.jinja_env.globals.update(zip=zip)

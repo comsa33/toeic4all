@@ -7,6 +7,8 @@ from flask import render_template, send_file, Response
 from flask import Blueprint, jsonify, request
 from sqlalchemy import and_, func
 import pdfkit
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
 
 from app.models import GeneratedQuestionType, GeneratedQuestionSubType, GeneratedQuestion, GeneratedAnswer, GeneratedVocabulary
 from app import db
@@ -299,11 +301,14 @@ def get_test_questions(test_no):
     # Assume tests[test_no] exists and contains 'questions' key
     questions_pdf = tests[test_no]['questions']
 
+    # Register the Korean font before creating the PDF
+    pdfmetrics.registerFont(TTFont('NanumGothic', '/path/to/NanumGothic.ttf'))
+
     # Convert to a ByteIO stream
     pdf_io = io.BytesIO(questions_pdf)
 
     response = send_file(pdf_io, mimetype='application/pdf')
-    response.headers.set('Content-Disposition', 'attachment', filename=f'questions_{test_no}.pdf')
+    response.headers.set('Content-Disposition', 'attachment', filename=f'P5모의고사_{test_no}.pdf')
     return response
 
 
@@ -312,10 +317,15 @@ def get_test_answers(test_no):
     # Assume tests[test_no] exists and contains 'answers' key
     answers_pdf = tests[test_no]['answers']
 
+    # Register the Korean font before creating the PDF
+    pdfmetrics.registerFont(TTFont('NanumGothic', '/path/to/NanumGothic.ttf'))
+
     # Convert to a ByteIO stream
     pdf_io = io.BytesIO(answers_pdf)
 
-    return send_file(pdf_io, mimetype='application/pdf', as_attachment=True, attachment_filename=f'answers_{test_no}.pdf')
+    response = send_file(pdf_io, mimetype='application/pdf')
+    response.headers.set('Content-Disposition', 'attachment', filename=f'P5모의고사_정답_{test_no}.pdf')
+    return response
 
 
 @api.route('/test/explanations/<test_no>', methods=['GET'])
@@ -323,26 +333,12 @@ def get_test_explanations(test_no):
     # Assume tests[test_no] exists and contains 'explanations' key
     explanations_pdf = tests[test_no]['explanations']
 
+    # Register the Korean font before creating the PDF
+    pdfmetrics.registerFont(TTFont('NanumGothic', '/path/to/NanumGothic.ttf'))
+
     # Convert to a ByteIO stream
     pdf_io = io.BytesIO(explanations_pdf)
 
-    return send_file(pdf_io, mimetype='application/pdf', as_attachment=True, attachment_filename=f'explanations_{test_no}.pdf')
-
-
-# @api.route('/download/<test_no>/<type>', methods=['GET'])
-# def download_test(test_no, type):
-#     # Check if test exists
-#     if test_no not in tests:
-#         return abort(404, description="Test not found.")
-
-#     # Check if type is valid
-#     if type not in ['questions', 'answers', 'explanations']:
-#         return abort(400, description="Invalid type.")
-
-#     # Get test data
-#     test_data = tests[test_no][type]
-
-#     # Create full HTML document
-#     html = render_template('download.html', content=test_data)
-
-#     return html
+    response = send_file(pdf_io, mimetype='application/pdf')
+    response.headers.set('Content-Disposition', 'attachment', filename=f'P5모의고사_해설지_{test_no}.pdf')
+    return response
