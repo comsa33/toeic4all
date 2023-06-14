@@ -10,9 +10,9 @@ WORKDIR /usr/src
 
 COPY requirements.txt pyproject.toml poetry.lock /usr/src/
 
-RUN sed -i 's/http:\/\/deb.debian.org/http:\/\/ftp.kr.debian.org/g' /etc/apt/sources.list && \
+RUN sed -i 's/http:\/\/deb.debian.org/http:\/\/ftp.us.debian.org/g' /etc/apt/sources.list && \
     apt update -y && \
-    apt-get install -y libgirepository1.0-dev gir1.2-gtk-3.0 libcairo2-dev libffi-dev
+    apt-get install -y --fix-missing libgirepository1.0-dev gir1.2-gtk-3.0 libcairo2-dev libffi-dev
 
 RUN pip install -r requirements.txt
 RUN poetry config virtualenvs.create false
