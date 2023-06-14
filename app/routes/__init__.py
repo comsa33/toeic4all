@@ -1,6 +1,13 @@
 from flask import Blueprint, render_template
+from datetime import datetime
+
 
 main_bp = Blueprint('main', __name__)
+
+
+@main_bp.context_processor
+def inject_current_year():
+    return {'current_year': datetime.now().year}
 
 
 @main_bp.route('/')

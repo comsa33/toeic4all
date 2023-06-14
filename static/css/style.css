@@ -223,3 +223,11 @@ nav #nav-links-left {
     flex-direction: column;
     gap: 1rem;
 }
+
+footer.text-center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5rem; /* 위로 마진 추가 */
+}
