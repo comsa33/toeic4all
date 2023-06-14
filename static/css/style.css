@@ -76,7 +76,7 @@ nav ul .active a {
 }
 
 .button {
-    background-color: #4CAF50; 
+    background-color: #ff5a1e; 
     border: none;
     color: white;
     padding: 10px 20px;
@@ -90,18 +90,18 @@ nav ul .active a {
 }
 
 .button:hover {
-    background-color: #45a049;
+    background-color: #fa8256;
 }
 
 .button:active {
-    background-color: #3e8e41;
+    background-color: #c24417;
 }
 
 .button-container {
     display: flex;
-    justify-content: space-around; /* 버튼을 가운데로 정렬하기 위해 변경 */
+    justify-content: space-evenly;
     gap: 40px;
-    margin-top: 40px; /* 버튼 사이의 간격 추가 */
+    margin-top: 40px;
 }
 
 .button-container .btn-link {
@@ -121,7 +121,7 @@ nav ul .active a {
     background-color: #4CAF50; 
     border: none;
     color: white;
-    padding: 10px 20px;
+    padding: 16px 20px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
@@ -130,6 +130,15 @@ nav ul .active a {
     border-radius: 50%; /* 버튼을 원형으로 변경 */
 }
 
+/* 호버 효과 */
+.button-container .btn-link .button:hover {
+    background-color: #45a049; /* 호버할 때 배경색 변경 */
+}
+
+/* 클릭 효과 (active 상태) */
+.button-container .btn-link .button:active {
+    background-color: #3e8e41; /* 클릭할 때 배경색 변경 */
+}
 
 #nav-user {
     font-size: 75%;
