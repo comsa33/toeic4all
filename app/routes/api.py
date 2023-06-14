@@ -1,13 +1,10 @@
 import random
 from datetime import datetime
 from collections import defaultdict
-from urllib.parse import quote
-import io
 
-from flask import render_template, send_file, Response
+from flask import render_template, make_response
 from flask import Blueprint, jsonify, request
 from sqlalchemy import and_, func
-from weasyprint import HTML
 
 from app.models import GeneratedQuestionType, GeneratedQuestionSubType, GeneratedQuestion, GeneratedAnswer, GeneratedVocabulary
 from app import db
@@ -269,16 +266,11 @@ def generate_test():
     answers_html = render_template('answers.html', answers=answers, test_level=lv_mapping_kor[test_lv], creation_time=test_no)
     explanations_html = render_template('explanations.html', explanations=explanations, vocas=vocas)
 
-    # Convert to PDF
-    questions_pdf = HTML(string=questions_html).write_pdf()
-    answers_pdf = HTML(string=answers_html).write_pdf()
-    explanations_pdf = HTML(string=explanations_html).write_pdf()
-
     # Store test data
     tests[test_no] = {
-        'questions': questions_pdf,
-        'answers': answers_pdf,
-        'explanations': explanations_pdf,
+        'questions': questions_html,
+        'answers': answers_html,
+        'explanations': explanations_html,
     }
 
     return jsonify({
@@ -295,40 +287,28 @@ def generate_test():
 @api.route('/test/questions/<test_no>', methods=['GET'])
 def get_test_questions(test_no):
     # Assume tests[test_no] exists and contains 'questions' key
-    questions_pdf = tests[test_no]['questions']
+    questions_html = tests[test_no]['questions']
 
-    # Convert to a ByteIO stream
-    pdf_io = io.BytesIO(questions_pdf)
-
-    filename = quote(f'P5모의고사_{test_no}.pdf')
-    response = send_file(pdf_io, mimetype='application/pdf')
-    response.headers.set('Content-Disposition', 'attachment', filename=filename)
+    response = make_response(questions_html)
+    response.headers['Content-Type'] = 'text/html'
     return response
 
 
 @api.route('/test/answers/<test_no>', methods=['GET'])
 def get_test_answers(test_no):
     # Assume tests[test_no] exists and contains 'answers' key
-    answers_pdf = tests[test_no]['answers']
+    answers_html = tests[test_no]['answers']
 
-    # Convert to a ByteIO stream
-    pdf_io = io.BytesIO(answers_pdf)
-
-    filename = quote(f'P5모의고사_정답_{test_no}.pdf')
-    response = send_file(pdf_io, mimetype='application/pdf')
-    response.headers.set('Content-Disposition', 'attachment', filename=filename)
+    response = make_response(answers_html)
+    response.headers['Content-Type'] = 'text/html'
     return response
 
 
 @api.route('/test/explanations/<test_no>', methods=['GET'])
 def get_test_explanations(test_no):
     # Assume tests[test_no] exists and contains 'explanations' key
-    explanations_pdf = tests[test_no]['explanations']
+    explanations_html = tests[test_no]['explanations']
 
-    # Convert to a ByteIO stream
-    pdf_io = io.BytesIO(explanations_pdf)
-
-    filename = quote(f'P5모의고사_해설지_{test_no}.pdf')
-    response = send_file(pdf_io, mimetype='application/pdf')
-    response.headers.set('Content-Disposition', 'attachment', filename=filename)
+    response = make_response(explanations_html)
+    response.headers['Content-Type'] = 'text/html'
     return response
