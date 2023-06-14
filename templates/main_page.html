@@ -3,26 +3,27 @@
 {% block additional_css %}
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main_page.css') }}">
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
 <div class="container my-5">
     <div class="jumbotron text-center">
-        <h1 class="display-4 mb-4">Welcome to 모두의 토익</h1>
-        <img src="{{ url_for('static', filename='images/hero.jpg') }}" alt="Language learning" class="img-fluid rounded mb-4"> <!-- 히어로 이미지 -->
+        <h1 class="display-4 mb-4" data-aos="fade-up">Welcome to 모두의 토익</h1>
+        <img src="{{ url_for('static', filename='images/hero.jpg') }}" alt="Language learning" class="img-fluid rounded mb-4" data-aos="fade-up"> <!-- 히어로 이미지 -->
     </div>
     <div class="row mb-5 text-center">
-        <div class="col-lg-4">
+        <div class="col-lg-4" data-aos="fade-up">
             <i class="fas fa-pencil-alt fa-2x mb-2"></i>
             <h5>모의고사 생성</h5>
             <p>AI가 만든 토익 파트5 모의고사를 생성하고 풀어보세요.</p>
         </div>
-        <div class="col-lg-4">
+        <div class="col-lg-4" data-aos="fade-up">
             <i class="fas fa-book-open fa-2x mb-2"></i>
             <h5>정답/해설 보기</h5>
             <p>푼 모의고사의 정답과 해설을 확인하세요.</p>
         </div>
-        <div class="col-lg-4">
+        <div class="col-lg-4" data-aos="fade-up">
             <i class="fas fa-comments fa-2x mb-2"></i>
             <h5>Q&A 게시판</h5>
             <p>다른 사용자들과 모의고사 문제에 대한 의견을 나눠보세요.</p>
@@ -30,8 +31,15 @@
     </div>
     <div class="row mb-5">
         <div class="col-lg-4 mx-auto">
-            <a href="/part5/test" class="btn btn-primary btn-block">시작하기</a>
+            <a href="/part5/test" class="btn btn-primary btn-block" data-aos="fade-up">시작하기</a>
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block additional_script %}
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init();
+</script>
 {% endblock %}
