@@ -129,6 +129,11 @@ body #hamburger-btn {
     align-items: center;
 }
 
+body .bootstrap-page #hamburger-btn {
+    width: 25px;
+    height: 25px;
+}
+
 #side-nav {
     display: flex;
     flex-direction: column;
