@@ -127,45 +127,52 @@ document.addEventListener('click', function(event) {
     }
 });
 
-// 중복 코드를 제거한 AJAX 요청을 사용하는 코드
-document.getElementById('generate-btn').addEventListener('click', function() {
-    var difficulty = document.getElementById('difficulty').value;
-    if (!difficulty) {
-        alert('난이도를 선택하세요');
+document.getElementById("generate-btn").addEventListener("click", function() {
+    var difficulty = document.getElementById("difficulty").value;
+
+    if (difficulty === "") {
+        alert("난이도를 선택해 주세요!");
         return;
     }
-    makeRequest(
-        'GET',
-        '/api/test?TestLv=' + difficulty,
-        {},
-        function(response) {
-            displayTestResult(response);
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "/api/test?TestLv=" + difficulty, true);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            var test_data = JSON.parse(xhr.responseText);
+
+            document.getElementById("questions-link").href = test_data.data.questions;
+            document.getElementById("answers-link").href = test_data.data.answers;
+            document.getElementById("explanations-link").href = test_data.data.explanations;
+            document.getElementById("test-links").style.display = "block";
         }
-    );
+    }
+    xhr.send();
 });
 
-function displayTestResult(data) {
-    var testResultDiv = document.getElementById('test-result');
 
-    testResultDiv.innerHTML = '<h2>' + 'AI 생성 결과</h2>' +
-        '<a href="' + data.data.questions + '" target="_blank">문제지 다운로드 링크</a>';
+// function displayTestResult(data) {
+//     var testResultDiv = document.getElementById('test-result');
 
-    // 해설지와 정답에 대한 div를 추가
-    testResultDiv.innerHTML += `
-        <button id="answer-toggle" class="button">정답 및 해설 보기</button>
-        <div id="answer" style="display:none;">
-            <a href="${data.data.answers}" target="_blank">정답지 다운로드 링크</a>
-            <br>
-            <a href="${data.data.explanations}" target="_blank">해설지 다운로드 링크</a>
-        </div>`;
+//     testResultDiv.innerHTML = '<h2>' + 'AI 생성 결과</h2>' +
+//         '<a href="' + data.data.questions + '" target="_blank">문제지 다운로드 링크</a>';
 
-    // 클릭 이벤트 리스너를 버튼에 추가
-    document.getElementById('answer-toggle').addEventListener('click', function() {
-        var answerDiv = document.getElementById('answer');
-        if (answerDiv.style.display === 'none') {
-            answerDiv.style.display = 'block';
-        } else {
-            answerDiv.style.display = 'none';
-        }
-    });
-}
+//     // 해설지와 정답에 대한 div를 추가
+//     testResultDiv.innerHTML += `
+//         <button id="answer-toggle" class="button">정답 및 해설 보기</button>
+//         <div id="answer" style="display:none;">
+//             <a href="${data.data.answers}" target="_blank">정답지 다운로드 링크</a>
+//             <br>
+//             <a href="${data.data.explanations}" target="_blank">해설지 다운로드 링크</a>
+//         </div>`;
+
+//     // 클릭 이벤트 리스너를 버튼에 추가
+//     document.getElementById('answer-toggle').addEventListener('click', function() {
+//         var answerDiv = document.getElementById('answer');
+//         if (answerDiv.style.display === 'none') {
+//             answerDiv.style.display = 'block';
+//         } else {
+//             answerDiv.style.display = 'none';
+//         }
+//     });
+// }
