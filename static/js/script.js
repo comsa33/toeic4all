@@ -1,16 +1,12 @@
-// 햄버거 버튼과 사이드 네비게이션 바를 선택
 const hamburgerBtn = document.getElementById('hamburger-btn');
 const sideNav = document.getElementById('side-nav');
 
-// 햄버거 버튼을 누르면 사이드 네비게이션 바를 보여주거나 숨기는 함수
 function toggleNav() {
     sideNav.classList.toggle('visible');
 }
 
-// 햄버거 버튼에 클릭 이벤트 리스너 추가
 hamburgerBtn.addEventListener('click', toggleNav);
 
-// AJAX 요청을 위한 함수
 function makeRequest(method, url, headers = {}, callback, errorCallback) {
     var xhr = new XMLHttpRequest();
     xhr.open(method, url);
@@ -20,6 +16,8 @@ function makeRequest(method, url, headers = {}, callback, errorCallback) {
     xhr.onload = function() {
         if (xhr.status === 200) {
             callback(JSON.parse(xhr.responseText));
+        } else if (xhr.status === 401) {
+            alert('로그인이 필요한 서비스입니다.');
         } else if (errorCallback) {
             errorCallback();
         }
@@ -27,12 +25,10 @@ function makeRequest(method, url, headers = {}, callback, errorCallback) {
     xhr.send();
 }
 
-// 로그인 상태에 따른 UI 업데이트 함수
 function updateUI(isLoggedIn, username) {
     $('#nav-logout, #mobile-nav-logout').toggle(isLoggedIn);
     $('#nav-user, #mobile-nav-user').toggle(isLoggedIn).html(username + ' 님');
     $('#nav-login, #mobile-nav-login').toggle(!isLoggedIn);
-    // $('#nav-signup, #mobile-nav-signup').toggle(!isLoggedIn);
 }
 
 $(document).ready(function() {
@@ -60,7 +56,6 @@ $(document).ready(function() {
     }
 
     $('#nav-logout, #mobile-nav-logout').click(function() {
-        // 로컬 저장소에서 토큰을 삭제하고 페이지를 새로 고침합니다.
         localStorage.removeItem('access_token');
         location.reload();
     });
@@ -76,6 +71,10 @@ function checkLoginStatus(callback) {
         } else {
             alert('로그인이 필요한 서비스입니다.');
         }
+    };
+    xhr.onerror = function() { 
+        alert('로그인이 필요한 서비스입니다.');
+        return;
     };
     xhr.send();
 }
@@ -117,7 +116,6 @@ function setupDownloadButton(buttonId, fileType) {
     }
 }
 
-// 사이드 바 외부를 탭할 때 사이드 바를 숨기는 이벤트 리스너 추가
 document.addEventListener('click', function(event) {
     var isClickInside = sideNav.contains(event.target);
     var isHamburgerClicked = hamburgerBtn.contains(event.target);
