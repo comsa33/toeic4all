@@ -7,19 +7,21 @@ function toggleNav() {
 
 hamburgerBtn.addEventListener('click', toggleNav);
 
-document.addEventListener('DOMContentLoaded', function() {
-    if (window.location.pathname === '/part5/test') {
-        makeRequest('GET', '/user/status', {
-            'Authorization': `Bearer ${localStorage.getItem('access_token')}`
-        }, function(response) {
-            // 유저가 로그인 상태라면 어떠한 동작도 필요 없음
-        }, function() {
-            // 유저가 로그인 상태가 아니라면 경고 메시지를 출력하고 페이지를 리다이렉트
-            alert('로그인이 필요한 서비스입니다.');
-            window.location.href = '/login';
-        });
-    }
-});
+function makeRequest(method, url, headers = {}, callback, errorCallback) {
+    var xhr = new XMLHttpRequest();
+    xhr.open(method, url);
+    Object.keys(headers).forEach(function(key) {
+        xhr.setRequestHeader(key, headers[key]);
+    });
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            callback(JSON.parse(xhr.responseText));
+        } else if (errorCallback) {
+            errorCallback();
+        }
+    };
+    xhr.send();
+}
 
 function updateUI(isLoggedIn, username) {
     $('#nav-logout, #mobile-nav-logout').toggle(isLoggedIn);
