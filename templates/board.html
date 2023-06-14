@@ -4,10 +4,24 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/board.css') }}">
 {% endblock %}
 
+{% block body_top %}
+<div id="my-img-container" class="my-img-container">
+    <div class="blur-bg-image" data-bg-url="{{ url_for('static', filename='images/answer-sheet-img1.jpg') }}"></div>
+    <div class="my-img-text">
+        <h1 class="h1-on-img" style="text-align:center; margin-bottom: 2rem;">Q&A 게시판</h1>
+        <p class="p-on-img">궁금한게 많아진다는 것은 실력이 늘고 있다는 증거!</p>
+    </div>
+</div>
+<script>
+    // 이미지의 URL을 가져와서 CSS 스타일로 적용합니다.
+    var blurBgImage = document.querySelector('.blur-bg-image');
+    var bgUrl = blurBgImage.getAttribute('data-bg-url');
+    blurBgImage.style.backgroundImage = "url('" + bgUrl + "')";
+</script>
+{% endblock %}
+
 {% block content %}
     <div class="container">
-        <h2 id="board-title">파트5 Q&A 게시판</h2>
-        
         <!-- question creation form -->
         <form id="new-question-form" class="no-border form">
             <div class="input-group" id="new-question-title-group">
