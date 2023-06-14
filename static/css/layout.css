@@ -113,7 +113,7 @@ nav #nav-links-left {
     top: -20px;
 }
 
-#hamburger-btn {
+body #hamburger-btn {
     position: fixed;
     top: 9px;
     right: 15px;
