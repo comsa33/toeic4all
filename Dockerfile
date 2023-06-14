@@ -10,7 +10,8 @@ WORKDIR /usr/src
 
 COPY requirements.txt pyproject.toml poetry.lock /usr/src/
 
-RUN apt update -y
+RUN sed -i 's/http:\/\/deb.debian.org/http:\/\/ftp.kr.debian.org/g' /etc/apt/sources.list && \
+    apt update -y
 RUN apt-get install -y wkhtmltopdf
 
 RUN pip install -r requirements.txt

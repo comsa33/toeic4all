@@ -3,7 +3,7 @@ from datetime import datetime
 from collections import defaultdict
 import io
 
-from flask import render_template, send_file, make_response
+from flask import render_template, send_file, Response
 from flask import Blueprint, jsonify, request
 from sqlalchemy import and_, func
 import pdfkit
@@ -302,8 +302,8 @@ def get_test_questions(test_no):
     # Convert to a ByteIO stream
     pdf_io = io.BytesIO(questions_pdf)
 
-    response = make_response(send_file(pdf_io, mimetype='application/pdf', as_attachment=True))
-    response.headers["Content-Disposition"] = "attachment; filename=questions_{}.pdf".format(test_no)
+    response = send_file(pdf_io, mimetype='application/pdf')
+    response.headers.set('Content-Disposition', 'attachment', filename=f'questions_{test_no}.pdf')
     return response
 
 
