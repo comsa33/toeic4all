@@ -7,17 +7,17 @@ body {
 
 @keyframes beat {
     0% { transform: scale(1); }
-    25% { transform: scale(1.1); }
+    25% { transform: scale(1.05); }
     50% { transform: scale(1); }
-    75% { transform: scale(1.1); }
+    75% { transform: scale(1.05); }
     100% { transform: scale(1); }
 }
 
 #nav-title {
-    font-size: 1.5rem; 
-    font-weight: bold;
-    letter-spacing: 0.05em; 
-    text-transform: uppercase;
+    font-size: 1.5rem !important; 
+    font-weight: bold !important;
+    letter-spacing: 0.05em !important; 
+    text-transform: uppercase !important;
     color: white; /* 흰색으로 설정 */
     transition: color 0.3s ease; /* 색상 변화에 애니메이션 적용 */
 }
@@ -27,7 +27,7 @@ body {
     animation: beat 0.5s infinite; /* beat 애니메이션을 0.5초 간격으로 무한 반복 */
 }
 
-#nav-title a:hover {
+#nav-title a:hover, #mobile-title a:hover {
     color: white; /* hover시에도 텍스트 색상을 흰색으로 유지 */
     text-decoration: none; /* 밑줄 제거 */
 }
@@ -47,11 +47,6 @@ body {
 }
 
 #mobile-title {
-    font-weight: bold; /* 타이틀을 두껍게 만듦 */
-    color: white; /* 텍스트 색상을 흰색으로 변경 */
-}
-
-#title {
     font-weight: bold; /* 타이틀을 두껍게 만듦 */
     color: white; /* 텍스트 색상을 흰색으로 변경 */
 }
@@ -120,15 +115,15 @@ nav #nav-links-left {
 
 #hamburger-btn {
     position: fixed;
-    top: 15px;
+    top: 9px;
     right: 15px;
-    color: #fff;
-    font-size: 1.2em;
-    background-color: #999;
-    border-radius: 50%;
-    padding: 10px;
-    width: 40px;
-    height: 40px;
+    color: #fff !important;
+    font-size: 1.2em !important;
+    background-color: #999 !important;
+    border-radius: 50% !important;
+    padding: 10px !important;
+    width: 25px !important;
+    height: 25px !important;
     display: flex;
     justify-content: center;
     align-items: center;
