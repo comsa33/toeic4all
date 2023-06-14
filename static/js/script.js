@@ -95,7 +95,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 xhr.onreadystatechange = function() {
                     if (xhr.readyState === 4 && xhr.status === 200) {
                         var response = JSON.parse(xhr.responseText);
-                        displayTestResult(response);
                     }
                 };
                 xhr.send();
@@ -149,30 +148,3 @@ document.getElementById("generate-btn").addEventListener("click", function() {
     }
     xhr.send();
 });
-
-
-// function displayTestResult(data) {
-//     var testResultDiv = document.getElementById('test-result');
-
-//     testResultDiv.innerHTML = '<h2>' + 'AI 생성 결과</h2>' +
-//         '<a href="' + data.data.questions + '" target="_blank">문제지 다운로드 링크</a>';
-
-//     // 해설지와 정답에 대한 div를 추가
-//     testResultDiv.innerHTML += `
-//         <button id="answer-toggle" class="button">정답 및 해설 보기</button>
-//         <div id="answer" style="display:none;">
-//             <a href="${data.data.answers}" target="_blank">정답지 다운로드 링크</a>
-//             <br>
-//             <a href="${data.data.explanations}" target="_blank">해설지 다운로드 링크</a>
-//         </div>`;
-
-//     // 클릭 이벤트 리스너를 버튼에 추가
-//     document.getElementById('answer-toggle').addEventListener('click', function() {
-//         var answerDiv = document.getElementById('answer');
-//         if (answerDiv.style.display === 'none') {
-//             answerDiv.style.display = 'block';
-//         } else {
-//             answerDiv.style.display = 'none';
-//         }
-//     });
-// }
