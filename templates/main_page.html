@@ -6,51 +6,32 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container my-5">
-        <h1 class="text-center mb-4">Welcome to 모두의 토익</h1>
-
-        <!-- Service Introduction -->
-        <div class="row mb-5">
-            <div class="col-lg-8 mx-auto">
-                <h2 class="text-center mb-3">서비스 소개</h2>
-                <p class="text-center">"모두의 토익"은 AI가 생성하는 토익 파트5 모의고사와 정답, 해설을 제공합니다. 또한 Q&A 게시판에서 다른 사용자들과 의견을 나눌 수 있습니다.</p>
-            </div>
+<div class="container my-5">
+    <div class="jumbotron text-center">
+        <h1 class="display-4 mb-4">Welcome to 모두의 토익</h1>
+        <img src="{{ url_for('static', filename='images/hero.jpg') }}" alt="Language learning" class="img-fluid rounded mb-4"> <!-- 히어로 이미지 -->
+    </div>
+    <div class="row mb-5 text-center">
+        <div class="col-lg-4">
+            <i class="fas fa-pencil-alt fa-2x mb-2"></i>
+            <h5>모의고사 생성</h5>
+            <p>AI가 만든 토익 파트5 모의고사를 생성하고 풀어보세요.</p>
         </div>
-
-        <!-- Features Introduction -->
-        <div class="row mb-5">
-            <div class="col-lg-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title text-center">모의고사 생성</h5>
-                        <p class="card-text">AI가 만든 토익 파트5 모의고사를 생성하고 풀어보세요.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title text-center">정답/해설 보기</h5>
-                        <p class="card-text">푼 모의고사의 정답과 해설을 확인하세요.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title text-center">Q&A 게시판</h5>
-                        <p class="card-text">다른 사용자들과 모의고사 문제에 대한 의견을 나눠보세요.</p>
-                    </div>
-                </div>
-            </div>
+        <div class="col-lg-4">
+            <i class="fas fa-book-open fa-2x mb-2"></i>
+            <h5>정답/해설 보기</h5>
+            <p>푼 모의고사의 정답과 해설을 확인하세요.</p>
         </div>
-
-        <!-- Get Started Button -->
-        <div class="row mb-5">
-            <div class="col-lg-4 mx-auto">
-                <a href="/part5/test" class="btn btn-primary btn-block">시작하기</a>
-            </div>
+        <div class="col-lg-4">
+            <i class="fas fa-comments fa-2x mb-2"></i>
+            <h5>Q&A 게시판</h5>
+            <p>다른 사용자들과 모의고사 문제에 대한 의견을 나눠보세요.</p>
         </div>
     </div>
+    <div class="row mb-5">
+        <div class="col-lg-4 mx-auto">
+            <a href="/part5/test" class="btn btn-primary btn-block">시작하기</a>
+        </div>
+    </div>
+</div>
 {% endblock %}
-
