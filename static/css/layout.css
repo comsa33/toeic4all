@@ -84,11 +84,13 @@ nav ul li a {
 }
 
 nav ul li a:hover {
-    color: #f9aeae;
+    color: #fe6969;
+    text-decoration: none;
 }
 
 nav ul .active a {
     color: #ff6347;
+    text-decoration: none;
 }
 
 .content {
@@ -103,7 +105,7 @@ nav ul .active a {
 }
 
 #nav-login:hover, #nav-logout:hover {
-    font-size: 75%;
+    font-size: 90%;
     transition: color 0.3s ease;
     color: #ff6347;
 }
