@@ -35,7 +35,7 @@ body {
 #desktop-nav, #mobile-nav {
     background-color: #333;
     color: #fff;
-    padding: 20px 50px;
+    padding: 20px 50px !important;
     display: flex;
     justify-content: space-between;
     align-items: center;
