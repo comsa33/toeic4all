@@ -106,7 +106,7 @@ function getQuestion(id, answerPage = 1) {
             board.className = 'detail-view';
             let contentWithBreaks = data.content.replace(/(?:\r\n|\r|\n)/g, '<br>');
             board.innerHTML = `
-                <button type="button" class="button-text" onclick="getQuestions()">﹤전체목록보기</button>
+                <button type="button" id="button-get-questions" class="button-text" onclick="getQuestions()">﹤전체목록보기</button>
                 <div class="question-box">
                     <div class="question-header">
                         <div class="question-author">${data.author}</div>

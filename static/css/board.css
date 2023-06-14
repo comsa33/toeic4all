@@ -22,6 +22,10 @@ h2, h3, h4 {
     color: var(--secondary-color);
 }
 
+#h4-answer {
+    margin-left: 5px;
+}
+
 .my-img-container {
     position: relative;
     max-width: 100%;
@@ -123,6 +127,11 @@ button:disabled {
 
 .button-text:active {
     color: #0d5b8a;
+}
+
+# button-get-questions {
+    margin-left: 5px;
+    margin-top: 15px;
 }
 
 .no-border {
