@@ -12,7 +12,7 @@ COPY requirements.txt pyproject.toml poetry.lock /usr/src/
 
 RUN sed -i 's/http:\/\/deb.debian.org/http:\/\/ftp.kr.debian.org/g' /etc/apt/sources.list && \
     apt update -y && \
-    apt-get install python3-cffi python3-cairo python3-gobject
+    apt-get install -y libgirepository1.0-dev gir1.2-gtk-3.0 libcairo2-dev libffi-dev
 
 RUN pip install -r requirements.txt
 RUN poetry config virtualenvs.create false
