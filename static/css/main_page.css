@@ -76,13 +76,13 @@ h1.display-4 {
 }
 
 .col-lg-4 i {
-    color: #2c2c2c;
+    color: #666666;
 }
 
 .col-lg-4 h5 {
     font-size: 1.25rem;
     font-weight: bold;
-    color: #2c2c2c;
+    color: #666666;
 }
 
 .container .card {

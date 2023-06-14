@@ -139,6 +139,27 @@ body #hamburger-btn {
     #mobile-nav {
         display: flex;
     }
+    #side-nav {
+        padding-top: 2rem;
+    }
+
+    #side-nav #nav-links-left {
+        position: absolute;
+        top: 2rem;
+    }
+
+    #side-nav #nav-links-left li:not(:last-child) {
+        margin-bottom: 15px; /* 항목 사이의 간격을 15px로 설정 */
+    }
+
+    #side-nav #nav-links-right {
+        position: absolute;
+        bottom: 25%;
+    }
+
+    #side-nav #nav-links-right li:not(:last-child) {
+        margin-bottom: 15px; /* 항목 사이의 간격을 15px로 설정 */
+    }
 }
 
 #side-nav.visible {
