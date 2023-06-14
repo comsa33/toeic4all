@@ -1,6 +1,7 @@
 import random
 from datetime import datetime
 from collections import defaultdict
+from urllib.parse import quote
 import io
 
 from flask import render_template, send_file, Response
@@ -307,8 +308,9 @@ def get_test_questions(test_no):
     # Convert to a ByteIO stream
     pdf_io = io.BytesIO(questions_pdf)
 
+    filename = quote(f'P5모의고사_{test_no}.pdf')
     response = send_file(pdf_io, mimetype='application/pdf')
-    response.headers.set('Content-Disposition', 'attachment', filename=f'P5모의고사_{test_no}.pdf')
+    response.headers.set('Content-Disposition', 'attachment', filename=filename)
     return response
 
 
@@ -323,8 +325,9 @@ def get_test_answers(test_no):
     # Convert to a ByteIO stream
     pdf_io = io.BytesIO(answers_pdf)
 
+    filename = quote(f'P5모의고사_정답_{test_no}.pdf')
     response = send_file(pdf_io, mimetype='application/pdf')
-    response.headers.set('Content-Disposition', 'attachment', filename=f'P5모의고사_정답_{test_no}.pdf')
+    response.headers.set('Content-Disposition', 'attachment', filename=filename)
     return response
 
 
@@ -339,6 +342,7 @@ def get_test_explanations(test_no):
     # Convert to a ByteIO stream
     pdf_io = io.BytesIO(explanations_pdf)
 
+    filename = quote(f'P5모의고사_해설지_{test_no}.pdf')
     response = send_file(pdf_io, mimetype='application/pdf')
-    response.headers.set('Content-Disposition', 'attachment', filename=f'P5모의고사_해설지_{test_no}.pdf')
+    response.headers.set('Content-Disposition', 'attachment', filename=filename)
     return response
