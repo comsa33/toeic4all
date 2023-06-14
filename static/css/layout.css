@@ -37,7 +37,7 @@ body {
     color: #fff;
     display: flex;
     height: 50px;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
 }
 
