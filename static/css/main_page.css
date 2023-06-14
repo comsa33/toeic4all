@@ -15,10 +15,7 @@ h1.display-4 {
 
 .jumbotron {
     background-size: cover;
-    height: 400px;
     display: flex;
-    justify-content: center;
-    align-items: center;
     color: #ffffff;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }

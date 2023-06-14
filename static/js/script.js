@@ -160,6 +160,6 @@ function fadeGradient() {
     if ((scrollHeight - scrollPosition) / scrollHeight <= 0.1) {
         document.body.style.background = "none";
     } else {
-        document.body.style.background = "linear-gradient(to top, white 10%, transparent 100%)";
+        document.body.style.background = "linear-gradient(to top, white 30%, transparent 100%)";
     }
 }
