@@ -35,6 +35,10 @@ h2, h3, h4 {
 
 .blur-bg-image {
     position: absolute;
+    width: 102%; /* width를 102%로 설정 */
+    height: 102%; /* height를 102%로 설정 */
+    left: -1%; /* 요소를 왼쪽으로 1% 이동 */
+    top: -1%; /* 요소를 위쪽으로 1% 이동 */
     width: 100%;
     height: 100%;
     background-size: cover;
