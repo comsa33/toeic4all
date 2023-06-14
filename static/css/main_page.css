@@ -36,23 +36,30 @@ h1.display-4 {
 }
 
 .arrow-down {
+    position: absolute;
+    bottom: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.arrow-down span {
+    display: block;
     width: 0; 
     height: 0; 
     border-left: 10px solid transparent;
     border-right: 10px solid transparent;
     border-top: 10px solid white;
-    position: absolute;
-    bottom: 5%;
-    left: 50%;
-    transform: translateX(-50%);
-    box-shadow: 0px 0px 5px #999;
+    margin: 5px;
     animation: arrowDown 0.6s infinite;
 }
 
 @keyframes arrowDown {
-    0% { transform: translateX(-50%) translateY(0); }
-    50% { transform: translateX(-50%) translateY(10px); }
-    100% { transform: translateX(-50%) translateY(0); }
+    0% { transform: translateY(0); }
+    50% { transform: translateY(10px); }
+    100% { transform: translateY(0); }
 }
 
 @keyframes animate-text {
