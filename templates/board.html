@@ -1,5 +1,9 @@
 {% extends "layout.html" %}
 
+{% block additional_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/board.css') }}">
+{% endblock %}
+
 {% block content %}
     <div class="container">
         <h2>파트5 Q&A 게시판</h2>

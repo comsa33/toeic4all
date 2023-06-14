@@ -1,48 +1,45 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>{{ test_level }} 모두의 토익</title>
-    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.7/dist/web/variable/pretendardvariable-dynamic-subset.css" />
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/questions.css') }}">
-</head>
-<body>
-  <h2 class="text-center">{{ test_level }} TOEIC Part 5 모의고사</h2>
-  <div class="container-test">
-    <div class="row">
-        <div class="col">
-            <!-- Render the left column questions -->
-            {% for question, choice in zip(questions_left, choices_left) %}
-            <div class="question-container">
-                <p><strong>{{ loop.index + 100 }}. {{ question.QuestionText }}</strong></p>
-                <ol type="A">
-                    {% for selection in choice["Choices"] %}
-                    <li>{{ selection }}</li>
-                    {% endfor %}
-                </ol>
-                <small class="text-muted">ID: {{ question.QuestionId }}</small>
+{% extends "layout.html" %}
+
+{% block additional_css %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/questions.css') }}">
+{% endblock %}
+
+{% block content %}
+    <h2 class="text-center">{{ test_level }} TOEIC Part 5 모의고사</h2>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <!-- Render the left column questions -->
+                {% for question, choice in zip(questions_left, choices_left) %}
+                <div class="question-container">
+                    <p><strong>{{ loop.index + 100 }}. {{ question.QuestionText }}</strong></p>
+                    <ol type="A">
+                        {% for selection in choice["Choices"] %}
+                        <li>{{ selection }}</li>
+                        {% endfor %}
+                    </ol>
+                    <small class="text-muted">ID: {{ question.QuestionId }}</small>
+                </div>
+                {% endfor %}
             </div>
-            {% endfor %}
-        </div>
-        <div class="col">
-            <!-- Render the right column questions -->
-            {% for question, choice in zip(questions_right, choices_right) %}
-            <div class="question-container">
-                <p><strong>{{ loop.index + 115 }}. {{ question.QuestionText }}</strong></p>
-                <ol type="A">
-                    {% for selection in choice["Choices"] %}
-                    <li>{{ selection }}</li>
-                    {% endfor %}
-                </ol>
-                <small class="text-muted">ID: {{ question.QuestionId }}</small>
+            <div class="col-md-6">
+                <!-- Render the right column questions -->
+                {% for question, choice in zip(questions_right, choices_right) %}
+                <div class="question-container">
+                    <p><strong>{{ loop.index + 115 }}. {{ question.QuestionText }}</strong></p>
+                    <ol type="A">
+                        {% for selection in choice["Choices"] %}
+                        <li>{{ selection }}</li>
+                        {% endfor %}
+                    </ol>
+                    <small class="text-muted">ID: {{ question.QuestionId }}</small>
+                </div>
+                {% endfor %}
             </div>
-            {% endfor %}
         </div>
+        <footer class="text-center">
+            <div><small>&copy; 모두의 토익 | Unauthorized distribution is strictly prohibited.</small></div>
+            <div><small>모의고사 번호: {{ creation_time }}</small></div>
+        </footer>
     </div>
-    <footer class="text-center">
-        <div><small>&copy; 모두의 토익 | Unauthorized distribution is strictly prohibited.</small></div>
-        <div><small>모의고사 번호: {{ creation_time }}</small></div>
-    </footer>
-  </div>
-</body>
-</html>
+{% endblock %}

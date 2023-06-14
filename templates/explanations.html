@@ -1,17 +1,14 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Test Explanations</title>
-    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.7/dist/web/variable/pretendardvariable-dynamic-subset.css" />
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/questions.css') }}">
-</head>
-<body>
+{% extends "layout.html" %}
+
+{% block additional_css %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/questions.css') }}">
+{% endblock %}
+
+{% block content %}
 <div class="container">
     <div class="row">
         {% for idx, (explanation, voca) in enumerate(zip(explanations, vocas), start=101) %}
-        <div class="col-12 col-md-6">
+        <div class="col-md-6">
             <p><strong>{{ idx }}. [{{ explanation.sub_type }}]</strong></p>
             <p>질문 번역 : {{ explanation.translation }}</p>
             <p>정답 해설 : {{ explanation.explanation }}</p>
@@ -28,5 +25,4 @@
         {% endfor %}
     </div>
 </div>
-</body>
-</html>
+{% endblock %}
