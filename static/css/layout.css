@@ -53,6 +53,10 @@ body {
     font-size: 1.5rem !important;
 }
 
+nav {
+    height: 50px important!;
+}
+
 nav h2 {
     margin: 0;
     color: #fff;
