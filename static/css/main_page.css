@@ -1,0 +1,9 @@
+h1.text-center {
+    font-size: 8vw;
+}
+
+@media (min-width: 992px) {
+    h1.text-center {
+        font-size: 2.5rem; /* 뷰포트 폭이 992px 이상일 때는 고정 크기를 사용합니다 */
+    }
+}
