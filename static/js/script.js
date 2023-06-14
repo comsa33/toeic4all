@@ -78,29 +78,6 @@ function checkLoginStatus(callback) {
     xhr.send();
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    var generateBtn = document.getElementById('generate-btn');
-    if (generateBtn) {
-        generateBtn.onclick = function() {
-            checkLoginStatus(function() {
-                var difficulty = document.getElementById('difficulty').value;
-                if (!difficulty) {
-                    alert('난이도를 선택하세요');
-                    return;
-                }
-                var xhr = new XMLHttpRequest();
-                xhr.open('GET', '/api/test?TestLv=' + difficulty, true);
-                xhr.onreadystatechange = function() {
-                    if (xhr.readyState === 4 && xhr.status === 200) {
-                        var response = JSON.parse(xhr.responseText);
-                    }
-                };
-                xhr.send();
-            });
-        };
-    }
-});
-
 function setupDownloadButton(buttonId, fileType) {
     var button = document.getElementById(buttonId);
     if (button) {
@@ -120,31 +97,32 @@ document.addEventListener('click', function(event) {
     }
 });
 
-var generateBtn = document.getElementById('generate-btn');
-if (generateBtn) {
-    generateBtn.addEventListener("click", function() {
-        var difficulty = document.getElementById("difficulty").value;
-
-        if (difficulty === "") {
-            alert("난이도를 선택해 주세요!");
-            return;
-        }
-
-        var xhr = new XMLHttpRequest();
-        xhr.open("GET", "/api/test?TestLv=" + difficulty, true);
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState == 4 && xhr.status == 200) {
-                var test_data = JSON.parse(xhr.responseText);
-
-                document.getElementById("questions-link").href = test_data.data.questions;
-                document.getElementById("answers-link").href = test_data.data.answers;
-                document.getElementById("explanations-link").href = test_data.data.explanations;
-                document.getElementById("test-links").style.display = "block";
-            }
-        }
-        xhr.send();
-    });
-}
+document.addEventListener('DOMContentLoaded', function() {
+    var generateBtn = document.getElementById('generate-btn');
+    if (generateBtn) {
+        generateBtn.onclick = function() {
+            checkLoginStatus(function() {
+                var difficulty = document.getElementById('difficulty').value;
+                if (!difficulty) {
+                    alert('난이도를 선택하세요');
+                    return;
+                }
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', '/api/test?TestLv=' + difficulty, true);
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        var test_data = JSON.parse(xhr.responseText);
+                        document.getElementById("questions-link").href = test_data.data.questions;
+                        document.getElementById("answers-link").href = test_data.data.answers;
+                        document.getElementById("explanations-link").href = test_data.data.explanations;
+                        document.getElementById("test-links").style.display = "block";
+                    }
+                };
+                xhr.send();
+            });
+        };
+    }
+});
 
 window.onscroll = function() {fadeGradient()};
 
