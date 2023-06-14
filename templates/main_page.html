@@ -7,12 +7,16 @@
 {% endblock %}
 
 {% block main_page %}
-<div class="my-img-container" style="background-image: url('{{ url_for('static', filename='images/main-img1.jpg') }}');">
+<div id="my-img-container" class="my-img-container">
     <div class="my-img-text">
         <h1 class="h1-on-img">모두의 토익에 오신걸 환영합니다</h1>
         <p class="p-on-img">AI가 만든 토익 파트5 모의고사를 풀어보세요.</p>
     </div>
 </div>
+<script>
+    // 이미지의 URL을 가져와서 CSS 스타일로 적용합니다.
+    document.getElementById('my-img-container').style.backgroundImage = "url('{{ url_for('static', filename='images/main-img1.jpg') }}')";
+</script>
 {% endblock %}
 
 {% block content %}

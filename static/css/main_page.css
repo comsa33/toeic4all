@@ -18,17 +18,40 @@ h1.display-4 {
     height: 70vh;
     background-size: cover;
     background-position: center;
+    position: relative;
+    overflow: hidden;  /* to make sure the pseudo-element won't exceed the div */
+}
+
+.my-img-container::before {
+    content: "";
+    background-image: inherit; /* inherit the background image from the parent */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    filter: blur(1.7px); /* apply the blur effect */
+    transform: scale(1.02); /* scale up the image to hide the edges caused by the blur effect */
+    z-index: -1; /* put the pseudo-element under the content of the div */
 }
 
 .h1-on-img {
     text-align: center;
     padding: 150px 0px 0px 0px;
     font-weight: bold;
+    font-size: 2em;
 }
 
 .p-on-img {
     text-align: center;
     padding: 0px 0px 150px 0px;
+    font-size: 1em;
+}
+
+@media screen and (max-width: 600px) {
+    .h1-on-img {
+        font-size: 1.6em;
+    }
 }
 
 .col-lg-4 p {
