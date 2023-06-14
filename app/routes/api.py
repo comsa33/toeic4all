@@ -7,9 +7,7 @@ import io
 from flask import render_template, send_file, Response
 from flask import Blueprint, jsonify, request
 from sqlalchemy import and_, func
-import pdfkit
-from reportlab.pdfbase import pdfmetrics
-from reportlab.pdfbase.ttfonts import TTFont
+from weasyprint import HTML
 
 from app.models import GeneratedQuestionType, GeneratedQuestionSubType, GeneratedQuestion, GeneratedAnswer, GeneratedVocabulary
 from app import db
@@ -275,9 +273,9 @@ def generate_test():
     explanations_html = render_template('explanations.html', explanations_left=explanations_left, explanations_right=explanations_right, vocas_left=vocas_left, vocas_right=vocas_right)
 
     # Convert to PDF
-    questions_pdf = pdfkit.from_string(questions_html, False)
-    answers_pdf = pdfkit.from_string(answers_html, False)
-    explanations_pdf = pdfkit.from_string(explanations_html, False)
+    questions_pdf = HTML(string=questions_html).write_pdf()
+    answers_pdf = HTML(string=answers_html).write_pdf()
+    explanations_pdf = HTML(string=explanations_html).write_pdf()
 
     # Store test data
     tests[test_no] = {
@@ -302,9 +300,6 @@ def get_test_questions(test_no):
     # Assume tests[test_no] exists and contains 'questions' key
     questions_pdf = tests[test_no]['questions']
 
-    # Register the Korean font before creating the PDF
-    pdfmetrics.registerFont(TTFont('NanumSquare', '/usr/src/app/font/NanumSquareNeo-bRg.ttf'))
-
     # Convert to a ByteIO stream
     pdf_io = io.BytesIO(questions_pdf)
 
@@ -319,9 +314,6 @@ def get_test_answers(test_no):
     # Assume tests[test_no] exists and contains 'answers' key
     answers_pdf = tests[test_no]['answers']
 
-    # Register the Korean font before creating the PDF
-    pdfmetrics.registerFont(TTFont('NanumSquare', '/usr/src/app/font/NanumSquareNeo-bRg.ttf'))
-
     # Convert to a ByteIO stream
     pdf_io = io.BytesIO(answers_pdf)
 
@@ -335,9 +327,6 @@ def get_test_answers(test_no):
 def get_test_explanations(test_no):
     # Assume tests[test_no] exists and contains 'explanations' key
     explanations_pdf = tests[test_no]['explanations']
-
-    # Register the Korean font before creating the PDF
-    pdfmetrics.registerFont(TTFont('NanumSquare', '/usr/src/app/font/NanumSquareNeo-bRg.ttf'))
 
     # Convert to a ByteIO stream
     pdf_io = io.BytesIO(explanations_pdf)
