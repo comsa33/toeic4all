@@ -6,6 +6,7 @@
 {% endblock %}
 
 {% block content %}
+<h3 class="text-center">{{ test_level }}<br>TOEIC Part 5 모의고사 해설지</h3>
 <div class="container">
     <div class="row">
         {% for idx, (explanation, voca) in enumerate(zip(explanations, vocas), start=101) %}
@@ -25,5 +26,9 @@
         {% endif %}
         {% endfor %}
     </div>
+    <footer class="text-center">
+        <div><small>&copy; 모두의 토익 | Unauthorized distribution is strictly prohibited.</small></div>
+        <div><small>모의고사 번호: {{ creation_time }}</small></div>
+    </footer>
 </div>
 {% endblock %}

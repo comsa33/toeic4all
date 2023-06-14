@@ -264,7 +264,7 @@ def generate_test():
     # Render to HTML
     questions_html = render_template('questions.html', questions_left=questions_left, questions_right=questions_right, choices_left=choices_left, choices_right=choices_right, test_level=lv_mapping_kor[test_lv], creation_time=test_no)
     answers_html = render_template('answers.html', answers=answers, test_level=lv_mapping_kor[test_lv], creation_time=test_no)
-    explanations_html = render_template('explanations.html', explanations=explanations, vocas=vocas)
+    explanations_html = render_template('explanations.html', explanations=explanations, vocas=vocas, creation_time=test_no)
 
     # Store test data
     tests[test_no] = {
