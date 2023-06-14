@@ -15,11 +15,11 @@
 <body>
     <nav id="desktop-nav">
         <h2 id="nav-title"><a href="{{ url_for('main.main_page') }}">모두의 토익</a></h2>
-        <ul id="nav-links-left">
+        <ul id="desktop-nav-links-left">
             <li class="{{ 'active' if request.endpoint.endswith('mock_test') }}"><a href="{{ url_for('main.mock_test') }}">모의고사</a></li>
             <li class="{{ 'active' if request.endpoint.endswith('board_page') }}"><a href="{{ url_for('main.board_page') }}">Q&A 게시판</a></li>
         </ul>
-        <ul id="nav-links-right">
+        <ul id="desktop-nav-links-right">
             <li id="nav-user">{{ session['username'] }}</li>
             <li><a href="https://toeic4all.com/user/login" id="nav-login">로그인</a></li>
             <!-- <li><a href="https://toeic4all.com/user/signup" id="nav-signup">회원가입</a></li> -->
@@ -34,11 +34,11 @@
             <i class="fas fa-bars"></i> <!-- Font Awesome의 햄버거 버튼 아이콘 -->
         </div>
         <div id="side-nav" class="hidden"> <!-- 사이드 네비게이션 바, 처음에는 숨겨져 있음 -->
-            <ul id="nav-links-left">
+            <ul id="mobile-nav-links-left">
                 <li class="{{ 'active' if request.endpoint.endswith('mock_test') }}"><a href="{{ url_for('main.mock_test') }}">모의고사</a></li>
                 <li class="{{ 'active' if request.endpoint.endswith('board_page') }}"><a href="{{ url_for('main.board_page') }}">Q&A 게시판</a></li>
             </ul>
-            <ul id="nav-links-right">
+            <ul id="mobile-nav-links-right">
                 <li id="nav-user">{{ session['username'] }}</li>
                 <li><a href="https://toeic4all.com/user/login" id="nav-login" >로그인</a></li>
                 <li><a href="#" id="nav-logout">로그아웃</a></li> <!-- 로그아웃 링크를 "#"로 변경했습니다. -->
