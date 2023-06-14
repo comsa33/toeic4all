@@ -10,9 +10,8 @@ WORKDIR /usr/src
 
 COPY requirements.txt pyproject.toml poetry.lock /usr/src/
 
-RUN apt update -y && \
-    apt-get install -y --fix-missing libgirepository1.0-dev gir1.2-gtk-3.0 libcairo2-dev libffi-dev
-
+RUN apt update -y
+# RUN apt-get install -y --fix-missing libgirepository1.0-dev gir1.2-gtk-3.0 libcairo2-dev libffi-dev
 RUN pip install -r requirements.txt
 RUN poetry config virtualenvs.create false
 RUN if [ -f pyproject.toml ]; then poetry install --verbose; fi
