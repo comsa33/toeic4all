@@ -20,13 +20,13 @@ h1.display-4 {
     background-position: center;
 }
 
-h1 .text-on-img {
+.h1-on-img {
     text-align: center;
     padding: 150px 0px 0px 0px;
     font-weight: bold;
 }
 
-p .text-on-img {
+.p-on-img {
     text-align: center;
     padding: 0px 0px 150px 0px;
 }
