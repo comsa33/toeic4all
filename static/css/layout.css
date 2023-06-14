@@ -14,7 +14,7 @@ body {
 }
 
 #nav-title {
-    font-size: 3rem; 
+    font-size: 1.5rem; 
     font-weight: bold;
     letter-spacing: 0.05em; 
     text-transform: uppercase;
@@ -34,6 +34,21 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+#mobile-nav-header {
+    flex-grow: 1; /* 네비게이션 바의 가용 공간을 채우도록 함 */
+    text-align: center; /* 타이틀을 가운데에 배치 */
+}
+
+#mobile-title {
+    font-weight: bold; /* 타이틀을 두껍게 만듦 */
+    color: white; /* 텍스트 색상을 흰색으로 변경 */
+}
+
+#title {
+    font-weight: bold; /* 타이틀을 두껍게 만듦 */
+    color: white; /* 텍스트 색상을 흰색으로 변경 */
 }
 
 nav h2 {

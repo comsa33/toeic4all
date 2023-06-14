@@ -18,8 +18,8 @@ h1.display-4 {
     display: flex; /* flexbox를 이용해 내용을 중앙으로 정렬 */
     justify-content: center;
     align-items: center;
-    color: white; /* 글자색을 흰색으로 설정 */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* 글자에 그림자 추가 */
+    color: #153f66; /* 글자색을 흰색으로 설정 */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* 글자에 그림자 추가 */
 }
 
 .container .jumbotron {
