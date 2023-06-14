@@ -1,7 +1,4 @@
 body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
     font-family: Pretendard, sans-serif;
     margin: 0;
     padding: 0;
@@ -94,7 +91,6 @@ nav ul .active a {
 }
 
 .content {
-    flex: 1 0 auto;
     max-width: 900px;
     margin: 20px auto;
     padding: 20px;
@@ -187,13 +183,7 @@ footer.text-center {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: rgba(128, 128, 128, 0.9);
-    color: white;
-    flex-shrink: 0;
-}
-
-footer a {
-    color: white;
+    margin-top: 5rem;
 }
 
 footer a:hover {
