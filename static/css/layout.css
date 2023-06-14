@@ -53,10 +53,6 @@ body {
     font-size: 1.5rem !important;
 }
 
-nav {
-    height: 50px important!;
-}
-
 nav h2 {
     margin: 0;
     color: #fff;
@@ -171,6 +167,7 @@ body #hamburger-btn {
     }
     #mobile-nav {
         display: flex;
+        box-sizing: unset;
     }
 }
 
@@ -180,6 +177,7 @@ body #hamburger-btn {
     }
     #desktop-nav {
         display: flex;
+        box-sizing: unset;
     }
 }
 
