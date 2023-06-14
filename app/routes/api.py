@@ -290,7 +290,7 @@ def get_test_questions(test_no):
     questions_html = tests[test_no]['questions']
 
     response = make_response(questions_html)
-    response.headers['Content-Type'] = 'text/html'
+    response.headers['Content-Type'] = 'text/html; charset=utf-8'
     return response
 
 
@@ -300,7 +300,7 @@ def get_test_answers(test_no):
     answers_html = tests[test_no]['answers']
 
     response = make_response(answers_html)
-    response.headers['Content-Type'] = 'text/html'
+    response.headers['Content-Type'] = 'text/html; charset=utf-8'
     return response
 
 
@@ -310,5 +310,5 @@ def get_test_explanations(test_no):
     explanations_html = tests[test_no]['explanations']
 
     response = make_response(explanations_html)
-    response.headers['Content-Type'] = 'text/html'
+    response.headers['Content-Type'] = 'text/html; charset=utf-8'
     return response
