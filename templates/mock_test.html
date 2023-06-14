@@ -5,8 +5,23 @@
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 {% endblock %}
 
+{% block body_top %}
+<div id="my-img-container" class="my-img-container">
+    <div class="blur-bg-image" data-bg-url="{{ url_for('static', filename='images/ai-img1.jpg') }}"></div>
+    <div class="my-img-text">
+        <h1 class="h1-on-img" style="text-align:center; margin-bottom: 2rem;" data-aos="fade-down" data-aos-duration="1000">AI 모의고사</h1>
+        <p class="p-on-img">AI가 엄선한 토익 파트5 모의고사를 이제 무제한으로 만나보세요.</p>
+    </div>
+</div>
+<script>
+    // 이미지의 URL을 가져와서 CSS 스타일로 적용합니다.
+    var blurBgImage = document.querySelector('.blur-bg-image');
+    var bgUrl = blurBgImage.getAttribute('data-bg-url');
+    blurBgImage.style.backgroundImage = "url('" + bgUrl + "')";
+</script>
+{% endblock %}
+
 {% block content %}
-    <h2 style="text-align:center; margin-bottom: 2rem;" data-aos="fade-down" data-aos-duration="1000">AI 모의고사</h2>
 
     <div class="dropdown" data-aos="fade-up" data-aos-duration="1000">
         <select id="difficulty" class="select">
