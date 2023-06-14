@@ -46,9 +46,10 @@ body {
     text-align: center; /* 타이틀을 가운데에 배치 */
 }
 
-#mobile-title {
+#mobile-title a {
     font-weight: bold; /* 타이틀을 두껍게 만듦 */
     color: white; /* 텍스트 색상을 흰색으로 변경 */
+    font-size: 1.5rem !important;
 }
 
 nav h2 {
@@ -114,24 +115,9 @@ nav #nav-links-left {
 }
 
 body #hamburger-btn {
-    position: fixed;
-    top: 9px;
-    right: 15px;
     color: #fff !important;
-    font-size: 1.2em !important;
-    background-color: #999 !important;
-    border-radius: 50% !important;
-    padding: 10px !important;
-    width: 25px !important;
-    height: 25px !important;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-body .bootstrap-page #hamburger-btn {
-    width: 25px;
-    height: 25px;
+    font-size: 1.5em !important;
+    display: contents;
 }
 
 #side-nav {
