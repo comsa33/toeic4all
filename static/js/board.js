@@ -65,7 +65,7 @@ function getQuestions(page = 1) {
                         <div class="question-date">${new Date(question.created_at).toLocaleString()}</div>
                         <div>
                             <p class="question-title">${question.title}</p>
-                            <p>${contentWithBreaks}</p>
+                            <p class="question-contents">${contentWithBreaks}</p>
                         </div>
                     </div>
                     <button type="button" class="button-text" onclick="getQuestion(${question.id}, 1)">답변확인 (${question.answerCount})</button>
@@ -113,7 +113,7 @@ function getQuestion(id, answerPage = 1) {
                         <div class="question-date">${new Date(data.created_at).toLocaleString()}</div>
                         <div>
                             <p class="question-title">${data.title}</p>
-                            <p>${contentWithBreaks}</p>
+                            <p class="question-contents">${contentWithBreaks}</p>
                         </div>
                     </div>
                     ${username === data.author ? `

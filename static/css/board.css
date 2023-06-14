@@ -129,8 +129,14 @@ button:disabled {
     color: grey;
 }
 
+.question-contents {
+    font-size: 0.9em;
+    color: rgb(55, 55, 55);
+}
+
 .answer-text {
     font-size:0.85em;
+    color: rgb(55, 55, 55);
 }
 
 .question-box {
@@ -141,6 +147,10 @@ button:disabled {
 
 .detail-view {
     background-color: transparent;
+}
+
+#board-title {
+    text-align: center;
 }
 
 #create-answer-button {
@@ -173,9 +183,7 @@ button:disabled {
 
 #new-question-form {
     padding: 10px;
-    border-radius: 10px;
-    background-color: #ffffff;
-    box-shadow: inset 0px 0px 10px rgba(0,0,0,0.25);
+    background-color: #00000015;
 }
 
 #edit-question-title {
@@ -232,10 +240,9 @@ button:disabled {
 }
 
 .question, .answer {
-    padding: 10px 0px 0px 0px;
+    padding: 20px 0px 0px 20px;
     background-color: transparent;
-    margin-bottom: 10px;
-    border-bottom: 0.5px solid #d3d3d3;
+    border-bottom: 10px solid #ffffff;
 }
 
 .question-header, .answer-header{
@@ -284,8 +291,6 @@ button:disabled {
 
 .board-wrapper {
     background-color: rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    border-radius: 5px;
 }
 
 .modal {
