@@ -37,7 +37,7 @@ body {
     color: #fff;
     display: flex;
     height: 50px;
-    justify-content: space-around;
+    justify-content: space-evenly;
     align-items: center;
 }
 
@@ -65,11 +65,7 @@ nav h2 a {
 
 nav ul {
     list-style-type: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: row;
-    gap: 20px;
+    display: contents;
 }
 
 nav ul li {
@@ -102,8 +98,8 @@ nav ul .active a {
 }
 
 nav #nav-links-left {
-    display: flex;
-    gap: 20px;
+    display: contents;
+    gap: 95px;
 }
 
 #mobile-nav #nav-user, #mobile-nav #nav-login, #mobile-nav #nav-logout {
@@ -149,11 +145,6 @@ body #hamburger-btn {
     transform: translateX(0);
     visibility: visible;
     font-size: 1.2em;
-}
-
-#nav-links-left {
-    margin-top: 10px;
-    margin-bottom: 10px;
 }
 
 #nav-login:hover, #nav-logout:hover {
