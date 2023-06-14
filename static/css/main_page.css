@@ -35,6 +35,21 @@ h1.display-4 {
     z-index: -1; /* put the pseudo-element under the content of the div */
 }
 
+@keyframes animate-text {
+    0% {
+        transform: scale(1.2);
+        letter-spacing: 6px;
+    }
+    100% {
+        transform: scale(1);
+        letter-spacing: normal;
+    }
+}
+
+.animate-h1 {
+    animation: animate-text 2s forwards;
+}
+
 .h1-on-img {
     text-align: center;
     padding: 150px 0px 0px 0px;
