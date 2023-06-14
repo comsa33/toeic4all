@@ -72,7 +72,6 @@ function checkLoginStatus(callback) {
     };
     xhr.onerror = function() { 
         alert('로그인이 필요한 서비스입니다.');
-        return;
     };
     xhr.send();
 }
@@ -98,9 +97,6 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         };
     }
-    setupDownloadButton('download-questions', 'questions');
-    setupDownloadButton('download-answers', 'answers');
-    setupDownloadButton('download-explanations', 'explanations');
 });
 
 function setupDownloadButton(buttonId, fileType) {
