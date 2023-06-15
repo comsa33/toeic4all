@@ -31,7 +31,7 @@ body {
 }
 
 #timer-container button:hover {
-  background-color: #4CAF50; /* Green */
+  background-color: #0056b3; /* Green */
 }
 
 #timer-container #timer-display {
@@ -40,6 +40,16 @@ body {
   font-weight: bold;
   color: #333;
   text-align: center;
+}
+
+.icon-button {
+  background: none;
+  border: none;
+  color: #008CBA;  /* Bootstrap primary color */
+}
+
+.icon-button:hover {
+  color: #0056b3;  /* Darker shade of the Bootstrap primary color */
 }
 
 .question-container {
