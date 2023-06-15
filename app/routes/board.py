@@ -68,6 +68,11 @@ def delete_board_question(id):
     if question is None:
         return jsonify({'error': 'Question not found'}), 404
     verify_author(question.author)
+
+    # Check if there are any answers connected to this question
+    if BoardAnswer.query.filter_by(question_id=id).first() is not None:
+        return jsonify({'error': '댓글이 달린 게시물은 삭제하실 수 업습니다.'}), 400  # New line
+
     db.session.delete(question)
     db.session.commit()
     return '', 204

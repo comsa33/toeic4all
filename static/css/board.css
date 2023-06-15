@@ -74,7 +74,7 @@ input {
 
 textarea {
     border: none;
-    padding: 10px;
+    padding: 10px 80px 300px 10px;
     outline: none;
     resize: none;
     width: 100%;
@@ -204,7 +204,7 @@ button:disabled {
     box-shadow: none;
 }
 
-#new-question-content textarea, #edit-question-content {
+#new-question-content textarea {
     height: 12.5em;
 }
 
