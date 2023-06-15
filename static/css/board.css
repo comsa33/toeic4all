@@ -272,22 +272,33 @@ button:disabled {
     background-color: #f9f9f9;
 }
 
-#community-guidelines-section h3 {
-    margin-bottom: 15px;
+#community-guidelines-section {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    position: relative;
+    overflow: hidden;
+    transition: height 0.3s ease-in-out;
+}
+
+#community-guidelines-content {
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+    max-height: 0;
 }
 
 #toggle-guidelines-button {
-    cursor: pointer;
-    background-color: #008CBA;
-    border: none;
-    color: white;
-    padding: 15px 32px;
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border-top: 1px solid #ddd;
+    background-color: #f8f8f8;
+    color: #333;
     text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    transition-duration: 0.4s;
+    cursor: pointer;
+    position: absolute;
+    bottom: 0;
+    left: 0;
 }
 
 #toggle-guidelines-button:hover {
