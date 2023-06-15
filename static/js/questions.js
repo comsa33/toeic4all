@@ -142,11 +142,12 @@ document.getElementById('reset-timer-btn').addEventListener('click', function() 
 
 document.getElementById('toggle-timer-btn').addEventListener('click', function() {
     var timer = document.getElementById('timer-display');
+    var toggleIcon = document.getElementById('toggle-timer-icon');
     if (timer.style.display !== 'none') {
         timer.style.display = 'none';
-        this.textContent = '타이머 표시';
+        toggleIcon.className = 'fas fa-eye-slash';
     } else {
         timer.style.display = 'block';
-        this.textContent = '타이머 숨기기';
+        toggleIcon.className = 'fas fa-eye';
     }
 });
