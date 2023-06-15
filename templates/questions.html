@@ -18,7 +18,7 @@
                     <ol type="A">
                         {% for selection in choice["Choices"] %}
                         <li>
-                            <input type="radio" class="answer-input" name="{{ question.QuestionId }}" value="{{ selection }}">
+                            <input type="radio" class="answer-input" name="{{ question.QuestionId }}" value="{{ selection }}" data-question-id="{{ question.QuestionId }}">
                             {{ selection }}
                         </li>
                         {% endfor %}
@@ -35,7 +35,7 @@
                     <ol type="A">
                         {% for selection in choice["Choices"] %}
                         <li>
-                            <input type="radio" class="answer-input" name="{{ question.QuestionId }}" value="{{ selection }}">
+                            <input type="radio" class="answer-input" name="{{ question.QuestionId }}" value="{{ selection }}" data-question-id="{{ question.QuestionId }}">
                             {{ selection }}
                         </li>
                         {% endfor %}
