@@ -289,9 +289,6 @@ button:disabled {
 #community-guidelines-content {
     margin-top: 15px;
     font-size: 0.8em;
-    transition: max-height 0.2s ease-in-out;
-    overflow: hidden;
-    max-height: 0;  /* 처음에는 접혀있게 만들기 위해 */
 }
 
 #pagination {
