@@ -121,6 +121,7 @@ document.getElementById('start-timer-btn').addEventListener('click', function() 
         startTimer();
         this.style.display = 'none';
         document.getElementById('end-timer-btn').style.display = 'block';
+        document.getElementById('reset-timer-btn').style.display = 'none';
         timerRunning = true;
     }
 });
@@ -128,9 +129,13 @@ document.getElementById('start-timer-btn').addEventListener('click', function() 
 document.getElementById('end-timer-btn').addEventListener('click', function() {
     if (timerRunning) {
         endTimer();
+        this.style.display = 'none';
+        document.getElementById('reset-timer-btn').style.display = 'block';
     }
 });
 
 document.getElementById('reset-timer-btn').addEventListener('click', function() {
     resetTimer();
+    document.getElementById('start-timer-btn').style.display = 'block';
+    this.style.display = 'none';
 });
