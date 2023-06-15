@@ -45,6 +45,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 if (userAnswers[question_id] === correct_answers[question_id]) {
                     score += 1;
+                } else {
+                    row.style.backgroundColor = '#FF9494';
                 }
                 
                 tableBody.appendChild(row);
