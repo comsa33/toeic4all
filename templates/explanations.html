@@ -25,15 +25,17 @@
     <div class="row">
         {% for idx, (explanation, voca) in enumerate(zip(explanations, vocas), start=101) %}
         <div class="col-md-6">
-            <p><strong>{{ idx }}. [{{ explanation.sub_type }}]</strong></p>
-            <p>질문 번역 : {{ explanation.translation }}</p>
-            <p>정답 해설 : {{ explanation.explanation }}</p>
-            <p>어휘 :</p>
-            <ul>
-                {% for w, e in voca["Vocas"] %}
-                <li>{{ w }}: {{ e }}</li>
-                {% endfor %}
-            </ul>
+            <div class="explanation-container">
+                <p><strong>{{ idx }}. [{{ explanation.sub_type }}]</strong></p>
+                <p>질문 번역 : {{ explanation.translation }}</p>
+                <p>정답 해설 : {{ explanation.explanation }}</p>
+                <p>어휘 :</p>
+                <ul>
+                    {% for w, e in voca["Vocas"] %}
+                    <li>{{ w }}: {{ e }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
         </div>
         {% if loop.index % 2 == 0 %}
         </div><div class="row">
