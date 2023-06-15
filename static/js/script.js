@@ -68,11 +68,13 @@ function checkLoginStatus(callback) {
             callback();
         } else {
             alert('로그인이 필요한 서비스입니다.');
+            window.location.href = "https://toeic4all.com/user/login";
             return;
         }
     };
     xhr.onerror = function() { 
         alert('로그인이 필요한 서비스입니다.');
+        window.location.href = "https://toeic4all.com/user/login";
         return;
     };
     xhr.send();
