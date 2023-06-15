@@ -135,7 +135,7 @@ button:disabled {
 
 #button-get-questions {
     margin-left: 5px;
-    margin-top: 15px;
+    margin-top: 25px;
 }
 
 .no-border {
@@ -288,7 +288,7 @@ button:disabled {
 }
 
 .question, .answer {
-    padding: 20px 0px 0px 20px;
+    padding: 20px 20px 0px 20px;
     background-color: transparent;
     border-bottom: 10px solid #ffffff;
 }
