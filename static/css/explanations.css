@@ -1,3 +1,39 @@
 body {
     font-family: 'Pretendard', sans-serif;
 }
+
+.my-img-container {
+    position: relative;
+    max-width: 100%;
+    height: 13vh;
+    min-height: 130px;
+    overflow: hidden;
+  }
+  
+  .blur-bg-image {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    filter: blur(1.5px);
+    z-index: -1;
+  }
+  
+  .my-img-text {
+    position: relative;
+    z-index: 1;
+  }
+  
+  .h1-on-img {
+    text-align: center;
+    padding: 50px 0px 0px 0px;
+    font-weight: bold;
+    font-size: 2em;
+    color: #ffffff;
+    text-shadow: 0.3px 0.3px 5px rgb(0, 0, 0);
+  }
+  
+  #p5-questions-test{
+    margin-top: 25px;
+  }
