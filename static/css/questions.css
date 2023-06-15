@@ -4,9 +4,37 @@ body {
 }
 
 #timer-container {
+  z-index: 1000;
   position: fixed;
   right: 20px;
   top: 20px;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.8);  /* Semi-transparent white */
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25); /* Shadow effect */
+}
+
+#timer-container button {
+  margin: 0 5px;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #008CBA; /* Blue */
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#timer-container button:hover {
+  background-color: #4CAF50; /* Green */
+}
+
+#timer-container #timer-display {
+  margin-top: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
 }
 
 .question-container {
