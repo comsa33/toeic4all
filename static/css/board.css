@@ -282,6 +282,7 @@ button:disabled {
 }
 
 #community-guidelines-content {
+    font-size: 0.8em;
     overflow: hidden;
     transition: max-height 0.2s ease-out;
 }
