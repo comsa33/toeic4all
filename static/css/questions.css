@@ -3,6 +3,11 @@ body {
   background-color: #f4f4f4;
 }
 
+.timer-part {
+  width: 30px;
+  text-align: center;
+}
+
 #timer-container {
   z-index: 1000;
   position: fixed;
