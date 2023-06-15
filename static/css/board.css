@@ -267,15 +267,10 @@ button:disabled {
 
 #community-guidelines-section {
     margin: 30px 0;
-    border: 1px solid #ccc;
-    padding: 20px;
-    background-color: #f9f9f9;
-}
-
-#community-guidelines-section {
     border: 1px solid #ddd;
     border-radius: 5px;
     padding: 15px;
+    background-color: #f9f9f9;
     position: relative;
     overflow: hidden;
     transition: height 0.3s ease-in-out;
@@ -283,8 +278,10 @@ button:disabled {
 
 #community-guidelines-content {
     font-size: 0.8em;
+    visibility: hidden;   /* 추가 */
     overflow: hidden;
     transition: max-height 0.2s ease-out;
+    margin-top: 15px;     /* 추가 */
 }
 
 #toggle-guidelines-button {
@@ -306,10 +303,6 @@ button:disabled {
     background-color: white; 
     color: black; 
     border: 2px solid #008CBA;
-}
-
-#community-guidelines-content {
-    margin-top: 15px;
 }
 
 #pagination {

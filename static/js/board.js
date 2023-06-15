@@ -436,7 +436,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-document.addEventListener('DOMContentLoaded', (event) => {
+window.onload = function() {
     document.getElementById('toggle-guidelines-button').addEventListener('click', function() {
         var content = document.getElementById('community-guidelines-content');
         if (content.style.maxHeight) {
@@ -447,4 +447,4 @@ document.addEventListener('DOMContentLoaded', (event) => {
             this.textContent = '가이드라인 숨기기';
         } 
     });
-});
+};
