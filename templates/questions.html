@@ -22,6 +22,9 @@
 
 {% block content %}
     <div class="container" id="p5-questions-test">
+        <div class="container container-info">
+            <p class="p-guide-text">이 모의고사는 각각의 문제를 풀고 바로 채점 결과를 확인할 수 있을 뿐만 아니라, 하단에는 모의고사를 모두 채점한 후 해설지도 함께 확인할 수 있는 기능을 제공합니다. 문제 풀이를 마치신 후에는 반드시 해설지를 확인하시어 자신의 오답을 이해하고, 향후 성능 개선에 도움이 되도록 하세요. 충분히 시간을 두고 신중하게 문제를 풀어보세요!</p>
+        </div>
         <div class="row">
             <div class="col-md-6">
                 <!-- Render the left column questions -->
@@ -58,8 +61,10 @@
                 </div>
                 {% endfor %}
             </div>
-
             <div class="container">
+                <p class="p-guide-text">모의고사를 모두 풀고 채점을 완료하셨나요? 잘 하셨습니다! 이제 각 문제에 대한 해설지를 확인하여 보세요. 해설지를 통해 잘못 선택한 문제에 대한 정확한 이해와, 어려운 단어에 대한 이해를 돕는 설명을 찾아볼 수 있습니다. 이를 통해 다음 모의고사에 더 잘 준비하고 향상된 점수를 얻으실 수 있습니다. 화이팅!</p>
+            </div>
+            <div class="container container-info">
                 <button id="submit-answers">채점하기</button>
                 <a id="show-explanations" style="display: none;" href="#" target="_blank">해설지 보기</a>
                 <div id="score"></div>
