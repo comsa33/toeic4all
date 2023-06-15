@@ -3,6 +3,12 @@ body {
   background-color: #f4f4f4;
 }
 
+#timer-container {
+  position: fixed;
+  right: 20px;
+  top: 20px;
+}
+
 .question-container {
   text-align: left;
   margin-bottom: 2rem;
