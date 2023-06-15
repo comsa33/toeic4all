@@ -436,14 +436,15 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-document.getElementById('toggle-guidelines-button').addEventListener('click', function() {
-    var content = document.getElementById('community-guidelines-content');
-    if (content.style.maxHeight) {
-        content.style.maxHeight = null;
-        this.textContent = '가이드라인 보기';
-    } else {
-        // note: you might need to adjust this value depending on the actual height of your content
-        content.style.maxHeight = content.scrollHeight + "px";
-        this.textContent = '가이드라인 숨기기';
-    } 
+document.addEventListener('DOMContentLoaded', (event) => {
+    document.getElementById('toggle-guidelines-button').addEventListener('click', function() {
+        var content = document.getElementById('community-guidelines-content');
+        if (content.style.maxHeight) {
+            content.style.maxHeight = null;
+            this.textContent = '가이드라인 보기';
+        } else {
+            content.style.maxHeight = content.scrollHeight + "px";
+            this.textContent = '가이드라인 숨기기';
+        } 
+    });
 });
