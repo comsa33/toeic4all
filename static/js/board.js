@@ -436,15 +436,13 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-window.onload = function() {
-    document.getElementById('toggle-guidelines-button').addEventListener('click', function() {
-        var content = document.getElementById('community-guidelines-content');
-        if (content.style.maxHeight) {
-            content.style.maxHeight = null;
-            this.textContent = '커뮤니티 이용 가이드라인 보기';
-        } else {
-            content.style.maxHeight = (content.scrollHeight + 20) + "px";
-            this.textContent = '접기';
-        } 
-    });
-};
+document.getElementById('toggle-guidelines-button').addEventListener('click', function() {
+    var content = document.getElementById('community-guidelines-content');
+    if (content.style.display === 'none') {
+        content.style.display = 'block';
+        this.textContent = '접기';
+    } else {
+        content.style.display = 'none';
+        this.textContent = '커뮤니티 이용 가이드라인 보기';
+    }
+});
