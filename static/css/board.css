@@ -80,7 +80,6 @@ input {
 textarea {
     border: none;
     padding: 10px 80px 30px 10px;
-    min-height: 350px;
     outline: none;
     resize: none;
     width: 100%;
@@ -244,8 +243,12 @@ button:disabled {
     margin-bottom: 10px;
 }
 
-#new-question-content, #edit-question-content {
-    height: 45px;
+#new-question-content {
+    height: 150px;
+}
+
+#edit-question-content {
+    height: 270px;
 }
 
 #new-question-form .submit {
