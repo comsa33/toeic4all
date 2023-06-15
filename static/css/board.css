@@ -272,23 +272,11 @@ button:disabled {
     background-color: #f9f9f9;
 }
 
-#community-guidelines-section h3 {
-    margin-bottom: 15px;
-}
-
 #toggle-guidelines-button {
     border-radius: 0px;
-    display: block;
-    width: 100%;
-    padding: 10px;
-    border-top: 1px solid #ddd;
-    background-color: #f8f8f8;
-    color: #333;
-    text-align: center;
+    display: contents;
+    color: #f0592a;
     cursor: pointer;
-    position: absolute;
-    bottom: 0;
-    left: 0;
 }
 
 #toggle-guidelines-button:hover {
