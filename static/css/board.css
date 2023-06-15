@@ -26,6 +26,10 @@ h2, h3, h4 {
     margin-left: 5px;
 }
 
+#board-info-text {
+    font-size: 0.83em;
+}
+
 .my-img-container {
     position: relative;
     max-width: 100%;
