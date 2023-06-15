@@ -273,6 +273,7 @@ button:disabled {
 }
 
 #toggle-guidelines-button {
+    font-weight: bold;
     border-radius: 0px;
     display: contents;
     color: #f0592a;
