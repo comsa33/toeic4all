@@ -288,6 +288,7 @@ button:disabled {
 }
 
 #toggle-guidelines-button {
+    border-radius: 0px;
     display: block;
     width: 100%;
     padding: 10px;
