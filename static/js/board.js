@@ -436,13 +436,15 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-document.getElementById('toggle-guidelines-button').addEventListener('click', function() {
-    var content = document.getElementById('community-guidelines-content');
-    if (content.style.display === 'none') {
-        content.style.display = 'block';
-        this.textContent = '가이드라인 숨기기';
-    } else {
-        content.style.display = 'none';
-        this.textContent = '가이드라인 보기';
-    }
+document.addEventListener('DOMContentLoaded', (event) => {
+    document.getElementById('toggle-guidelines-button').addEventListener('click', function() {
+        var content = document.getElementById('community-guidelines-content');
+        if (content.style.maxHeight) {
+            content.style.maxHeight = 0;
+            this.textContent = '가이드라인 보기';
+        } else {
+            content.style.maxHeight = (content.scrollHeight + 20) + "px";
+            this.textContent = '가이드라인 숨기기';
+        } 
+    });
 });
