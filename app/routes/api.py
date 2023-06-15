@@ -124,30 +124,18 @@ def get_choices():
         return jsonify({"error": "QuestionIds parameter is required"}), 400
 
 
-# def fetch_answers(question_ids):
-#     if question_ids:
-#         answers_query = GeneratedAnswer.query.filter(and_(GeneratedAnswer.question_id.in_(question_ids), GeneratedAnswer.is_correct==True))
-#         answers = answers_query.all()
-#         grouped_answers = {}
-#         for answer in answers:
-#             if answer.question_id not in grouped_answers:
-#                 grouped_answers[answer.question_id] = []
-#             grouped_answers[answer.question_id].append(answer.text)
-#         return {
-#             "count": len(grouped_answers),
-#             "data": [{"QuestionId": qid, "AnswerText": grouped_answers[qid]} for qid in grouped_answers]
-#         }
-#     else:
-#         return {"error": "QuestionIds parameter is required"}, 400
-
 def fetch_answers(question_ids):
     if question_ids:
         answers_query = GeneratedAnswer.query.filter(and_(GeneratedAnswer.question_id.in_(question_ids), GeneratedAnswer.is_correct==True))
         answers = answers_query.all()
-        answer_dict = {answer.question_id: answer.text for answer in answers}
+        grouped_answers = {}
+        for answer in answers:
+            if answer.question_id not in grouped_answers:
+                grouped_answers[answer.question_id] = []
+            grouped_answers[answer.question_id].append(answer.text)
         return {
-            "count": len(answer_dict),
-            "data": [{"QuestionId": qid, "AnswerText": answer_dict[qid]} for qid in answer_dict]
+            "count": len(grouped_answers),
+            "data": [{"QuestionId": qid, "AnswerText": grouped_answers[qid]} for qid in grouped_answers]
         }
     else:
         return {"error": "QuestionIds parameter is required"}, 400
