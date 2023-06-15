@@ -35,8 +35,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (xhr.readyState === 4 && xhr.status === 200) {
                         var test_data = JSON.parse(xhr.responseText);
                         document.getElementById("questions-link").href = test_data.data.questions;
-                        document.getElementById("answers-link").href = test_data.data.answers;
-                        document.getElementById("explanations-link").href = test_data.data.explanations;
+                        // document.getElementById("answers-link").href = test_data.data.answers;
+                        // document.getElementById("explanations-link").href = test_data.data.explanations;
                         document.getElementById("test-links").style.display = "block";
                     }
                 };

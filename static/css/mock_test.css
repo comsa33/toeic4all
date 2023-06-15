@@ -58,7 +58,7 @@
 }
 
 .button-container .btn-link .button {
-    background-color: #4CAF50; 
+    background-color: #0485d5; 
     border: none;
     color: white;
     padding: 16px 20px;
@@ -71,11 +71,11 @@
 }
 
 .button-container .btn-link .button:hover {
-    background-color: #45a049;
+    background-color: #2293da;
 }
 
 .button-container .btn-link .button:active {
-    background-color: #3e8e41;
+    background-color: #055282;
 }
 
 #generate-btn {
