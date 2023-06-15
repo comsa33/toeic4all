@@ -41,10 +41,17 @@ body {
   text-align: center;
 }
 
+#timer-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .icon-button {
   background: none;
   border: none;
-  color: #008CBA;  /* Bootstrap primary color */
+  color: #008CBA;
+  order: -1;
 }
 
 .icon-button:hover {
