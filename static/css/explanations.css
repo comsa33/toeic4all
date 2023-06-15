@@ -2,6 +2,10 @@ body {
     font-family: 'Pretendard', sans-serif;
 }
 
+.container-explanations {
+    margin-top: 25px;
+}
+
 .my-img-container {
     position: relative;
     max-width: 100%;
@@ -41,4 +45,3 @@ body {
     border: 1px solid #ddd;
     border-radius: .5rem;
   }
-  

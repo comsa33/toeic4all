@@ -2,7 +2,7 @@
 
 {% block additional_css %}
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/questions.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/explanations.css') }}">
 {% endblock %}
 
 {% block body_top %}
@@ -21,7 +21,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="container">
+<div class="container container-explanations">
     <div class="row">
         {% for idx, (explanation, voca) in enumerate(zip(explanations, vocas), start=101) %}
         <div class="col-md-6">
