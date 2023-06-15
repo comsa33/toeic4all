@@ -5,8 +5,22 @@
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/questions.css') }}">
 {% endblock %}
 
+{% block body_top %}
+<div id="my-img-container" class="my-img-container">
+    <div class="blur-bg-image" data-bg-url="{{ url_for('static', filename='images/answer-sheet-img2.jpg') }}"></div>
+    <div class="my-img-text">
+        <h1 class="h1-on-img" style="text-align:center; margin-bottom: 2rem;">{{ test_level }} TOEIC Part 5 모의고사</h1>
+    </div>
+</div>
+<script>
+    // 이미지의 URL을 가져와서 CSS 스타일로 적용합니다.
+    var blurBgImage = document.querySelector('.blur-bg-image');
+    var bgUrl = blurBgImage.getAttribute('data-bg-url');
+    blurBgImage.style.backgroundImage = "url('" + bgUrl + "')";
+</script>
+{% endblock %}
+
 {% block content %}
-    <h3 class="text-center">{{ test_level }}<br>TOEIC Part 5 모의고사</h3>
     <div class="container">
         <div class="row">
             <div class="col-md-6">
