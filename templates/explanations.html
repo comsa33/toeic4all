@@ -9,7 +9,7 @@
 <div id="my-img-container" class="my-img-container">
     <div class="blur-bg-image" data-bg-url="{{ url_for('static', filename='images/lecture-img1.jpg') }}"></div>
     <div class="my-img-text">
-        <h1 class="h1-on-img" style="text-align:center; margin-bottom: 2rem;">{{ test_level }} TOEIC Part 5 모의고사</h1>
+        <h1 class="h1-on-img" style="text-align:center; margin-bottom: 2rem;">{{ test_level }} TOEIC Part 5 모의고사 해설지</h1>
     </div>
 </div>
 <script>
@@ -21,7 +21,6 @@
 {% endblock %}
 
 {% block content %}
-<h3 class="text-center">{{ test_level }}<br>TOEIC Part 5 모의고사 해설지</h3>
 <div class="container">
     <div class="row">
         {% for idx, (explanation, voca) in enumerate(zip(explanations, vocas), start=101) %}
