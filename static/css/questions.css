@@ -23,7 +23,8 @@ body {
 
 .container-info{
   background-color: #ff00002f;
-  width: 90%;
+  width: 100%;
+  text-align: justify;
 }
 
 .p-guide-text{
