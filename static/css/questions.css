@@ -154,6 +154,7 @@ input[type="radio"] {
 }
 
 #answer-table {
+  display: none;
   font-size: .9em;
   width: 100%;
   text-align: center;

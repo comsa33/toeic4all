@@ -65,6 +65,7 @@ document.addEventListener('DOMContentLoaded', function () {
             showExplanationsButton.href = 'https://toeic4all.com/api/test/explanations/' + id;
         });
     });
+    document.getElementById('answer-table').style.display = 'table';
 });
 
 var timer;
