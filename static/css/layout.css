@@ -101,11 +101,10 @@ nav ul .active a {
 #nav-user {
     font-size: 75%;
     font-weight: bold;
-    color: #9c9b9b;
+    color: #c6c5c5;
 }
 
 #nav-login:hover, #nav-logout:hover {
-    font-size: 90%;
     transition: color 0.3s ease;
     color: #ff6347;
 }
