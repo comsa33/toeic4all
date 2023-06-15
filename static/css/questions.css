@@ -124,6 +124,23 @@ input[type="radio"] {
   background-color: #0056b3;
 }
 
+.explanation-button {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #008CBA; /* Blue */
+  color: white;
+  text-decoration: none; /* Remove underline */
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.explanation-button:hover {
+  background-color: #0056b3; /* Darker shade of blue */
+}
+
 #score {
   font-size: 1.5rem;
   font-weight: bold;
