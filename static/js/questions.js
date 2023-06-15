@@ -1,31 +1,41 @@
-document.getElementById('submit-answers').addEventListener('click', function() {
-    var answers = {};
-    var questionContainers = document.querySelectorAll('.question-container');
-    questionContainers.forEach(function(container) {
-        var questionId = container.querySelector('small').textContent.slice(4);  // 'ID: '를 제거
-        var selectedAnswer = container.querySelector('input[type="radio"]:checked');
-        if (selectedAnswer) {
-            answers[questionId] = selectedAnswer.value;
+document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('submit-answers').addEventListener('click', function() {
+      var answers = Array.from(document.getElementsByClassName('answer-input')).map(function(input) { return input.value; });
+      var question_ids = Array.from(document.getElementsByClassName('question-id')).map(function(id) { return id.textContent; });
+      var question_numbers = Array.from(document.getElementsByClassName('question-number')).map(function(num) { return num.textContent; });
+    
+      fetch('/api/answer?QuestionIds=' + question_ids.join(','), {
+        method: 'GET'
+      })
+      .then(response => response.json())
+      .then(data => {
+        var correct_answers = data.map(answer => answer['Answer']);
+        
+        var score = 0;
+        var tableBody = document.getElementById('answer-table-body');
+        tableBody.innerHTML = '';
+        
+        for (var i = 0; i < answers.length; i++) {
+          var row = document.createElement('tr');
+          var numberCell = document.createElement('td');
+          numberCell.innerText = question_numbers[i];
+          row.appendChild(numberCell);
+          var yourAnswerCell = document.createElement('td');
+          yourAnswerCell.innerText = answers[i] === '' ? '미응답' : answers[i];
+          row.appendChild(yourAnswerCell);
+          var correctAnswerCell = document.createElement('td');
+          correctAnswerCell.innerText = correct_answers[i];
+          row.appendChild(correctAnswerCell);
+          
+          if (answers[i] === correct_answers[i]) {
+            score += 1;
+          }
+          
+          tableBody.appendChild(row);
         }
+        
+        document.getElementById('score').innerText = '점수: ' + score + '/30';
+      });
     });
-
-    // Get the correct answers from the server
-    fetch('/api/answer?QuestionIds=' + Object.keys(answers).join(','))
-        .then(response => response.json())
-        .then(data => {
-            var score = 0;
-            var answerTable = document.getElementById('answer-table').getElementsByTagName('tbody')[0];
-            for (var questionId in answers) {
-                var correctAnswer = data[questionId];
-                var userAnswer = answers[questionId];
-                var newRow = answerTable.insertRow();
-                newRow.insertCell(0).innerText = questionId;
-                newRow.insertCell(1).innerText = correctAnswer;
-                newRow.insertCell(2).innerText = userAnswer;
-                if (correctAnswer === userAnswer) {
-                    score += 1;
-                }
-            }
-            document.getElementById('score').innerText = "당신의 점수: " + score;
-        });
-});
+  });
+  
