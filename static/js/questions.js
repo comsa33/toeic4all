@@ -24,11 +24,11 @@ document.addEventListener('DOMContentLoaded', function () {
             data['data'].forEach(answer => {
                 correct_answers[answer['QuestionId']] = answer['AnswerText'][0]; // assuming each question has only one correct answer
             });
-
+            
             var score = 0;
             var tableBody = document.getElementById('answer-table-body');
             tableBody.innerHTML = '';
-
+            
             for (var i = 0; i < question_ids.length; i++) {
                 var question_id = question_ids[i];
                 
@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 var correctAnswerCell = document.createElement('td');
                 correctAnswerCell.innerText = correct_answers[question_id] || '정답 정보 없음';
                 row.appendChild(correctAnswerCell);
-
+                
                 if (userAnswers[question_id] === correct_answers[question_id]) {
                     score += 1;
                 } else {
@@ -53,6 +53,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
             
             document.getElementById('score').innerText = '점수: ' + score + '/' + question_ids.length;
+            document.getElementById('answer-table').style.display = 'table';
             
             // '해설지 보기' 버튼 보이기 및 링크 연결
             var showExplanationsButton = document.getElementById('show-explanations');
@@ -65,7 +66,6 @@ document.addEventListener('DOMContentLoaded', function () {
             showExplanationsButton.href = 'https://toeic4all.com/api/test/explanations/' + id;
         });
     });
-    document.getElementById('answer-table').style.display = 'table';
 });
 
 var timer;
