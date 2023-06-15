@@ -13,7 +13,8 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         var question_ids = Object.keys(userAnswers);
-        
+        question_ids.sort((a, b) => parseInt(question_numbers[a]) - parseInt(question_numbers[b]));
+
         fetch('/api/answer?QuestionIds=' + question_ids.join(','), {
             method: 'GET'
         })
@@ -23,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function () {
             data['data'].forEach(answer => {
                 correct_answers[answer['QuestionId']] = answer['AnswerText'][0]; // assuming each question has only one correct answer
             });
-            
+
             var score = 0;
             var tableBody = document.getElementById('answer-table-body');
             tableBody.innerHTML = '';
