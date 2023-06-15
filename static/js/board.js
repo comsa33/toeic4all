@@ -441,10 +441,10 @@ window.onload = function() {
         var content = document.getElementById('community-guidelines-content');
         if (content.style.maxHeight) {
             content.style.maxHeight = null;
-            this.textContent = '가이드라인 보기';
+            this.textContent = '커뮤니티 이용 가이드라인 보기';
         } else {
             content.style.maxHeight = (content.scrollHeight + 20) + "px";
-            this.textContent = '가이드라인 숨기기';
+            this.textContent = '접기';
         } 
     });
 };
