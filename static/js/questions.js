@@ -68,11 +68,16 @@ document.addEventListener('DOMContentLoaded', function () {
 var timer;
 var minutes = 0;
 var seconds = 0;
+var milliseconds = 0;
 var timerRunning = false;
 
 function startTimer() {
     timer = setInterval(function() {
-        seconds++;
+        milliseconds += 10;
+        if (milliseconds >= 1000) {
+            seconds++;
+            milliseconds = 0;
+        }
         if (seconds >= 60) {
             minutes++;
             seconds = 0;
@@ -86,14 +91,28 @@ function startTimer() {
         // Update timer display
         var displayMinutes = (minutes < 10) ? '0' + minutes : minutes;
         var displaySeconds = (seconds < 10) ? '0' + seconds : seconds;
-        document.getElementById('timer-display').textContent = displayMinutes + ':' + displaySeconds;
-    }, 1000);
+        var displayMilliseconds = (milliseconds < 10) ? '00' + milliseconds : (milliseconds < 100) ? '0' + milliseconds : milliseconds;
+        document.getElementById('timer-display').textContent = displayMinutes + ':' + displaySeconds + ':' + displayMilliseconds;
+    }, 10); // Update interval is now 10ms to show milliseconds
 }
 
 function endTimer() {
     clearInterval(timer);
     document.getElementById('start-timer-btn').style.display = 'block';
     document.getElementById('end-timer-btn').style.display = 'none';
+    document.getElementById('reset-timer-btn').style.display = 'block';
+    timerRunning = false;
+}
+
+function resetTimer() {
+    clearInterval(timer);
+    minutes = 0;
+    seconds = 0;
+    milliseconds = 0;
+    document.getElementById('timer-display').textContent = '00:00:000';
+    document.getElementById('start-timer-btn').style.display = 'block';
+    document.getElementById('end-timer-btn').style.display = 'none';
+    document.getElementById('reset-timer-btn').style.display = 'none';
     timerRunning = false;
 }
 
@@ -110,4 +129,8 @@ document.getElementById('end-timer-btn').addEventListener('click', function() {
     if (timerRunning) {
         endTimer();
     }
+});
+
+document.getElementById('reset-timer-btn').addEventListener('click', function() {
+    resetTimer();
 });
