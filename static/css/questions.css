@@ -23,14 +23,14 @@ body {
   padding: 5px 10px;
   border: none;
   border-radius: 5px;
-  background-color: #008CBA; /* Blue */
+  background-color: #008CBA;
   color: white;
   cursor: pointer;
   transition: background-color 0.3s;
 }
 
 #timer-container button:hover {
-  background-color: #0056b3; /* Green */
+  background-color: #0056b3;
 }
 
 #timer-container #timer-display {
@@ -47,6 +47,21 @@ body {
   align-items: center;
 }
 
+#toggle-timer-btn {
+  margin: 0 5px;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #008CBA;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#toggle-timer-btn:hover {
+  background-color: #0056b3;
+}
+
 .icon-button {
   background: none;
   border: none;
@@ -55,7 +70,7 @@ body {
 }
 
 .icon-button:hover {
-  color: #0056b3;  /* Darker shade of the Bootstrap primary color */
+  color: #0056b3;
 }
 
 .question-container {

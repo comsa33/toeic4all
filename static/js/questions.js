@@ -139,3 +139,14 @@ document.getElementById('reset-timer-btn').addEventListener('click', function() 
     document.getElementById('start-timer-btn').style.display = 'block';
     this.style.display = 'none';
 });
+
+document.getElementById('toggle-timer-btn').addEventListener('click', function() {
+    var timer = document.getElementById('timer-display');
+    if (timer.style.display !== 'none') {
+        timer.style.display = 'none';
+        this.textContent = '타이머 표시';
+    } else {
+        timer.style.display = 'block';
+        this.textContent = '타이머 숨기기';
+    }
+});
