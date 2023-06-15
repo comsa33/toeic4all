@@ -51,6 +51,16 @@ document.addEventListener('DOMContentLoaded', function () {
             }
             
             document.getElementById('score').innerText = '점수: ' + score + '/' + question_ids.length;
+            
+            // '해설지 보기' 버튼 보이기 및 링크 연결
+            var showExplanationsButton = document.getElementById('show-explanations');
+            showExplanationsButton.style.display = 'block';
+            
+            // 현재 URL에서 ID 부분만 뽑아와서 새 URL 생성
+            var url = new URL(window.location.href);
+            var segments = url.pathname.split('/');
+            var id = segments[segments.length - 1];
+            showExplanationsButton.href = 'https://toeic4all.com/api/test/explanations/' + id;
         });
     });
 });
