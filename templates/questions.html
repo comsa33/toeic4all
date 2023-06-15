@@ -16,7 +16,10 @@
                     <p><strong>{{ loop.index + 100 }}. {{ question.QuestionText }}</strong></p>
                     <ol type="A">
                         {% for selection in choice["Choices"] %}
-                        <li>{{ selection }}</li>
+                        <li>
+                            <input type="radio" name="{{ question.QuestionId }}" value="{{ selection }}">
+                            {{ selection }}
+                        </li>
                         {% endfor %}
                     </ol>
                     <small class="text-muted">ID: {{ question.QuestionId }}</small>
@@ -30,16 +33,40 @@
                     <p><strong>{{ loop.index + 115 }}. {{ question.QuestionText }}</strong></p>
                     <ol type="A">
                         {% for selection in choice["Choices"] %}
-                        <li>{{ selection }}</li>
+                        <li>
+                            <input type="radio" name="{{ question.QuestionId }}" value="{{ selection }}">
+                            {{ selection }}
+                        </li>
                         {% endfor %}
                     </ol>
                     <small class="text-muted">ID: {{ question.QuestionId }}</small>
                 </div>
                 {% endfor %}
             </div>
+
+            <div>
+                <button id="submit-answers">채점하기</button>
+                <div id="score"></div>
+                <table id="answer-table">
+                <thead>
+                    <tr>
+                    <th>문제 번호</th>
+                    <th>정답</th>
+                    <th>당신의 선택</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+                </table>
+            </div>
         </div>
+
         <footer class="text-center">
             <div><small>모의고사 번호: {{ creation_time }}</small></div>
         </footer>
     </div>
+{% endblock %}
+
+{% block additional_script %}
+<script src="{{ url_for('static', filename='js/questions.js') }}"></script>
 {% endblock %}
