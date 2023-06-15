@@ -64,3 +64,50 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 });
+
+var timer;
+var minutes = 0;
+var seconds = 0;
+var timerRunning = false;
+
+function startTimer() {
+    timer = setInterval(function() {
+        seconds++;
+        if (seconds >= 60) {
+            minutes++;
+            seconds = 0;
+        }
+
+        if (minutes == 15) {
+            alert('15분이 지났습니다!');
+            endTimer();
+        }
+
+        // Update timer display
+        var displayMinutes = (minutes < 10) ? '0' + minutes : minutes;
+        var displaySeconds = (seconds < 10) ? '0' + seconds : seconds;
+        document.getElementById('timer-display').textContent = displayMinutes + ':' + displaySeconds;
+    }, 1000);
+}
+
+function endTimer() {
+    clearInterval(timer);
+    document.getElementById('start-timer-btn').style.display = 'block';
+    document.getElementById('end-timer-btn').style.display = 'none';
+    timerRunning = false;
+}
+
+document.getElementById('start-timer-btn').addEventListener('click', function() {
+    if (!timerRunning) {
+        startTimer();
+        this.style.display = 'none';
+        document.getElementById('end-timer-btn').style.display = 'block';
+        timerRunning = true;
+    }
+});
+
+document.getElementById('end-timer-btn').addEventListener('click', function() {
+    if (timerRunning) {
+        endTimer();
+    }
+});
