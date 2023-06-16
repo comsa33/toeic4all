@@ -31,7 +31,7 @@ def get_board_questions():
         question.answerCount = BoardAnswer.query.filter_by(question_id=question.id).count()
         question.answers = BoardAnswer.query.filter_by(question_id=question.id).all()
         if user_id is not None:
-            question.hasLiked = BoardQuestionLike.has_liked(user_id, question.id)
+            question.hasLiked = not BoardQuestionLike.has_liked(user_id, question.id)
         else:
             question.hasLiked = False
 
@@ -47,7 +47,7 @@ def get_board_question(id):
 
     user_id = get_jwt_identity()  # 로그인한 사용자의 ID를 가져옵니다. 로그인하지 않았다면 None
     if user_id is not None:
-        question.hasLiked = BoardQuestionLike.has_liked(user_id, id)
+        question.hasLiked = not BoardQuestionLike.has_liked(user_id, id)
     else:
         question.hasLiked = False
 
