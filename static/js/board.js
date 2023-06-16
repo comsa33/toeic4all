@@ -70,7 +70,7 @@ const perPage = 10;  // 한 페이지에 보여줄 게시글의 수
 
 function getQuestions(page = 1) {
     currentPage = page;
-    fetch(`${apiEndpoint}board_questions?page=${currentPage}&per_page=${perPage}`)
+    fetchWithToken(`${apiEndpoint}board_questions?page=${currentPage}&per_page=${perPage}`)
         .then(response => response.json())
         .then(data => {
             document.getElementById('new-question-form').style.display = 'block';
@@ -143,7 +143,7 @@ let currentAnswerPage = 1;
 const answersPerPage = 10;
 
 function getQuestion(id, answerPage = 1) {
-    fetch(apiEndpoint + 'board_questions/' + id)
+    fetchWithToken(apiEndpoint + 'board_questions/' + id)
         .then(response => response.json())
         .then(data => {
             document.getElementById('new-question-form').style.display = 'none';
@@ -192,7 +192,7 @@ function getQuestion(id, answerPage = 1) {
             const answersTitle = document.querySelector("#answers-section h4");
             answersTitle.textContent = `게시물 답변 (${data.answerCount})`;
 
-            fetch(`${apiEndpoint}board_questions/${id}/answers?page=${currentAnswerPage}&per_page=${answersPerPage}`)
+            fetchWithToken(`${apiEndpoint}board_questions/${id}/answers?page=${currentAnswerPage}&per_page=${answersPerPage}`)
                 .then(response => response.json())
                 .then(response => {
                     const answerSection = document.getElementById('answers');
