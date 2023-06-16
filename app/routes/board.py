@@ -138,7 +138,7 @@ def toggle_like_board_question(id):
 
     db.session.commit()
 
-    return jsonify({'success': True, 'likes': question.likes, 'hasLiked': not hasLiked})
+    return jsonify({'success': True, 'likes': question.likes, 'hasLiked': hasLiked})
 
 
 @board.route('/board_answers/<int:id>/like', methods=['PUT'])
@@ -159,4 +159,4 @@ def toggle_like_board_answer(id):
 
     db.session.commit()
 
-    return jsonify({'success': True, 'likes': answer.likes, 'hasLiked': not hasLiked})
+    return jsonify({'success': True, 'likes': answer.likes, 'hasLiked': hasLiked})
