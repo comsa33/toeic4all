@@ -20,7 +20,7 @@ def verify_author(author):
 
 
 @board.route('/board_questions', methods=['GET'])
-@jwt_required(optional=True)
+@jwt_required()
 def get_board_questions():
     page = request.args.get('page', 1, type=int)
     per_page = request.args.get('per_page', 10, type=int)
