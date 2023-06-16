@@ -380,12 +380,14 @@ button:disabled {
     font-size: 0.8em;
     color: red;
     background-color: transparent;
+    box-shadow: none;
 }
 
 .like-button {
     font-size: 0.8em;
     color: #505050;
     background-color: transparent;
+    box-shadow: none;
 }
 
 .modal {
