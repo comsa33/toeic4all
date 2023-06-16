@@ -172,6 +172,7 @@ def toggle_like_board_answer(id):
         return jsonify({'error': 'Answer not found'}), 404
 
     user_id = get_jwt_identity()  # 로그인한 사용자의 ID를 가져옵니다.
+    print(f'user_id: {user_id}')
     hasLiked = BoardAnswerLike.has_liked(user_id, id)
     if hasLiked:
         BoardAnswerLike.unlike(user_id, id)
