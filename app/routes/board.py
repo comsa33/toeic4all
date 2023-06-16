@@ -2,7 +2,7 @@ from flask import request, jsonify, Blueprint, g
 from flask_jwt_extended import jwt_required, get_jwt_identity  # 추가
 
 from .. import db
-from app.models import BoardQuestion, BoardAnswer, BoardQuestionLike, BoardAnswerLike
+from app.models.board import BoardQuestion, BoardAnswer, BoardQuestionLike, BoardAnswerLike
 
 board = Blueprint('board', __name__)
 
