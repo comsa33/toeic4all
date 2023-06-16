@@ -376,16 +376,16 @@ button:disabled {
     background-color: rgba(0, 0, 0, 0.1);
 }
 
-.liked {
+.like-button {
     font-size: 0.8em;
-    color: red;
+    color: #1a91da;
     background-color: transparent;
     box-shadow: none;
 }
 
-.like-button {
+.liked {
     font-size: 0.8em;
-    color: #1a91da;
+    color: red;
     background-color: transparent;
     box-shadow: none;
 }
