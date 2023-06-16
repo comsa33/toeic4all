@@ -376,8 +376,16 @@ button:disabled {
     background-color: rgba(0, 0, 0, 0.1);
 }
 
-#like-button.liked {
+.liked {
+    font-size: 0.8em;
     color: red;
+    background-color: transparent;
+}
+
+.like-button {
+    font-size: 0.8em;
+    color: #505050;
+    background-color: transparent;
 }
 
 .modal {

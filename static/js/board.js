@@ -63,15 +63,23 @@ function getQuestions(page = 1) {
                     <!-- 기존 HTML 코드에 좋아요 수 추가 -->
                     <div class="question-header">
                         <div class="question-author">${question.author}</div>
-                        <div class="question-date">${data.likes} Likes · ${new Date(data.created_at).toLocaleString()}</div>
+                        <div class="question-date">${new Date(data.created_at).toLocaleString()}</div>
                         <div>
                             <p class="question-title">${question.title}</p>
                             <p class="question-contents">${contentWithBreaks}</p>
+                        </div>
+                        <div class="like-container">
+                            <button id="like-button-question-${id}" class="${data.hasLiked ? 'liked' : ''} like-button">좋아요</button>
+                            <div id="like-count-question-${id}">${data.likes}</div>
                         </div>
                     </div>
                     <button type="button" class="button-text" onclick="getQuestion(${question.id}, 1)">답변확인 (${question.answerCount})</button>
                 `;
                 board.appendChild(div);
+            });
+
+            document.getElementById(`like-button-${answer.id}`).addEventListener('click', function() {
+                toggleLike('board_answers', answer.id);
             });
 
             // Pagination
@@ -117,8 +125,8 @@ function getQuestion(id, answerPage = 1) {
                             <p class="question-contents">${contentWithBreaks}</p>
                         </div>
                         <div class="like-container">
-                            <button id="like-button" class="${data.hasLiked ? 'liked' : ''}">Like</button>
-                            <div id="like-count">${data.likes}</div>
+                            <button id="like-button-question-${id}" class="${data.hasLiked ? 'liked' : ''} like-button">좋아요</button>
+                            <div id="like-count-question-${id}">${data.likes}</div>
                         </div>
                     </div>
                     ${username === data.author ? `
@@ -163,8 +171,8 @@ function getQuestion(id, answerPage = 1) {
                                         <div class="answer-date">${new Date(answer.created_at).toLocaleString()}</div>
                                         <p class="answer-text">${answerContentWithBreaks}</p>
                                         <div class="like-container">
-                                            <button id="like-button-${answer.id}" class="${answer.hasLiked ? 'liked' : ''}">Like</button>
-                                            <div id="like-count-${answer.id}">${answer.likes}</div>
+                                            <button id="like-button-answer-${answer.id}" class="${answer.hasLiked ? 'liked' : ''} like-button">좋아요</button>
+                                            <div id="like-count-answer-${answer.id}">${answer.likes}</div>
                                         </div>
                                     </div>
                                     ${username === answer.author ? `
@@ -465,10 +473,16 @@ document.getElementById('toggle-guidelines-button').addEventListener('click', fu
 });
 
 function toggleLike(type, id) {
+    let prefix;
+    if (type === 'board_questions') {
+        prefix = 'question';
+    } else if (type === 'board_answers') {
+        prefix = 'answer';
+    }
     fetchWithToken(`${apiEndpoint}${type}/${id}/like`, { method: 'PUT' })
         .then(response => response.json())
         .then(data => {
-            document.getElementById(`like-count-${id}`).textContent = data.likes;
-            document.getElementById(`like-button-${id}`).classList.toggle('liked');
+            document.getElementById(`like-count-${prefix}-${id}`).textContent = data.likes;
+            document.getElementById(`like-button-${prefix}-${id}`).classList.toggle('liked');
         });
 }
