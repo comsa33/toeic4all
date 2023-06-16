@@ -390,6 +390,11 @@ button:disabled {
     box-shadow: none;
 }
 
+.like-container {
+    display: flex;
+    align-items: center;
+}
+
 .modal {
     display: none; 
     position: fixed;

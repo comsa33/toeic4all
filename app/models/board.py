@@ -88,7 +88,7 @@ class BoardQuestion(db.Model):
     content = db.Column(db.String)
     author = db.Column(db.String)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    likes = db.Column(db.Integer, default=0)  # New line
+    likes = db.Column(db.Integer, default=0)
     answers = db.relationship('BoardAnswer', lazy=True)
 
     def to_dict(self):
@@ -98,7 +98,7 @@ class BoardQuestion(db.Model):
             'content': self.content,
             'author': self.author,
             'created_at': self.created_at.strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
-            'likes': self.likes,  # New line
+            'likes': self.likes,
             'answers': [answer.to_dict() for answer in self.answers],
             'answerCount': BoardAnswer.query.filter_by(question_id=self.id).count()
         }
@@ -111,8 +111,9 @@ class BoardAnswer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String)
     author = db.Column(db.String)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)  # New line
     question_id = db.Column(db.Integer, db.ForeignKey('board_questions.id'), nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)  # New line
+    likes = db.Column(db.Integer, default=0)
 
     # Include 'created_at' in to_dict
     def to_dict(self):
@@ -120,7 +121,8 @@ class BoardAnswer(db.Model):
             'id': self.id,
             'content': self.content,
             'author': self.author,
-            'created_at': self.created_at.strftime("%Y-%m-%dT%H:%M:%S.%fZ"),  # Change this line
-            'question_id': self.question_id
+            'question_id': self.question_id,
+            'created_at': self.created_at.strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
+            'likes': self.likes
         }
         return data
