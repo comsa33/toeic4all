@@ -87,10 +87,6 @@ textarea {
     overflow-y: auto;
 }
 
-#new-answer {
-    padding: 10px;
-}
-
 input::placeholder, textarea::placeholder {
     color: var(--placeholder-color);
 }
@@ -223,8 +219,7 @@ button:disabled {
 }
 
 #new-answer {
-    height: 3.75em;
-    border-bottom: none;
+    height: 50px !important;
     background-color: #00000015;
     flex-grow: 1;
 }
