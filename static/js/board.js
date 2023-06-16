@@ -61,17 +61,16 @@ function getQuestions(page = 1) {
                 const div = document.createElement('div');
                 div.className = 'question';
                 div.innerHTML = `
-                    <!-- 기존 HTML 코드에 좋아요 수 추가 -->
                     <div class="question-header">
                         <div class="question-author">${question.author}</div>
-                        <div class="question-date">${new Date(data.created_at).toLocaleString()}</div>
+                        <div class="question-date">${new Date(question.created_at).toLocaleString()}</div>
                         <div>
                             <p class="question-title">${question.title}</p>
                             <p class="question-contents">${contentWithBreaks}</p>
                         </div>
                         <div class="like-container">
-                            <button id="like-button-question-${id}" class="${data.hasLiked ? 'liked' : ''} like-button">좋아요</button>
-                            <div id="like-count-question-${id}">${data.likes}</div>
+                            <button id="like-button-question-${id}" class="${question.hasLiked ? 'liked' : ''} like-button">좋아요</button>
+                            <div id="like-count-question-${id}">${question.likes}</div>
                         </div>
                     </div>
                     <button type="button" class="button-text" onclick="getQuestion(${question.id}, 1)">답변확인 (${question.answerCount})</button>
@@ -79,8 +78,8 @@ function getQuestions(page = 1) {
                 board.appendChild(div);
             });
 
-            document.getElementById(`like-button-${answer.id}`).addEventListener('click', function() {
-                toggleLike('board_answers', answer.id);
+            document.getElementById(`like-button-question-${id}`).addEventListener('click', function() {
+                toggleLike('board_questions', id);
             });
 
             // Pagination
@@ -137,7 +136,7 @@ function getQuestion(id, answerPage = 1) {
                 </div>
             `;
 
-            document.getElementById('like-button').addEventListener('click', function() {
+            document.getElementById(`like-button-question-${id}`).addEventListener('click', function() {
                 toggleLike('board_questions', id);
             });
 
@@ -186,7 +185,7 @@ function getQuestion(id, answerPage = 1) {
                             `;
                             answerSection.appendChild(div);
                         
-                            document.getElementById(`like-button-${answer.id}`).addEventListener('click', function() {
+                            document.getElementById(`like-button-answer-${answer.id}`).addEventListener('click', function() {
                                 toggleLike('board_answers', answer.id);
                             });
                         });
