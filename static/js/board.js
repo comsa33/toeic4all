@@ -221,6 +221,7 @@ function createQuestion() {
 
     if (!username) {
         alert('글을 작성하려면 로그인이 필요합니다!');
+        window.location.href = "https://toeic4all.com/user/login";
         return;
     }
 
@@ -314,6 +315,7 @@ const createAnswer = (questionId) => {
 
     if (!username) {
         alert('답변을 작성하려면 로그인이 필요합니다!');
+        window.location.href = "https://toeic4all.com/user/login";
         return;
     }
 
@@ -478,6 +480,7 @@ document.getElementById('toggle-guidelines-button').addEventListener('click', fu
 function toggleLike(type, id) {
     if (!localStorage.getItem('access_token')) {
         alert('로그인이 필요한 서비스입니다.');
+        window.location.href = "https://toeic4all.com/user/login";
         return;
     }
     let prefix;
