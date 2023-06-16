@@ -92,9 +92,9 @@ function getQuestions(page = 1) {
                 div.innerHTML = `
                     <div class="question-header">
                         <div class="author-date-container">
-                            <div class="question-author">${data.author}</div>
+                            <div class="question-author">${question.author}</div>
                             <span class="separator">·</span>
-                            <div class="question-date">${timeSince(new Date(data.created_at))}</div>
+                            <div class="question-date">${timeSince(new Date(question.created_at))}</div>
                         </div>
                         <div>
                             <p class="question-title">${question.title}</p>
