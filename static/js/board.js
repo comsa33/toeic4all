@@ -56,6 +56,7 @@ function getQuestions(page = 1) {
             document.getElementById('answers-section').style.display = 'none';
 
             data.questions.forEach(question => {
+                let id = question.id;
                 let contentWithBreaks = question.content.replace(/(?:\r\n|\r|\n)/g, '<br>');
                 const div = document.createElement('div');
                 div.className = 'question';
