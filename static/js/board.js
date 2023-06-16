@@ -60,9 +60,11 @@ function getQuestions(page = 1) {
                 const div = document.createElement('div');
                 div.className = 'question';
                 div.innerHTML = `
+                    <!-- 기존 HTML 코드에 좋아요 수 추가 -->
                     <div class="question-header">
                         <div class="question-author">${question.author}</div>
                         <div class="question-date">${new Date(question.created_at).toLocaleString()}</div>
+                        <div class="likes">${question.likes} Likes</div>  <!-- 좋아요 수 추가 -->
                         <div>
                             <p class="question-title">${question.title}</p>
                             <p class="question-contents">${contentWithBreaks}</p>
@@ -106,11 +108,14 @@ function getQuestion(id, answerPage = 1) {
             board.className = 'detail-view';
             let contentWithBreaks = data.content.replace(/(?:\r\n|\r|\n)/g, '<br>');
             board.innerHTML = `
-                <button type="button" id="button-get-questions" class="button-text" onclick="getQuestions()">﹤전체목록보기</button>
+                <!-- 기존 HTML 코드에 좋아요 수 및 좋아요/싫어요 버튼 추가 -->
                 <div class="question-box">
                     <div class="question-header">
                         <div class="question-author">${data.author}</div>
                         <div class="question-date">${new Date(data.created_at).toLocaleString()}</div>
+                        <div class="likes">${data.likes} Likes</div>  <!-- 좋아요 수 추가 -->
+                        <button onclick="likeQuestion(${id})">Like</button>  <!-- 좋아요 버튼 추가 -->
+                        <button onclick="unlikeQuestion(${id})">Unlike</button>  <!-- 싫어요 버튼 추가 -->
                         <div>
                             <p class="question-title">${data.title}</p>
                             <p class="question-contents">${contentWithBreaks}</p>
@@ -446,3 +451,35 @@ document.getElementById('toggle-guidelines-button').addEventListener('click', fu
         this.textContent = '커뮤니티 이용 가이드라인 보기';
     }
 });
+
+function likeQuestion(id) {
+    fetch(`${apiEndpoint}board_questions/${id}/like`, {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${token}`  // 로그인 시 받은 JWT 토큰을 인증 헤더에 추가
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            getQuestions(currentPage);  // 좋아요 누른 후 게시글 목록 갱신
+            getQuestion(id, currentAnswerPage);  // 좋아요 누른 후 현재 게시글 갱신
+        }
+    });
+}
+
+function unlikeQuestion(id) {
+    fetch(`${apiEndpoint}board_questions/${id}/unlike`, {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${token}`  // 로그인 시 받은 JWT 토큰을 인증 헤더에 추가
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            getQuestions(currentPage);  // 좋아요 취소한 후 게시글 목록 갱신
+            getQuestion(id, currentAnswerPage);  // 좋아요 취소한 후 현재 게시글 갱신
+        }
+    });
+}

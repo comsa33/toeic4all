@@ -118,3 +118,25 @@ def delete_board_answer(id):
     db.session.delete(answer)
     db.session.commit()
     return '', 204
+
+
+@board.route('/board_questions/<int:id>/like', methods=['POST'])
+@jwt_required()  # 사용자가 로그인해야 '좋아요'를 누를 수 있음
+def like_board_question(id):
+    question = BoardQuestion.query.get(id)
+    if question is None:
+        return jsonify({'error': 'Question not found'}), 404
+    question.likes += 1  # 좋아요 수 증가
+    db.session.commit()
+    return jsonify({'success': True, 'likes': question.likes})
+
+
+@board.route('/board_questions/<int:id>/unlike', methods=['POST'])
+@jwt_required()  # 사용자가 로그인해야 '좋아요'를 취소할 수 있음
+def unlike_board_question(id):
+    question = BoardQuestion.query.get(id)
+    if question is None:
+        return jsonify({'error': 'Question not found'}), 404
+    question.likes = max(0, question.likes - 1)  # 좋아요 수 감소, 하지만 0 이하로는 내려가지 않게 함
+    db.session.commit()
+    return jsonify({'success': True, 'likes': question.likes})
