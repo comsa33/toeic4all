@@ -98,7 +98,9 @@ function getQuestions(page = 1) {
                         </div>
                         <div class="like-container">
                             <div id="like-count-question-${id}">${question.likes}</div>
-                            <button id="like-button-question-${id}" class="${question.hasLiked ? 'liked' : 'like-button'}">좋아요</button>
+                            <button id="like-button-question-${id}" class="${question.hasLiked ? 'liked' : 'like-button'}">
+                                <i class="fas fa-thumbs-up"></i>
+                            </button>
                         </div>
                     </div>
                     <button type="button" class="button-text" onclick="getQuestion(${question.id}, 1)">답변확인 (${question.answerCount})</button>
@@ -157,7 +159,9 @@ function getQuestion(id, answerPage = 1) {
                         </div>
                         <div class="like-container">
                             <div id="like-count-question-${id}">${data.likes}</div>
-                            <button id="like-button-question-${id}" class="${data.hasLiked ? 'liked' : 'like-button'}">좋아요</button>
+                            <button id="like-button-question-${id}" class="${data.hasLiked ? 'liked' : 'like-button'}">
+                                <i class="fas fa-thumbs-up"></i>
+                            </button>
                         </div>
                     </div>
                     ${username === data.author ? `
@@ -203,7 +207,9 @@ function getQuestion(id, answerPage = 1) {
                                         <p class="answer-text">${answerContentWithBreaks}</p>
                                         <div class="like-container">
                                             <div id="like-count-answer-${answer.id}">${answer.likes}</div>
-                                            <button id="like-button-answer-${answer.id}" class="${answer.hasLiked ? 'liked' : 'like-button'} ">좋아요</button>
+                                            <button id="like-button-answer-${answer.id}" class="${answer.hasLiked ? 'liked' : 'like-button'} ">
+                                                <i class="fas fa-thumbs-up"></i>
+                                            </button>
                                         </div>
                                     </div>
                                     ${username === answer.author ? `
