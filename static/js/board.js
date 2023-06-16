@@ -87,8 +87,6 @@ function getQuestions(page = 1) {
                 let id = question.id;
                 let contentWithBreaks = question.content.replace(/(?:\r\n|\r|\n)/g, '<br>');
                 const div = document.createElement('div');
-
-                console.log(question.hasLiked);
                 
                 div.className = 'question';
                 div.innerHTML = `

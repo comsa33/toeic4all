@@ -32,9 +32,6 @@ def get_board_questions():
         question_dict = question.to_dict()
         question_dict['answerCount'] = BoardAnswer.query.filter_by(question_id=question.id).count()
         question_dict['answers'] = [answer.to_dict() for answer in BoardAnswer.query.filter_by(question_id=question.id).all()]
-        print(f'user_id: {user_id}')
-        print(f'question.id: {question.id}')
-        print(f'hasLiked: {BoardQuestionLike.has_liked(user_id, question.id)}')
         if user_id is not None:
             question_dict['hasLiked'] = BoardQuestionLike.has_liked(user_id, question.id)
         else:
@@ -102,11 +99,23 @@ def delete_board_question(id):
 
 
 @board.route('/board_questions/<int:question_id>/answers', methods=['GET'])
+@jwt_required(optional=True)
 def get_board_answers(question_id):
     page = request.args.get('page', 1, type=int)
     per_page = request.args.get('per_page', 10, type=int)
     answers = BoardAnswer.query.filter_by(question_id=question_id).order_by(BoardAnswer.created_at.desc()).paginate(page=page, per_page=per_page, error_out=False)
-    return jsonify({'answers': [answer.to_dict() for answer in answers.items], 'total': answers.total})
+    
+    user_id = get_jwt_identity()
+    answers_list = []
+    for answer in answers.items:
+        answer_dict = answer.to_dict()
+        if user_id is not None:
+            answer_dict['hasLiked'] = BoardAnswerLike.has_liked(user_id, answer.id)
+        else:
+            answer_dict['hasLiked'] = False
+        answers_list.append(answer_dict)
+
+    return jsonify({'answers': answers_list, 'total': answers.total})
 
 
 @board.route('/board_questions/<int:question_id>/answers', methods=['POST'])
@@ -151,8 +160,6 @@ def toggle_like_board_question(id):
         return jsonify({'error': 'Question not found'}), 404
 
     user_id = get_jwt_identity()  # 로그인한 사용자의 ID를 가져옵니다.
-
-    print(f'user_id: {user_id}')
 
     hasLiked = BoardQuestionLike.has_liked(user_id, id)
     if hasLiked:
