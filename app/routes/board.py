@@ -20,21 +20,37 @@ def verify_author(author):
 
 
 @board.route('/board_questions', methods=['GET'])
+@jwt_required(optional=True)
 def get_board_questions():
     page = request.args.get('page', 1, type=int)
     per_page = request.args.get('per_page', 10, type=int)
     questions = BoardQuestion.query.order_by(BoardQuestion.created_at.desc()).paginate(page=page, per_page=per_page, error_out=False)
+    user_id = get_jwt_identity()  # 로그인한 사용자의 ID를 가져옵니다. 로그인하지 않았다면 None
+
     for question in questions.items:
         question.answerCount = BoardAnswer.query.filter_by(question_id=question.id).count()
         question.answers = BoardAnswer.query.filter_by(question_id=question.id).all()
+        if user_id is not None:
+            question.hasLiked = BoardQuestionLike.has_liked(user_id, question.id)
+        else:
+            question.hasLiked = False
+
     return jsonify({'questions': [question.to_dict() for question in questions.items], 'total': questions.total})
 
 
 @board.route('/board_questions/<int:id>', methods=['GET'])
+@jwt_required(optional=True)
 def get_board_question(id):
     question = BoardQuestion.query.get(id)
     if question is None:
         return jsonify({'error': 'Question not found'}), 404
+
+    user_id = get_jwt_identity()  # 로그인한 사용자의 ID를 가져옵니다. 로그인하지 않았다면 None
+    if user_id is not None:
+        question.hasLiked = BoardQuestionLike.has_liked(user_id, id)
+    else:
+        question.hasLiked = False
+
     return jsonify(question.to_dict())
 
 
