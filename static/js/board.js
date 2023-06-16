@@ -63,8 +63,7 @@ function getQuestions(page = 1) {
                     <!-- 기존 HTML 코드에 좋아요 수 추가 -->
                     <div class="question-header">
                         <div class="question-author">${question.author}</div>
-                        <div class="question-date">${new Date(question.created_at).toLocaleString()}</div>
-                        <div class="likes">${question.likes} Likes</div>  <!-- 좋아요 수 추가 -->
+                        <div class="question-date">${data.likes} Likes · ${new Date(data.created_at).toLocaleString()}</div>
                         <div>
                             <p class="question-title">${question.title}</p>
                             <p class="question-contents">${contentWithBreaks}</p>
@@ -113,12 +112,13 @@ function getQuestion(id, answerPage = 1) {
                     <div class="question-header">
                         <div class="question-author">${data.author}</div>
                         <div class="question-date">${new Date(data.created_at).toLocaleString()}</div>
-                        <div class="likes">${data.likes} Likes</div>  <!-- 좋아요 수 추가 -->
-                        <button onclick="likeQuestion(${id})">Like</button>  <!-- 좋아요 버튼 추가 -->
-                        <button onclick="unlikeQuestion(${id})">Unlike</button>  <!-- 싫어요 버튼 추가 -->
                         <div>
                             <p class="question-title">${data.title}</p>
                             <p class="question-contents">${contentWithBreaks}</p>
+                        </div>
+                        <div class="like-container">
+                            <button id="like-button" class="${data.hasLiked ? 'liked' : ''}">Like</button>
+                            <div id="like-count">${data.likes}</div>
                         </div>
                     </div>
                     ${username === data.author ? `
@@ -127,6 +127,10 @@ function getQuestion(id, answerPage = 1) {
                     ` : ''}
                 </div>
             `;
+
+            document.getElementById('like-button').addEventListener('click', function() {
+                toggleLike('board_questions', id);
+            });
 
             // Hide pagination
             const pagination = document.getElementById('pagination');
@@ -158,6 +162,10 @@ function getQuestion(id, answerPage = 1) {
                                         <div class="answer-author">${answer.author}</div>
                                         <div class="answer-date">${new Date(answer.created_at).toLocaleString()}</div>
                                         <p class="answer-text">${answerContentWithBreaks}</p>
+                                        <div class="like-container">
+                                            <button id="like-button-${answer.id}" class="${answer.hasLiked ? 'liked' : ''}">Like</button>
+                                            <div id="like-count-${answer.id}">${answer.likes}</div>
+                                        </div>
                                     </div>
                                     ${username === answer.author ? `
                                     <div class="button-container">
@@ -168,6 +176,10 @@ function getQuestion(id, answerPage = 1) {
                                 </div>
                             `;
                             answerSection.appendChild(div);
+                        
+                            document.getElementById(`like-button-${answer.id}`).addEventListener('click', function() {
+                                toggleLike('board_answers', answer.id);
+                            });
                         });
 
                         // Pagination
@@ -452,34 +464,11 @@ document.getElementById('toggle-guidelines-button').addEventListener('click', fu
     }
 });
 
-function likeQuestion(id) {
-    fetch(`${apiEndpoint}board_questions/${id}/like`, {
-        method: 'POST',
-        headers: {
-            'Authorization': `Bearer ${token}`  // 로그인 시 받은 JWT 토큰을 인증 헤더에 추가
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            getQuestions(currentPage);  // 좋아요 누른 후 게시글 목록 갱신
-            getQuestion(id, currentAnswerPage);  // 좋아요 누른 후 현재 게시글 갱신
-        }
-    });
-}
-
-function unlikeQuestion(id) {
-    fetch(`${apiEndpoint}board_questions/${id}/unlike`, {
-        method: 'POST',
-        headers: {
-            'Authorization': `Bearer ${token}`  // 로그인 시 받은 JWT 토큰을 인증 헤더에 추가
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            getQuestions(currentPage);  // 좋아요 취소한 후 게시글 목록 갱신
-            getQuestion(id, currentAnswerPage);  // 좋아요 취소한 후 현재 게시글 갱신
-        }
-    });
+function toggleLike(type, id) {
+    fetchWithToken(`${apiEndpoint}${type}/${id}/like`, { method: 'PUT' })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById(`like-count-${id}`).textContent = data.likes;
+            document.getElementById(`like-button-${id}`).classList.toggle('liked');
+        });
 }

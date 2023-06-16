@@ -1,6 +1,83 @@
 from datetime import datetime
 
+from sqlalchemy import PrimaryKeyConstraint
+from sqlalchemy.exc import IntegrityError
+
 from .. import db
+
+
+class BoardQuestionLike(db.Model):
+    __tablename__ = 'board_question_likes'
+
+    user_id = db.Column(db.String, primary_key=True)
+    question_id = db.Column(db.Integer, db.ForeignKey('board_questions.id'), primary_key=True)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    __table_args__ = (
+        PrimaryKeyConstraint('user_id', 'question_id'),
+    )
+
+    @classmethod
+    def like(cls, user_id, question_id):
+        like = cls(user_id=user_id, question_id=question_id)
+        try:
+            db.session.add(like)
+            db.session.commit()
+            return True
+        except IntegrityError:
+            db.session.rollback()
+            return False
+
+    @classmethod
+    def unlike(cls, user_id, question_id):
+        like = cls.query.filter_by(user_id=user_id, question_id=question_id).first()
+        if like:
+            db.session.delete(like)
+            db.session.commit()
+            return True
+        else:
+            return False
+
+    @classmethod
+    def has_liked(cls, user_id, question_id):
+        return db.session.query(cls.query.filter_by(user_id=user_id, question_id=question_id).exists()).scalar()
+
+
+class BoardAnswerLike(db.Model):
+    __tablename__ = 'board_answer_likes'
+
+    user_id = db.Column(db.String, primary_key=True)
+    answer_id = db.Column(db.Integer, db.ForeignKey('board_answers.id'), primary_key=True)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    __table_args__ = (
+        PrimaryKeyConstraint('user_id', 'answer_id'),
+    )
+
+    @classmethod
+    def like(cls, user_id, answer_id):
+        like = cls(user_id=user_id, answer_id=answer_id)
+        try:
+            db.session.add(like)
+            db.session.commit()
+            return True
+        except IntegrityError:
+            db.session.rollback()
+            return False
+
+    @classmethod
+    def unlike(cls, user_id, answer_id):
+        like = cls.query.filter_by(user_id=user_id, answer_id=answer_id).first()
+        if like:
+            db.session.delete(like)
+            db.session.commit()
+            return True
+        else:
+            return False
+
+    @classmethod
+    def has_liked(cls, user_id, answer_id):
+        return db.session.query(cls.query.filter_by(user_id=user_id, answer_id=answer_id).exists()).scalar()
 
 
 class BoardQuestion(db.Model):

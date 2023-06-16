@@ -376,6 +376,10 @@ button:disabled {
     background-color: rgba(0, 0, 0, 0.1);
 }
 
+#like-button.liked {
+    color: red;
+}
+
 .modal {
     display: none; 
     position: fixed;
