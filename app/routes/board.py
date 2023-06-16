@@ -128,7 +128,8 @@ def toggle_like_board_question(id):
         return jsonify({'error': 'Question not found'}), 404
 
     user_id = get_jwt_identity()  # 로그인한 사용자의 ID를 가져옵니다.
-    if BoardQuestionLike.has_liked(user_id, id):
+    hasLiked = BoardQuestionLike.has_liked(user_id, id)
+    if hasLiked:
         BoardQuestionLike.unlike(user_id, id)
         question.likes = max(0, question.likes - 1)  # 좋아요 수 감소, 하지만 0 이하로는 내려가지 않게 함
     else:
@@ -137,7 +138,7 @@ def toggle_like_board_question(id):
 
     db.session.commit()
 
-    return jsonify({'success': True, 'likes': question.likes})
+    return jsonify({'success': True, 'likes': question.likes, 'hasLiked': not hasLiked})
 
 
 @board.route('/board_answers/<int:id>/like', methods=['PUT'])
@@ -148,7 +149,8 @@ def toggle_like_board_answer(id):
         return jsonify({'error': 'Answer not found'}), 404
 
     user_id = get_jwt_identity()  # 로그인한 사용자의 ID를 가져옵니다.
-    if BoardAnswerLike.has_liked(user_id, id):
+    hasLiked = BoardAnswerLike.has_liked(user_id, id)
+    if hasLiked:
         BoardAnswerLike.unlike(user_id, id)
         answer.likes = max(0, answer.likes - 1)  # 좋아요 수 감소, 하지만 0 이하로는 내려가지 않게 함
     else:
@@ -157,4 +159,4 @@ def toggle_like_board_answer(id):
 
     db.session.commit()
 
-    return jsonify({'success': True, 'likes': answer.likes})
+    return jsonify({'success': True, 'likes': answer.likes, 'hasLiked': not hasLiked})
