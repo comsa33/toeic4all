@@ -76,11 +76,14 @@ function getQuestions(page = 1) {
                     <button type="button" class="button-text" onclick="getQuestion(${question.id}, 1)">답변확인 (${question.answerCount})</button>
                 `;
                 board.appendChild(div);
+            
+                // 좋아요 버튼을 찾아 이벤트 리스너를 설정합니다.  
+                document.getElementById(`like-button-question-${id}`).addEventListener('click', function() {
+                    toggleLike('board_questions', id);
+                });
             });
+            
 
-            document.getElementById(`like-button-question-${id}`).addEventListener('click', function() {
-                toggleLike('board_questions', id);
-            });
 
             // Pagination
             const startPage = Math.floor((currentPage - 1) / 10) * 10 + 1;
@@ -479,10 +482,16 @@ function toggleLike(type, id) {
     } else if (type === 'board_answers') {
         prefix = 'answer';
     }
+
     fetchWithToken(`${apiEndpoint}${type}/${id}/like`, { method: 'PUT' })
         .then(response => response.json())
         .then(data => {
             document.getElementById(`like-count-${prefix}-${id}`).textContent = data.likes;
-            document.getElementById(`like-button-${prefix}-${id}`).classList.toggle('liked');
+            const likeButton = document.getElementById(`like-button-${prefix}-${id}`);
+            if (data.hasLiked) {
+                likeButton.classList.add('liked');
+            } else {
+                likeButton.classList.remove('liked');
+            }
         });
 }
