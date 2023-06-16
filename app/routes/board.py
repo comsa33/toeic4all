@@ -27,15 +27,18 @@ def get_board_questions():
     questions = BoardQuestion.query.order_by(BoardQuestion.created_at.desc()).paginate(page=page, per_page=per_page, error_out=False)
     user_id = get_jwt_identity()
 
+    questions_list = []
     for question in questions.items:
-        question.answerCount = BoardAnswer.query.filter_by(question_id=question.id).count()
-        question.answers = BoardAnswer.query.filter_by(question_id=question.id).all()
+        question_dict = question.to_dict()
+        question_dict['answerCount'] = BoardAnswer.query.filter_by(question_id=question.id).count()
+        question_dict['answers'] = [answer.to_dict() for answer in BoardAnswer.query.filter_by(question_id=question.id).all()]
         if user_id is not None:
-            question.hasLiked = not BoardQuestionLike.has_liked(user_id, question.id)
+            question_dict['hasLiked'] = BoardQuestionLike.has_liked(user_id, question.id)
         else:
-            question.hasLiked = False
+            question_dict['hasLiked'] = False
+        questions_list.append(question_dict)
 
-    return jsonify({'questions': [question.to_dict() for question in questions.items], 'total': questions.total})
+    return jsonify({'questions': questions_list, 'total': questions.total})
 
 
 @board.route('/board_questions/<int:id>', methods=['GET'])
@@ -45,13 +48,14 @@ def get_board_question(id):
     if question is None:
         return jsonify({'error': 'Question not found'}), 404
 
+    question_dict = question.to_dict()
     user_id = get_jwt_identity()
     if user_id is not None:
-        question.hasLiked = not BoardQuestionLike.has_liked(user_id, id)
+        question_dict['hasLiked'] = BoardQuestionLike.has_liked(user_id, id)
     else:
-        question.hasLiked = False
+        question_dict['hasLiked'] = False
 
-    return jsonify(question.to_dict())
+    return jsonify(question_dict)
 
 
 @board.route('/board_questions', methods=['POST'])
