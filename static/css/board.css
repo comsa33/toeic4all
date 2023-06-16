@@ -339,7 +339,6 @@ button:disabled {
     font-weight: bold;
     font-size: 0.75em;
     color: rgb(170, 170, 170);
-    align-self: flex-start;
 }
 
 .answer-content {
