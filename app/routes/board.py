@@ -32,6 +32,9 @@ def get_board_questions():
         question_dict = question.to_dict()
         question_dict['answerCount'] = BoardAnswer.query.filter_by(question_id=question.id).count()
         question_dict['answers'] = [answer.to_dict() for answer in BoardAnswer.query.filter_by(question_id=question.id).all()]
+        print(f'user_id: {user_id}')
+        print(f'question.id: {question.id}')
+        print(f'hasLiked: {BoardQuestionLike.has_liked(user_id, question.id)}')
         if user_id is not None:
             question_dict['hasLiked'] = not BoardQuestionLike.has_liked(user_id, question.id)
         else:
