@@ -10,17 +10,18 @@ class BoardQuestion(db.Model):
     title = db.Column(db.String)
     content = db.Column(db.String)
     author = db.Column(db.String)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)  # New line
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    likes = db.Column(db.Integer, default=0)  # New line
     answers = db.relationship('BoardAnswer', lazy=True)
 
-    # Include 'created_at' in to_dict
     def to_dict(self):
         data = {
             'id': self.id,
             'title': self.title,
             'content': self.content,
             'author': self.author,
-            'created_at': self.created_at.strftime("%Y-%m-%dT%H:%M:%S.%fZ"),  # Change this line
+            'created_at': self.created_at.strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
+            'likes': self.likes,  # New line
             'answers': [answer.to_dict() for answer in self.answers],
             'answerCount': BoardAnswer.query.filter_by(question_id=self.id).count()
         }
