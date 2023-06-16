@@ -531,8 +531,6 @@ function toggleLike(type, id) {
             document.getElementById(`like-count-${prefix}-${id}`).textContent = data.likes;
             const likeButton = document.getElementById(`like-button-${prefix}-${id}`);
 
-            console.log(data.hasLiked);
-
             if (data.hasLiked) {
                 likeButton.classList.add('liked');
             } else {
