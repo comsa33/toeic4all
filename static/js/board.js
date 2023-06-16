@@ -37,6 +37,34 @@ function fetchWithToken(url, options = {}) {
     return fetch(url, {...options, headers});
 }
 
+function timeSince(date) {
+
+    const seconds = Math.floor((new Date() - date) / 1000);
+
+    let interval = seconds / 31536000;
+
+    if (interval > 1) {
+        return Math.floor(interval) + " 년 전";
+    }
+    interval = seconds / 2592000;
+    if (interval > 1) {
+        return Math.floor(interval) + " 달 전";
+    }
+    interval = seconds / 86400;
+    if (interval > 1) {
+        return Math.floor(interval) + " 일 전";
+    }
+    interval = seconds / 3600;
+    if (interval > 1) {
+        return Math.floor(interval) + " 시간 전";
+    }
+    interval = seconds / 60;
+    if (interval > 1) {
+        return Math.floor(interval) + " 분 전";
+    }
+    return Math.floor(seconds) + " 초 전";
+}
+
 let currentPage = 1;  // 현재 페이지를 저장하는 전역 변수
 const perPage = 10;  // 한 페이지에 보여줄 게시글의 수
 
@@ -63,7 +91,7 @@ function getQuestions(page = 1) {
                 div.innerHTML = `
                     <div class="question-header">
                         <div class="question-author">${question.author}</div>
-                        <div class="question-date">${new Date(question.created_at).toLocaleString()}</div>
+                        <div class="question-date">${timeSince(new Date(question.created_at))}</div>
                         <div>
                             <p class="question-title">${question.title}</p>
                             <p class="question-contents">${contentWithBreaks}</p>
@@ -122,7 +150,7 @@ function getQuestion(id, answerPage = 1) {
                 <div class="question-box">
                     <div class="question-header">
                         <div class="question-author">${data.author}</div>
-                        <div class="question-date">${new Date(data.created_at).toLocaleString()}</div>
+                        <div class="question-date">${timeSince(new Date(data.created_at))}</div>
                         <div>
                             <p class="question-title">${data.title}</p>
                             <p class="question-contents">${contentWithBreaks}</p>
@@ -171,7 +199,7 @@ function getQuestion(id, answerPage = 1) {
                                 <div class="answer-content">
                                     <div class="answer-header">
                                         <div class="answer-author">${answer.author}</div>
-                                        <div class="answer-date">${new Date(answer.created_at).toLocaleString()}</div>
+                                        <div class="answer-date">${timeSince(new Date(answer.created_at))}</div>
                                         <p class="answer-text">${answerContentWithBreaks}</p>
                                         <div class="like-container">
                                             <div id="like-count-answer-${answer.id}">${answer.likes}</div>
