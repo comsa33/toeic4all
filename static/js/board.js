@@ -84,12 +84,12 @@ function getQuestions(page = 1) {
             document.getElementById('answers-section').style.display = 'none';
 
             data.questions.forEach(question => {
-
-                console.log(`Question ${id} hasLiked: ${question.hasLiked}`);
-
                 let id = question.id;
                 let contentWithBreaks = question.content.replace(/(?:\r\n|\r|\n)/g, '<br>');
                 const div = document.createElement('div');
+
+                console.log(`Question ${id} hasLiked: ${question.hasLiked}`);
+                
                 div.className = 'question';
                 div.innerHTML = `
                     <div class="question-header">
