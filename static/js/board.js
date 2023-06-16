@@ -30,10 +30,10 @@ function getUsername() {
 
 function fetchWithToken(url, options = {}) {
     const jwtToken = localStorage.getItem('access_token');
-    const headers = {
-        ...options.headers,
-        'Authorization': `Bearer ${jwtToken}`
-    };
+    let headers = options.headers || {};
+    if (jwtToken) {
+        headers['Authorization'] = `Bearer ${jwtToken}`;
+    }
     return fetch(url, {...options, headers});
 }
 
