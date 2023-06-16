@@ -395,6 +395,16 @@ button:disabled {
     align-items: center;
 }
 
+.author-date-container {
+    display: flex;
+    align-items: center;
+}
+  
+.separator {
+    margin: 0 10px;
+    color: gray;
+}  
+
 .modal {
     display: none; 
     position: fixed;

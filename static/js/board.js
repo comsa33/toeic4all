@@ -91,8 +91,11 @@ function getQuestions(page = 1) {
                 div.className = 'question';
                 div.innerHTML = `
                     <div class="question-header">
-                        <div class="question-author">${question.author}</div>
-                        <div class="question-date">${timeSince(new Date(question.created_at))}</div>
+                        <div class="author-date-container">
+                            <div class="question-author">${data.author}</div>
+                            <span class="separator">·</span>
+                            <div class="question-date">${timeSince(new Date(data.created_at))}</div>
+                        </div>
                         <div>
                             <p class="question-title">${question.title}</p>
                             <p class="question-contents">${contentWithBreaks}</p>
@@ -152,8 +155,11 @@ function getQuestion(id, answerPage = 1) {
                 <button type="button" id="button-get-questions" class="button-text" onclick="getQuestions()">﹤전체목록보기</button>
                 <div class="question-box">
                     <div class="question-header">
-                        <div class="question-author">${data.author}</div>
-                        <div class="question-date">${timeSince(new Date(data.created_at))}</div>
+                        <div class="author-date-container">
+                            <div class="question-author">${data.author}</div>
+                            <span class="separator">·</span>
+                            <div class="question-date">${timeSince(new Date(data.created_at))}</div>
+                        </div>
                         <div>
                             <p class="question-title">${data.title}</p>
                             <p class="question-contents">${contentWithBreaks}</p>
@@ -203,8 +209,11 @@ function getQuestion(id, answerPage = 1) {
                             div.innerHTML = `
                                 <div class="answer-content">
                                     <div class="answer-header">
-                                        <div class="answer-author">${answer.author}</div>
-                                        <div class="answer-date">${timeSince(new Date(answer.created_at))}</div>
+                                        <div class="author-date-container">
+                                            <div class="answer-author">${answer.author}</div>
+                                            <span class="separator">·</span>
+                                            <div class="answer-date">${timeSince(new Date(answer.created_at))}</div>
+                                        </div>
                                         <p class="answer-text">${answerContentWithBreaks}</p>
                                         <div class="like-container">
                                             <div id="like-count-answer-${answer.id}">${answer.likes}</div>
