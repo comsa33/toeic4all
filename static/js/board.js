@@ -476,6 +476,10 @@ document.getElementById('toggle-guidelines-button').addEventListener('click', fu
 });
 
 function toggleLike(type, id) {
+    if (!localStorage.getItem('user')) {
+        alert('로그인이 필요한 서비스입니다.');
+        return;
+    }
     let prefix;
     if (type === 'board_questions') {
         prefix = 'question';
