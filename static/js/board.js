@@ -116,7 +116,7 @@ function getQuestion(id, answerPage = 1) {
             board.className = 'detail-view';
             let contentWithBreaks = data.content.replace(/(?:\r\n|\r|\n)/g, '<br>');
             board.innerHTML = `
-                <!-- 기존 HTML 코드에 좋아요 수 및 좋아요/싫어요 버튼 추가 -->
+                <button type="button" id="button-get-questions" class="button-text" onclick="getQuestions()">﹤전체목록보기</button>
                 <div class="question-box">
                     <div class="question-header">
                         <div class="question-author">${data.author}</div>
