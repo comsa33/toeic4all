@@ -88,7 +88,7 @@ function getQuestions(page = 1) {
                 let contentWithBreaks = question.content.replace(/(?:\r\n|\r|\n)/g, '<br>');
                 const div = document.createElement('div');
 
-                console.log(question);
+                console.log(question.hasLiked);
                 
                 div.className = 'question';
                 div.innerHTML = `
@@ -532,6 +532,9 @@ function toggleLike(type, id) {
         .then(data => {
             document.getElementById(`like-count-${prefix}-${id}`).textContent = data.likes;
             const likeButton = document.getElementById(`like-button-${prefix}-${id}`);
+
+            console.log(data.hasLiked);
+
             if (data.hasLiked) {
                 likeButton.classList.add('liked');
             } else {
