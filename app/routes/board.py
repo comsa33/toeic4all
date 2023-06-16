@@ -33,7 +33,7 @@ def get_board_questions():
         question_dict['answerCount'] = BoardAnswer.query.filter_by(question_id=question.id).count()
         question_dict['answers'] = [answer.to_dict() for answer in BoardAnswer.query.filter_by(question_id=question.id).all()]
         if user_id is not None:
-            question_dict['hasLiked'] = BoardQuestionLike.has_liked(user_id, question.id)
+            question_dict['hasLiked'] = not BoardQuestionLike.has_liked(user_id, question.id)
         else:
             question_dict['hasLiked'] = False
         questions_list.append(question_dict)
@@ -51,7 +51,7 @@ def get_board_question(id):
     question_dict = question.to_dict()
     user_id = get_jwt_identity()
     if user_id is not None:
-        question_dict['hasLiked'] = BoardQuestionLike.has_liked(user_id, id)
+        question_dict['hasLiked'] = not BoardQuestionLike.has_liked(user_id, id)
     else:
         question_dict['hasLiked'] = False
 
