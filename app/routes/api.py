@@ -5,8 +5,9 @@ from collections import defaultdict
 from flask import render_template, make_response
 from flask import Blueprint, jsonify, request
 from sqlalchemy import and_, func
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
-from app.models import GeneratedQuestionType, GeneratedQuestionSubType, GeneratedQuestion, GeneratedAnswer, GeneratedVocabulary
+from app.models import GeneratedQuestionType, GeneratedQuestionSubType, GeneratedQuestion, GeneratedAnswer, GeneratedVocabulary, QuestionReport
 from app import db
 
 
@@ -312,3 +313,26 @@ def get_test_explanations(test_no):
     response = make_response(explanations_html)
     response.headers['Content-Type'] = 'text/html; charset=utf-8'
     return response
+
+
+# 문제를 리포트하는 API
+@api.route('/report/question', methods=['POST'])
+@jwt_required()
+def report_question():
+    question_id = request.json.get('question_id')
+    report_content = request.json.get('report_content')
+
+    user_id = get_jwt_identity()  # Get user ID from JWT token
+
+    # Validate inputs
+    if not all([question_id, report_content]):
+        return jsonify({"error": "Question ID and report content are required"}), 400
+
+    # Create new report
+    new_report = QuestionReport(question_id=question_id, user_id=user_id, report_content=report_content)
+
+    # Save to database
+    db.session.add(new_report)
+    db.session.commit()
+
+    return jsonify({"message": "Report has been sent successfully", "report_id": new_report.id}), 201

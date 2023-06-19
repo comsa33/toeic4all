@@ -48,6 +48,7 @@
                 <!-- Render the left column questions -->
                 <!-- Render the left column questions -->
                 {% for question, choice in zip(questions_left, choices_left) %}
+                <!-- question container -->
                 <div class="question-container">
                     <p><strong><span class="question-number">{{ loop.index + 100 }}</span>. {{ question.QuestionText }}</strong></p>
                     <ol type="A">
@@ -58,6 +59,8 @@
                         </li>
                         {% endfor %}
                     </ol>
+                    <!-- Add report button here -->
+                    <button class="report-btn" data-question-id="{{ question.QuestionId }}"><i class="fas fa-flag"></i></button>
                     <small class="text-muted question-id" style="display: none;">{{ question.QuestionId }}</small>
                 </div>
                 {% endfor %}
@@ -65,6 +68,7 @@
             <div class="col-md-6">
                 <!-- Render the right column questions -->
                 {% for question, choice in zip(questions_right, choices_right) %}
+                <!-- question container -->
                 <div class="question-container">
                     <p><strong><span class="question-number">{{ loop.index + 115 }}</span>. {{ question.QuestionText }}</strong></p>
                     <ol type="A">
@@ -75,6 +79,8 @@
                         </li>
                         {% endfor %}
                     </ol>
+                    <!-- Add report button here -->
+                    <button class="report-btn" data-question-id="{{ question.QuestionId }}"><i class="fas fa-flag"></i></button>
                     <small class="text-muted question-id" style="display: none;">{{ question.QuestionId }}</small>
                 </div>
                 {% endfor %}
