@@ -118,3 +118,21 @@
     padding: 0px 0px 150px 0px;
     font-size: 0.83em;
 }
+
+.test-info {
+    margin-top: 2.5rem;
+    margin-bottom: 2rem;
+    padding: 10px;
+    text-align: center;
+}
+
+.test-info h3 {
+    font-size: 1.3em;
+    font-weight: bold;
+    margin-top: 20px;
+}
+    
+.test-info p {
+    font-size: 1em;
+    color: #555;
+}
