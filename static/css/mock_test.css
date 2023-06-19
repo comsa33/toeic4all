@@ -122,8 +122,11 @@
 .test-info {
     margin-top: 2.5rem;
     margin-bottom: 2rem;
+    margin-left: 10px;
+    margin-right: 10px;
     padding: 10px;
     text-align: center;
+    background-color: #80808021;
 }
 
 .flex-container {
@@ -137,11 +140,16 @@
 }
 
 .test-info h3 {
-    font-size: 1.3em;
+    font-size: 1.1em;
     font-weight: bold;
     margin-top: 20px;
 }
-    
+
+.test-info p {
+    font-size: 0.9em;
+    color: #555;
+}
+
 .test-info ul {
     list-style-type: disc;
     padding-left: 20px;
@@ -152,4 +160,14 @@
 .test-info ul li {
     margin-bottom: 10px;
     font-size: 0.8em;
+}
+
+@media (max-width: 600px) {
+    .flex-container {
+      flex-direction: column;
+    }
+  
+    .flex-item {
+      width: 100%;
+    }
 }
