@@ -132,7 +132,13 @@
     margin-top: 20px;
 }
     
-.test-info p {
-    font-size: 1em;
-    color: #555;
+.test-info ul {
+    list-style-type: disc;
+    padding-left: 20px;
+    color: #8c8c8c;
+}
+
+.test-info ul li {
+    margin-bottom: 10px;
+    font-size: 0.8em;
 }
