@@ -42,11 +42,6 @@ class BoardQuestionLike(db.Model):
     def has_liked(cls, user_id, question_id):
         return db.session.query(cls.query.filter_by(user_id=user_id, question_id=question_id).exists()).scalar()
 
-    def to_dict(self):
-        return {
-            'hasLiked': self.hasLiked
-        }
-
 
 class BoardAnswerLike(db.Model):
     __tablename__ = 'board_answer_likes'
@@ -83,11 +78,6 @@ class BoardAnswerLike(db.Model):
     @classmethod
     def has_liked(cls, user_id, answer_id):
         return db.session.query(cls.query.filter_by(user_id=user_id, answer_id=answer_id).exists()).scalar()
-
-    def to_dict(self):
-        return {
-            'hasLiked': self.hasLiked
-        }
 
 
 class BoardQuestion(db.Model):
