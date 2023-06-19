@@ -92,6 +92,9 @@ body {
 }
 
 .container-info{
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  margin-bottom: 20px;
   line-height: 1.7;
   font-weight: normal;
   color: black;
@@ -103,6 +106,7 @@ body {
 .p-guide-text{
   font-size: 0.75em;
   color: gray;
+  margin-bottom: 0;
 }
 
 input[type="radio"] {
