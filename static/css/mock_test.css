@@ -131,7 +131,7 @@
 
 .flex-container {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     align-items: start;
 }
 
@@ -146,8 +146,14 @@
 }
 
 .test-info p {
-    font-size: 0.9em;
+    font-size: 0.8em;
     color: #555;
+    line-height: 1.6;
+}
+
+.test-info p strong {
+    color: #333;
+    font-weight: bold;
 }
 
 .test-info ul {
