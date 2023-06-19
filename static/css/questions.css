@@ -227,7 +227,7 @@ input[type="radio"] {
   color: #656565;
   cursor: pointer;
   transition: color 0.3s;
-  font-size: 1.2rem;
+  font-size: 1rem;
 }
 
 .report-btn:hover {
