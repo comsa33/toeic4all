@@ -35,6 +35,8 @@
                     <li>{{ w }}: {{ e }}</li>
                     {% endfor %}
                 </ul>
+                <!-- Add report button here -->
+                <button class="explanation-report-btn" data-question-id="{{ explanation.question_id }}"><i class="fas fa-exclamation-triangle"></i></button>
             </div>
             {% endfor %}
         </div>
@@ -50,12 +52,13 @@
                     <li>{{ w }}: {{ e }}</li>
                     {% endfor %}
                 </ul>
+                <!-- Add report button here -->
+                <button class="explanation-report-btn" data-question-id="{{ explanation.question_id }}"><i class="fas fa-exclamation-triangle"></i></button>
             </div>
             {% endfor %}
         </div>
     </div>
-    <footer class="text-center">
-        <div><small>모의고사 번호: {{ creation_time }}</small></div>
-    </footer>
-</div>
+
+{% block additional_script %}
+    <script src="{{ url_for('static', filename='js/explanations.js') }}"></script>
 {% endblock %}

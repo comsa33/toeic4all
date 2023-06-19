@@ -224,12 +224,12 @@ input[type="radio"] {
   right: 10px;
   background: none;
   border: none;
-  color: #ba1c00;
+  color: #dc3545;
   cursor: pointer;
   transition: color 0.3s;
   font-size: 1.2rem;
 }
 
 .report-btn:hover {
-  color: #fd6c6c;
+  color: #ff0000;
 }

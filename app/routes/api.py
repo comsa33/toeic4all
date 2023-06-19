@@ -321,15 +321,16 @@ def get_test_explanations(test_no):
 def report_question():
     question_id = request.json.get('question_id')
     report_content = request.json.get('report_content')
+    report_type = request.json.get('report_type')  # New field
 
     user_id = get_jwt_identity()  # Get user ID from JWT token
 
     # Validate inputs
-    if not all([question_id, report_content]):
-        return jsonify({"error": "Question ID and report content are required"}), 400
+    if not all([question_id, report_content, report_type]):
+        return jsonify({"error": "Question ID, report content, and report type are required"}), 400
 
     # Create new report
-    new_report = QuestionReport(question_id=question_id, user_id=user_id, report_content=report_content)
+    new_report = QuestionReport(question_id=question_id, user_id=user_id, report_content=report_content, report_type=report_type)
 
     # Save to database
     db.session.add(new_report)

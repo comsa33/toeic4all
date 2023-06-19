@@ -179,6 +179,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     body: JSON.stringify({
                         question_id: question_id,
                         report_content: report_content
+                        report_type: 'question'
                     })
                 })
                 .then(response => response.json())
