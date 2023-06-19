@@ -107,6 +107,7 @@ body {
   font-size: 0.75em;
   color: gray;
   margin-bottom: 0;
+  line-height: 1.6;
 }
 
 input[type="radio"] {
