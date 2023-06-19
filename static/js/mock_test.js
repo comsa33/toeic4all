@@ -38,6 +38,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         // document.getElementById("answers-link").href = test_data.data.answers;
                         // document.getElementById("explanations-link").href = test_data.data.explanations;
                         document.getElementById("test-links").style.display = "block";
+                        // Add scroll to view logic here
+                        document.getElementById("test-links").scrollIntoView({ behavior: 'smooth' });
                     }
                 };
                 xhr.send();
