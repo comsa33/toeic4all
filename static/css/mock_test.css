@@ -176,4 +176,8 @@
     .flex-item {
       width: 100%;
     }
+
+    .flex-item:first-child {
+        border-bottom: 1px solid #ccc;
+    }
 }
