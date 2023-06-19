@@ -126,6 +126,16 @@
     text-align: center;
 }
 
+.flex-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+}
+
+.flex-item {
+    width: 45%;
+}
+
 .test-info h3 {
     font-size: 1.3em;
     font-weight: bold;
@@ -136,6 +146,7 @@
     list-style-type: disc;
     padding-left: 20px;
     color: #8c8c8c;
+    text-align: left;
 }
 
 .test-info ul li {
