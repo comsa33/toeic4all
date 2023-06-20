@@ -26,7 +26,7 @@ def get_board_questions():
     per_page = request.args.get('per_page', 10, type=int)
     questions = BoardQuestion.query.order_by(BoardQuestion.created_at.desc()).paginate(page=page, per_page=per_page, error_out=False)
     user_id = get_jwt_identity()
-
+    print('user_id: ', user_id)
     questions_list = []
     for question in questions.items:
         question_dict = question.to_dict()
