@@ -95,11 +95,17 @@ $(document).ready(function() {
                 'toeic_target_score': $('#toeic-target-score').val(),
                 'toeic_goal': $('#toeic-goal').val()
             };
-            $.post(`api/user-detail/${username}`, postData, function(data) {
-                if (data.success) {
-                    alert('성공적으로 저장되었습니다!');
-                } else {
-                    alert('오류가 발생했습니다. 다시 시도해주세요.');
+            $.ajax({
+                url: `api/user-detail/${username}`,
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(postData),
+                success: function(data) {
+                    if (data.success) {
+                        alert('성공적으로 저장되었습니다!');
+                    } else {
+                        alert('오류가 발생했습니다. 다시 시도해주세요.');
+                    }
                 }
             });
         }
