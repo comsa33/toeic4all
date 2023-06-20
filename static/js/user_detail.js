@@ -77,6 +77,7 @@ $(document).ready(function() {
                 $('#job').val(data.job || '');
                 $('#toeic-experience').val(data.toeic_experience || '');
                 $('#toeic-score').val(data.toeic_score || '');
+                $('#toeic-target-score').val(data.toeic_target_score || '');
                 $('#toeic-goal').val(data.toeic_goal || '');
             });
         }
@@ -91,6 +92,7 @@ $(document).ready(function() {
                 'job': $('#job').val(),
                 'toeic_experience': $('#toeic-experience').val(),
                 'toeic_score': $('#toeic-score').val(),
+                'toeic_target_score': $('#toeic-target-score').val(),
                 'toeic_goal': $('#toeic-goal').val()
             };
             $.post(`api/user-detail/${username}`, postData, function(data) {

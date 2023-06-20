@@ -11,4 +11,5 @@ class UserDetail(db.Model):
     job = db.Column(db.String)
     toeic_experience = db.Column(db.Boolean)
     toeic_score = db.Column(db.Integer)
+    toeic_target_score = db.Column(db.Integer)
     toeic_goal = db.Column(db.String)
