@@ -28,3 +28,8 @@ def board_page():
 @main_bp.route('/user-detail')
 def user_detail():
     return render_template('user_detail.html')
+
+
+@main_bp.route('/mypage')
+def my_page():
+    return render_template('my_page.html')
