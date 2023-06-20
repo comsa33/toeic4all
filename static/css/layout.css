@@ -105,7 +105,8 @@ nav ul .active a {
     display: none;
     position: absolute;
     background-color: #f9f9f986;
-    min-width: 160px;
+    padding-left: 0px;
+    min-width: 100px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
 }
