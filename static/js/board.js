@@ -38,6 +38,28 @@ function fetchWithToken(url, options = {}) {
         .catch(error => console.error('Error:', error));
 }
 
+function fetchWithOptionalToken(url, options = {}) {
+    const jwtToken = localStorage.getItem('access_token');
+    let headers = options.headers || {};
+    if (jwtToken) {
+        headers['Authorization'] = `Bearer ${jwtToken}`;
+    }
+    return fetch(url, jwtToken ? {...options, headers} : options)
+        .then(response => {
+            if (!response.ok) {
+                if (response.status === 401 && jwtToken) {
+                    // 토큰이 유효하지 않다는 것을 알게 되면 토큰을 제거
+                    localStorage.removeItem('access_token');
+                    // 토큰 없이 다시 요청
+                    return fetch(url, options);
+                }
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .catch(error => console.error('Error:', error));
+}
+
 function timeSince(date) {
 
     const seconds = Math.floor((new Date() - date) / 1000);
@@ -71,7 +93,7 @@ const perPage = 10;  // 한 페이지에 보여줄 게시글의 수
 
 function getQuestions(page = 1) {
     currentPage = page;
-    fetchWithToken(`${apiEndpoint}board_questions?page=${currentPage}&per_page=${perPage}`)
+    fetchWithOptionalToken(`${apiEndpoint}board_questions?page=${currentPage}&per_page=${perPage}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
