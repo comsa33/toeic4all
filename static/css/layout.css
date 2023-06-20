@@ -63,6 +63,14 @@ body {
     padding: 5px 0;
 }
 
+#nav-user-dropdown, #mobile-user-dropdown {
+    display: none;
+}
+
+#nav-user:hover #nav-user-dropdown, #mobile-nav-user:hover #mobile-user-dropdown {
+    display: block;
+}
+
 nav h2 {
     margin: 0;
     color: #fff;

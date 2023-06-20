@@ -25,8 +25,25 @@ function makeRequest(method, url, headers = {}, callback, errorCallback) {
 
 function updateUI(isLoggedIn, username) {
     $('#nav-logout, #mobile-nav-logout').toggle(isLoggedIn);
-    $('#nav-user, #mobile-nav-user').toggle(isLoggedIn).html('<a href="/user-detail">' + username + ' 님</a>');
     $('#nav-login, #mobile-nav-login').toggle(!isLoggedIn);
+
+    if (isLoggedIn) {
+        const userMenuHtml = `
+            <a href="/user-detail">${username} 님</a>
+            <ul id="nav-user-dropdown">
+                <li><a href="/user-detail">내 정보</a></li>
+                <li><a href="#">내 오답노트</a></li>
+            </ul>
+            <ul id="mobile-user-dropdown">
+                <li><a href="/user-detail">내 정보</a></li>
+                <li><a href="#">내 오답노트</a></li>
+            </ul>
+        `;
+
+        $('#nav-user, #mobile-nav-user').html(userMenuHtml).show();
+    } else {
+        $('#nav-user, #mobile-nav-user').hide();
+    }
 }
 
 $(document).ready(function() {
