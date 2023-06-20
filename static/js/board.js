@@ -96,7 +96,7 @@ const perPage = 10;  // 한 페이지에 보여줄 게시글의 수
 
 function getQuestions(page = 1) {
     currentPage = page;
-    fetchWithToken(`${apiEndpoint}board_questions?page=${currentPage}&per_page=${perPage}`)
+    fetchWithOptionalToken(`${apiEndpoint}board_questions?page=${currentPage}&per_page=${perPage}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
