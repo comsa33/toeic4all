@@ -1,0 +1,10 @@
+{% extends "user_detail.html" %}
+
+{% block lnb %}
+<div class="lnb">
+    <ul>
+        <li><a href="{{ url_for('user_detail') }}">내 정보</a></li>
+        <li><a href="{{ url_for('my_page') }}">내 오답노트</a></li>
+    </ul>
+</div>
+{% endblock %}
