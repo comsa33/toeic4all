@@ -53,21 +53,11 @@ body {
     font-size: 1.5rem !important;
 }
 
-#mobile-user-dropdown {
-    list-style-type: none;
-    padding: 0;
-    margin-left: 20px;
-}
-
-#mobile-user-dropdown li {
-    padding: 5px 0;
-}
-
-#nav-user-dropdown, #mobile-user-dropdown {
+#nav-user-dropdown{
     display: none;
 }
 
-#nav-user:hover #nav-user-dropdown, #mobile-nav-user:hover #mobile-user-dropdown {
+#nav-user:hover #nav-user-dropdown {
     display: block;
 }
 
