@@ -48,7 +48,8 @@ $(document).ready(function() {
                 console.log(data);
                 if (data.status == 'logged_in') {
                     console.log('Logged in');
-                    getUserDetail(data.username);
+                    username = data.username;
+                    getUserDetail(username);
                 }
             },
             function() {
