@@ -22,6 +22,15 @@
 
 {% block content %}
 <div class="row">
+    <!-- LNB -->
+    <div class="col-12 col-md-3 order-md-1">
+        <div class="lnb">
+            <ul>
+                <li><a href="{{ url_for('main.user_detail') }}">내 정보</a></li>
+                <li><a href="{{ url_for('main.my_page') }}">내 오답노트</a></li>
+            </ul>
+        </div>
+    </div>
     <!-- 사용자 정보 -->
     <div class="col-12 col-md-9 order-md-2">
         <div class="container">
@@ -80,16 +89,6 @@
                     </form>
                 </div>
             </div>
-        </div>
-    </div>
-
-    <!-- LNB -->
-    <div class="col-12 col-md-3 order-md-1">
-        <div class="lnb">
-            <ul>
-                <li><a href="{{ url_for('main.user_detail') }}">내 정보</a></li>
-                <li><a href="{{ url_for('main.my_page') }}">내 오답노트</a></li>
-            </ul>
         </div>
     </div>
 </div>

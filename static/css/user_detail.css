@@ -118,17 +118,20 @@ body {
 }
 
 /* 모바일 버전 스타일 */
-@media (max-width: 600px) { /* 화면 너비가 768px 이하인 경우 적용 */
+@media (max-width: 600px) {
     .lnb {
         height: auto;
     }
 
     .lnb ul {
-        display: block; /* 항목들을 세로로 배치 */
+        display: flex; /* 항목들을 가로로 배치 */
+        flex-direction: row; /* 추가된 코드 */
+        justify-content: space-around; /* 추가된 코드 */
     }
 
     .lnb li {
-        border-bottom: 1px solid #ddd; /* 아래쪽 구분선 추가 */
+        border-bottom: none; /* 구분선 제거 */
         border-right: none; /* 오른쪽 구분선 제거 */
+        flex: 1; /* 항목들의 너비를 균등하게 */
     }
 }
