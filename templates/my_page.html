@@ -20,6 +20,7 @@
 </script>
 {% endblock %}
 
+{% block content %}
 <div class="row">
     <div class="col-3">
         <div class="lnb">
@@ -30,11 +31,10 @@
         </div>
     </div>
     <div class="col-9">
-        {% block content %}
         <h1>⚠️ 준비 중 입니다!</h1>
-        {% endblock %}
     </div>
 </div>
+{% endblock %}
 
 {% block additional_script %}
     <script src="{{ url_for('static', filename='js/my_page.js') }}"></script>

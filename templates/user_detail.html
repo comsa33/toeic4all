@@ -20,6 +20,7 @@
 </script>
 {% endblock %}
 
+{% block content %}
 <div class="row">
     <div class="col-3">
         <div class="lnb">
@@ -30,7 +31,6 @@
         </div>
     </div>
     <div class="col-9">
-        {% block content %}
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
@@ -88,9 +88,9 @@
                 </div>
             </div>
         </div>
-        {% endblock %}
     </div>
 </div>
+{% endblock %}
 
 {% block additional_script %}
     <script src="{{ url_for('static', filename='js/user_detail.js') }}"></script>
