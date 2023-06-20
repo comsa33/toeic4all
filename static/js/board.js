@@ -28,8 +28,25 @@ function getUsername() {
     });
 }
 
+function isTokenExpired(token) {
+    try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        return payload.exp < Date.now() / 1000;
+    } catch (e) {
+        return false;
+    }
+}
+
 function fetchWithToken(url, options = {}) {
-    const jwtToken = localStorage.getItem('access_token');
+    let jwtToken = localStorage.getItem('access_token');
+    if (isTokenExpired(jwtToken)) {
+        localStorage.removeItem('access_token');
+        jwtToken = null;
+        // Alert the user
+        alert("로그인 세션이 만료되었습니다. 다시 로그인해주세요.");
+        // Redirect to login page
+        window.location.href = "/user/login";
+    }
     let headers = options.headers || {};
     if (jwtToken) {
         headers['Authorization'] = `Bearer ${jwtToken}`;
