@@ -46,6 +46,7 @@ function fetchWithOptionalToken(url, options = {}) {
     }
     return fetch(url, jwtToken ? {...options, headers} : options)
         .then(response => {
+            console.log('Response status:', response.status); // 응답 상태 코드 출력
             if (!response.ok) {
                 if (response.status === 401 && jwtToken) {
                     // 토큰이 유효하지 않다는 것을 알게 되면 토큰을 제거
