@@ -29,7 +29,7 @@ schema = {
     "type": "object",
     "properties": {
         "email": {"type": "string", "format": "email"},
-        "phone": {"type": "string", "pattern": "^\d{3}-\d{3}-\d{4}$"},
+        "phone": {"type": "string", "pattern": "^\d{3}-\d{4}-\d{4}$"},
         "job": {"type": "string"},
         "toeic_experience": {"type": "boolean"},
         "toeic_score": {"type": "number"},
@@ -44,10 +44,10 @@ schema = {
 def update_user_details(username):
     data = request.json
 
-    # try:
-    #     validate(instance=data, schema=schema)
-    # except ValidationError as e:
-    #     return jsonify({"success": False, "message": str(e)}), 400
+    try:
+        validate(instance=data, schema=schema)
+    except ValidationError as e:
+        return jsonify({"success": False, "message": str(e)}), 400
 
     user_details = UserDetail.query.filter_by(username=username).first()
 
