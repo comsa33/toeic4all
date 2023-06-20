@@ -50,6 +50,18 @@ $(document).ready(function() {
                     console.log('Logged in');
                     username = data.username;
                     getUserDetail(username);
+                    // username is global variable, it will be available inside the function below
+                    $.get(`api/user-detail/${username}`, function(data) {
+                        $('#email').val(data.email || '');
+                        $('#phone').val(data.phone || '');
+                        $('#job').val(data.job || '');
+                        $('#toeic-experience').val(String(data.toeic_experience) || '');
+                        $('#toeic-score').val(data.toeic_score || '');
+                        $('#toeic-target-score').val(data.toeic_target_score || '');
+                        $('#toeic-goal').val(data.toeic_goal || '');
+                        // Make form fields disabled on page load
+                        $('#edit-form input, #edit-form select').prop('disabled', true);
+                    });
                 }
             },
             function() {
@@ -59,6 +71,11 @@ $(document).ready(function() {
     } else {
         console.log('Not logged in');
     }
+    
+    $('#edit-button').click(function() {
+        // 사용자가 '수정' 버튼을 누르면 입력 필드가 편집 가능하게 바뀝니다.
+        $('#edit-form input, #edit-form select').prop('disabled', false);
+    });
 
     $('#toeic-experience').on('change', function() {
         if (this.value === 'true') {
@@ -67,27 +84,7 @@ $(document).ready(function() {
             $('#toeic-score').prop('disabled', true);
         }
     });
-
-    // 바로 페이지 로드 후 사용자 정보를 가져오고 화면에 표시합니다.
-    if (username) {
-        $.get(`api/user-detail/${username}`, function(data) {
-            $('#email').val(data.email || '');
-            $('#phone').val(data.phone || '');
-            $('#job').val(data.job || '');
-            $('#toeic-experience').val(String(data.toeic_experience) || '');
-            $('#toeic-score').val(data.toeic_score || '');
-            $('#toeic-target-score').val(data.toeic_target_score || '');
-            $('#toeic-goal').val(data.toeic_goal || '');
-            // 폼의 모든 입력 필드를 읽기 전용으로 설정합니다.
-            $('#edit-form input, #edit-form select').prop('disabled', true);
-        });
-    }
-
-    $('#edit-button').click(function() {
-        // 사용자가 '수정' 버튼을 누르면 입력 필드가 편집 가능하게 바뀝니다.
-        $('#edit-form input, #edit-form select').prop('disabled', false);
-    });
-
+    
     $('#edit-form').submit(function(event) {
         event.preventDefault();
         if (username) {
