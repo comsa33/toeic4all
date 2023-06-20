@@ -79,13 +79,13 @@ $(document).ready(function() {
             $('#toeic-target-score').val(data.toeic_target_score || '');
             $('#toeic-goal').val(data.toeic_goal || '');
             // 폼의 모든 입력 필드를 읽기 전용으로 설정합니다.
-            $('#edit-form input, #edit-form select').prop('readonly', true);
+            $('#edit-form input, #edit-form select').prop('disabled', true);
         });
     }
 
     $('#edit-button').click(function() {
         // 사용자가 '수정' 버튼을 누르면 입력 필드가 편집 가능하게 바뀝니다.
-        $('#edit-form input, #edit-form select').prop('readonly', false);
+        $('#edit-form input, #edit-form select').prop('disabled', false);
     });
 
     $('#edit-form').submit(function(event) {
