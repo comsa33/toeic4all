@@ -47,7 +47,7 @@ function fetchWithOptionalToken(url, options = {}) {
         headers['Authorization'] = '';
     }
     console.log('Headers:', headers);  // 헤더 출력
-    return fetch(url, {...options, headers})
+    return fetch(url, jwtToken ? {...options, headers} : options)
         .then(response => {
             console.log('Response status:', response.status); // 응답 상태 코드 출력
             if (!response.ok) {
@@ -59,7 +59,10 @@ function fetchWithOptionalToken(url, options = {}) {
                 }
                 throw new Error('Network response was not ok');
             }
-            return response.json();
+            return response.text();  // response.json() 대신 response.text() 사용
+        })
+        .then(text => {
+            console.log('Response body:', text);  // 응답 본문 출력
         })
         .catch(error => console.error('Error:', error));
 }
