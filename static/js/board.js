@@ -34,7 +34,8 @@ function fetchWithToken(url, options = {}) {
     if (jwtToken) {
         headers['Authorization'] = `Bearer ${jwtToken}`;
     }
-    return fetch(url, {...options, headers});
+    return fetch(url, {...options, headers})
+        .catch(error => console.error('Error:', error));
 }
 
 function timeSince(date) {
@@ -71,7 +72,12 @@ const perPage = 10;  // 한 페이지에 보여줄 게시글의 수
 function getQuestions(page = 1) {
     currentPage = page;
     fetchWithToken(`${apiEndpoint}board_questions?page=${currentPage}&per_page=${perPage}`)
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
         .then(data => {
             document.getElementById('new-question-form').style.display = 'block';
             const board = document.getElementById('board');
@@ -137,7 +143,8 @@ function getQuestions(page = 1) {
                 ${endPage < totalPage ? `<button onclick="getQuestions(${endPage + 1})">Next</button>` : ''}
             `;
             pagination.style.display = 'flex';
-        });
+        })
+        .catch(error => console.error('Error:', error));
 }
 
 let currentAnswerPage = 1;
