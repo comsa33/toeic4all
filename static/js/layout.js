@@ -28,19 +28,23 @@ function updateUI(isLoggedIn, username) {
     $('#nav-login, #mobile-nav-login').toggle(!isLoggedIn);
 
     if (isLoggedIn) {
-        const userMenuHtml = `
+        const userPCMenuHtml = `
             <a href="/user-detail">${username} 님</a>
             <ul id="nav-user-dropdown">
                 <li><a href="/user-detail">내 정보</a></li>
                 <li><a href="#">내 오답노트</a></li>
             </ul>
+        `;
+        const userMobileMenuHtml = `
+            <a href="/user-detail">${username} 님</a>
             <ul id="mobile-user-dropdown">
                 <li><a href="/user-detail">내 정보</a></li>
                 <li><a href="#">내 오답노트</a></li>
             </ul>
         `;
 
-        $('#nav-user, #mobile-nav-user').html(userMenuHtml).show();
+        $('#nav-user').html(userPCMenuHtml).show();
+        $('#mobile-nav-user').html(userMobileMenuHtml).show();
     } else {
         $('#nav-user, #mobile-nav-user').hide();
     }
