@@ -89,6 +89,10 @@ body {
 
 /* 모바일 버전 스타일 */
 @media (max-width: 600px) {
+  .col-12 {
+    max-width: auto;
+  }
+
   .lnb {
       height: 40px;
       padding-top: 0;
