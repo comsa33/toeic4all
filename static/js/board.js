@@ -94,7 +94,7 @@ const perPage = 10;  // 한 페이지에 보여줄 게시글의 수
 
 function getQuestions(page = 1) {
     currentPage = page;
-    fetchWithOptionalToken(`${apiEndpoint}board_questions?page=${currentPage}&per_page=${perPage}`)
+    fetchWithToken(`${apiEndpoint}board_questions?page=${currentPage}&per_page=${perPage}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -145,8 +145,6 @@ function getQuestions(page = 1) {
                     toggleLike('board_questions', id);
                 });
             });
-            
-
 
             // Pagination
             const startPage = Math.floor((currentPage - 1) / 10) * 10 + 1;
