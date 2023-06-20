@@ -93,17 +93,20 @@ body {
 
 /* 데스크톱 버전 스타일 */
 .lnb {
+    padding-top: 50px;
     background-color: rgba(0, 0, 0, 0.1); /* 투명한 회색 배경 */
-    height: 100vh; /* 화면 위아래 꽉 차게 */
+    height: 100%; /* 화면 위아래 꽉 차게 */
     list-style-type: none; /* 점 제거 */
 }
 
 .lnb ul {
     padding: 0; /* 패딩 제거 */
+    font-size: .9em; /* 폰트 크기 조정 */
+    text-align: center; /* 가운데 정렬 */
 }
 
 .lnb li {
-    border-bottom: 1px solid #ddd; /* 구분선 추가 */
+    height: 60px; /* 높이 고정 */
 }
 
 .lnb a {
@@ -111,6 +114,7 @@ body {
     padding: 10px 15px; /* 패딩 추가 */
     color: #333; /* 글자색 */
     text-decoration: none; /* 밑줄 제거 */
+    height: inherit; /* 높이 상속 */
 }
 
 .lnb a:hover {
@@ -127,11 +131,13 @@ body {
         display: flex; /* 항목들을 가로로 배치 */
         flex-direction: row; /* 추가된 코드 */
         justify-content: space-around; /* 추가된 코드 */
+        list-style-type: none;
     }
 
     .lnb li {
         border-bottom: none; /* 구분선 제거 */
         border-right: none; /* 오른쪽 구분선 제거 */
         flex: 1; /* 항목들의 너비를 균등하게 */
+        text-align: center;
     }
 }
