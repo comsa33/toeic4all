@@ -21,7 +21,60 @@
 {% endblock %}
 
 {% block content %}
-
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>사용자 정보</h2>
+            <hr>
+            <p>사용자 이름: {{ username }}</p>
+            <p>가입 날짜: {{ join_date }}</p>
+            <button id="edit-button" class="btn btn-primary">내 정보 수정</button>
+            <hr>
+            <form id="edit-form" style="display: none;">
+                <div class="form-group">
+                    <label for="email">이메일</label>
+                    <input type="email" class="form-control" id="email" placeholder="이메일을 입력하세요">
+                </div>
+                <div class="form-group">
+                    <label for="phone">휴대폰 번호</label>
+                    <input type="tel" class="form-control" id="phone" placeholder="휴대폰 번호를 입력하세요">
+                </div>
+                <div class="form-group">
+                    <label for="job">직업</label>
+                    <select class="form-control" id="job">
+                        <option value="" selected>선택하세요</option>
+                        <option value="student">학생</option>
+                        <option value="employee">직장인</option>
+                        <option value="unemployed">실직자</option>
+                        <option value="others">기타</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="toeic-experience">토익 시험 경험</label>
+                    <select class="form-control" id="toeic-experience">
+                        <option value="" selected>선택하세요</option>
+                        <option value="yes">네</option>
+                        <option value="no">아니오</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="toeic-score">토익 점수</label>
+                    <input type="number" class="form-control" id="toeic-score" placeholder="토익 점수를 입력하세요" disabled>
+                </div>
+                <div class="form-group">
+                    <label for="toeic-goal">토익 공부 목적</label>
+                    <select class="form-control" id="toeic-goal">
+                        <option value="" selected>선택하세요</option>
+                        <option value="job">직업 관련</option>
+                        <option value="study-abroad">유학</option>
+                        <option value="self-improvement">자기계발</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-success">저장</button>
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock %}
 
 {% block additional_script %}
