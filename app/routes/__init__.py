@@ -23,3 +23,8 @@ def mock_test():
 @main_bp.route('/board')
 def board_page():
     return render_template('board.html')
+
+
+@main_bp.route('/user/detail')
+def user_detail():
+    return render_template('user_detail.html')

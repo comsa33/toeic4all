@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+
+{% block additional_css %}
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/user_detail.css') }}">
+{% endblock %}
+
+{% block body_top %}
+<div id="my-img-container" class="my-img-container">
+    <div class="blur-bg-image" data-bg-url="{{ url_for('static', filename='images/lecture-img1.jpg') }}"></div>
+    <div class="my-img-text">
+        <h1 class="h1-on-img" style="text-align:center; margin-bottom: 2rem;">{{ test_level }} 사용자 정보</h1>
+    </div>
+</div>
+<script>
+    // 이미지의 URL을 가져와서 CSS 스타일로 적용합니다.
+    var blurBgImage = document.querySelector('.blur-bg-image');
+    var bgUrl = blurBgImage.getAttribute('data-bg-url');
+    blurBgImage.style.backgroundImage = "url('" + bgUrl + "')";
+</script>
+{% endblock %}
+
+{% block content %}
+
+{% endblock %}
+
+{% block additional_script %}
+    <script src="{{ url_for('static', filename='js/user_detail.js') }}"></script>
+{% endblock %}
