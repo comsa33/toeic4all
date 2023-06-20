@@ -44,10 +44,10 @@ schema = {
 def update_user_details(username):
     data = request.json
 
-    try:
-        validate(instance=data, schema=schema)
-    except ValidationError as e:
-        return jsonify({"success": False, "message": str(e)}), 400
+    # try:
+    #     validate(instance=data, schema=schema)
+    # except ValidationError as e:
+    #     return jsonify({"success": False, "message": str(e)}), 400
 
     user_details = UserDetail.query.filter_by(username=username).first()
 
