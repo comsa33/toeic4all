@@ -53,6 +53,16 @@ body {
     font-size: 1.5rem !important;
 }
 
+#mobile-user-dropdown {
+    list-style-type: none;
+    padding: 0;
+    margin-left: 20px;
+}
+
+#mobile-user-dropdown li {
+    padding: 5px 0;
+}
+
 nav h2 {
     margin: 0;
     color: #fff;
@@ -91,6 +101,26 @@ nav ul li a:hover {
 nav ul .active a {
     color: #ff6347;
     text-decoration: none;
+}
+
+#nav-user-dropdown {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+#nav-user-dropdown a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+#nav-user-dropdown a:hover {
+    background-color: #f1f1f1;
 }
 
 .content {

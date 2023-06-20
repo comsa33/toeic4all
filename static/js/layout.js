@@ -57,6 +57,15 @@ $(document).ready(function() {
         localStorage.removeItem('access_token');
         location.reload();
     });
+
+    // Code for nav-user dropdown
+    $('#nav-user').hover(function() {
+        // Mouse enter
+        $('#nav-user-dropdown').show();
+    }, function() {
+        // Mouse leave
+        $('#nav-user-dropdown').hide();
+    });
 });
 
 document.addEventListener('click', function(event) {

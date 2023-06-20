@@ -20,7 +20,15 @@
             <li class="{{ 'active' if request.endpoint.endswith('board_page') }}"><a href="{{ url_for('main.board_page') }}">Q&A 게시판</a></li>
         </ul>
         <ul id="desktop-nav-links-right">
-            <li id="nav-user"><a href="{{ url_for('main.user_detail') }}"></a></li>
+            <!-- Update nav-user to include the dropdown menu -->
+            <li id="nav-user">
+                <a href="{{ url_for('main.user_detail') }}">내 정보</a>
+                <!-- Dropdown menu -->
+                <ul id="nav-user-dropdown">
+                    <li><a href="{{ url_for('main.user_detail') }}">내 정보</a></li>
+                    <li><a href="#">내 오답노트</a></li> <!-- This link can be updated later -->
+                </ul>
+            </li>
             <li><a href="https://toeic4all.com/user/login" id="nav-login">로그인</a></li>
             <!-- <li><a href="https://toeic4all.com/user/signup" id="nav-signup">회원가입</a></li> -->
             <li><a href="#" id="nav-logout">로그아웃</a></li> <!-- 로그아웃 링크를 "#"로 변경했습니다. -->
@@ -39,8 +47,13 @@
                 <li class="{{ 'active' if request.endpoint.endswith('board_page') }}"><a href="{{ url_for('main.board_page') }}">Q&A 게시판</a></li>
             </ul>
             <ul id="mobile-nav-links-right">
-                <li id="nav-user"><a href="{{ url_for('main.user_detail') }}"></a></li>
-                <li><a href="https://toeic4all.com/user/login" id="nav-login" >로그인</a></li>
+                <li id="nav-user">
+                    <a href="{{ url_for('main.user_detail') }}">사용자 이름</a>
+                    <ul id="mobile-user-dropdown" class="hidden">
+                        <li><a href="{{ url_for('main.user_detail') }}">내 정보</a></li>
+                        <li><a href="#">내 오답노트</a></li>
+                    </ul>
+                </li>                <li><a href="https://toeic4all.com/user/login" id="nav-login" >로그인</a></li>
                 <li><a href="#" id="nav-logout">로그아웃</a></li> <!-- 로그아웃 링크를 "#"로 변경했습니다. -->
             </ul>
         </div>
