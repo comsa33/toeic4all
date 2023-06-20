@@ -11,7 +11,7 @@ $('#toeic-experience').on('change', function() {
 });
 
 $(document).ready(function() {
-    var username = $('#nav-user a').text().replace(' 님', ''); // 사용자 이름에서 ' 님'을 제거합니다.
+    var username = $('#nav-user a').first().text().replace(' 님', ''); // 사용자 이름에서 ' 님'을 제거합니다.
 
     $.ajax({
         url: '/user/' + username,
