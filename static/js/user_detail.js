@@ -57,15 +57,49 @@ $(document).ready(function() {
         console.log('Not logged in');
     }
 
-    $('#edit-button').on('click', function() {
-        $('#edit-form').toggle();
-    });
-
     $('#toeic-experience').on('change', function() {
         if (this.value === 'yes') {
             $('#toeic-score').prop('disabled', false);
         } else {
             $('#toeic-score').prop('disabled', true);
         }
+    });
+});
+
+$(document).ready(function() {
+    const username = localStorage.getItem('username');
+
+    $.get(`api/user-detail/${username}`, function(data) {
+        $('#email').val(data.email || '');
+        $('#phone').val(data.phone || '');
+        $('#job').val(data.job || '');
+        $('#toeic-experience').val(data.toeic_experience || '');
+        $('#toeic-score').val(data.toeic_score || '');
+        $('#toeic-goal').val(data.toeic_goal || '');
+    });
+
+    $('#edit-button').click(function() {
+        $('#edit-form input, #edit-form select').prop('readonly', false);
+    });
+
+    $('#edit-form').submit(function(event) {
+        event.preventDefault();
+
+        const postData = {
+            'email': $('#email').val(),
+            'phone': $('#phone').val(),
+            'job': $('#job').val(),
+            'toeic_experience': $('#toeic-experience').val(),
+            'toeic_score': $('#toeic-score').val(),
+            'toeic_goal': $('#toeic-goal').val()
+        };
+
+        $.post(`api/user-detail/${username}`, postData, function(data) {
+            if (data.success) {
+                alert('성공적으로 저장되었습니다!');
+            } else {
+                alert('오류가 발생했습니다. 다시 시도해주세요.');
+            }
+        });
     });
 });

@@ -5,3 +5,4 @@ from .answers import GeneratedAnswer
 from .vocabularies import GeneratedVocabulary
 from .board import BoardQuestion, BoardAnswer, BoardQuestionLike, BoardAnswerLike
 from .question_report import QuestionReport
+from .user_detail import UserDetail

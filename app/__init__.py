@@ -33,9 +33,10 @@ def create_app():
     jwt.init_app(app)
 
     # Register blueprints
-    from .routes import api, main_bp, board
+    from .routes import api, main_bp, board, user_details
     app.register_blueprint(api.api, url_prefix='/api')
     app.register_blueprint(board.board, url_prefix='/api/board')
+    app.register_blueprint(user_details.user_details, url_prefix='/api/user-detail')
     app.register_blueprint(main_bp)
 
     from .errors import handlers
