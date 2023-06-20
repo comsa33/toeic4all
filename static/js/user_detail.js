@@ -14,9 +14,19 @@ function makeRequest(method, url, headers = {}, callback, errorCallback) {
     xhr.send();
 }
 
-function updateUI(data) {
-    $('.container p').first().text('사용자 이름: ' + data.username);
-    $('.container p').eq(1).text('가입 날짜: ' + data.registered_on);
+function getUserDetail(username) {
+    makeRequest(
+        'GET',
+        'https://toeic4all.com/user/' + username,
+        {},
+        function(data) {
+            $('.container p').first().text('사용자 이름: ' + data.username);
+            $('.container p').eq(1).text('가입 날짜: ' + data.registered_on);
+        },
+        function() {
+            console.log('Failed to fetch user details');
+        }
+    );
 }
 
 $(document).ready(function() {
@@ -30,7 +40,7 @@ $(document).ready(function() {
                 console.log(data);
                 if (data.status == 'logged_in') {
                     console.log('Logged in');
-                    updateUI(data);
+                    getUserDetail(data.username);
                 }
             },
             function() {
