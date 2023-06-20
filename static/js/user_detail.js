@@ -14,6 +14,12 @@ function makeRequest(method, url, headers = {}, callback, errorCallback) {
     xhr.send();
 }
 
+function formatDate(dateString) {
+    var options = { year: 'numeric', month: 'long', day: 'numeric' };
+    var date = new Date(dateString);
+    return date.toLocaleDateString('ko-KR', options);
+}
+
 function getUserDetail(username) {
     makeRequest(
         'GET',
@@ -21,7 +27,7 @@ function getUserDetail(username) {
         {},
         function(data) {
             $('.container p').first().text('사용자 이름: ' + data.username);
-            $('.container p').eq(1).text('가입 날짜: ' + data.registered_on);
+            $('.container p').eq(1).text('가입 날짜: ' + formatDate(data.registered_on));
         },
         function() {
             console.log('Failed to fetch user details');
