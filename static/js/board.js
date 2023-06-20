@@ -46,6 +46,7 @@ function fetchWithOptionalToken(url, options = {}) {
     } else {
         headers['Authorization'] = '';
     }
+    console.log('Headers:', headers);  // 헤더 출력
     return fetch(url, {...options, headers})
         .then(response => {
             console.log('Response status:', response.status); // 응답 상태 코드 출력
