@@ -90,7 +90,7 @@ $(document).ready(function() {
                 'email': $('#email').val(),
                 'phone': $('#phone').val(),
                 'job': $('#job').val(),
-                'toeic_experience': $('#toeic-experience').val(),
+                'toeic_experience': $('#toeic-experience').val() === "true",
                 'toeic_score': $('#toeic-score').val(),
                 'toeic_target_score': $('#toeic-target-score').val(),
                 'toeic_goal': $('#toeic-goal').val()

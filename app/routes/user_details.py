@@ -31,7 +31,7 @@ schema = {
         "email": {"type": "string", "format": "email"},
         "phone": {"type": "string", "pattern": "^\d{3}-\d{3}-\d{4}$"},
         "job": {"type": "string"},
-        "toeic_experience": {"type": "string"},
+        "toeic_experience": {"type": "boolean"},
         "toeic_score": {"type": "number"},
         "toeic_target_score": {"type": "number"},
         "toeic_goal": {"type": "string"},
