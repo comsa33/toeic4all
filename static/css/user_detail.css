@@ -1,34 +1,88 @@
+:root {
+    --primary-color: #1da1f2;
+    --secondary-color: #14171a;
+    --placeholder-color: #657786;
+    --disabled-color: #aac9f1;
+    --background-color: #f5f8fa;
+    --box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
 
+body {
+    background-color: var(--background-color);
+    color: var(--secondary-color);
+    font-family: 'Pretendard', sans-serif;
+}
 
+.container {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+}
 
 .my-img-container {
     position: relative;
     max-width: 100%;
-    height: 13vh;
-    min-height: 130px;
+    height: 20vh;
+    min-height: 200px;
     overflow: hidden;
+    margin-bottom: 2rem;
 }
-  
+
 .blur-bg-image {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background-size: cover;
-  background-position: center;
-  filter: blur(1.5px);
-  z-index: -1;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    filter: blur(2.5px);
+    z-index: -1;
 }
-  
+
 .my-img-text {
-  position: relative;
-  z-index: 1;
+    position: relative;
+    z-index: 1;
 }
-  
+
 .h1-on-img {
-  text-align: center;
-  padding: 50px 0px 0px 0px;
-  font-weight: bold;
-  font-size: 1.5em;
-  color: #ffffff;
-  text-shadow: 0.3px 0.3px 5px rgb(0, 0, 0);
+    text-align: center;
+    padding: 30px 0px 0px 0px;
+    font-weight: bold;
+    font-size: 2em;
+    color: #616161;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-control {
+    border: 1px solid var(--secondary-color);
+    padding: .75rem;
+    color: var(--secondary-color);
+    background-color: white;
+    border-radius: 5px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.form-control::placeholder {
+    color: var(--placeholder-color);
+}
+
+.btn {
+    border: none;
+    padding: .75rem 1.5rem;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    box-shadow: var(--box-shadow);
+}
+
+.btn-success {
+    background-color: #28a745;
+    box-shadow: var(--box-shadow);
 }
