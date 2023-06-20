@@ -101,6 +101,7 @@ $(document).ready(function() {
                 contentType: 'application/json',
                 data: JSON.stringify(postData),
                 success: function(data) {
+                    console.log(data);
                     if (data.success) {
                         alert('성공적으로 저장되었습니다!');
                     } else {
