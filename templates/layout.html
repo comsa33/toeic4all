@@ -20,7 +20,7 @@
             <li class="{{ 'active' if request.endpoint.endswith('board_page') }}"><a href="{{ url_for('main.board_page') }}">Q&A 게시판</a></li>
         </ul>
         <ul id="desktop-nav-links-right">
-            <li id="nav-user" class="{{ 'active' if request.endpoint.endswith('user_detail') }}"><a href="{{ url_for('main.user_detail') }}">{{ session['username'] }}</a></li>
+            <li id="nav-user"><a href="{{ url_for('main.user_detail') }}"></a></li>
             <li><a href="https://toeic4all.com/user/login" id="nav-login">로그인</a></li>
             <!-- <li><a href="https://toeic4all.com/user/signup" id="nav-signup">회원가입</a></li> -->
             <li><a href="#" id="nav-logout">로그아웃</a></li> <!-- 로그아웃 링크를 "#"로 변경했습니다. -->
@@ -39,7 +39,7 @@
                 <li class="{{ 'active' if request.endpoint.endswith('board_page') }}"><a href="{{ url_for('main.board_page') }}">Q&A 게시판</a></li>
             </ul>
             <ul id="mobile-nav-links-right">
-                <li id="nav-user" class="{{ 'active' if request.endpoint.endswith('user_detail') }}"><a href="{{ url_for('main.user_detail') }}">{{ session['username'] }}</a></li>
+                <li id="nav-user"><a href="{{ url_for('main.user_detail') }}"></a></li>
                 <li><a href="https://toeic4all.com/user/login" id="nav-login" >로그인</a></li>
                 <li><a href="#" id="nav-logout">로그아웃</a></li> <!-- 로그아웃 링크를 "#"로 변경했습니다. -->
             </ul>
