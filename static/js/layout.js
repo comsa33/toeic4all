@@ -25,7 +25,7 @@ function makeRequest(method, url, headers = {}, callback, errorCallback) {
 
 function updateUI(isLoggedIn, username) {
     $('#nav-logout, #mobile-nav-logout').toggle(isLoggedIn);
-    $('#nav-user, #mobile-nav-user').toggle(isLoggedIn).html('<a href="/user-detail"></a>' + username + ' 님</a>');
+    $('#nav-user, #mobile-nav-user').toggle(isLoggedIn).html('<a href="/user-detail">' + username + ' 님</a>');
     $('#nav-login, #mobile-nav-login').toggle(!isLoggedIn);
 }
 
