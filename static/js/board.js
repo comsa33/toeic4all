@@ -43,8 +43,10 @@ function fetchWithOptionalToken(url, options = {}) {
     let headers = options.headers || {};
     if (jwtToken) {
         headers['Authorization'] = `Bearer ${jwtToken}`;
+    } else {
+        headers['Authorization'] = '';
     }
-    return fetch(url, jwtToken ? {...options, headers} : options)
+    return fetch(url, {...options, headers})
         .then(response => {
             console.log('Response status:', response.status); // 응답 상태 코드 출력
             if (!response.ok) {
