@@ -25,29 +25,9 @@ def get_user_details(username):
         return jsonify({})
 
 
-schema = {
-    "type": "object",
-    "properties": {
-        "email": {"type": "string", "format": "email"},
-        "phone": {"type": "string", "pattern": "^\d{3}-\d{4}-\d{4}$"},
-        "job": {"type": "string"},
-        "toeic_experience": {"type": "boolean"},
-        "toeic_score": {"type": "number"},
-        "toeic_target_score": {"type": "number"},
-        "toeic_goal": {"type": "string"},
-    },
-    "required": ["email", "phone", "job", "toeic_experience", "toeic_score", "toeic_goal", "toeic_target_score"]
-}
-
-
 @user_details.route('/<username>', methods=['POST'])
 def update_user_details(username):
     data = request.json
-
-    try:
-        validate(instance=data, schema=schema)
-    except ValidationError as e:
-        return jsonify({"success": False, "message": str(e)}), 400
 
     user_details = UserDetail.query.filter_by(username=username).first()
 
