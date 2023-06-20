@@ -61,7 +61,7 @@ $(document).ready(function() {
     }
 
     $('#toeic-experience').on('change', function() {
-        if (this.value === 'yes') {
+        if (this.value === 'true') {
             $('#toeic-score').prop('disabled', false);
         } else {
             $('#toeic-score').prop('disabled', true);
@@ -75,7 +75,7 @@ $(document).ready(function() {
                 $('#email').val(data.email || '');
                 $('#phone').val(data.phone || '');
                 $('#job').val(data.job || '');
-                $('#toeic-experience').val(data.toeic_experience || '');
+                $('#toeic-experience').val(String(data.toeic_experience) || '');
                 $('#toeic-score').val(data.toeic_score || '');
                 $('#toeic-target-score').val(data.toeic_target_score || '');
                 $('#toeic-goal').val(data.toeic_goal || '');
