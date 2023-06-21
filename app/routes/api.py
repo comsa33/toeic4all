@@ -384,3 +384,19 @@ def remove_from_favourites():
     db.session.commit()
 
     return jsonify({"message": "Question has been removed from your favourites"}), 200
+
+
+# Get favourite status API
+@api.route('/get_favourite_status', methods=['GET'])
+@jwt_required()
+def get_favourite_status():
+    user_id = get_jwt_identity()  # Get user ID from JWT token
+    question_id = request.args.get('question_id')
+
+    # Check if the question is in the user's favourites
+    favourite = MyQuestions.query.filter_by(user_id=user_id, question_id=question_id).first()
+
+    if favourite is not None:
+        return jsonify({"status": "favourite"}), 200
+    else:
+        return jsonify({"status": "not favourite"}), 200

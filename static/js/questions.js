@@ -249,3 +249,19 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+    Array.from(document.getElementsByClassName('favourite-btn')).forEach(function(button) {
+        var question_id = button.getAttribute('data-question-id');
+
+        fetchWithToken('/api/get_favourite_status?question_id=' + question_id, {
+            method: 'GET'
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'favourite') {
+                button.classList.add('fav');
+            }
+        });
+    });
+});
