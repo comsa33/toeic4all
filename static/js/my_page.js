@@ -12,9 +12,9 @@ window.onload = function() {
     .then(response => response.json())
     .then(data => {
         let questionArea = document.getElementById('question-area');
-        for (let i = 0; i < data.count; i++) {
+        for (let i = 0; i < data.length; i++) {
             let questionDiv = document.createElement('div');
-            questionDiv.id = 'question-' + data.data[i].QuestionId;
+            questionDiv.id = 'question-' + data[i].QuestionId;
             questionDiv.className = 'col-12 col-md-6';
             questionDiv.innerHTML = `
                 <div class="question-container">
@@ -29,7 +29,7 @@ window.onload = function() {
             `;
             questionArea.appendChild(questionDiv);
         }
-        return data.data.map(question => question.QuestionId).join(',');
+        return data.map(question => question.QuestionId).join(',');
     })
     .then(questionIds => {
         fetch('/api/choices?QuestionIds=' + questionIds)
