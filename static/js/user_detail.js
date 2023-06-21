@@ -1,5 +1,17 @@
 var username; // Global variable to store the username
 
+function isTokenExpired(token) {
+    if (!token) {
+        return true;
+    }
+    const jwtToken = JSON.parse(atob(token.split('.')[1]));
+    // Checking if the token is expired.
+    if (!jwtToken.exp || Date.now() >= jwtToken.exp * 1000) {
+        return true;
+    }
+    return false;
+}
+
 function makeRequest(method, url, headers = {}, callback, errorCallback) {
     var xhr = new XMLHttpRequest();
     xhr.open(method, url);
@@ -40,6 +52,12 @@ function getUserDetail(username) {
 $(document).ready(function() {
     var token = localStorage.getItem('access_token');
     if (token) {
+        if (isTokenExpired(token)) {
+            localStorage.removeItem('access_token');
+            alert('세션이 만료되었습니다. 다시 로그인해 주세요.');
+            window.location.href = "/user/login";
+            return;
+        }
         makeRequest(
             'GET',
             'https://toeic4all.com/user/status',
