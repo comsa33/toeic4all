@@ -446,3 +446,17 @@ def get_favourite_questions():
     question_ids = [favourite.question_id for favourite in favourite_questions]
     questions = fetch_questions_by_ids(question_ids)
     return jsonify(questions)
+
+
+@api.route('/check_answer', methods=['POST'])
+def check_answer():
+    data = request.get_json()
+    answer_id = data.get('answer_id')
+    question_id = data.get('question_id')
+
+    answer = GeneratedAnswer.query.filter_by(id=answer_id, question_id=question_id).first()
+
+    if not answer:
+        return jsonify({'error': 'Answer not found'}), 404
+
+    return jsonify({'is_correct': answer.is_correct})

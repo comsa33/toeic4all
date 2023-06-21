@@ -25,6 +25,12 @@ window.onload = function() {
                     <button class="favourite-btn" data-question-id="${data[i].QuestionId}" title="내 오답노트에 추가하기"><i class="fas fa-heart"></i></button>
                     <!-- 신고 버튼 -->
                     <button class="report-btn" data-question-id="${data[i].QuestionId}" title="문제 리포트 하기"><i class="fas fa-exclamation-triangle"></i></button>
+                    <!-- 번역, 해설, 관련 단어 -->
+                    <div class="additional-info">
+                        <p>Translation: ${data[i].Translation}</p>
+                        <p>Explanation: ${data[i].Explanation}</p>
+                        <p>Vocabulary: ${data[i].Vocabulary.Word} - ${data[i].Vocabulary.Explanation}</p>
+                    </div>
                 </div>
             `;
             questionArea.appendChild(questionDiv);
@@ -40,12 +46,34 @@ window.onload = function() {
                 data.data[i].Choices.forEach(choice => {
                     let choiceLi = document.createElement('li');
                     choiceLi.innerHTML = `
-                        <input type="radio" class="answer-input" name="${data.data[i].QuestionId}" value="${choice}" data-question-id="${data.data[i].QuestionId}">
-                        ${choice}
+                        <input type="radio" class="answer-input" name="${data.data[i].QuestionId}" value="${choice.id}" data-question-id="${data.data[i].QuestionId}">
+                        ${choice.text}
                     `;
                     choicesOl.appendChild(choiceLi);
                 });
             }
+
+            // Add event listener to each choice
+            let answerInputs = document.querySelectorAll('.answer-input');
+            answerInputs.forEach(input => {
+                input.addEventListener('change', function() {
+                    let questionId = this.dataset.questionId;
+                    let answerId = this.value;
+                    fetch('/api/check_answer', {
+                        method: 'POST',
+                        body: JSON.stringify({answer_id: answerId, question_id: questionId}),
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        let resultElement = document.createElement('p');
+                        resultElement.textContent = data.is_correct ? 'Correct answer' : 'Wrong answer';
+                        document.getElementById('question-' + questionId).appendChild(resultElement);
+                    });
+                });
+            });
         });
     });
 };
