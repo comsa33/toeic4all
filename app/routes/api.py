@@ -400,3 +400,14 @@ def get_favourite_status():
         return jsonify({"status": "favourite"}), 200
     else:
         return jsonify({"status": "not favourite"}), 200
+
+
+# Get favourite questions for a user
+@api.route('/favourite_questions', methods=['GET'])
+@jwt_required()
+def get_favourite_questions():
+    username = get_jwt_identity()  # Get username from JWT token
+    favourite_questions = MyQuestions.query.filter_by(username=username).all()
+    question_ids = [favourite.question_id for favourite in favourite_questions]
+    questions = fetch_questions(question_ids)
+    return jsonify(questions)
