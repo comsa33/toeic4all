@@ -21,16 +21,18 @@ window.onload = function() {
                     <p><strong><span class="question-number">${i+1}</span>. ${data[i].QuestionText}</strong></p>
                     <!-- 선택지가 들어갈 부분 -->
                     <ol id="choices-${data[i].QuestionId}" type="A"></ol>
-                    <!-- 즐찾 버튼 -->
-                    <button class="favourite-btn" data-question-id="${data[i].QuestionId}" title="내 오답노트에 추가하기"><i class="fas fa-heart"></i></button>
-                    <!-- 신고 버튼 -->
-                    <button class="report-btn" data-question-id="${data[i].QuestionId}" title="문제 리포트 하기"><i class="fas fa-exclamation-triangle"></i></button>
+                    <!-- 결과 -->
+                    <p id="result-${data[i].QuestionId}"></p>
                     <!-- 번역, 해설, 관련 단어 -->
-                    <div class="additional-info">
+                    <div id="additional-info-${data[i].QuestionId}" class="additional-info" style="display: none;">
                         <p>Translation: ${data[i].Translation}</p>
                         <p>Explanation: ${data[i].Explanation}</p>
                         <p>Vocabulary: ${data[i].Vocabulary.Word} - ${data[i].Vocabulary.Explanation}</p>
                     </div>
+                    <!-- 즐찾 버튼 -->
+                    <button class="favourite-btn" data-question-id="${data[i].QuestionId}" title="내 오답노트에 추가하기"><i class="fas fa-heart"></i></button>
+                    <!-- 신고 버튼 -->
+                    <button class="report-btn" data-question-id="${data[i].QuestionId}" title="문제 리포트 하기"><i class="fas fa-exclamation-triangle"></i></button>
                 </div>
             `;
             questionArea.appendChild(questionDiv);
@@ -68,9 +70,8 @@ window.onload = function() {
                     })
                     .then(response => response.json())
                     .then(data => {
-                        let resultElement = document.createElement('p');
-                        resultElement.textContent = data.is_correct ? 'Correct answer' : 'Wrong answer';
-                        document.getElementById('question-' + questionId).appendChild(resultElement);
+                        document.getElementById('result-' + questionId).textContent = data.is_correct ? 'Correct answer' : 'Wrong answer';
+                        document.getElementById('additional-info-' + questionId).style.display = 'block';
                     });
                 });
             });
