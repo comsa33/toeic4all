@@ -27,6 +27,8 @@ body {
 .container-info{
   padding-top: 1rem;
   padding-bottom: 1rem;
+  padding-left: 20px;
+  padding-right: 20px;
   margin-bottom: 20px;
   line-height: 1.7;
   font-weight: normal;
@@ -201,6 +203,7 @@ body {
 }
 
 .additional-info {
+  font-size: 0.8em;
   margin-top: 20px;
   padding: 10px;
   border-top: 1px solid #ddd;
