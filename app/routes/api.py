@@ -402,6 +402,37 @@ def get_favourite_status():
         return jsonify({"status": "not favourite"}), 200
 
 
+def fetch_questions_by_ids(question_ids):
+    # fetch questions from the database by their ids
+    questions_data = db.session.query(
+        GeneratedQuestion, GeneratedQuestionType, GeneratedQuestionSubType, GeneratedVocabulary
+    ).filter(
+        GeneratedQuestion.id.in_(question_ids),
+        GeneratedQuestion.question_type_id == GeneratedQuestionType.id,
+        GeneratedQuestion.question_sub_type_id == GeneratedQuestionSubType.id,
+        GeneratedQuestion.id == GeneratedVocabulary.question_id
+    ).all()
+
+    # convert questions to dictionary
+    questions_dict = [{
+        "QuestionId": data.GeneratedQuestion.id,
+        "QuestionText": data.GeneratedQuestion.question_text,
+        "QuestionTypeId": data.GeneratedQuestionType.id,
+        "QuestionType": data.GeneratedQuestionType.name_kor,
+        "QuestionSubTypeId": data.GeneratedQuestionSubType.id,
+        "QuestionSubType": data.GeneratedQuestionSubType.name_kor,
+        "QuestionLevel": data.GeneratedQuestion.question_level,
+        "Translation": data.GeneratedQuestion.translation,
+        "Explanation": data.GeneratedQuestion.explanation,
+        "Vocabulary": {
+            "Word": data.GeneratedVocabulary.word,
+            "Explanation": data.GeneratedVocabulary.explanation
+        }
+    } for data in questions_data]
+
+    return questions_dict
+
+
 # Get favourite questions for a user
 @api.route('/favourite_questions', methods=['GET'])
 @jwt_required()
@@ -409,5 +440,5 @@ def get_favourite_questions():
     username = get_jwt_identity()  # Get username from JWT token
     favourite_questions = MyQuestions.query.filter_by(username=username).all()
     question_ids = [favourite.question_id for favourite in favourite_questions]
-    questions = fetch_questions(question_ids)
+    questions = fetch_questions_by_ids(question_ids)
     return jsonify(questions)
