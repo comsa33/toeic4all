@@ -70,7 +70,14 @@ window.onload = function() {
                     })
                     .then(response => response.json())
                     .then(data => {
-                        document.getElementById('result-' + questionId).textContent = data.is_correct ? 'Correct answer' : 'Wrong answer';
+                        let resultElement = document.getElementById('result-' + questionId);
+                        resultElement.textContent = data.is_correct ? 'Correct answer' : 'Wrong answer';
+                        resultElement.classList.add('result-message');
+                        if (data.is_correct) {
+                            resultElement.classList.add('correct');
+                        } else {
+                            resultElement.classList.add('wrong');
+                        }
                         document.getElementById('additional-info-' + questionId).style.display = 'block';
                     });
                 });
