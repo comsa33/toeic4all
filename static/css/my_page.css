@@ -105,3 +105,87 @@ body {
       text-align: center;
   }
 }
+
+.report-btn {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  color: #656565;
+  cursor: pointer;
+  transition: color 0.3s;
+  font-size: 1rem;
+}
+
+.report-btn:hover {
+  color: #ff0000;
+}
+
+.favourite-btn {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  background: none;
+  border: none;
+  color: red;  /* 오답노트 페이지에서는 즐겨찾기가 모두 활성화된 상태이므로 기본 색상을 빨간색으로 설정 */
+  cursor: pointer;
+  transition: color 0.3s;
+  font-size: 1rem;
+}
+
+.favourite-btn:hover {
+  color: #ff0000;
+}
+
+.favourite-btn.fav {
+  color: red;  /* 즐겨찾기가 활성화된 버튼은 빨간색으로 표시 */
+}
+
+.question-container {
+  position: relative;
+  text-align: left;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: .5rem;
+}
+
+.icon-button {
+  position: absolute;
+  bottom: 10px;
+  background: none;
+  border: none;
+  color: #656565;
+  cursor: pointer;
+  transition: color 0.3s;
+  font-size: 1rem;
+}
+
+.icon-button:hover {
+  color: #ff0000;
+}
+
+.icon-button.fav {
+  color: red;
+}
+
+.additional-info {
+  margin-top: 20px;
+  padding: 10px;
+  border-top: 1px solid #ddd;
+  display: none;  /* 초기에는 해석, 해설, 단어 부분을 숨깁니다 */
+}
+
+.result-message {
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.result-message.correct {
+  color: green;
+}
+
+.result-message.wrong {
+  color: red;
+}

@@ -77,4 +77,64 @@ window.onload = function() {
             });
         });
     });
+    // 신고 버튼 이벤트 추가
+    Array.from(document.getElementsByClassName('report-btn')).forEach(function(button) {
+        button.addEventListener('click', function() {
+            var question_id = this.getAttribute('data-question-id');
+            var report_content = prompt('리포트 내용을 입력하세요:');
+
+            if (report_content) {
+                fetchWithToken('/api/report/question', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        question_id: question_id,
+                        report_content: report_content,
+                        report_type: 'question'
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        alert('리포트를 보내는 데 실패했습니다: ' + data.error);
+                    } else {
+                        alert('리포트가 성공적으로 전송되었습니다.');
+                    }
+                });
+            }
+        });
+    });
+    // 즐겨찾기 버튼 이벤트 추가
+    Array.from(document.getElementsByClassName('favourite-btn')).forEach(function(button) {
+        button.style.color = 'red';  // 오답노트 페이지에서는 즐겨찾기가 모두 활성화된 상태이므로 초기 색상을 빨간색으로 설정
+        button.addEventListener('click', function() {
+            var question_id = this.getAttribute('data-question-id');
+
+            // 즐겨찾기에서 해당 문제를 삭제
+            fetchWithToken('/api/favourite/question', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    question_id: question_id
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert('즐겨찾기에서 삭제하는 데 실패했습니다: ' + data.error);
+                } else {
+                    this.style.color = 'gray';  // 즐겨찾기에서 삭제된 경우 버튼 색상을 회색으로 변경
+                    alert('즐겨찾기에서 성공적으로 삭제되었습니다.');
+
+                    // 문제 요소를 페이지에서 제거
+                    var questionElement = document.getElementById('question-' + question_id);
+                    questionElement.parentNode.removeChild(questionElement);
+                }
+            });
+        });
+    });
 };
