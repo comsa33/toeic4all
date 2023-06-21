@@ -233,3 +233,23 @@ input[type="radio"] {
 .report-btn:hover {
   color: #ff0000;
 }
+
+.favourite-btn {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  background: none;
+  border: none;
+  color: #656565;
+  cursor: pointer;
+  transition: color 0.3s;
+  font-size: 1rem;
+}
+
+.favourite-btn:hover {
+  color: #ff0000;
+}
+
+.favourite-btn.fav {
+  color: red;
+}

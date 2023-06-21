@@ -194,3 +194,58 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+    Array.from(document.getElementsByClassName('favourite-btn')).forEach(function(button) {
+        button.addEventListener('click', function() {
+            var question_id = this.getAttribute('data-question-id');
+            
+            // Check if button is already marked as favourite
+            var isFavourite = this.classList.contains('fav');
+
+            if (isFavourite) {
+                // If the question is already in favourites, remove it
+                fetchWithToken('/api/favourite/question', {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        question_id: question_id
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        alert('즐겨찾기에서 삭제하는 데 실패했습니다: ' + data.error);
+                    } else {
+                        this.classList.remove('fav');
+                        this.style.color = 'gray';  // Change button color to gray
+                        alert('즐겨찾기에서 성공적으로 삭제되었습니다.');
+                    }
+                });
+            } else {
+                // If the question is not in favourites, add it
+                fetchWithToken('/api/favourite/question', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        question_id: question_id
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        alert('즐겨찾기에 추가하는 데 실패했습니다: ' + data.error);
+                    } else {
+                        this.classList.add('fav');
+                        this.style.color = 'red';  // Change button color to red
+                        alert('즐겨찾기에 성공적으로 추가되었습니다.');
+                    }
+                });
+            }
+        });
+    });
+});

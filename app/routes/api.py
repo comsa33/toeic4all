@@ -7,7 +7,7 @@ from flask import Blueprint, jsonify, request
 from sqlalchemy import and_, func
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
-from app.models import GeneratedQuestionType, GeneratedQuestionSubType, GeneratedQuestion, GeneratedAnswer, GeneratedVocabulary, QuestionReport
+from app.models import GeneratedQuestionType, GeneratedQuestionSubType, GeneratedQuestion, GeneratedAnswer, GeneratedVocabulary, QuestionReport, MyQuestions
 from app import db
 
 
@@ -337,3 +337,50 @@ def report_question():
     db.session.commit()
 
     return jsonify({"message": "Report has been sent successfully", "report_id": new_report.id}), 201
+
+
+@api.route('/favourite/question', methods=['POST'])
+@jwt_required()
+def add_to_favourites():
+    question_id = request.json.get('question_id')
+    username = get_jwt_identity()  # Get username from JWT token
+
+    # Validate input
+    if not question_id:
+        return jsonify({"error": "Question ID is required"}), 400
+
+    # Check if the question is already added
+    existing_entry = MyQuestions.query.filter_by(username=username, question_id=question_id).first()
+    if existing_entry:
+        return jsonify({"error": "This question is already added to your favourites"}), 409
+
+    # Add the question to the user's favourites
+    new_favourite = MyQuestions(username=username, question_id=question_id)
+
+    # Save to database
+    db.session.add(new_favourite)
+    db.session.commit()
+
+    return jsonify({"message": "Question has been added to your favourites", "favourite_id": new_favourite.id}), 201
+
+
+@api.route('/favourite/question', methods=['DELETE'])
+@jwt_required()
+def remove_from_favourites():
+    question_id = request.json.get('question_id')
+    username = get_jwt_identity()  # Get username from JWT token
+
+    # Validate input
+    if not question_id:
+        return jsonify({"error": "Question ID is required"}), 400
+
+    # Check if the question is in the user's favourites
+    favourite_entry = MyQuestions.query.filter_by(username=username, question_id=question_id).first()
+    if not favourite_entry:
+        return jsonify({"error": "This question is not in your favourites"}), 404
+
+    # Remove the question from the user's favourites
+    db.session.delete(favourite_entry)
+    db.session.commit()
+
+    return jsonify({"message": "Question has been removed from your favourites"}), 200

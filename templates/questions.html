@@ -59,6 +59,8 @@
                         </li>
                         {% endfor %}
                     </ol>
+                    <!-- Add my question button here -->
+                    <button class="favourite-btn" data-question-id="{{ question.QuestionId }}" title="내 오답노트에 추가하기"><i class="fas fa-heart"></i></button>
                     <!-- Add report button here -->
                     <button class="report-btn" data-question-id="{{ question.QuestionId }}" title="문제 리포트 하기"><i class="fas fa-exclamation-triangle"></i></button>
                     <small class="text-muted question-id" style="display: none;">{{ question.QuestionId }}</small>
@@ -79,6 +81,8 @@
                         </li>
                         {% endfor %}
                     </ol>
+                    <!-- Add my question button here -->
+                    <button class="favourite-btn" data-question-id="{{ question.QuestionId }}" title="내 오답노트에 추가하기"><i class="fas fa-heart"></i></button>
                     <!-- Add report button here -->
                     <button class="report-btn" data-question-id="{{ question.QuestionId }}" title="문제 리포트 하기"><i class="fas fa-exclamation-triangle"></i></button>
                     <small class="text-muted question-id" style="display: none;">{{ question.QuestionId }}</small>
