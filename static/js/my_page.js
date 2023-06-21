@@ -46,8 +46,8 @@ window.onload = function() {
                 data.data[i].Choices.forEach(choice => {
                     let choiceLi = document.createElement('li');
                     choiceLi.innerHTML = `
-                        <input type="radio" class="answer-input" name="${data.data[i].QuestionId}" value="${choice.id}" data-question-id="${data.data[i].QuestionId}">
-                        ${choice.text}
+                        <input type="radio" class="answer-input" name="${data.data[i].QuestionId}" value="${choice}" data-question-id="${data.data[i].QuestionId}">
+                        ${choice}
                     `;
                     choicesOl.appendChild(choiceLi);
                 });
