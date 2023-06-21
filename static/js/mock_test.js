@@ -1,4 +1,21 @@
+function isTokenExpired(token) {
+    try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        return payload.exp < Date.now() / 1000;
+    } catch (e) {
+        return false;
+    }
+}
+
 function checkLoginStatus(callback) {
+    // Check if the token is expired
+    const jwtToken = localStorage.getItem('access_token');
+    if (isTokenExpired(jwtToken)) {
+        alert('로그인 세션이 만료되었습니다. 로그인 페이지로 이동합니다.');
+        window.location.href = "/user/login";
+        return;
+    }
+
     var xhr = new XMLHttpRequest();
     xhr.open('GET', '/user/protected');
     xhr.setRequestHeader('Authorization', `Bearer ${localStorage.getItem('access_token')}`);
@@ -7,13 +24,13 @@ function checkLoginStatus(callback) {
             callback();
         } else {
             alert('로그인이 필요한 서비스입니다.');
-            window.location.href = "https://toeic4all.com/user/login";
+            window.location.href = "/user/login";
             return;
         }
     };
     xhr.onerror = function() { 
         alert('로그인이 필요한 서비스입니다.');
-        window.location.href = "https://toeic4all.com/user/login";
+        window.location.href = "/user/login";
         return;
     };
     xhr.send();
