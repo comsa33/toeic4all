@@ -405,13 +405,20 @@ def get_favourite_status():
 def fetch_questions_by_ids(question_ids):
     # fetch questions from the database by their ids
     questions_data = db.session.query(
-        GeneratedQuestion, GeneratedQuestionType, GeneratedQuestionSubType, GeneratedVocabulary
+        GeneratedQuestion, GeneratedQuestionType, GeneratedQuestionSubType
     ).filter(
         GeneratedQuestion.id.in_(question_ids),
         GeneratedQuestion.question_type_id == GeneratedQuestionType.id,
         GeneratedQuestion.question_sub_type_id == GeneratedQuestionSubType.id,
-        GeneratedQuestion.id == GeneratedVocabulary.question_id
     ).all()
+
+    vocabularies_data = db.session.query(
+        GeneratedVocabulary
+    ).filter(
+        GeneratedVocabulary.question_id.in_(question_ids)
+    ).all()
+
+    vocabularies_dict = {v.question_id: {"Word": v.word, "Explanation": v.explanation} for v in vocabularies_data}
 
     # convert questions to dictionary
     questions_dict = [{
@@ -424,10 +431,7 @@ def fetch_questions_by_ids(question_ids):
         "QuestionLevel": data.GeneratedQuestion.question_level,
         "Translation": data.GeneratedQuestion.translation,
         "Explanation": data.GeneratedQuestion.explanation,
-        "Vocabulary": {
-            "Word": data.GeneratedVocabulary.word,
-            "Explanation": data.GeneratedVocabulary.explanation
-        }
+        "Vocabulary": vocabularies_dict.get(data.GeneratedQuestion.id)
     } for data in questions_data]
 
     return questions_dict
