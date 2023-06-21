@@ -25,9 +25,10 @@ window.onload = function() {
                     <p id="result-${data[i].QuestionId}"></p>
                     <!-- 번역, 해설, 관련 단어 -->
                     <div id="additional-info-${data[i].QuestionId}" class="additional-info" style="display: none;">
-                        <p>Translation: ${data[i].Translation}</p>
-                        <p>Explanation: ${data[i].Explanation}</p>
-                        <p>Vocabulary: ${data[i].Vocabulary.Word} - ${data[i].Vocabulary.Explanation}</p>
+                        <p>[유형] ${data[i].QuestionSubType}</p>
+                        <p>[해석] ${data[i].Translation}</p>
+                        <p>[해설] ${data[i].Explanation}</p>
+                        <p>[어휘] ${data[i].Vocabulary.Word} - ${data[i].Vocabulary.Explanation}</p>
                     </div>
                     <!-- 즐찾 버튼 -->
                     <button class="favourite-btn" data-question-id="${data[i].QuestionId}" title="내 오답노트에 추가하기"><i class="fas fa-heart"></i></button>
