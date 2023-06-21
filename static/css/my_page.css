@@ -24,6 +24,11 @@ body {
     padding: 20px;
 }
 
+#question-area {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
 .my-img-container {
     position: relative;
     max-width: 100%;
