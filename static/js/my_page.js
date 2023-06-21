@@ -8,7 +8,7 @@ function fetchWithToken(url, options = {}) {
 }
 
 window.onload = function() {
-    fetchWithToken('/favourite_questions')
+    fetchWithToken('/api/favourite_questions')
     .then(response => response.json())
     .then(data => {
         let questionArea = document.getElementById('question-area');
@@ -32,7 +32,7 @@ window.onload = function() {
         return data.data.map(question => question.QuestionId).join(',');
     })
     .then(questionIds => {
-        fetch('/choices?QuestionIds=' + questionIds)
+        fetch('/api/choices?QuestionIds=' + questionIds)
         .then(response => response.json())
         .then(data => {
             for (let i = 0; i < data.count; i++) {
