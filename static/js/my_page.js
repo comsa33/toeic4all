@@ -18,13 +18,13 @@ window.onload = function() {
             questionDiv.className = 'col-12 col-md-6';
             questionDiv.innerHTML = `
                 <div class="question-container">
-                    <p><strong><span class="question-number">${i+1}</span>. ${data.data[i].QuestionText}</strong></p>
+                    <p><strong><span class="question-number">${i+1}</span>. ${data[i].QuestionText}</strong></p>
                     <!-- 선택지가 들어갈 부분 -->
-                    <ol id="choices-${data.data[i].QuestionId}" type="A"></ol>
+                    <ol id="choices-${data[i].QuestionId}" type="A"></ol>
                     <!-- 즐찾 버튼 -->
-                    <button class="favourite-btn" data-question-id="${data.data[i].QuestionId}" title="내 오답노트에 추가하기"><i class="fas fa-heart"></i></button>
+                    <button class="favourite-btn" data-question-id="${data[i].QuestionId}" title="내 오답노트에 추가하기"><i class="fas fa-heart"></i></button>
                     <!-- 신고 버튼 -->
-                    <button class="report-btn" data-question-id="${data.data[i].QuestionId}" title="문제 리포트 하기"><i class="fas fa-exclamation-triangle"></i></button>
+                    <button class="report-btn" data-question-id="${data[i].QuestionId}" title="문제 리포트 하기"><i class="fas fa-exclamation-triangle"></i></button>
                 </div>
             `;
             questionArea.appendChild(questionDiv);
