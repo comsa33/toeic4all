@@ -4,10 +4,13 @@ body {
 }
 
 #timer-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   z-index: 1000;
   position: fixed;
   right: 20px;
-  top: 20px;
+  top: 138px;
   padding: 10px;
   border-radius: 10px;
   background-color: rgba(255, 255, 255, 0.8);  /* Semi-transparent white */
@@ -39,12 +42,6 @@ body {
   font-weight: bold;
   color: #333;
   text-align: center;
-}
-
-#timer-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 }
 
 #toggle-timer-btn {
