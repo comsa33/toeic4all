@@ -449,6 +449,7 @@ def get_favourite_questions():
 
 
 @api.route('/check_answer', methods=['POST'])
+@jwt_required()
 def check_answer():
     data = request.get_json()
     answer_id = data.get('answer_id')

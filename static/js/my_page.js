@@ -59,7 +59,7 @@ window.onload = function() {
                 input.addEventListener('change', function() {
                     let questionId = this.dataset.questionId;
                     let answerId = this.value;
-                    fetch('/api/check_answer', {
+                    fetchWithToken('/api/check_answer', {
                         method: 'POST',
                         body: JSON.stringify({answer_id: answerId, question_id: questionId}),
                         headers: {
