@@ -114,6 +114,36 @@ def fetch_choices(question_ids):
         return {"error": "QuestionIds parameter is required"}, 400
 
 
+def fetch_choices_with_ids(question_ids):
+    if question_ids:
+        choices_query = GeneratedAnswer.query.filter(GeneratedAnswer.question_id.in_(question_ids))
+        choices = choices_query.all()
+        grouped_choices = {}
+        for choice in choices:
+            if choice.question_id not in grouped_choices:
+                grouped_choices[choice.question_id] = []
+            grouped_choices[choice.question_id].append({
+                "id": choice.id,
+                "text": choice.text
+            })
+        return {
+            "count": len(grouped_choices),
+            "data": [{"QuestionId": qid, "Choices": grouped_choices[qid]} for qid in grouped_choices]
+        }
+    else:
+        return {"error": "QuestionIds parameter is required"}, 400
+
+
+@api.route('/choices_with_ids', methods=['GET'])
+def get_choices_with_ids():
+    question_ids = request.args.get('QuestionIds')
+    if question_ids:
+        question_ids = list(map(int, question_ids.split(',')))
+        return jsonify(fetch_choices_with_ids(question_ids))
+    else:
+        return jsonify({"error": "QuestionIds parameter is required"}), 400
+
+
 # Get question choices
 @api.route('/choices', methods=['GET'])
 def get_choices():
