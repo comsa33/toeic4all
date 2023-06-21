@@ -94,6 +94,12 @@ document.getElementById('toggle-timer-btn').addEventListener('click', function()
     }
 });
 
+var testStartTime;
+
+function startTest() {
+    testStartTime = new Date();
+}
+
 document.getElementById('start-test-btn').addEventListener('click', function() {
     startTest();
     startTimer();
@@ -101,40 +107,6 @@ document.getElementById('start-test-btn').addEventListener('click', function() {
     document.getElementById('end-test-btn').style.display = 'block';
 });
 
-document.addEventListener('DOMContentLoaded', function () {
-    document.getElementById('submit-answers').addEventListener('click', function() {
-        var userAnswers = {};
-        var question_numbers = {};
-        var unansweredQuestions = 0;
-
-        Array.from(document.getElementsByClassName('question-container')).forEach(function(container) {
-            var question_id = container.getElementsByClassName('question-id')[0].textContent;
-            var question_number = container.getElementsByClassName('question-number')[0].textContent;
-            var checkedInput = container.querySelector('input[type="radio"]:checked');
-
-            userAnswers[question_id] = checkedInput ? checkedInput.value : '미응답';
-            question_numbers[question_id] = question_number;
-
-            if (!checkedInput) {
-                unansweredQuestions++;
-            }
-        });
-
-        if (unansweredQuestions > 0) {
-            if (confirm('아직 모든 문제를 다 풀지 않았습니다. 정말 채점하고 정답을 보겠습니까? 틀린 문제는 "내 오답노트"에서 확인하실 수 있습니다.')) {
-                scoreTest(userAnswers, question_numbers);
-            }
-        } else {
-            scoreTest(userAnswers, question_numbers);
-        }
-    });
-});
-
-var testStartTime;
-
-function startTest() {
-    testStartTime = new Date();
-}
 
 function scoreTest(userAnswers, question_numbers) {
     var question_ids = Object.keys(userAnswers);
@@ -201,6 +173,37 @@ function scoreTest(userAnswers, question_numbers) {
         showExplanationsButton.href = 'https://toeic4all.com/api/test/explanations/' + id;
     });
 }
+
+document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('submit-answers').addEventListener('click', function() {
+        var userAnswers = {};
+        var question_numbers = {};
+        var unansweredQuestions = 0;
+
+        Array.from(document.getElementsByClassName('question-container')).forEach(function(container) {
+            var question_id = container.getElementsByClassName('question-id')[0].textContent;
+            var question_number = container.getElementsByClassName('question-number')[0].textContent;
+            var checkedInput = container.querySelector('input[type="radio"]:checked');
+
+            userAnswers[question_id] = checkedInput ? checkedInput.value : '미응답';
+            question_numbers[question_id] = question_number;
+
+            if (!checkedInput) {
+                unansweredQuestions++;
+            }
+        });
+
+        if (unansweredQuestions > 0) {
+            if (confirm('아직 모든 문제를 다 풀지 않았습니다. 정말 채점하고 정답을 보겠습니까? 틀린 문제는 "내 오답노트"에서 확인하실 수 있습니다.')) {
+                scoreTest(userAnswers, question_numbers);
+                endTimer();
+            }
+        } else {
+            scoreTest(userAnswers, question_numbers);
+            endTimer();
+        }
+    });
+});
 
 document.addEventListener('DOMContentLoaded', function () {
     Array.from(document.getElementsByClassName('report-btn')).forEach(function(button) {
