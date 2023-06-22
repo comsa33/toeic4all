@@ -8,58 +8,65 @@ function fetchWithToken(url, options = {}) {
 }
 
 var timerContainer = document.getElementById('timer-container');
-var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+var isMouseDown = false;
+var offset = { x: 0, y: 0 };
 
 timerContainer.onmousedown = dragMouseDown;
-timerContainer.ontouchstart = dragMouseDown;
+timerContainer.ontouchstart = dragTouchStart;
 
 function dragMouseDown(e) {
-    e = e || window.event;
     e.preventDefault();
+    isMouseDown = true;
 
-    // get the mouse cursor position at startup:
-    pos3 = e.clientX || e.touches[0].clientX;
-    pos4 = e.clientY || e.touches[0].clientY;
-
-    document.onmouseup = closeDragElement;
-    document.ontouchend = closeDragElement;
-
-    // call a function whenever the cursor moves:
-    document.onmousemove = elementDrag;
-    document.ontouchmove = elementDrag;
+    offset = {
+        x: timerContainer.offsetLeft - e.clientX,
+        y: timerContainer.offsetTop - e.clientY
+    };
 }
+
+function dragTouchStart(e) {
+    e.preventDefault();
+    isMouseDown = true;
+
+    offset = {
+        x: timerContainer.offsetLeft - e.touches[0].clientX,
+        y: timerContainer.offsetTop - e.touches[0].clientY
+    };
+}
+
+document.onmouseup = function() { isMouseDown = false; };
+document.ontouchend = function() { isMouseDown = false; };
+
+document.onmousemove = elementDrag;
+document.ontouchmove = elementDrag;
 
 function elementDrag(e) {
-    e = e || window.event;
     e.preventDefault();
 
-    // calculate the new cursor position:
-    pos1 = pos3 - (e.clientX || e.touches[0].clientX);
-    pos2 = pos4 - (e.clientY || e.touches[0].clientY);
-    pos3 = e.clientX || e.touches[0].clientX;
-    pos4 = e.clientY || e.touches[0].clientY;
+    if (isMouseDown) {
+        let clientX = e.clientX || e.touches[0].clientX;
+        let clientY = e.clientY || e.touches[0].clientY;
+        
+        let newLeft = clientX + offset.x;
+        let newTop = clientY + offset.y;
 
-    // set the element's new position:
-    let newTop = timerContainer.offsetTop - pos2;
-    let newLeft = timerContainer.offsetLeft - pos1;
+        if (newLeft < 0) {
+            newLeft = 0;
+        }
+        else if (newLeft > window.innerWidth - timerContainer.offsetWidth) {
+            newLeft = window.innerWidth - timerContainer.offsetWidth;
+        }
 
-    // Make sure the element does not go out of the screen
-    if (newTop >= 0 && newTop <= window.innerHeight - timerContainer.offsetHeight) {
-        timerContainer.style.top = newTop + "px";
+        if (newTop < 0) {
+            newTop = 0;
+        }
+        else if (newTop > window.innerHeight - timerContainer.offsetHeight) {
+            newTop = window.innerHeight - timerContainer.offsetHeight;
+        }
+
+        timerContainer.style.left = newLeft + 'px';
+        timerContainer.style.top = newTop + 'px';
     }
-
-    if (newLeft >= 0 && newLeft <= window.innerWidth - timerContainer.offsetWidth) {
-        timerContainer.style.left = newLeft + "px";
-    }
-}
-
-function closeDragElement() {
-    // stop moving when mouse button is released:
-    document.onmouseup = null;
-    document.onmousemove = null;
-
-    document.ontouchend = null;
-    document.ontouchmove = null;
 }
 
 var timer;
