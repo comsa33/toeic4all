@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from sqlalchemy import PrimaryKeyConstraint
+from sqlalchemy import UniqueConstraint
 
 from .. import db
 
@@ -15,5 +15,5 @@ class WrongQuestions(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     __table_args__ = (
-        PrimaryKeyConstraint('question_id', 'test_id'),
+        UniqueConstraint('question_id', 'test_id'),
     )
