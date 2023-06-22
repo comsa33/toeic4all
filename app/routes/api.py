@@ -545,3 +545,25 @@ def save_user_test_detail():
     db.session.commit()
 
     return jsonify({"message": "Test detail has been saved", "test_detail_id": new_record.id}), 201
+
+
+@api.route('/my-note/tests', methods=['GET'])
+@jwt_required()
+def get_user_tests():
+    username = get_jwt_identity()
+
+    tests = db.session.query(UserTestDetail).filter(UserTestDetail.username == username).all()
+
+    return jsonify({"tests": [test.serialize for test in tests]}), 200
+
+
+@api.route('/my-note/tests/<int:test_id>/wrong-questions', methods=['GET'])
+@jwt_required()
+def get_wrong_questions_for_test(test_id):
+    username = get_jwt_identity()
+
+    wrong_questions = WrongQuestions.query.filter_by(test_id=test_id, username=username).all()
+    question_ids = [wrong_question.question_id for wrong_question in wrong_questions]
+    questions = fetch_questions_by_ids(question_ids)
+
+    return jsonify(questions), 200
