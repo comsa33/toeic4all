@@ -1,5 +1,7 @@
 from datetime import datetime
 
+from sqlalchemy import PrimaryKeyConstraint
+
 from .. import db
 
 
@@ -11,3 +13,7 @@ class WrongQuestions(db.Model):
     question_id = db.Column(db.Integer, db.ForeignKey('generated_questions.id'))
     test_id = db.Column(db.Integer, db.ForeignKey('user_test_detail.id'))
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    __table_args__ = (
+        PrimaryKeyConstraint('question_id', 'test_id'),
+    )
