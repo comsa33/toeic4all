@@ -69,6 +69,22 @@ function elementDrag(e) {
     }
 }
 
+window.onresize = function() {
+    var newLeft = parseInt(timerContainer.style.left);
+    var newTop = parseInt(timerContainer.style.top);
+
+    if (newLeft > window.innerWidth - timerContainer.offsetWidth) {
+        newLeft = window.innerWidth - timerContainer.offsetWidth;
+    }
+
+    if (newTop > window.innerHeight - timerContainer.offsetHeight) {
+        newTop = window.innerHeight - timerContainer.offsetHeight;
+    }
+
+    timerContainer.style.left = newLeft + 'px';
+    timerContainer.style.top = newTop + 'px';
+};
+
 var timer;
 var minutes = 0;
 var seconds = 0;
