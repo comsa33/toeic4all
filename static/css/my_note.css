@@ -233,6 +233,14 @@ body {
     align-items: center;
 }
 
+.back-to-test {
+    border: none;
+    border-radius: 30px;
+    background-color: #328de2;
+    color: white;
+    font-size: .8rem;
+}
+
 .test-container {
     background: #ADD8E6;
     border-radius: 10px;
