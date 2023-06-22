@@ -41,18 +41,13 @@ body {
   text-align: center;
 }
 
-#toggle-timer-btn {
-  margin: 0 5px;
-  padding: 5px 10px;
-  border: none;
-  border-radius: 5px;
-  background-color: #008CBA;
+#start-test-btn-container button {
   color: white;
-  cursor: pointer;
-  transition: background-color 0.3s;
+  background-color: #007BFF;
+  border-radius: 5px;
 }
 
-#toggle-timer-btn:hover {
+#start-test-btn-container button:hover {
   background-color: #0056b3;
 }
 
