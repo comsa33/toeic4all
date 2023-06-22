@@ -243,54 +243,53 @@ function scoreTest(userAnswers, question_numbers) {
             var minutes = Math.floor(seconds / 60);
             seconds = seconds % 60;
             document.getElementById('duration').innerText = '소요시간: ' + minutes + '분 ' + seconds + '초';
-
-            // 시험 끝나면 사용자 테스트 정보를 서버에 저장합니다.
-            fetchWithToken('/api/user-test-detail', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    test_no: document.getElementById('test-id').textContent,
-                    wrong_questions: wrongQuestionCount,
-                    duration: Math.round(testDuration / 1000)  // 전체 시간을 초 단위로 변환합니다.
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log(data.message);  // Log the message from the server
-
-                var testDetailId = data.test_detail_id;  // Get the id of the test detail record
-
-                // UserTestDetail 테이블에 데이터를 저장한 뒤 틀린 문제들을 WrongQuestions 테이블에 저장합니다.
-                for (var i = 0; i < question_ids.length; i++) {
-                    var question_id = question_ids[i];
-                    if (userAnswers[question_id] !== correct_answers[question_id]) {
-                        // Add this question to the user's wrong questions
-                        fetchWithToken('/api/wrong-question', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify({
-                                question_id: question_id,
-                                test_id: testDetailId
-                            })
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            console.log(data.message);  // Log the message from the server
-                        })
-                        .catch(error => console.error('Error:', error));
-                    }
-                }
-            })
-            .catch(error => console.error('Error:', error));
-
         } else {
             document.getElementById('duration').innerText = '타이머를 사용하지 않았습니다.';
         }
 
+        // 시험 끝나면 사용자 테스트 정보를 서버에 저장합니다.
+        fetchWithToken('/api/user-test-detail', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                test_no: document.getElementById('test-id').textContent,
+                wrong_questions: wrongQuestionCount,
+                duration: testStartTime ? Math.round(testDuration / 1000) : null
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data.message);  // Log the message from the server
+
+            var testDetailId = data.test_detail_id;  // Get the id of the test detail record
+
+            // UserTestDetail 테이블에 데이터를 저장한 뒤 틀린 문제들을 WrongQuestions 테이블에 저장합니다.
+            for (var i = 0; i < question_ids.length; i++) {
+                var question_id = question_ids[i];
+                if (userAnswers[question_id] !== correct_answers[question_id]) {
+                    // Add this question to the user's wrong questions
+                    fetchWithToken('/api/wrong-question', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            question_id: question_id,
+                            test_id: testDetailId
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data.message);  // Log the message from the server
+                    })
+                    .catch(error => console.error('Error:', error));
+                }
+            }
+        })
+        .catch(error => console.error('Error:', error));
+        
         document.getElementById('answer-table').style.display = 'table';
 
         // '해설지 보기' 버튼 보이기 및 링크 연결
