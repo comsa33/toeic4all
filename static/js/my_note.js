@@ -63,7 +63,10 @@ window.onload = function() {
     .then(response => response.json())
     .then(data => {
         let myTestsArea = document.getElementById('my-tests');
+        
         for (let i = 0; i < data.tests.length; i++) {
+            let utcDate = new Date(data.tests[i].created_at);
+            let localDate = new Date(utcDate.getTime() + (utcDate.getTimezoneOffset() * 60 * 1000));
             let testDiv = document.createElement('div');
             testDiv.id = 'test-' + data.tests[i].id;
             testDiv.className = 'col-12 col-md-6';
@@ -73,7 +76,7 @@ window.onload = function() {
                 <div class="test-content">
                     <i class="fas fa-file-alt"></i>
                     <p><strong>${data.tests[i].test_no}</strong></p>
-                    <p>${timeSince(new Date(data.tests[i].created_at))}</p>
+                    <p>${timeSince(new Date(localDate))}</p>
                 </div>
             </div>
             `;
