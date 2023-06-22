@@ -4,7 +4,7 @@ from .. import db
 
 
 class UserTestDetail(db.Model):
-    __tablename__ = 'wrong_questions'
+    __tablename__ = 'user_test_detail'
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, nullable=False)
