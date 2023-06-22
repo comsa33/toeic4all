@@ -3,6 +3,10 @@ body {
   background-color: #f4f4f4;
 }
 
+#mocktest-area {
+  display: none;
+}
+
 #timer-container {
   display: flex;
   justify-content: space-between;

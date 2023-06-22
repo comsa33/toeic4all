@@ -85,13 +85,25 @@ window.onresize = function() {
     timerContainer.style.top = newTop + 'px';
 };
 
+var testStartTime;
 var timer;
 var minutes = 0;
 var seconds = 0;
 var milliseconds = 0;
 var timerRunning = false;
+var pauseStartTime;
+var totalPauseDuration = 0;
 
 function startTimer() {
+    if (pauseStartTime) {
+        // 총 일시중지 시간을 계산하여 저장합니다.
+        totalPauseDuration += new Date() - pauseStartTime;
+        pauseStartTime = null;
+    } else {
+        // 시작 시간을 설정합니다.
+        testStartTime = new Date();
+    }
+
     timer = setInterval(function() {
         milliseconds += 10;
         if (milliseconds >= 1000) {
@@ -125,6 +137,7 @@ function startTimer() {
 var alerted = false;
 
 function endTimer() {
+    pauseStartTime = new Date();  // 일시중지 시작 시간을 기록합니다.
     clearInterval(timer);
     document.getElementById('start-timer-btn').style.display = 'block';
     document.getElementById('end-timer-btn').style.display = 'none';
@@ -133,6 +146,11 @@ function endTimer() {
 }
 
 function resetTimer() {
+    // 리셋 시에는 시작시간과 일시중지 시간을 모두 초기화합니다.
+    testStartTime = null;
+    pauseStartTime = null;
+    totalPauseDuration = 0;
+
     clearInterval(timer);
     minutes = 0;
     seconds = 0;
@@ -180,17 +198,14 @@ document.getElementById('toggle-timer-btn').addEventListener('click', function()
     }
 });
 
-var testStartTime;
-
 function startTest() {
     testStartTime = new Date();
 }
 
 document.getElementById('start-test-btn').addEventListener('click', function() {
-    startTest();
     startTimer();
     this.style.display = 'none';
-    document.getElementById('end-test-btn').style.display = 'block';
+    document.getElementById('mocktest-area').style.display = 'flex';
 });
 
 function scoreTest(userAnswers, question_numbers) {
@@ -238,7 +253,7 @@ function scoreTest(userAnswers, question_numbers) {
 
         document.getElementById('score').innerText = '점수: ' + score + '/' + question_ids.length;
         if (testStartTime) {
-            var testDuration = new Date() - testStartTime;
+            var testDuration = new Date() - testStartTime - totalPauseDuration;
             var seconds = Math.round(testDuration / 1000);
             var minutes = Math.floor(seconds / 60);
             seconds = seconds % 60;
@@ -256,7 +271,7 @@ function scoreTest(userAnswers, question_numbers) {
             body: JSON.stringify({
                 test_no: document.getElementById('test-id').textContent,
                 wrong_questions: wrongQuestionCount,
-                duration: testStartTime ? Math.round(testDuration / 1000) : null
+                duration: testStartTime ? Math.round(testDuration / 1000) : null // 전체 시간을 초 단위로 변환합니다. 일시중지 시간을 제외합니다.
             })
         })
         .then(response => response.json())
