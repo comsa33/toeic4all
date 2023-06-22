@@ -13,9 +13,8 @@ body {
     font-family: 'Pretendard', sans-serif;
 }
 
-#side-btn-mynote {
-    background-color: #606060;
-    color: white;
+#side-btn-mynote a {
+    color: rgb(255, 77, 0);
 }
 
 .row {
