@@ -82,7 +82,7 @@ window.onload = function() {
             <div>
                 <div class="test-content">
                     <i class="fas fa-file-alt"></i>
-                    <p><strong>${data.tests[i].test_no}</strong></p>
+                    <p style="padding-bottom: 5px;"><strong>${data.tests[i].test_no}</strong></p>
                     <p>오답 ${data.tests[i].wrong_questions}개</p>
                     <p>${minutes}분 ${seconds}초 소요</p>
                     <p>${timeSince(koreanDate)}</p>

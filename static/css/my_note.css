@@ -273,6 +273,7 @@ body {
 .test-container p {
     text-align: center;
     font-size: 0.75em;
+    margin-bottom: 0;
 }
 
 .test-container strong {
@@ -288,6 +289,7 @@ body {
         max-height: 130px;
         min-width: 130px;
         min-height: 130px;
+        padding-top: 0px;
     }
 }
 
