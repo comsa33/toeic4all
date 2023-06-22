@@ -77,12 +77,12 @@ window.onload = function() {
                 </div>
             </div>
             `;
-            myTestsArea.appendChild(testDiv);
+            myTestsArea.appendChild(testDiv, data.tests[i].test_no);
         }
     });
 }
 
-function loadWrongQuestions(testId) {
+function loadWrongQuestions(testId, testNo) {
     document.getElementById('my-tests').style.display = 'none'; // Hide test list
 
     fetchWithToken('/api/my-note/tests/' + testId + '/wrong-questions')
@@ -90,7 +90,7 @@ function loadWrongQuestions(testId) {
     .then(data => {
         let questionArea = document.getElementById('question-area');
         let mocktestNo = document.getElementById('mocktest-no');
-        mocktestNo.innerHTML = `${testId}`;
+        mocktestNo.innerHTML = `모의고사_${testNo}`;
         for (let i = 0; i < data.length; i++) {
             let questionDiv = document.createElement('div');
             questionDiv.id = 'question-' + data[i].QuestionId;

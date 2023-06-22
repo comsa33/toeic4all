@@ -228,6 +228,9 @@ body {
     display: grid;
     grid-template-columns: repeat(1, 1fr);
     grid-gap: 10px;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
 }
 
 .test-container {
@@ -238,6 +241,10 @@ body {
     cursor: pointer;
     transition: transform .2s;
     box-sizing: border-box; 
+    max-width: 170px;
+    max-height: 170px;
+    min-width: 170px;
+    min-height: 170px;
 }
 
 .test-container:hover {
@@ -247,19 +254,9 @@ body {
     transition: box-shadow 0.3s ease;
 }
 
-.test-container div {
-    position: relative;
-    width: 100%;
-    padding-top: 100%;
-    overflow: hidden;  /* 이 부분이 추가되었습니다. */
-}
-
 .test-content {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    color: #117a8b;
+    padding-top: 20px;
 }
 
 .test-container p {
@@ -268,20 +265,23 @@ body {
 }
 
 .test-container strong {
-    font-size: 0.9em;
+    font-size: 1em;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 600px) {
     #my-tests {
         grid-template-columns: repeat(2, 1fr);
     }
     .test-container {
-        max-width: 80vw; /* Adjust the box size for mobile devices */
+        max-width: 130px;
+        max-height: 130px;
+        min-width: 130px;
+        min-height: 130px;
     }
 }
 
 /* For larger screens, adjust the number of columns */
-@media screen and (min-width: 769px) and (max-width: 1200px) {
+@media screen and (min-width: 600px) and (max-width: 1200px) {
     #my-tests {
         grid-template-columns: repeat(3, 1fr);
     }
