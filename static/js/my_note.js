@@ -58,6 +58,12 @@ function timeSince(date) {
     return Math.floor(seconds) + " 초 전";
 }
 
+document.getElementById('back-to-tests').addEventListener('click', function() {
+    document.getElementById('my-tests').style.display = 'block'; // Show test list
+    document.getElementById('question-area').style.display = 'none'; // Hide question area
+    this.style.display = 'none'; // Hide back button
+});
+
 window.onload = function() {
     fetchWithToken('/api/my-note/tests')
     .then(response => response.json())
@@ -87,6 +93,7 @@ window.onload = function() {
 
 function loadWrongQuestions(testId, testNo) {
     document.getElementById('my-tests').style.display = 'none'; // Hide test list
+    document.getElementById('back-to-tests').style.display = 'block'; // Show back button
 
     fetchWithToken('/api/my-note/tests/' + testId + '/wrong-questions')
     .then(response => response.json())
