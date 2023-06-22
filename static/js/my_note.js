@@ -69,9 +69,9 @@ window.onload = function() {
             testDiv.className = 'col-12 col-md-6';
             testDiv.innerHTML = `
             <div class="test-container" onClick="loadWrongQuestions(${data.tests[i].id})">
-                <i class="fas fa-file-alt"></i> <!--아이콘 추가, 아이콘은 FontAwesome나 비슷한 서비스를 사용하세요-->
+                <i class="fas fa-file-alt"></i>
                 <p><strong>${data.tests[i].test_no}</strong></p>
-                <p>날짜: ${timeSince(new Date(data.tests[i].created_at))}</p> <!--시간 표시 형식 변경-->
+                <p>${timeSince(new Date(data.tests[i].created_at))}</p>
             </div>
             `;
             myTestsArea.appendChild(testDiv);
