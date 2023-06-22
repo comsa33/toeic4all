@@ -251,6 +251,7 @@ body {
     position: relative;
     width: 100%;
     padding-top: 100%;
+    overflow: hidden;  /* 이 부분이 추가되었습니다. */
 }
 
 .test-content {
@@ -275,7 +276,7 @@ body {
         grid-template-columns: repeat(2, 1fr);
     }
     .test-container {
-        max-width: 80vw;
+        max-width: 80vw; /* Adjust the box size for mobile devices */
     }
 }
 
@@ -284,25 +285,16 @@ body {
     #my-tests {
         grid-template-columns: repeat(3, 1fr);
     }
-    .test-container {
-        max-width: 80vw;
-    }
 }
 
 @media screen and (min-width: 1201px) and (max-width: 1600px) {
     #my-tests {
         grid-template-columns: repeat(4, 1fr);
     }
-    .test-container {
-        max-width: 80vw;
-    }
 }
 
 @media screen and (min-width: 1601px) {
     #my-tests {
         grid-template-columns: repeat(5, 1fr);
-    }
-    .test-container {
-        max-width: 80vw;
     }
 }

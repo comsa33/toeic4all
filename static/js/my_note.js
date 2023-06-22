@@ -89,6 +89,8 @@ function loadWrongQuestions(testId) {
     .then(response => response.json())
     .then(data => {
         let questionArea = document.getElementById('question-area');
+        let mocktestNo = document.getElementById('mocktest-no');
+        mocktestNo.innerHTML = `${testId}`;
         for (let i = 0; i < data.length; i++) {
             let questionDiv = document.createElement('div');
             questionDiv.id = 'question-' + data[i].QuestionId;
