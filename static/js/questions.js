@@ -161,8 +161,13 @@ function resetTimer() {
 }
 
 document.getElementById('start-timer-btn').addEventListener('click', startTimer);
+document.getElementById('start-timer-btn').addEventListener('touchstart', startTimer);
+
 document.getElementById('end-timer-btn').addEventListener('click', endTimer);
+document.getElementById('end-timer-btn').addEventListener('touchstart', endTimer);
+
 document.getElementById('reset-timer-btn').addEventListener('click', resetTimer);
+document.getElementById('reset-timer-btn').addEventListener('touchstart', resetTimer);
 
 document.getElementById('toggle-timer-btn').addEventListener('click', function() {
     var timer = document.getElementById('timer-display');
