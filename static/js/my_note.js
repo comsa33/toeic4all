@@ -31,27 +31,29 @@ function fetchWithToken(url, options = {}) {
 }
 
 function timeSince(date) {
-    var seconds = Math.floor((new Date() - date) / 1000);
-    var interval = Math.floor(seconds / 31536000);
+
+    const seconds = Math.floor((new Date() - date) / 1000);
+
+    let interval = seconds / 31536000;
 
     if (interval > 1) {
-        return interval + " 년 전";
+        return Math.floor(interval) + " 년 전";
     }
-    interval = Math.floor(seconds / 2592000);
+    interval = seconds / 2592000;
     if (interval > 1) {
-        return interval + " 개월 전";
+        return Math.floor(interval) + " 달 전";
     }
-    interval = Math.floor(seconds / 86400);
+    interval = seconds / 86400;
     if (interval > 1) {
-        return interval + " 일 전";
+        return Math.floor(interval) + " 일 전";
     }
-    interval = Math.floor(seconds / 3600);
+    interval = seconds / 3600;
     if (interval > 1) {
-        return interval + " 시간 전";
+        return Math.floor(interval) + " 시간 전";
     }
-    interval = Math.floor(seconds / 60);
+    interval = seconds / 60;
     if (interval > 1) {
-        return interval + " 분 전";
+        return Math.floor(interval) + " 분 전";
     }
     return Math.floor(seconds) + " 초 전";
 }
@@ -68,7 +70,7 @@ window.onload = function() {
             testDiv.innerHTML = `
             <div class="test-container" onClick="loadWrongQuestions(${data.tests[i].id})">
                 <i class="fas fa-file-alt"></i> <!--아이콘 추가, 아이콘은 FontAwesome나 비슷한 서비스를 사용하세요-->
-                <p><strong>시험 번호: ${data.tests[i].test_no}</strong></p>
+                <p><strong>${data.tests[i].test_no}</strong></p>
                 <p>날짜: ${timeSince(new Date(data.tests[i].created_at))}</p> <!--시간 표시 형식 변경-->
             </div>
             `;
