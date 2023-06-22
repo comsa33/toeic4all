@@ -95,6 +95,15 @@ var pauseStartTime;
 var totalPauseDuration = 0;
 
 function startTimer() {
+    if (timerRunning) {
+        return;
+    }
+
+    timerRunning = true;
+    document.getElementById('start-timer-btn').style.display = 'none';
+    document.getElementById('end-timer-btn').style.display = 'block';
+    document.getElementById('reset-timer-btn').style.display = 'none';
+
     if (pauseStartTime) {
         // 총 일시중지 시간을 계산하여 저장합니다.
         totalPauseDuration += new Date() - pauseStartTime;
@@ -105,26 +114,10 @@ function startTimer() {
     }
 
     timer = setInterval(function() {
-        milliseconds += 10;
-        if (milliseconds >= 1000) {
-            seconds++;
-            milliseconds = 0;
-        }
-        if (seconds >= 60) {
-            minutes++;
-            seconds = 0;
-        }
-
-        if (minutes == 15 && !alerted) {
-            var proceed = confirm('15분이 지났습니다! 계속 진행하시겠습니까?');
-            if (proceed) {
-                alerted = true;
-            } else {
-                endTimer();
-                // Scroll to the 'scoreTest' button
-                document.getElementById('submit-answers').scrollIntoView({ behavior: 'smooth' });
-            }
-        }
+        var elapsed = new Date() - testStartTime - totalPauseDuration;
+        minutes = Math.floor(elapsed / 60000);
+        seconds = Math.floor((elapsed % 60000) / 1000);
+        milliseconds = elapsed % 1000;
 
         // Update timer display
         var displayMinutes = (minutes < 10) ? '0' + minutes : minutes;
@@ -137,21 +130,27 @@ function startTimer() {
 var alerted = false;
 
 function endTimer() {
+    if (!timerRunning) {
+        return;
+    }
+
+    timerRunning = false;
     pauseStartTime = new Date();  // 일시중지 시작 시간을 기록합니다.
     clearInterval(timer);
     document.getElementById('start-timer-btn').style.display = 'block';
     document.getElementById('end-timer-btn').style.display = 'none';
     document.getElementById('reset-timer-btn').style.display = 'block';
-    timerRunning = false;
 }
 
 function resetTimer() {
+    if (timerRunning) {
+        return;
+    }
+
     // 리셋 시에는 시작시간과 일시중지 시간을 모두 초기화합니다.
     testStartTime = null;
     pauseStartTime = null;
     totalPauseDuration = 0;
-
-    clearInterval(timer);
     minutes = 0;
     seconds = 0;
     milliseconds = 0;
@@ -159,32 +158,11 @@ function resetTimer() {
     document.getElementById('start-timer-btn').style.display = 'block';
     document.getElementById('end-timer-btn').style.display = 'none';
     document.getElementById('reset-timer-btn').style.display = 'none';
-    timerRunning = false;
 }
 
-document.getElementById('start-timer-btn').addEventListener('click', function() {
-    if (!timerRunning) {
-        startTimer();
-        this.style.display = 'none';
-        document.getElementById('end-timer-btn').style.display = 'block';
-        document.getElementById('reset-timer-btn').style.display = 'none';
-        timerRunning = true;
-    }
-});
-
-document.getElementById('end-timer-btn').addEventListener('click', function() {
-    if (timerRunning) {
-        endTimer();
-        this.style.display = 'none';
-        document.getElementById('reset-timer-btn').style.display = 'block';
-    }
-});
-
-document.getElementById('reset-timer-btn').addEventListener('click', function() {
-    resetTimer();
-    document.getElementById('start-timer-btn').style.display = 'block';
-    this.style.display = 'none';
-});
+document.getElementById('start-timer-btn').addEventListener('click', startTimer);
+document.getElementById('end-timer-btn').addEventListener('click', endTimer);
+document.getElementById('reset-timer-btn').addEventListener('click', resetTimer);
 
 document.getElementById('toggle-timer-btn').addEventListener('click', function() {
     var timer = document.getElementById('timer-display');
@@ -206,9 +184,13 @@ document.getElementById('start-test-btn').addEventListener('click', function() {
     startTimer();
     this.style.display = 'none';
     document.getElementById('mocktest-area').style.display = 'flex';
+    document.getElementById('container-info').style.display = 'flex';
+    document.getElementById('submit-answers').style.display = 'block';
 });
 
 function scoreTest(userAnswers, question_numbers) {
+    endTimer();
+    
     var question_ids = Object.keys(userAnswers);
     question_ids.sort((a, b) => parseInt(question_numbers[a]) - parseInt(question_numbers[b]));
 
@@ -341,11 +323,9 @@ document.addEventListener('DOMContentLoaded', function () {
         if (unansweredQuestions > 0) {
             if (confirm('아직 모든 문제를 다 풀지 않았습니다. 정말 채점하고 정답을 보겠습니까? 틀린 문제는 "내 오답노트"에서 확인하실 수 있습니다.')) {
                 scoreTest(userAnswers, question_numbers);
-                endTimer();
             }
         } else {
             scoreTest(userAnswers, question_numbers);
-            endTimer();
         }
     });
 });
