@@ -224,18 +224,21 @@ body {
     color: red;
 }
 
+#my-tests {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(3cm, 1fr));
+    grid-gap: 10px;
+}
+
 .test-container {
     background: #ADD8E6;
     border-radius: 10px;
     padding: 20px;
-    margin: 10px;
     text-align: center;
-    aspect-ratio: 1 / 1;  /* Add this line to keep the shape as a square */
+    aspect-ratio: 1 / 1;
     cursor: pointer;
     transition: transform .2s ease-in-out;
-    box-sizing: border-box; /* Add this line to include padding and border in the box's total size */
-    max-width: 3.5cm;
-    min-width: 3cm;
+    box-sizing: border-box;
 }
 
 .test-container:hover {
@@ -256,8 +259,7 @@ body {
 
 /* For mobile screens, set the column to 2 */
 @media screen and (max-width: 768px) {
-    .test-list {
-        display: grid;
+    #my-tests {
         grid-template-columns: repeat(2, 1fr);
     }
     .test-container {
@@ -267,22 +269,19 @@ body {
 
 /* For larger screens, adjust the number of columns */
 @media screen and (min-width: 769px) and (max-width: 1200px) {
-    .test-list {
-        display: grid;
+    .my-tests {
         grid-template-columns: repeat(3, 1fr);
     }
 }
 
 @media screen and (min-width: 1201px) and (max-width: 1600px) {
-    .test-list {
-        display: grid;
+    .my-tests {
         grid-template-columns: repeat(4, 1fr);
     }
 }
 
 @media screen and (min-width: 1601px) {
-    .test-list {
-        display: grid;
+    .my-tests {
         grid-template-columns: repeat(5, 1fr);
     }
 }
