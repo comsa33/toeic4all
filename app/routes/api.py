@@ -4,7 +4,7 @@ from collections import defaultdict
 
 from flask import render_template, make_response
 from flask import Blueprint, jsonify, request
-from sqlalchemy import and_, func
+from sqlalchemy import and_, func, desc
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
 from app.models import GeneratedQuestionType, GeneratedQuestionSubType, GeneratedQuestion, GeneratedAnswer, GeneratedVocabulary, QuestionReport, MyQuestions, WrongQuestions, UserTestDetail
@@ -552,9 +552,13 @@ def save_user_test_detail():
 def get_user_tests():
     username = get_jwt_identity()
 
-    tests = db.session.query(UserTestDetail).filter(UserTestDetail.username == username).all()
+    tests = db.session.query(UserTestDetail)\
+        .filter(UserTestDetail.username == username)\
+        .order_by(desc(UserTestDetail.created_at))\
+        .all()
 
     return jsonify({"tests": [test.serialize for test in tests]}), 200
+
 
 
 @api.route('/my-note/tests/<int:test_id>/wrong-questions', methods=['GET'])
