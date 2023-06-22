@@ -69,9 +69,12 @@ window.onload = function() {
             testDiv.className = 'col-12 col-md-6';
             testDiv.innerHTML = `
             <div class="test-container" onClick="loadWrongQuestions(${data.tests[i].id})">
-                <i class="fas fa-file-alt"></i>
-                <p><strong>${data.tests[i].test_no}</strong></p>
-                <p>${timeSince(new Date(data.tests[i].created_at))}</p>
+            <div>
+                <div class="test-content">
+                    <i class="fas fa-file-alt"></i>
+                    <p><strong>${data.tests[i].test_no}</strong></p>
+                    <p>${timeSince(new Date(data.tests[i].created_at))}</p>
+                </div>
             </div>
             `;
             myTestsArea.appendChild(testDiv);

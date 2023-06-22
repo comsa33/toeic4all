@@ -235,17 +235,30 @@ body {
     border-radius: 10px;
     padding: 20px;
     text-align: center;
-    aspect-ratio: 1 / 1;
     cursor: pointer;
-    transition: transform .2s ease-in-out;
-    box-sizing: border-box;
+    transition: transform .2s;
+    box-sizing: border-box; 
 }
 
 .test-container:hover {
-    background: #ADD8E6;
-    transform: scale(1.01);
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2); /*박스에 호버효과를 추가합니다.*/
+    background: #79a3b2;
+    transform: scale(1.05);
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2); 
     transition: box-shadow 0.3s ease;
+}
+
+.test-container div {
+    position: relative;
+    width: 100%;
+    padding-top: 100%;
+}
+
+.test-content {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
 }
 
 .test-container p {
@@ -269,19 +282,19 @@ body {
 
 /* For larger screens, adjust the number of columns */
 @media screen and (min-width: 769px) and (max-width: 1200px) {
-    .my-tests {
+    #my-tests {
         grid-template-columns: repeat(3, 1fr);
     }
 }
 
 @media screen and (min-width: 1201px) and (max-width: 1600px) {
-    .my-tests {
+    #my-tests {
         grid-template-columns: repeat(4, 1fr);
     }
 }
 
 @media screen and (min-width: 1601px) {
-    .my-tests {
+    #my-tests {
         grid-template-columns: repeat(5, 1fr);
     }
 }
