@@ -33,3 +33,8 @@ def user_detail():
 @main_bp.route('/mypage')
 def my_page():
     return render_template('my_page.html')
+
+
+@main_bp.route('/mynote')
+def my_note():
+    return render_template('my_note.html')

@@ -9,7 +9,7 @@
 <div id="my-img-container" class="my-img-container">
     <div class="blur-bg-image" data-bg-url="{{ url_for('static', filename='images/notebook-img1.jpg') }}"></div>
     <div class="my-img-text">
-        <h1 class="h1-on-img" style="text-align:center; margin-bottom: 2rem;">오답노트</h1>
+        <h1 class="h1-on-img" style="text-align:center; margin-bottom: 2rem;">내가 찜한 문제</h1>
     </div>
 </div>
 <script>
@@ -27,28 +27,13 @@
         <div class="lnb">
             <ul>
                 <li><a href="{{ url_for('main.user_detail') }}">내 정보</a></li>
-                <li><a href="{{ url_for('main.my_page') }}">내 오답노트</a></li>
+                <li><a href="{{ url_for('main.my_page') }}">내가 찜한 문제</a></li>
+                <li><a href="{{ url_for('main.my_note') }}">내 오답노트</a></li>
             </ul>
         </div>
     </div>
     <div class="col-12 col-md-9 order-md-2">
         <!-- 문제가 보여질 부분 -->
-        <div class="container-info">
-            <p class="p-guide-text">
-                오답노트는 학습 과정에서 큰 도움이 됩니다. <strong>왜냐하면 오답노트는 우리가 어떤 부분에서 실수를 했는지, 어떤 개념을 잘못 이해했는지를 명확히 보여주기 때문입니다.</strong><br><br>
-            
-                이는 우리에게 어떤 부분을 개선해야 하는지에 대한 명확한 피드백을 줍니다.<br><br>
-            
-                <strong>오답들을 다시 보는 것은 성적 향상에 큰 도움이 됩니다.</strong> 그 이유는, 이는 우리에게 자주 틀리는 문제 유형을 인식하게 하여, 유사한 문제를 마주쳤을 때 더 잘 해결할 수 있게 합니다.<br><br>
-            
-                또한, 이는 우리가 틀린 문제를 다시 풀어보며 정답을 이해하게 해줍니다.<br><br>
-            
-                이 오답노트 페이지를 잘 활용하는 방법은 다음과 같습니다:<br>
-                1. 주기적으로 오답노트를 검토합니다. 이는 오답들에 대한 이해를 깊게 하고, 동일한 실수를 반복하지 않도록 합니다.<br>
-                2. 오답노트에 기록된 문제를 다시 풀어봅니다. 이를 통해 정답에 대한 이해를 더욱 확실히 합니다.<br>
-                3. 어떤 유형의 문제에서 자주 실수하는지 파악하고, 해당 유형의 문제에 더 많은 연습을 합니다.
-            </p>
-        </div>
         <div id="question-area" class="row"></div>
     </div>
 </div>
