@@ -226,7 +226,7 @@ body {
 
 #my-tests {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(3cm, 1fr));
+    grid-template-columns: repeat(1, 1fr);
     grid-gap: 10px;
 }
 
@@ -270,13 +270,12 @@ body {
     font-size: 0.9em;
 }
 
-/* For mobile screens, set the column to 2 */
 @media screen and (max-width: 768px) {
     #my-tests {
         grid-template-columns: repeat(2, 1fr);
     }
     .test-container {
-        max-width: 80vw; /* Adjust the box size for mobile devices */
+        max-width: 80vw;
     }
 }
 
@@ -285,16 +284,25 @@ body {
     #my-tests {
         grid-template-columns: repeat(3, 1fr);
     }
+    .test-container {
+        max-width: 80vw;
+    }
 }
 
 @media screen and (min-width: 1201px) and (max-width: 1600px) {
     #my-tests {
         grid-template-columns: repeat(4, 1fr);
     }
+    .test-container {
+        max-width: 80vw;
+    }
 }
 
 @media screen and (min-width: 1601px) {
     #my-tests {
         grid-template-columns: repeat(5, 1fr);
+    }
+    .test-container {
+        max-width: 80vw;
     }
 }
