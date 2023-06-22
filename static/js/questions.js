@@ -103,9 +103,15 @@ function startTimer() {
             seconds = 0;
         }
 
-        if (minutes == 15) {
-            alert('15분이 지났습니다!');
-            endTimer();
+        if (minutes == 15 && !alerted) {
+            var proceed = confirm('15분이 지났습니다! 계속 진행하시겠습니까?');
+            if (proceed) {
+                alerted = true;
+            } else {
+                endTimer();
+                // Scroll to the 'scoreTest' button
+                document.getElementById('submit-answers').scrollIntoView({ behavior: 'smooth' });
+            }
         }
 
         // Update timer display
@@ -115,6 +121,8 @@ function startTimer() {
         document.getElementById('timer-display').textContent = displayMinutes + ':' + displaySeconds + ':' + displayMilliseconds;
     }, 10); // Update interval is now 10ms to show milliseconds
 }
+
+var alerted = false;
 
 function endTimer() {
     clearInterval(timer);
