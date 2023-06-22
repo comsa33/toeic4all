@@ -30,6 +30,32 @@ function fetchWithToken(url, options = {}) {
     }
 }
 
+function timeSince(date) {
+    var seconds = Math.floor((new Date() - date) / 1000);
+    var interval = Math.floor(seconds / 31536000);
+
+    if (interval > 1) {
+        return interval + " 년 전";
+    }
+    interval = Math.floor(seconds / 2592000);
+    if (interval > 1) {
+        return interval + " 개월 전";
+    }
+    interval = Math.floor(seconds / 86400);
+    if (interval > 1) {
+        return interval + " 일 전";
+    }
+    interval = Math.floor(seconds / 3600);
+    if (interval > 1) {
+        return interval + " 시간 전";
+    }
+    interval = Math.floor(seconds / 60);
+    if (interval > 1) {
+        return interval + " 분 전";
+    }
+    return Math.floor(seconds) + " 초 전";
+}
+
 window.onload = function() {
     fetchWithToken('/api/my-note/tests')
     .then(response => response.json())
@@ -40,10 +66,11 @@ window.onload = function() {
             testDiv.id = 'test-' + data.tests[i].id;
             testDiv.className = 'col-12 col-md-6';
             testDiv.innerHTML = `
-                <div class="test-container" onClick="loadWrongQuestions(${data.tests[i].id})">
-                    <p><strong>시험 번호: ${data.tests[i].test_no}</strong></p>
-                    <p>날짜: ${new Date(data.tests[i].created_at).toLocaleDateString()}</p>
-                </div>
+            <div class="test-container" onClick="loadWrongQuestions(${data.tests[i].id})">
+                <i class="fas fa-file-alt"></i> <!--아이콘 추가, 아이콘은 FontAwesome나 비슷한 서비스를 사용하세요-->
+                <p><strong>시험 번호: ${data.tests[i].test_no}</strong></p>
+                <p>날짜: ${timeSince(new Date(data.tests[i].created_at))}</p> <!--시간 표시 형식 변경-->
+            </div>
             `;
             myTestsArea.appendChild(testDiv);
         }
@@ -82,6 +109,19 @@ function loadWrongQuestions(testId) {
                 </div>
             `;
             questionArea.appendChild(questionDiv);
+
+            // After the questionDiv has been appended to questionArea
+            fetchWithToken('/api/get_favourite_status?question_id=' + data[i].QuestionId, {
+                method: 'GET'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'favourite') {
+                    favouriteBtn.classList.add('fav');
+                    favouriteBtn.style.color = 'red';  // Change button color to red
+                }
+            });
+
             // Attach event handlers after creating the buttons
             let reportBtn = questionDiv.querySelector('.report-btn');
             let favouriteBtn = questionDiv.querySelector('.favourite-btn');
@@ -120,32 +160,53 @@ function loadWrongQuestions(testId) {
 
             favouriteBtn.addEventListener('click', function() {
                 var question_id = this.getAttribute('data-question-id');
-                fetchWithToken('/api/favourite/question', {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        question_id: question_id
+            
+                // Check if button is already marked as favourite
+                var isFavourite = this.classList.contains('fav');
+            
+                if (isFavourite) {
+                    // If the question is already in favourites, remove it
+                    fetchWithToken('/api/favourite/question', {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            question_id: question_id
+                        })
                     })
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error("API request failed: " + response.status);
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    if (data.error) {
-                        alert('즐겨찾기에서 삭제하는 데 실패했습니다: ' + data.error);
-                    } else {
-                        this.style.color = 'gray';
-                        alert('즐겨찾기에서 성공적으로 삭제되었습니다.');
-                        var questionElement = document.getElementById('question-' + question_id);
-                        questionElement.parentNode.removeChild(questionElement);
-                    }
-                })
-                .catch(error => alert(error));
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.error) {
+                            alert('즐겨찾기에서 삭제하는 데 실패했습니다: ' + data.error);
+                        } else {
+                            this.classList.remove('fav');
+                            this.style.color = 'gray';  // Change button color to gray
+                            alert('즐겨찾기에서 성공적으로 삭제되었습니다.');
+                        }
+                    });
+                } else {
+                    // If the question is not in favourites, add it
+                    fetchWithToken('/api/favourite/question', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            question_id: question_id
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.error) {
+                            alert('즐겨찾기에 추가하는 데 실패했습니다: ' + data.error);
+                        } else {
+                            this.classList.add('fav');
+                            this.style.color = 'red';  // Change button color to red
+                            alert('즐겨찾기에 성공적으로 추가되었습니다.');
+                        }
+                    });
+                }
             });
         }
         return data.map(question => question.QuestionId).join(',');
