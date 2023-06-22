@@ -95,7 +95,6 @@ body {
 }
 
 .container-info{
-  display: none;
   padding-top: 1rem;
   padding-bottom: 1rem;
   margin-bottom: 20px;
@@ -119,7 +118,7 @@ input[type="radio"] {
 }
 
 #submit-answers {
-  display: none;
+  display: block;
   width: 100%;
   padding: 1rem;
   font-size: 1.2rem;
