@@ -183,6 +183,7 @@ function startTest() {
 document.getElementById('start-test-btn').addEventListener('click', function() {
     startTimer();
     this.style.display = 'none';
+    document.getElementById('start-timer-btn').style.display = 'block';
     document.getElementById('mocktest-area').style.display = 'flex';
     document.getElementById('container-info').style.display = 'flex';
     document.getElementById('submit-answers').style.display = 'block';
@@ -190,7 +191,7 @@ document.getElementById('start-test-btn').addEventListener('click', function() {
 
 function scoreTest(userAnswers, question_numbers) {
     endTimer();
-    
+
     var question_ids = Object.keys(userAnswers);
     question_ids.sort((a, b) => parseInt(question_numbers[a]) - parseInt(question_numbers[b]));
 
