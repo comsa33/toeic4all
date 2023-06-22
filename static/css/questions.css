@@ -41,10 +41,15 @@ body {
   text-align: center;
 }
 
+#start-test-btn-container{
+  padding-bottom: 10px;
+}
+
 #start-test-btn-container button {
   color: white;
   background-color: #007BFF;
   border-radius: 5px;
+  border: none;
 }
 
 #start-test-btn-container button:hover {
