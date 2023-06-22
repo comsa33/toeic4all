@@ -59,9 +59,8 @@ function timeSince(date) {
 }
 
 document.getElementById('back-to-tests').addEventListener('click', function() {
-    document.getElementById('my-tests').style.display = 'block'; // Show test list
-    document.getElementById('question-area').style.display = 'none'; // Hide question area
     this.style.display = 'none'; // Hide back button
+    window.location.href = "/mynote";
 });
 
 window.onload = function() {
