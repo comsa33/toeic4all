@@ -238,7 +238,8 @@ function scoreTest(userAnswers, question_numbers) {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        question_id: question_id
+                        question_id: question_id,
+                        test_id: document.getElementById('test-id').textContent
                     })
                 })
                 .then(response => response.json())

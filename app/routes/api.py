@@ -497,11 +497,12 @@ def check_answer():
 @jwt_required()
 def add_to_wrong_questions():
     question_id = request.json.get('question_id')
+    test_id = request.json.get('test_id')
     username = get_jwt_identity()  # Get username from JWT token
 
     # Validate input
-    if not question_id:
-        return jsonify({"error": "Question ID is required"}), 400
+    if not question_id or not test_id:
+        return jsonify({"error": "Question ID and test ID are required"}), 400
 
     # Check if the question is already added
     existing_entry = WrongQuestions.query.filter_by(username=username, question_id=question_id).first()
@@ -509,7 +510,7 @@ def add_to_wrong_questions():
         return jsonify({"error": "This question is already added to your wrong questions"}), 409
 
     # Add the question to the user's wrong questions
-    new_wrong_question = WrongQuestions(username=username, question_id=question_id)
+    new_wrong_question = WrongQuestions(username=username, question_id=question_id, test_id=test_id)
 
     # Save to database
     db.session.add(new_wrong_question)
