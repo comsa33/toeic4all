@@ -13,6 +13,11 @@ body {
     font-family: 'Pretendard', sans-serif;
 }
 
+#side-btn-myfav {
+  background-color: #606060;
+  color: white;
+}
+
 .row {
   margin-right: 0;
   margin-left: 0;
