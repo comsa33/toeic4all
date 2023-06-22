@@ -7,7 +7,7 @@ from flask import Blueprint, jsonify, request
 from sqlalchemy import and_, func
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
-from app.models import GeneratedQuestionType, GeneratedQuestionSubType, GeneratedQuestion, GeneratedAnswer, GeneratedVocabulary, QuestionReport, MyQuestions, WrongQuestions
+from app.models import GeneratedQuestionType, GeneratedQuestionSubType, GeneratedQuestion, GeneratedAnswer, GeneratedVocabulary, QuestionReport, MyQuestions, WrongQuestions, UserTestDetail
 from app import db
 
 
@@ -517,3 +517,31 @@ def add_to_wrong_questions():
     db.session.commit()
 
     return jsonify({"message": "Question has been added to your wrong questions", "wrong_question_id": new_wrong_question.id}), 201
+
+
+@api.route('/user-test-detail', methods=['POST'])
+@jwt_required()
+def save_user_test_detail():
+    data = request.get_json()
+    username = get_jwt_identity()  # Get username from JWT token
+    test_id = data.get('test_id')
+    wrong_questions = data.get('wrong_questions')
+    duration = data.get('duration')
+
+    # Validate input
+    if not all([test_id, wrong_questions, duration]):
+        return jsonify({"error": "All fields are required"}), 400
+
+    # Create the record
+    new_record = UserTestDetail(
+        username=username,
+        test_id=test_id,
+        wrong_questions=wrong_questions,
+        duration=duration,
+    )
+
+    # Save to database
+    db.session.add(new_record)
+    db.session.commit()
+
+    return jsonify({"message": "Test detail has been saved", "test_detail_id": new_record.id}), 201

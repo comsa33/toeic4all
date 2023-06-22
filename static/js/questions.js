@@ -209,6 +209,7 @@ function scoreTest(userAnswers, question_numbers) {
         });
 
         var score = 0;
+        var wrongQuestionCount = 0;
         var tableBody = document.getElementById('answer-table-body');
         tableBody.innerHTML = '';
 
@@ -229,8 +230,8 @@ function scoreTest(userAnswers, question_numbers) {
             if (userAnswers[question_id] === correct_answers[question_id]) {
                 score += 1;
             } else {
+                wrongQuestionCount += 1;
                 row.style.backgroundColor = '#FF9494';
-
                 // Add this question to the user's wrong questions
                 fetchWithToken('/api/wrong-question', {
                     method: 'POST',
@@ -260,6 +261,25 @@ function scoreTest(userAnswers, question_numbers) {
             var minutes = Math.floor(seconds / 60);
             seconds = seconds % 60;
             document.getElementById('duration').innerText = '소요시간: ' + minutes + '분 ' + seconds + '초';
+
+            // 시험 끝나면 사용자 테스트 정보를 서버에 저장합니다.
+            fetchWithToken('/api/user-test-detail', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    test_id: document.getElementById('test-id').textContent,
+                    wrong_questions: wrongQuestionCount,
+                    duration: Math.round(testDuration / 1000)  // 전체 시간을 초 단위로 변환합니다.
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data.message);  // Log the message from the server
+            })
+            .catch(error => console.error('Error:', error));
+
         } else {
             document.getElementById('duration').innerText = '타이머를 사용하지 않았습니다.';
         }
