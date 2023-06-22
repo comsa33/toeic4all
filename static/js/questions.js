@@ -230,6 +230,23 @@ function scoreTest(userAnswers, question_numbers) {
                 score += 1;
             } else {
                 row.style.backgroundColor = '#FF9494';
+
+                // Add this question to the user's wrong questions
+                fetchWithToken('/api/wrong-question', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        question_id: question_id
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data.message);  // Log the message from the server
+                })
+                .catch(error => console.error('Error:', error));
+
             }
 
             tableBody.appendChild(row);

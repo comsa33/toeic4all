@@ -7,7 +7,7 @@ from flask import Blueprint, jsonify, request
 from sqlalchemy import and_, func
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
-from app.models import GeneratedQuestionType, GeneratedQuestionSubType, GeneratedQuestion, GeneratedAnswer, GeneratedVocabulary, QuestionReport, MyQuestions
+from app.models import GeneratedQuestionType, GeneratedQuestionSubType, GeneratedQuestion, GeneratedAnswer, GeneratedVocabulary, QuestionReport, MyQuestions, WrongQuestions
 from app import db
 
 
@@ -491,3 +491,28 @@ def check_answer():
         return jsonify({'error': 'Answer not found'}), 404
 
     return jsonify({'is_correct': answer.is_correct})
+
+
+@api.route('/wrong-question', methods=['POST'])
+@jwt_required()
+def add_to_wrong_questions():
+    question_id = request.json.get('question_id')
+    username = get_jwt_identity()  # Get username from JWT token
+
+    # Validate input
+    if not question_id:
+        return jsonify({"error": "Question ID is required"}), 400
+
+    # Check if the question is already added
+    existing_entry = WrongQuestions.query.filter_by(username=username, question_id=question_id).first()
+    if existing_entry:
+        return jsonify({"error": "This question is already added to your wrong questions"}), 409
+
+    # Add the question to the user's wrong questions
+    new_wrong_question = WrongQuestions(username=username, question_id=question_id)
+
+    # Save to database
+    db.session.add(new_wrong_question)
+    db.session.commit()
+
+    return jsonify({"message": "Question has been added to your wrong questions", "wrong_question_id": new_wrong_question.id}), 201
