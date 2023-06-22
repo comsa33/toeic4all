@@ -251,7 +251,7 @@ function scoreTest(userAnswers, question_numbers) {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    test_id: document.getElementById('test-id').textContent,
+                    test_no: document.getElementById('test-id').textContent,
                     wrong_questions: wrongQuestionCount,
                     duration: Math.round(testDuration / 1000)  // 전체 시간을 초 단위로 변환합니다.
                 })
@@ -259,6 +259,8 @@ function scoreTest(userAnswers, question_numbers) {
             .then(response => response.json())
             .then(data => {
                 console.log(data.message);  // Log the message from the server
+
+                var testDetailId = data.test_detail_id;  // Get the id of the test detail record
 
                 // UserTestDetail 테이블에 데이터를 저장한 뒤 틀린 문제들을 WrongQuestions 테이블에 저장합니다.
                 for (var i = 0; i < question_ids.length; i++) {
@@ -272,7 +274,7 @@ function scoreTest(userAnswers, question_numbers) {
                             },
                             body: JSON.stringify({
                                 question_id: question_id,
-                                test_id: document.getElementById('test-id').textContent
+                                test_id: testDetailId
                             })
                         })
                         .then(response => response.json())

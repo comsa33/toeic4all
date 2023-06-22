@@ -9,5 +9,5 @@ class WrongQuestions(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, nullable=False)
     question_id = db.Column(db.Integer, db.ForeignKey('generated_questions.id'))
-    test_id = db.Column(db.String, db.ForeignKey('user_test_detail.id'))
+    test_id = db.Column(db.Integer, db.ForeignKey('user_test_detail.id'))
     created_at = db.Column(db.DateTime, default=datetime.utcnow)

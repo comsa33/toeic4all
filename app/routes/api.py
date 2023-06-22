@@ -524,18 +524,18 @@ def add_to_wrong_questions():
 def save_user_test_detail():
     data = request.get_json()
     username = get_jwt_identity()  # Get username from JWT token
-    test_id = data.get('test_id')
+    test_no = data.get('test_no')
     wrong_questions = data.get('wrong_questions')
     duration = data.get('duration')
 
     # Validate input
-    if not all([test_id, wrong_questions, duration]):
+    if not all([test_no, wrong_questions, duration]):
         return jsonify({"error": "All fields are required"}), 400
 
     # Create the record
     new_record = UserTestDetail(
         username=username,
-        test_id=test_id,
+        test_no=test_no,
         wrong_questions=wrong_questions,
         duration=duration,
     )
