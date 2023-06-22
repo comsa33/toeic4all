@@ -68,7 +68,7 @@ window.onload = function() {
             testDiv.id = 'test-' + data.tests[i].id;
             testDiv.className = 'col-12 col-md-6';
             testDiv.innerHTML = `
-            <div class="test-container" onClick="loadWrongQuestions(${data.tests[i].id})">
+            <div class="test-container" onClick="loadWrongQuestions(${data.tests[i].id}, ${data.tests[i].test_no})">
             <div>
                 <div class="test-content">
                     <i class="fas fa-file-alt"></i>
@@ -77,7 +77,7 @@ window.onload = function() {
                 </div>
             </div>
             `;
-            myTestsArea.appendChild(testDiv, data.tests[i].test_no);
+            myTestsArea.appendChild(testDiv);
         }
     });
 }
