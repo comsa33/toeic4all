@@ -184,8 +184,6 @@ document.getElementById('start-test-btn').addEventListener('click', function() {
     startTimer();
     this.style.display = 'none';
     document.getElementById('mocktest-area').style.display = 'flex';
-    document.getElementById('container-info').style.display = 'flex';
-    document.getElementById('submit-answers').style.display = 'block';
 });
 
 function scoreTest(userAnswers, question_numbers) {
