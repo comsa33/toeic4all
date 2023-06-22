@@ -193,7 +193,6 @@ document.getElementById('start-test-btn').addEventListener('click', function() {
     document.getElementById('end-test-btn').style.display = 'block';
 });
 
-
 function scoreTest(userAnswers, question_numbers) {
     var question_ids = Object.keys(userAnswers);
     question_ids.sort((a, b) => parseInt(question_numbers[a]) - parseInt(question_numbers[b]));
@@ -232,23 +231,6 @@ function scoreTest(userAnswers, question_numbers) {
             } else {
                 wrongQuestionCount += 1;
                 row.style.backgroundColor = '#FF9494';
-                // Add this question to the user's wrong questions
-                fetchWithToken('/api/wrong-question', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        question_id: question_id,
-                        test_id: document.getElementById('test-id').textContent
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data.message);  // Log the message from the server
-                })
-                .catch(error => console.error('Error:', error));
-
             }
 
             tableBody.appendChild(row);
@@ -277,6 +259,29 @@ function scoreTest(userAnswers, question_numbers) {
             .then(response => response.json())
             .then(data => {
                 console.log(data.message);  // Log the message from the server
+
+                // UserTestDetail 테이블에 데이터를 저장한 뒤 틀린 문제들을 WrongQuestions 테이블에 저장합니다.
+                for (var i = 0; i < question_ids.length; i++) {
+                    var question_id = question_ids[i];
+                    if (userAnswers[question_id] !== correct_answers[question_id]) {
+                        // Add this question to the user's wrong questions
+                        fetchWithToken('/api/wrong-question', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                question_id: question_id,
+                                test_id: document.getElementById('test-id').textContent
+                            })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log(data.message);  // Log the message from the server
+                        })
+                        .catch(error => console.error('Error:', error));
+                    }
+                }
             })
             .catch(error => console.error('Error:', error));
 
