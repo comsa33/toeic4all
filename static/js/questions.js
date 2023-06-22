@@ -11,38 +11,55 @@ var timerContainer = document.getElementById('timer-container');
 var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
 
 timerContainer.onmousedown = dragMouseDown;
+timerContainer.ontouchstart = dragMouseDown;
 
 function dragMouseDown(e) {
+    e = e || window.event;
     e.preventDefault();
 
     // get the mouse cursor position at startup:
-    pos3 = e.clientX;
-    pos4 = e.clientY;
+    pos3 = e.clientX || e.touches[0].clientX;
+    pos4 = e.clientY || e.touches[0].clientY;
 
     document.onmouseup = closeDragElement;
+    document.ontouchend = closeDragElement;
 
     // call a function whenever the cursor moves:
     document.onmousemove = elementDrag;
+    document.ontouchmove = elementDrag;
 }
 
 function elementDrag(e) {
+    e = e || window.event;
     e.preventDefault();
 
     // calculate the new cursor position:
-    pos1 = pos3 - e.clientX;
-    pos2 = pos4 - e.clientY;
-    pos3 = e.clientX;
-    pos4 = e.clientY;
+    pos1 = pos3 - (e.clientX || e.touches[0].clientX);
+    pos2 = pos4 - (e.clientY || e.touches[0].clientY);
+    pos3 = e.clientX || e.touches[0].clientX;
+    pos4 = e.clientY || e.touches[0].clientY;
 
     // set the element's new position:
-    timerContainer.style.top = (timerContainer.offsetTop - pos2) + "px";
-    timerContainer.style.right = (window.innerWidth - timerContainer.offsetLeft - timerContainer.offsetWidth - pos1) + "px";
+    let newTop = timerContainer.offsetTop - pos2;
+    let newLeft = timerContainer.offsetLeft - pos1;
+
+    // Make sure the element does not go out of the screen
+    if (newTop >= 0 && newTop <= window.innerHeight - timerContainer.offsetHeight) {
+        timerContainer.style.top = newTop + "px";
+    }
+
+    if (newLeft >= 0 && newLeft <= window.innerWidth - timerContainer.offsetWidth) {
+        timerContainer.style.left = newLeft + "px";
+    }
 }
 
 function closeDragElement() {
     // stop moving when mouse button is released:
     document.onmouseup = null;
     document.onmousemove = null;
+
+    document.ontouchend = null;
+    document.ontouchmove = null;
 }
 
 var timer;
