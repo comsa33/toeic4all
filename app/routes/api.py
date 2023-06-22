@@ -505,7 +505,7 @@ def add_to_wrong_questions():
         return jsonify({"error": "Question ID and test ID are required"}), 400
 
     # Check if the question is already added
-    existing_entry = WrongQuestions.query.filter_by(username=username, question_id=question_id).first()
+    existing_entry = WrongQuestions.query.filter_by(username=username, question_id=question_id, test_id=test_id).first()
     if existing_entry:
         return jsonify({"error": "This question is already added to your wrong questions"}), 409
 
