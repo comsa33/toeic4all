@@ -35,14 +35,14 @@ window.onload = function() {
     .then(response => response.json())
     .then(data => {
         let myTestsArea = document.getElementById('my-tests');
-        for (let i = 0; i < data.length; i++) {
+        for (let i = 0; i < data.tests.length; i++) {
             let testDiv = document.createElement('div');
-            testDiv.id = 'test-' + data[i].id;
+            testDiv.id = 'test-' + data.tests[i].id;
             testDiv.className = 'col-12 col-md-6';
             testDiv.innerHTML = `
-                <div class="test-container" onClick="loadWrongQuestions(${data[i].id})">
-                    <p><strong>시험 번호: ${data[i].test_no}</strong></p>
-                    <p>날짜: ${new Date(data[i].timestamp).toLocaleDateString()}</p>
+                <div class="test-container" onClick="loadWrongQuestions(${data.tests[i].id})">
+                    <p><strong>시험 번호: ${data.tests[i].test_no}</strong></p>
+                    <p>날짜: ${new Date(data.tests[i].created_at).toLocaleDateString()}</p>
                 </div>
             `;
             myTestsArea.appendChild(testDiv);
