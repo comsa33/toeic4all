@@ -149,6 +149,11 @@ document.getElementById("generate-mocktest-btn").addEventListener("click", funct
     let level = levelSelect.value;
     let num = numInput.value;
 
+    if (num < 1 || num > 30) {
+        alert("문제 수는 1개에서 30개 사이로 입력해주세요.");
+        return;
+    }
+    
     if (!typeId && !level) {
         alert("문제 유형 또는 난이도를 선택해주세요!");
         return;

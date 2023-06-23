@@ -185,18 +185,21 @@
 }
 
 #test-result {
-    background-color: lightgray;
+    margin-top: 20px;
+    background-color: rgb(229, 228, 228);
     padding: 10px;
     font-size: 1.3em;
     font-weight: bold;
     color: black;
+    justify-content: center;
 }
 
-#time-taken{
+.time-taken{
     font-size: 0.9em;
     font-weight: bold;
     text-align: center;
     color: rgb(255, 48, 48);
+    background-color: yellow;
 }
 
 /* 화면 크기가 600px 이하일 때 적용 */
