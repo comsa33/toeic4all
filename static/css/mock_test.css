@@ -1,17 +1,6 @@
-.questionType, .difficultyLevel, .questionCount {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-    margin-top: 2.5rem;
-    margin-bottom: 2rem;
-}
-
-.questionType .select, .difficultyLevel .select {
-    padding: 10px;
-    font-size: 16px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
+.control-group {
+    max-width: 600px; /* 주변 공간을 추가하여 레이아웃을 더욱 깔끔하게 만듭니다. */
+    margin: 0 auto;
 }
 
 #button-container {
