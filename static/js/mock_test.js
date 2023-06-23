@@ -341,7 +341,7 @@ window.addEventListener('load', function() {
         }
         
         this.style.display = 'none';  // 채점 버튼 숨김
-        document.getElementById('test-result').innerHTML = `당신의 점수: ${correctCount}/${totalQuestions} 소요 시간: ${convertSecondsToMinutes(getTotalTime())}`;
+        document.getElementById('test-result').innerHTML = `점수: ${correctCount}/${totalQuestions} · 시간: ${convertSecondsToMinutes(getTotalTime())}`;
         document.getElementById('test-result').style.display = "flex";  // 채점 결과를 보임
     });
 });

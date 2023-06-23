@@ -3,6 +3,7 @@
     flex-direction: row; /* 요소들이 가로 방향으로 배치되도록 설정 */
     justify-content: space-evenly; /* 요소들 사이에 균일한 공간을 만듭니다 */
     align-items: center; /* 요소들을 컨테이너의 중앙에 배치합니다 */
+    margin-top: 20px;
 }
 
 #generate-mocktest-btn {
@@ -191,7 +192,7 @@
     padding-bottom: 20px;
     background-color: #e9d9be;
     color: #f09898;
-    font-weight: bold;
+    font-weight: 300;
 }
 
 #test-result {
@@ -199,9 +200,13 @@
     background-color: rgb(229, 228, 228);
     padding: 10px;
     font-size: 1.3em;
-    font-weight: bold;
-    color: black;
+    font-weight: 200;
+    color: #ca7171;
     justify-content: center;
+}
+
+.form-group > p {
+    font-weight: 200;
 }
 
 .form-group > label {
@@ -223,6 +228,23 @@
     #question-area {
         width: 100%;
     }
+
+    #prev-question-btn, #next-question-btn {
+        color: #4e4f51;
+        display: inline-block;
+        background: transparent;  /* 버튼 배경을 투명하게 */
+        border: none;  /* 버튼 테두리 제거 */
+        position: fixed;  /* 고정 위치 */
+        bottom: 20px;  /* 화면 하단에서 20px 위에 위치 */
+    }
+    
+    #prev-question-btn {
+        left: 20px;  /* 화면 왼쪽에서 20px 오른쪽에 위치 */
+    }
+    
+    #next-question-btn {
+        right: 20px;  /* 화면 오른쪽에서 20px 왼쪽에 위치 */
+    }
 }
 
 #prev-next-button {
@@ -231,7 +253,7 @@
 }
 
 #prev-question-btn, #next-question-btn {
-    color: #007bff;
+    color: #4e4f51;
     display: inline-block;
     background: transparent;  /* 버튼 배경을 투명하게 */
     border: none;  /* 버튼 테두리 제거 */
@@ -282,9 +304,9 @@
 }
 
 .correct {
-    background-color: green;
+    background-color: rgb(101, 201, 101);
 }
 
 .incorrect {
-    background-color: red;
+    background-color: rgb(255, 109, 109);
 }
