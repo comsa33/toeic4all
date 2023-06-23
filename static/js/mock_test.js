@@ -216,6 +216,20 @@ document.getElementById("generate-mocktest-btn").addEventListener("click", funct
             }
 
             // 페이지네이션 생성
+            let paginationContainer = document.getElementById('pagination-container');
+
+            // 이전 버튼 생성
+            let prevButton = document.createElement('div');
+            prevButton.id = 'prev-button';
+            prevButton.className = 'pagination-button';
+            prevButton.textContent = '<';
+            prevButton.addEventListener('click', function() {
+                if (questionIndex > 0) {
+                    changeQuestion(questionIndex - 1);
+                }
+            });
+            paginationContainer.appendChild(prevButton);
+
             for (let i = 0; i < totalQuestions; i++) {
                 let div = document.createElement('div');
                 div.id = 'pagination-' + (i+1);
@@ -224,8 +238,20 @@ document.getElementById("generate-mocktest-btn").addEventListener("click", funct
                 div.addEventListener('click', function() {
                     changeQuestion(i);
                 });
-                document.getElementById('pagination-container').appendChild(div);
+                paginationContainer.appendChild(div);
             }
+
+            // 다음 버튼 생성
+            let nextButton = document.createElement('div');
+            nextButton.id = 'next-button';
+            nextButton.className = 'pagination-button';
+            nextButton.textContent = '>';
+            nextButton.addEventListener('click', function() {
+                if (questionIndex < totalQuestions - 1) {
+                    changeQuestion(questionIndex + 1);
+                }
+            });
+            paginationContainer.appendChild(nextButton);
         });
     document.getElementById('questionTypeDescription').innerHTML = typeSelect.options[typeSelect.selectedIndex].textContent;
     document.getElementById('difficultyLevelDescription').innerHTML = levelSelect.options[levelSelect.selectedIndex].textContent;
