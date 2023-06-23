@@ -267,6 +267,10 @@ document.getElementById("start-test-btn").addEventListener("click", function() {
 // 채점 버튼 클릭 이벤트
 window.onload = function() {
     document.getElementById("grade-test-btn").addEventListener("click", function() {
+        // 이전 타이머 멈춤
+        let elapsedTime = Math.floor((Date.now() - startTimes[questionIndex]) / 1000);  // 밀리초를 초로 변환
+        timerPerQuestion[questionIndex] = elapsedTime;  // 타이머 값을 저장합니다.
+
         stopTimer(totalTimer);  // 총 시간 측정 종료
 
         let correctCount = 0;
