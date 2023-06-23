@@ -31,7 +31,7 @@ function fetchWithToken(url, options = {}) {
 }
 
 window.onload = function() {
-    const url = 'api/question_types';
+    const url = '/api/question_types';
     fetchWithToken(url)
         .then(response => {
             if (response.ok) {
@@ -116,7 +116,7 @@ document.getElementById("generate-mocktest-btn").addEventListener("click", funct
         return;
     }
 
-    fetchWithToken(`/api/toeic/part5/questions?typeId=${typeId}&level=${level}&num=${num}`)
+    fetchWithToken(`/api/questions?typeId=${typeId}&level=${level}&num=${num}`)
         .then(response => response.json())
         .then(data => {
             let questionArea = document.getElementById('question-area');
