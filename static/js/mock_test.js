@@ -192,6 +192,10 @@ document.getElementById("generate-mocktest-btn").addEventListener("click", funct
                             <p>[어휘]</p>
                             ${vocabText}
                         </div>
+                        <!-- 즐찾 버튼 -->
+                        <button class="favourite-btn" data-question-id="${data[i].QuestionId}" title="내 오답노트에 추가하기"><i class="fas fa-heart"></i></button>
+                        <!-- 신고 버튼 -->
+                        <button class="report-btn" data-question-id="${data[i].QuestionId}" title="문제 리포트 하기"><i class="fas fa-exclamation-triangle"></i></button>
                     </div>
                 `;
                 questionArea.appendChild(questionDiv);
@@ -305,6 +309,12 @@ window.addEventListener('load', function() {
             if (firstQuestionContainer) {
                 firstQuestionContainer.style.display = 'block';
             }
+        }
+        
+        // 첫 번째 페이지네이션 아이템에 색상을 표시합니다.
+        let firstPaginationItem = document.getElementById('pagination-1');
+        if (firstPaginationItem) {
+            firstPaginationItem.classList.add('pagination-number-active');
         }
         
         // 첫 번째 문제의 시작 시간을 설정합니다.
