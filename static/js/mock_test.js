@@ -183,9 +183,6 @@ document.getElementById("generate-mocktest-btn").addEventListener("click", funct
                     choicesOl.appendChild(li);
                 }
             }
-            // 첫 번째 문제를 표시합니다.
-            document.getElementsByClassName('col-12 col-md-6')[0].style.display = 'block';
-            document.getElementsByClassName('question-container')[0].style.display = 'block';
 
             // 페이지네이션 생성
             for (let i = 0; i < totalQuestions; i++) {
@@ -243,13 +240,18 @@ document.getElementById("start-test-btn").addEventListener("click", function() {
 
     // 첫 번째 문제를 보이게 함
     let firstQuestion = document.getElementsByClassName('col-12 col-md-6')[0];
+    let firstQuestionContainer = firstQuestion.getElementsByClassName('question-container')[0];
     if (firstQuestion) {
         firstQuestion.style.display = 'block';
+        if (firstQuestionContainer) {
+            firstQuestionContainer.style.display = 'block';
+        }
     }
 
     // 첫 번째 문제의 시작 시간을 설정합니다.
     startTimes[0] = Date.now();
 });
+
 
 // 채점 버튼 클릭 이벤트
 document.getElementById("grade-test-btn").addEventListener("click", function() {
