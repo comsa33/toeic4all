@@ -156,10 +156,12 @@ document.getElementById("generate-mocktest-btn").addEventListener("click", funct
                         <ol id="choices-${data[i].QuestionId}" type="A"></ol>
                         <p id="result-${data[i].QuestionId}" style="display: none;">${data[i].CorrectAnswer}</p>
                         <div id="additional-info-${data[i].QuestionId}" class="additional-info" style="display: none;">
+                            <p>[정답] ${data[i].CorrectAnswer}</p>
                             <p>[유형] ${data[i].QuestionSubType}</p>
                             <p>[해석] ${data[i].Translation}</p>
                             <p>[해설] ${data[i].Explanation}</p>
                             <p>[어휘] ${data[i].Vocabulary.Word} - ${data[i].Vocabulary.Explanation}</p>
+                            <div id="time-taken-${data[i].QuestionId}" style="display: none;"></div>
                         </div>
                     </div>
                 `;
@@ -200,8 +202,8 @@ document.getElementById("generate-mocktest-btn").addEventListener("click", funct
 // 문제 이동 함수
 function changeQuestion(index) {
     // 이전 타이머 멈춤
-    let elapsedTime = Date.now() - startTimes[questionIndex];
-    timers[questionIndex] = elapsedTime;
+    let elapsedTime = Math.floor((Date.now() - startTimes[questionIndex]) / 1000);  // 밀리초를 초로 변환
+    timerPerQuestion[questionIndex] = elapsedTime;  // 타이머 값을 저장합니다.
 
     // 이전 문제를 숨기고 새 문제를 표시합니다.
     document.getElementsByClassName('col-12 col-md-6')[questionIndex].style.display = 'none';
@@ -261,17 +263,31 @@ document.getElementById("grade-test-btn").addEventListener("click", function() {
     let totalQuestions = document.getElementsByClassName('question-container').length;
 
     for (let i = 0; i < totalQuestions; i++) {
-        let questionId = document.getElementsByClassName('col-12 col-md-6')[i].id.split('-')[1];
+        let questionId = document.getElementsByClassName('question-container')[i].id.split('-')[1];
         let correctAnswer = document.getElementById('result-' + questionId).textContent;
-    
+
         if (gradeQuestion(questionId, correctAnswer)) {
             correctCount++;
-            document.getElementById('pagination-' + (i + 1)).style.backgroundColor = 'green';
+            document.getElementById('pagination-' + questionId).style.backgroundColor = 'green';
         } else {
-            document.getElementById('pagination-' + (i + 1)).style.backgroundColor = 'red';
+            document.getElementById('pagination-' + questionId).style.backgroundColor = 'red';
+        }
+
+        // 문제별 소요 시간 기록
+        let timeTakenDiv = document.getElementById('time-taken-' + questionId);
+        let timeTaken = timerPerQuestion[questionId];
+        if (timeTakenDiv && timeTaken) {
+            timeTakenDiv.style.display = 'block';
+            timeTakenDiv.textContent = `이 문제를 푸는 데 걸린 시간: ${convertSecondsToMinutes(timeTaken)}`;
+        }
+
+        // 문제의 추가 정보 표시
+        let additionalInfoDiv = document.getElementById('additional-info-' + questionId);
+        if (additionalInfoDiv) {
+            additionalInfoDiv.style.display = 'block';
         }
     }
 
     this.style.display = 'none';  // 채점 버튼 숨김
-    document.getElementById('test-result').innerHTML = `당신의 점수: ${correctCount}/${totalQuestions} 소요 시간: ${convertSecondsToMinutes(getTotalTime())}`;
+    document.getElementById('score').innerHTML = `당신의 점수: ${correctCount}/${totalQuestions} 소요 시간: ${convertSecondsToMinutes(getTotalTime())}`;
 });
