@@ -1,4 +1,4 @@
-.dropdown {
+.questionType, .difficultyLevel, .questionCount {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -7,14 +7,14 @@
     margin-bottom: 2rem;
 }
 
-.dropdown .select {
+.questionType .select, .difficultyLevel .select {
     padding: 10px;
     font-size: 16px;
     border-radius: 5px;
     border: 1px solid #ccc;
 }
 
-.generate-mocktest-btn {
+#generate-mocktest-btn {
     background-color: #ff5a1e; 
     border: none;
     color: white;
@@ -29,53 +29,34 @@
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
 }
 
-.generate-mocktest-btn:hover {
+#generate-mocktest-btn:hover {
     background-color: #fa8256;
 }
-
-.generate-mocktest-btn:active {
+#generate-mocktest-btn:active {
     background-color: #c24417;
 }
 
-.button-container {
-    display: flex;
-    justify-content: space-evenly;
-    gap: 60px;
-    margin-top: 40px;
-}
-
-.button-container .btn-link {
-    color: inherit;
-    text-decoration: none;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    text-align: center;
-    color: #555;
-    font-weight: bold;
-    font-size: 0.8rem;
-}
-
-.button-container .btn-link .button {
-    background-color: #0485d5; 
+#new-test-btn, #start-test-btn, #grade-test-btn {
+    background-color: #1e8fff; 
     border: none;
     color: white;
-    padding: 16px 20px;
+    padding: 10px 20px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
+    font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    border-radius: 50%;
+    border-radius: 50px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
 }
 
-.button-container .btn-link .button:hover {
-    background-color: #2293da;
+#new-test-btn:hover, #start-test-btn:hover, #grade-test-btn:hover {
+    background-color: #56a8f9;
 }
 
-.button-container .btn-link .button:active {
-    background-color: #055282;
+#new-test-btn:active, #start-test-btn:active, #grade-test-btn:active {
+    background-color: #047ff9;
 }
 
 #generate-mocktest-btn {
