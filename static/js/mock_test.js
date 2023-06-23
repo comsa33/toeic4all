@@ -172,7 +172,7 @@ document.getElementById("generate-mocktest-btn").addEventListener("click", funct
                 let vocabList = data[i].Vocabulary;
                 let vocabText = '';
                 for (let j = 0; j < vocabList.length; j++) {
-                    vocabText += `<p>[어휘] ${vocabList[j].Word} - ${vocabList[j].Explanation}</p>`;
+                    vocabText += `<p>    · ${vocabList[j].Word} : ${vocabList[j].Explanation}</p>`;
                 }
                 questionDiv.id = 'question-' + data[i].QuestionId;
                 questionDiv.className = 'col-12 col-md-6';
@@ -182,12 +182,13 @@ document.getElementById("generate-mocktest-btn").addEventListener("click", funct
                         <ol id="choices-${data[i].QuestionId}" type="A"></ol>
                         <p id="result-${data[i].QuestionId}" style="display: none;">${data[i].CorrectAnswer}</p>
                         <div id="additional-info-${data[i].QuestionId}" class="additional-info" style="display: none;">
+                            <div class="time-taken" id="time-taken-${data[i].QuestionId}" style="display: none;"></div>
                             <p>[정답] ${data[i].CorrectAnswer}</p>
                             <p>[유형] ${data[i].QuestionSubType}</p>
                             <p>[해석] ${data[i].Translation}</p>
                             <p>[해설] ${data[i].Explanation}</p>
+                            <p>[어휘]</p>
                             ${vocabText}
-                            <div id="time-taken-${data[i].QuestionId}" style="display: none;"></div>
                         </div>
                     </div>
                 `;
@@ -317,7 +318,7 @@ window.addEventListener('load', function() {
             let timeTaken = timerPerQuestion[i];
             if (timeTakenDiv && timeTaken) {
                 timeTakenDiv.style.display = 'block';
-                timeTakenDiv.textContent = `이 문제를 푸는 데 걸린 시간: ${convertSecondsToMinutes(timeTaken)}`;
+                timeTakenDiv.textContent = `${(i + 1)}번 문제 소요시간: ${convertSecondsToMinutes(timeTaken)}`;
             }
 
             // 문제의 추가 정보 표시
