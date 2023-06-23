@@ -249,60 +249,62 @@ document.getElementById("generate-mocktest-btn").addEventListener("click", funct
     document.getElementById('questionCountDescription').innerHTML = totalQuestions;
 });
 
-// 문제 이동 함수
-function changeQuestion(index) {
-    // 이전 타이머 멈춤
-    let elapsedTime = Math.floor((Date.now() - startTimes[questionIndex]) / 1000);  // 밀리초를 초로 변환
-    timerPerQuestion[questionIndex] = elapsedTime;  // 타이머 값을 저장합니다.
+window.addEventListener('load', function() {
+    // 문제 이동 함수
+    function changeQuestion(index) {
+        // 이전 타이머 멈춤
+        let elapsedTime = Math.floor((Date.now() - startTimes[questionIndex]) / 1000);  // 밀리초를 초로 변환
+        timerPerQuestion[questionIndex] = elapsedTime;  // 타이머 값을 저장합니다.
 
-    // 이전 문제를 숨기고 새 문제를 표시합니다.
-    document.getElementsByClassName('col-12 col-md-6')[questionIndex].style.display = 'none';
-    document.getElementsByClassName('col-12 col-md-6')[index].style.display = 'block';
-    document.getElementsByClassName('question-container')[index].style.display = 'block';
+        // 이전 문제를 숨기고 새 문제를 표시합니다.
+        document.getElementsByClassName('col-12 col-md-6')[questionIndex].style.display = 'none';
+        document.getElementsByClassName('col-12 col-md-6')[index].style.display = 'block';
+        document.getElementsByClassName('question-container')[index].style.display = 'block';
 
-    questionIndex = index;
-    
-    // 새 타이머 시작
-    startTimes[questionIndex] = Date.now();
-}
-
-// 이전 문제 이동 버튼 이벤트
-document.getElementById('prev-question-btn').addEventListener('click', function() {
-    if (questionIndex > 0) {
-        changeQuestion(questionIndex - 1);
+        questionIndex = index;
+        
+        // 새 타이머 시작
+        startTimes[questionIndex] = Date.now();
     }
-});
 
-// 다음 문제 이동 버튼 이벤트
-document.getElementById('next-question-btn').addEventListener('click', function() {
-    if (questionIndex < totalQuestions - 1) {
-        changeQuestion(questionIndex + 1);
-    }
-});
-
-// 시험 시작 버튼 클릭 이벤트
-document.getElementById("start-test-btn").addEventListener("click", function() {
-    document.getElementById('pagination-container').style.display = "grid";
-    document.getElementById('question-area').style.display = "flex";  // 문제 영역을 보임
-    document.getElementById('grade-test-btn').style.display = "flex";  // 채점하기 버튼을 보임
-    this.style.display = "none";  // 시험 시작 버튼을 숨김
-
-    // 시험 정보 메시지 업데이트
-    document.getElementById('test-info-msg').innerHTML = "시험을 시작했습니다!";
-    totalTimer = startTimer();  // 총 시간 측정 시작
-
-    // 첫 번째 문제를 보이게 함
-    let firstQuestion = document.getElementsByClassName('col-12 col-md-6')[0];
-    let firstQuestionContainer = firstQuestion.getElementsByClassName('question-container')[0];
-    if (firstQuestion) {
-        firstQuestion.style.display = 'block';
-        if (firstQuestionContainer) {
-            firstQuestionContainer.style.display = 'block';
+    // 이전 문제 이동 버튼 이벤트
+    document.getElementById('prev-question-btn').addEventListener('click', function() {
+        if (questionIndex > 0) {
+            changeQuestion(questionIndex - 1);
         }
-    }
+    });
 
-    // 첫 번째 문제의 시작 시간을 설정합니다.
-    startTimes[0] = Date.now();
+    // 다음 문제 이동 버튼 이벤트
+    document.getElementById('next-question-btn').addEventListener('click', function() {
+        if (questionIndex < totalQuestions - 1) {
+            changeQuestion(questionIndex + 1);
+        }
+    });
+
+    // 시험 시작 버튼 클릭 이벤트
+    document.getElementById("start-test-btn").addEventListener("click", function() {
+        document.getElementById('pagination-container').style.display = "grid";
+        document.getElementById('question-area').style.display = "flex";  // 문제 영역을 보임
+        document.getElementById('grade-test-btn').style.display = "flex";  // 채점하기 버튼을 보임
+        this.style.display = "none";  // 시험 시작 버튼을 숨김
+
+        // 시험 정보 메시지 업데이트
+        document.getElementById('test-info-msg').innerHTML = "시험을 시작했습니다!";
+        totalTimer = startTimer();  // 총 시간 측정 시작
+
+        // 첫 번째 문제를 보이게 함
+        let firstQuestion = document.getElementsByClassName('col-12 col-md-6')[0];
+        let firstQuestionContainer = firstQuestion.getElementsByClassName('question-container')[0];
+        if (firstQuestion) {
+            firstQuestion.style.display = 'block';
+            if (firstQuestionContainer) {
+                firstQuestionContainer.style.display = 'block';
+            }
+        }
+
+        // 첫 번째 문제의 시작 시간을 설정합니다.
+        startTimes[0] = Date.now();
+    });
 });
 
 
