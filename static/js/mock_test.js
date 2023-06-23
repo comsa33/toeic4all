@@ -285,7 +285,7 @@ window.onload = function() {
 
             // 문제별 소요 시간 기록
             let timeTakenDiv = document.getElementById('time-taken-' + questionId);
-            let timeTaken = timerPerQuestion[questionId];
+            let timeTaken = timerPerQuestion[i];
             if (timeTakenDiv && timeTaken) {
                 timeTakenDiv.style.display = 'block';
                 timeTakenDiv.textContent = `이 문제를 푸는 데 걸린 시간: ${convertSecondsToMinutes(timeTaken)}`;
