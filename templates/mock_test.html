@@ -68,15 +68,14 @@
             <input type="number" id="questionCount" min="6" max="30">
         </div>
     </div>
-
-    <div>
-        <button id="generate-mocktest-btn">AI 모의고사 생성</button>
-    </div>
     
     <div id="test-guide-container">
-        <h5 id="test-info-msg" style="display:none;" style="text-align: center;"></h5>
-        <button id="start-test-btn" style="display:none;">시험 시작</button>
-        <button id="grade-test-btn" style="display:none;">채점하기</button>
+        <h5 id="test-info-msg" style="display: block; text-align: center;"></h5>
+        <div id="button-container">
+            <button id="generate-mocktest-btn">AI 모의고사 생성</button>
+            <button id="start-test-btn" style="display: none;">시험 시작</button>
+            <button id="grade-test-btn" style="display: flex;">채점하기</button>
+        </div>
     </div>
 
     <div class="col-12 col-md-9 order-md-2">
@@ -85,8 +84,6 @@
         <!-- 문제가 보여질 부분 -->
         <div id="question-area" class="row question-slides">
             <!-- Navigation buttons -->
-            <button class="btn btn-primary question-nav-btn" id="prev-question-btn"><i class="fas fa-arrow-left"></i></button>
-            <button class="btn btn-primary question-nav-btn" id="next-question-btn"><i class="fas fa-arrow-right"></i></button>
         </div>
     </div>    
 

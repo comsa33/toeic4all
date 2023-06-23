@@ -14,6 +14,13 @@
     border: 1px solid #ccc;
 }
 
+#button-container {
+    display: flex;
+    flex-direction: row; /* 요소들이 가로 방향으로 배치되도록 설정 */
+    justify-content: space-between; /* 요소들 사이에 균일한 공간을 만듭니다 */
+    align-items: center; /* 요소들을 컨테이너의 중앙에 배치합니다 */
+}
+
 #generate-mocktest-btn {
     background-color: #ff5a1e; 
     border: none;
@@ -44,7 +51,7 @@
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 16px;
+    font-size: 0.9em;
     cursor: pointer;
     transition: background-color 0.3s ease;
     border-radius: 50px;
@@ -208,20 +215,27 @@
 #prev-question-btn {
     position: absolute;
     top: 50%; /* 버튼을 컨테이너의 수직 가운데에 위치시킴 */
-    left: 10px;
+    left: 0px;
     transform: translateY(-50%); /* 버튼의 중앙을 정확히 가운데에 맞춤 */
 }
 
 #next-question-btn {
     position: absolute;
     top: 50%;
-    right: 10px;
+    right: 0px;
     transform: translateY(-50%);
 }
 
+#col-12 col-md-6 {
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
 .pagination-container {
-    display: flex;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);  /* 각 줄에 최대 10개의 아이템이 오도록 설정 */
+    grid-auto-rows: auto; /* 새로운 줄이 자동으로 추가되도록 설정 */
+    grid-gap: 10px; /* 각 아이템 사이의 간격 설정 */
 }
 
 .question-container {
