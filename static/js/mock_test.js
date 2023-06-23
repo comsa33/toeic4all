@@ -132,7 +132,8 @@ document.getElementById("generate-mocktest-btn").addEventListener("click", funct
         // 버튼을 클릭하면 원래 화면으로 돌아갑니다.
         location.reload();
     });
-    document.body.appendChild(newTestBtn);
+    let startTestBtn = document.getElementById('start-test-btn');
+    startTestBtn.parentNode.insertBefore(newTestBtn, startTestBtn);
     
     // "모의고사 생성" 버튼을 숨깁니다.
     this.style.display = 'none';

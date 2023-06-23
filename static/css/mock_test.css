@@ -210,12 +210,25 @@
     transform: translateY(-50%);
 }
 
+#question-area {
+    position: relative;
+    width: 60%; /* 이 값을 조정해서 원하는 너비를 설정하세요. */
+    margin: 0 auto; /* 이 속성이 문제 영역을 화면 중앙에 배치합니다. */
+    text-align: left; /* 이 속성이 문제 영역 내의 모든 텍스트를 왼쪽 정렬합니다. */
+}
+
 #prev-question-btn {
+    position: absolute;
+    top: 50%; /* 버튼을 컨테이너의 수직 가운데에 위치시킴 */
     left: 10px;
+    transform: translateY(-50%); /* 버튼의 중앙을 정확히 가운데에 맞춤 */
 }
 
 #next-question-btn {
+    position: absolute;
+    top: 50%;
     right: 10px;
+    transform: translateY(-50%);
 }
 
 .pagination-container {
