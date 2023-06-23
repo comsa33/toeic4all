@@ -256,38 +256,40 @@ document.getElementById("start-test-btn").addEventListener("click", function() {
 
 
 // 채점 버튼 클릭 이벤트
-document.getElementById("grade-test-btn").addEventListener("click", function() {
-    stopTimer(totalTimer);  // 총 시간 측정 종료
+window.onload = function() {
+    document.getElementById("grade-test-btn").addEventListener("click", function() {
+        stopTimer(totalTimer);  // 총 시간 측정 종료
 
-    let correctCount = 0;
-    let totalQuestions = document.getElementsByClassName('question-container').length;
+        let correctCount = 0;
+        let totalQuestions = document.getElementsByClassName('question-container').length;
 
-    for (let i = 0; i < totalQuestions; i++) {
-        let questionId = document.getElementsByClassName('question-container')[i].id.split('-')[1];
-        let correctAnswer = document.getElementById('result-' + questionId).textContent;
+        for (let i = 0; i < totalQuestions; i++) {
+            let questionId = document.getElementsByClassName('question-container')[i].id.split('-')[1];
+            let correctAnswer = document.getElementById('result-' + questionId).textContent;
 
-        if (gradeQuestion(questionId, correctAnswer)) {
-            correctCount++;
-            document.getElementById('pagination-' + questionId).style.backgroundColor = 'green';
-        } else {
-            document.getElementById('pagination-' + questionId).style.backgroundColor = 'red';
+            if (gradeQuestion(questionId, correctAnswer)) {
+                correctCount++;
+                document.getElementById('pagination-' + questionId).style.backgroundColor = 'green';
+            } else {
+                document.getElementById('pagination-' + questionId).style.backgroundColor = 'red';
+            }
+
+            // 문제별 소요 시간 기록
+            let timeTakenDiv = document.getElementById('time-taken-' + questionId);
+            let timeTaken = timerPerQuestion[questionId];
+            if (timeTakenDiv && timeTaken) {
+                timeTakenDiv.style.display = 'block';
+                timeTakenDiv.textContent = `이 문제를 푸는 데 걸린 시간: ${convertSecondsToMinutes(timeTaken)}`;
+            }
+
+            // 문제의 추가 정보 표시
+            let additionalInfoDiv = document.getElementById('additional-info-' + questionId);
+            if (additionalInfoDiv) {
+                additionalInfoDiv.style.display = 'block';
+            }
         }
 
-        // 문제별 소요 시간 기록
-        let timeTakenDiv = document.getElementById('time-taken-' + questionId);
-        let timeTaken = timerPerQuestion[questionId];
-        if (timeTakenDiv && timeTaken) {
-            timeTakenDiv.style.display = 'block';
-            timeTakenDiv.textContent = `이 문제를 푸는 데 걸린 시간: ${convertSecondsToMinutes(timeTaken)}`;
-        }
-
-        // 문제의 추가 정보 표시
-        let additionalInfoDiv = document.getElementById('additional-info-' + questionId);
-        if (additionalInfoDiv) {
-            additionalInfoDiv.style.display = 'block';
-        }
-    }
-
-    this.style.display = 'none';  // 채점 버튼 숨김
-    document.getElementById('score').innerHTML = `당신의 점수: ${correctCount}/${totalQuestions} 소요 시간: ${convertSecondsToMinutes(getTotalTime())}`;
-});
+        this.style.display = 'none';  // 채점 버튼 숨김
+        document.getElementById('score').innerHTML = `당신의 점수: ${correctCount}/${totalQuestions} 소요 시간: ${convertSecondsToMinutes(getTotalTime())}`;
+    });
+}
