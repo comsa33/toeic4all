@@ -53,7 +53,6 @@ window.onload = function() {
 }
 
 // 객체 초기화
-let totalQuestions = 0;
 let timerPerQuestion = {};
 let totalTimer;
 let questionIndex = 0;  // 현재 표시되는 문제 인덱스
@@ -101,6 +100,9 @@ function convertSecondsToMinutes(timeInSeconds) {
     let seconds = timeInSeconds % 60;
     return `${minutes}분 ${seconds}초`;
 }
+
+
+let totalQuestions = 0;
 
 // 모의고사 생성 함수
 document.getElementById("generate-mocktest-btn").addEventListener("click", function() {
@@ -186,7 +188,6 @@ document.getElementById("generate-mocktest-btn").addEventListener("click", funct
             document.getElementsByClassName('question-container')[0].style.display = 'block';
 
             // 페이지네이션 생성
-            let totalQuestions = data.length;
             for (let i = 0; i < totalQuestions; i++) {
                 let div = document.createElement('div');
                 div.id = 'pagination-' + (i+1);
@@ -198,7 +199,6 @@ document.getElementById("generate-mocktest-btn").addEventListener("click", funct
             }
         });
 });
-
 
 // 문제 이동 함수
 function changeQuestion(index) {
