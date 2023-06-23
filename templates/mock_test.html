@@ -46,12 +46,14 @@
     <div class="control-group">
         <div>
             <label for="questionType">문제 유형:</label>
+            <p id="questionTypeDescription"></p>
             <select id="questionType">
                 <!-- Options will be filled by JavaScript -->
             </select>
         </div>
         <div>
             <label for="difficultyLevel">문제 난이도:</label>
+            <p id="difficultyLevelDescription"></p>
             <select id="difficultyLevel">
                 <option value="1">1</option>
                 <option value="2">2</option>
@@ -62,6 +64,7 @@
         </div>
         <div>
             <label for="questionCount">문제 수:</label>
+            <p id="questionCountDescription"></p>
             <input type="number" id="questionCount" min="6" max="30">
         </div>
     </div>

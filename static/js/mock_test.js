@@ -118,8 +118,11 @@ document.getElementById("generate-mocktest-btn").addEventListener("click", funct
     document.getElementById('questionType').style.display = "none";
     document.getElementById('difficultyLevel').style.display = "none";
     document.getElementById('questionCount').style.display = "none";
+    document.getElementById('questionTypeDescription').style.display = "flex";
+    document.getElementById('difficultyLevelDescription').style.display = "flex";
+    document.getElementById('questionCountDescription').style.display = "flex";
     document.getElementById('question-area').innerHTML = '';  // 이 줄을 추가하세요
-
+    
     // "새로운 모의고사 풀러가기" 버튼 생성
     let newTestBtn = document.createElement('button');
     newTestBtn.id = 'new-test-btn';
@@ -129,14 +132,18 @@ document.getElementById("generate-mocktest-btn").addEventListener("click", funct
         location.reload();
     });
     document.body.appendChild(newTestBtn);
-
+    
     // "모의고사 생성" 버튼을 숨깁니다.
     this.style.display = 'none';
-
+    
     let typeSelect = document.getElementById("questionType");
     let levelSelect = document.getElementById("difficultyLevel");
     let numInput = document.getElementById("questionCount");
-
+    
+    document.getElementById('questionTypeDescription').innerHTML = typeSelect.options[typeSelect.selectedIndex].textContent;
+    document.getElementById('difficultyLevelDescription').innerHTML = levelSelect.options[levelSelect.selectedIndex].textContent;
+    document.getElementById('questionCountDescription').innerHTML = document.getElementById("questionCount").value;
+    
     let typeId = typeSelect.value;
     let level = levelSelect.value;
     let num = numInput.value;
