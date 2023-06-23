@@ -217,6 +217,105 @@ document.getElementById("generate-mocktest-btn").addEventListener("click", funct
                     `;
                     choicesOl.appendChild(li);
                 }
+
+                // After the questionDiv has been appended to questionArea
+                fetchWithToken('/api/get_favourite_status?question_id=' + data[i].QuestionId, {
+                    method: 'GET'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'favourite') {
+                        favouriteBtn.classList.add('fav');
+                        favouriteBtn.style.color = 'red';  // Change button color to red
+                    }
+                });
+
+                // Attach event handlers after creating the buttons
+                let reportBtn = questionDiv.querySelector('.report-btn');
+                let favouriteBtn = questionDiv.querySelector('.favourite-btn');
+
+                reportBtn.addEventListener('click', function() {
+                    var question_id = this.getAttribute('data-question-id');
+                    var report_content = prompt('리포트 내용을 입력하세요:');
+                    if (report_content) {
+                        fetchWithToken('/api/report/question', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                question_id: question_id,
+                                report_content: report_content,
+                                report_type: 'question'
+                            })
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error("API request failed: " + response.status);
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            if (data.error) {
+                                alert('리포트를 보내는 데 실패했습니다: ' + data.error);
+                            } else {
+                                alert('리포트가 성공적으로 전송되었습니다.');
+                            }
+                        })
+                        .catch(error => alert(error));
+                    }
+                });
+
+                favouriteBtn.addEventListener('click', function() {
+                    var question_id = this.getAttribute('data-question-id');
+                
+                    // Check if button is already marked as favourite
+                    var isFavourite = this.classList.contains('fav');
+                
+                    if (isFavourite) {
+                        // If the question is already in favourites, remove it
+                        fetchWithToken('/api/favourite/question', {
+                            method: 'DELETE',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                question_id: question_id
+                            })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.error) {
+                                alert('즐겨찾기에서 삭제하는 데 실패했습니다: ' + data.error);
+                            } else {
+                                this.classList.remove('fav');
+                                this.style.color = 'gray';  // Change button color to gray
+                                alert('즐겨찾기에서 성공적으로 삭제되었습니다.');
+                            }
+                        });
+                    } else {
+                        // If the question is not in favourites, add it
+                        fetchWithToken('/api/favourite/question', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                question_id: question_id
+                            })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.error) {
+                                alert('즐겨찾기에 추가하는 데 실패했습니다: ' + data.error);
+                            } else {
+                                this.classList.add('fav');
+                                this.style.color = 'red';  // Change button color to red
+                                alert('즐겨찾기에 성공적으로 추가되었습니다.');
+                            }
+                        });
+                    }
+                });
             }
 
             // 페이지네이션 생성
