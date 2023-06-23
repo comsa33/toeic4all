@@ -213,6 +213,7 @@
     padding-right: 30px;
 }
 
+
 .pagination-container {
     display: grid;
     grid-template-columns: repeat(10, 1fr);

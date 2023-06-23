@@ -122,8 +122,26 @@ document.getElementById("generate-mocktest-btn").addEventListener("click", funct
     document.getElementById('questionTypeDescription').style.display = "flex";
     document.getElementById('difficultyLevelDescription').style.display = "flex";
     document.getElementById('questionCountDescription').style.display = "flex";
-    document.getElementById('question-area').innerHTML = '';  // 이 줄을 추가하세요
+    document.getElementById('question-area').innerHTML = '';
     
+    let questionArea = document.getElementById('question-area');
+
+    // 이전 버튼
+    let prevButton = document.createElement('button');
+    prevButton.className = "btn btn-primary question-nav-btn";
+    prevButton.id = "prev-question-btn";
+    prevButton.innerHTML = '<i class="fas fa-arrow-left"></i>';
+    prevButton.style.display = 'none';  // 처음에는 버튼을 숨깁니다.
+    questionArea.appendChild(prevButton);
+
+    // 다음 버튼
+    let nextButton = document.createElement('button');
+    nextButton.className = "btn btn-primary question-nav-btn";
+    nextButton.id = "next-question-btn";
+    nextButton.innerHTML = '<i class="fas fa-arrow-right"></i>';
+    nextButton.style.display = 'none';  // 처음에는 버튼을 숨깁니다.
+    questionArea.appendChild(nextButton);
+
     // "새로운 모의고사 풀러가기" 버튼 생성
     let newTestBtn = document.createElement('button');
     newTestBtn.id = 'new-test-btn';
@@ -155,7 +173,8 @@ document.getElementById("generate-mocktest-btn").addEventListener("click", funct
         .then(response => response.json())
         .then(data => {
             totalQuestions = data.length;
-            let questionArea = document.getElementById('question-area');
+            
+
             for (let i = 0; i < data.length; i++) {
                 let questionDiv = document.createElement('div');
                 questionDiv.style.display = "none";  // 처음에는 문제를 모두 숨깁니다.
@@ -208,6 +227,10 @@ document.getElementById("generate-mocktest-btn").addEventListener("click", funct
                     choicesOl.appendChild(li);
                 }
             }
+
+            // 시험 문제가 성공적으로 불러와졌으므로 버튼을 보여줍니다.
+            prevButton.style.display = 'flex';
+            nextButton.style.display = 'flex';
 
             // 페이지네이션 생성
             for (let i = 0; i < totalQuestions; i++) {
