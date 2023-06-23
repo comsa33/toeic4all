@@ -254,7 +254,7 @@
 
 .pagination-container {
     display: grid;
-    grid-template-columns: repeat(10, 1fr);
+    grid-template-columns: repeat(12, 1fr);
     grid-auto-rows: auto;
     grid-gap: 5px; /* 이 값을 줄여 간격을 좁히세요. */
     justify-content: center; /* 이 속성이 요소를 화면 중앙에 배치합니다. */
@@ -265,15 +265,8 @@
     padding-bottom: 20px;
 }
 
-.current {
-    display: block;
-}
-
-.pagination-item {
-    margin: 0 5px;
-    cursor: pointer;
-    padding: 10px;
-    background: lightgray;
+.pagination-button {
+    text-align: center;
 }
 
 .pagination-number {
@@ -284,6 +277,11 @@
     border-radius: 4px;
     display: inline-block;
     margin: 2px;
+}
+
+.pagination-number-active {
+    background: rgb(119, 119, 119);
+    color: white;
 }
 
 .correct {

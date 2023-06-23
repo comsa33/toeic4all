@@ -271,25 +271,21 @@ function changeQuestion(index) {
 
     questionIndex = index;
     
+    // 모든 페이지네이션 아이템에서 'pagination-number-active' 클래스를 제거합니다.
+    let paginationItems = document.getElementsByClassName('pagination-number');
+    for (let i = 0; i < paginationItems.length; i++) {
+        paginationItems[i].classList.remove('pagination-number-active');
+    }
+
+    // 현재 페이지네이션 아이템에 'pagination-number-active' 클래스를 추가합니다.
+    let currentItem = document.getElementById('pagination-' + (index + 1));
+    currentItem.classList.add('pagination-number-active');
+
     // 새 타이머 시작
     startTimes[questionIndex] = Date.now();
 }
 
 window.addEventListener('load', function() {
-    // 이전 문제 이동 버튼 이벤트
-    document.getElementById('prev-question-btn').addEventListener('click', function() {
-        if (questionIndex > 0) {
-            changeQuestion(questionIndex - 1);
-        }
-    });
-
-    // 다음 문제 이동 버튼 이벤트
-    document.getElementById('next-question-btn').addEventListener('click', function() {
-        if (questionIndex < totalQuestions - 1) {
-            changeQuestion(questionIndex + 1);
-        }
-    });
-
     // 시험 시작 버튼 클릭 이벤트
     document.getElementById("start-test-btn").addEventListener("click", function() {
         document.getElementById('pagination-container').style.display = "grid";
