@@ -166,8 +166,7 @@ document.getElementById("generate-mocktest-btn").addEventListener("click", funct
                 }
             }
             // 첫 번째 문제를 표시합니다.
-            document.getElementsByClassName('question-container')[0].style.display = 'block';
-            startTimes[0] = Date.now();  // 첫 번째 문제의 시작 시간을 저장합니다.
+            document.getElementsByClassName('col-12 col-md-6')[0].style.display = 'block';
             
             // 페이지네이션 생성
             let totalQuestions = data.length;
@@ -191,8 +190,8 @@ function changeQuestion(index) {
     timers[questionIndex] = elapsedTime;
 
     // 이전 문제를 숨기고 새 문제를 표시합니다.
-    document.getElementsByClassName('question-container')[questionIndex].style.display = 'none';
-    document.getElementsByClassName('question-container')[index].style.display = 'block';
+    document.getElementsByClassName('col-12 col-md-6')[questionIndex].style.display = 'none';
+    document.getElementsByClassName('col-12 col-md-6')[index].style.display = 'block';
     
     questionIndex = index;
     
@@ -217,12 +216,21 @@ document.getElementById('next-question-btn').addEventListener('click', function(
 // 시험 시작 버튼 클릭 이벤트
 document.getElementById("start-test-btn").addEventListener("click", function() {
     document.getElementById('question-area').style.display = "flex";  // 문제 영역을 보임
-    document.getElementById('grade-test-btn').style.display = "flex";  // 문제 영역을 보임
+    document.getElementById('grade-test-btn').style.display = "flex";  // 채점하기 버튼을 보임
     this.style.display = "none";  // 시험 시작 버튼을 숨김
 
     // 시험 정보 메시지 업데이트
     document.getElementById('test-info-msg').innerHTML = "시험을 시작했습니다!";
     totalTimer = startTimer();  // 총 시간 측정 시작
+
+    // 첫 번째 문제를 보이게 함
+    let firstQuestion = document.getElementsByClassName('col-12 col-md-6')[0];
+    if (firstQuestion) {
+        firstQuestion.style.display = 'block';
+    }
+
+    // 첫 번째 문제의 시작 시간을 설정합니다.
+    startTimes[0] = Date.now();
 });
 
 // 채점 버튼 클릭 이벤트
