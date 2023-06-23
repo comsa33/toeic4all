@@ -278,9 +278,9 @@ window.onload = function() {
 
             if (gradeQuestion(questionId, correctAnswer)) {
                 correctCount++;
-                document.getElementById('pagination-' + (i+1)).style.backgroundColor = 'green';
+                document.getElementById('pagination-' + (i + 1)).style.backgroundColor = 'green';
             } else {
-                document.getElementById('pagination-' + (i+1)).style.backgroundColor = 'red';
+                document.getElementById('pagination-' + (i + 1)).style.backgroundColor = 'red';
             }
 
             // 문제별 소요 시간 기록
@@ -299,6 +299,6 @@ window.onload = function() {
         }
 
         this.style.display = 'none';  // 채점 버튼 숨김
-        document.getElementById('score').innerHTML = `당신의 점수: ${correctCount}/${totalQuestions} 소요 시간: ${convertSecondsToMinutes(getTotalTime())}`;
+        document.getElementById('test-result').innerHTML = `당신의 점수: ${correctCount}/${totalQuestions} 소요 시간: ${convertSecondsToMinutes(getTotalTime())}`;
     });
 }
