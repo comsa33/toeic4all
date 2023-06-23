@@ -167,19 +167,21 @@ document.getElementById("generate-mocktest-btn").addEventListener("click", funct
             // 첫 번째 문제를 표시합니다.
             document.getElementsByClassName('question-container')[0].style.display = 'block';
             startTimes[0] = Date.now();  // 첫 번째 문제의 시작 시간을 저장합니다.
+            
+            // 페이지네이션 생성
+            let totalQuestions = data.length;
+            for (let i = 0; i < totalQuestions; i++) {
+                let div = document.createElement('div');
+                div.id = 'pagination-' + (i+1);
+                div.className = 'pagination-number';
+                div.addEventListener('click', function() {
+                    changeQuestion(i);
+                });
+                document.getElementById('pagination-container').appendChild(div);
+            }
         });
 });
 
-// 페이지네이션 생성
-for (let i = 0; i < totalQuestions; i++) {
-    let div = document.createElement('div');
-    div.id = 'pagination-' + (i+1);
-    div.className = 'pagination-number';
-    div.addEventListener('click', function() {
-        changeQuestion(i);
-    });
-    document.getElementById('pagination-container').appendChild(div);
-}
 
 // 문제 이동 함수
 function changeQuestion(index) {
