@@ -166,7 +166,13 @@ document.getElementById("generate-mocktest-btn").addEventListener("click", funct
                 let testInfoMsg = document.getElementById('test-info-msg');
                 testInfoMsg.style.display = "block";
                 testInfoMsg.innerHTML = "AI가 당신의 모의고사를 생성했습니다!";
+
                 // 문제 영역 업데이트
+                let vocabList = data[i].Vocabulary;
+                let vocabText = '';
+                for (let j = 0; j < vocabList.length; j++) {
+                    vocabText += `<p>[어휘] ${vocabList[j].Word} - ${vocabList[j].Explanation}</p>`;
+                }
                 questionDiv.id = 'question-' + data[i].QuestionId;
                 questionDiv.className = 'col-12 col-md-6';
                 questionDiv.innerHTML = `
@@ -179,7 +185,7 @@ document.getElementById("generate-mocktest-btn").addEventListener("click", funct
                             <p>[유형] ${data[i].QuestionSubType}</p>
                             <p>[해석] ${data[i].Translation}</p>
                             <p>[해설] ${data[i].Explanation}</p>
-                            <p>[어휘] ${data[i].Vocabulary[i].Word} - ${data[i].Vocabulary[i].Explanation}</p>
+                            ${vocabText}
                             <div id="time-taken-${data[i].QuestionId}" style="display: none;"></div>
                         </div>
                     </div>
@@ -210,6 +216,7 @@ document.getElementById("generate-mocktest-btn").addEventListener("click", funct
                 let div = document.createElement('div');
                 div.id = 'pagination-' + (i+1);
                 div.className = 'pagination-number';
+                div.textContent = i + 1;
                 div.addEventListener('click', function() {
                     changeQuestion(i);
                 });
