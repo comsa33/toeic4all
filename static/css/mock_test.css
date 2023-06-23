@@ -1,12 +1,7 @@
-.control-group {
-    max-width: 600px; /* 주변 공간을 추가하여 레이아웃을 더욱 깔끔하게 만듭니다. */
-    margin: 0 auto;
-}
-
 #button-container {
     display: flex;
     flex-direction: row; /* 요소들이 가로 방향으로 배치되도록 설정 */
-    justify-content: space-between; /* 요소들 사이에 균일한 공간을 만듭니다 */
+    justify-content: space-evenly; /* 요소들 사이에 균일한 공간을 만듭니다 */
     align-items: center; /* 요소들을 컨테이너의 중앙에 배치합니다 */
 }
 
@@ -160,11 +155,9 @@
     }
 }
 
-
-
 .control-group {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-evenly;
     margin: 20px 0;
 }
 

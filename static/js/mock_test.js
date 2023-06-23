@@ -156,21 +156,6 @@ document.getElementById("generate-mocktest-btn").addEventListener("click", funct
         .then(data => {
             totalQuestions = data.length;
             let questionArea = document.getElementById('question-area');
-
-            // 이전 버튼
-            let prevButton = document.createElement('button');
-            prevButton.className = "btn btn-primary question-nav-btn";
-            prevButton.id = "prev-question-btn";
-            prevButton.innerHTML = '<i class="fas fa-arrow-left"></i>';
-            questionArea.appendChild(prevButton);
-
-            // 다음 버튼
-            let nextButton = document.createElement('button');
-            nextButton.className = "btn btn-primary question-nav-btn";
-            nextButton.id = "next-question-btn";
-            nextButton.innerHTML = '<i class="fas fa-arrow-right"></i>';
-            questionArea.appendChild(nextButton);
-
             for (let i = 0; i < data.length; i++) {
                 let questionDiv = document.createElement('div');
                 questionDiv.style.display = "none";  // 처음에는 문제를 모두 숨깁니다.
