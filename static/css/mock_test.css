@@ -222,11 +222,8 @@
     width: fit-content; /* 이 속성이 요소의 너비를 내용에 맞게 조정합니다. */
     margin: 0 auto; /* 이 속성이 요소를 화면 중앙에 배치합니다. */
     font-size: .8em;;
-}
-
-.pagination-number {
-    padding: 10px; /* 이 값을 변경해 각 페이지 번호의 패딩을 조절하세요. */
-    text-align: center; /* 페이지 번호를 버튼 중앙에 배치합니다. */
+    padding-top: 30px;
+    padding-bottom: 20px;
 }
 
 .question-container {
