@@ -1,4 +1,5 @@
 import random
+from random import shuffle
 from datetime import datetime
 from collections import defaultdict
 
@@ -68,33 +69,130 @@ def get_subtypes():
     })
 
 
-# internal function to get questions
-def fetch_questions(question_lv, question_subtype_id, limit):
-    # Add filters based on the parameters received
-    filters = []
-    if question_lv and question_subtype_id:
-        filters.append(GeneratedQuestion.question_level == question_lv)
-        filters.append(GeneratedQuestion.question_sub_type_id == question_subtype_id)
-    questions_query = GeneratedQuestion.query.filter(and_(*filters)).order_by(func.random())  # Move order_by() here
-    # Limit the number of questions returned
-    if limit:
-        questions_query = questions_query.limit(limit)
-    questions = questions_query.all()
-    return {
-        "count": len(questions),
-        "data": [{"QuestionId": question.id, "QuestionText": question.question_text} for question in questions]
-    }
+@api.route('/question_types', methods=['GET'])
+@jwt_required()
+def get_question_types():
+    # Fetch all question types
+    question_types = GeneratedQuestionType.query.all()
+
+    result = []
+    for question_type in question_types:
+        # Format each question type and add it to the result
+        formatted_question_type = {
+            'Id': question_type.id,
+            'NameKor': question_type.name_kor,
+            'Explanation': question_type.explanation
+        }
+        result.append(formatted_question_type)
+
+    return jsonify(result)
 
 
-# Get questions
 @api.route('/questions', methods=['GET'])
+@jwt_required()
 def get_questions():
-    question_lv = request.args.get('QuestionLv', type=int)
-    question_subtype_id = request.args.get('QuestionSubtypeId', type=int)
-    limit = request.args.get('Limit', type=int)
+    level = request.args.get('level')
+    num_questions = request.args.get('num_questions', default=30, type=int)
 
-    questions = fetch_questions(question_lv, question_subtype_id, limit)
-    return jsonify(questions)
+    # Fetch all question types
+    question_types = GeneratedQuestionType.query.all()
+
+    # The number of questions per type
+    questions_per_type = num_questions // len(question_types)
+
+    # The remaining number of questions
+    remaining_questions = num_questions % len(question_types)
+
+    result = []
+    for question_type in question_types:
+        # Fetch the needed number of questions from each type
+        questions_query = GeneratedQuestion.query.filter_by(question_type_id=question_type.id)
+        if level:
+            questions_query = questions_query.filter(GeneratedQuestion.question_level == level)
+        questions = questions_query.order_by(func.random()).limit(questions_per_type).all()
+
+        # Format each question and add it to the result
+        for question in questions:
+            answers = GeneratedAnswer.query.filter(GeneratedAnswer.question_id == question.id).all()
+            vocabularies = GeneratedVocabulary.query.filter(GeneratedVocabulary.question_id == question.id).all()
+            question_sub_type = GeneratedQuestionSubType.query.get(question.question_sub_type_id)
+
+            formatted_question = {
+                'QuestionId': question.id,
+                'QuestionText': question.question_text,
+                'QuestionTypeId': question_type.id,
+                'QuestionType': question_type.name_kor,
+                'QuestionSubTypeId': question_sub_type.id,
+                'QuestionSubType': question_sub_type.name_kor,
+                'QuestionLevel': question.question_level,
+                'Translation': question.translation,
+                'Explanation': question.explanation,
+                'Vocabulary': [{'Word': v.word, 'Explanation': v.explanation} for v in vocabularies],
+                'Choices': [a.text for a in answers],
+                'CorrectAnswer': next((a.text for a in answers if a.is_correct), None)
+            }
+            result.append(formatted_question)
+
+    # Fetch remaining questions from randomly chosen types
+    shuffle(question_types)
+    for i in range(remaining_questions):
+        question_type = question_types[i]
+        questions_query = GeneratedQuestion.query.filter_by(question_type_id=question_type.id)
+        if level:
+            questions_query = questions_query.filter(GeneratedQuestion.question_level == level)
+        question = questions_query.order_by(func.random()).first()
+
+        # Format question and add it to the result
+        answers = GeneratedAnswer.query.filter(GeneratedAnswer.question_id == question.id).all()
+        vocabularies = GeneratedVocabulary.query.filter(GeneratedVocabulary.question_id == question.id).all()
+        question_sub_type = GeneratedQuestionSubType.query.get(question.question_sub_type_id)
+
+        formatted_question = {
+            'QuestionId': question.id,
+            'QuestionText': question.question_text,
+            'QuestionTypeId': question_type.id,
+            'QuestionType': question_type.name_kor,
+            'QuestionSubTypeId': question_sub_type.id,
+            'QuestionSubType': question_sub_type.name_kor,
+            'QuestionLevel': question.question_level,
+            'Translation': question.translation,
+            'Explanation': question.explanation,
+            'Vocabulary': [{'Word': v.word, 'Explanation': v.explanation} for v in vocabularies],
+            'Choices': [a.text for a in answers],
+            'CorrectAnswer': next((a.text for a in answers if a.is_correct), None)
+        }
+        result.append(formatted_question)
+
+    return jsonify(result)
+
+
+# # internal function to get questions
+# def fetch_questions(question_lv, question_subtype_id, limit):
+#     # Add filters based on the parameters received
+#     filters = []
+#     if question_lv and question_subtype_id:
+#         filters.append(GeneratedQuestion.question_level == question_lv)
+#         filters.append(GeneratedQuestion.question_sub_type_id == question_subtype_id)
+#     questions_query = GeneratedQuestion.query.filter(and_(*filters)).order_by(func.random())  # Move order_by() here
+#     # Limit the number of questions returned
+#     if limit:
+#         questions_query = questions_query.limit(limit)
+#     questions = questions_query.all()
+#     return {
+#         "count": len(questions),
+#         "data": [{"QuestionId": question.id, "QuestionText": question.question_text} for question in questions]
+#     }
+
+
+# # Get questions
+# @api.route('/questions', methods=['GET'])
+# def get_questions():
+#     question_lv = request.args.get('QuestionLv', type=int)
+#     question_subtype_id = request.args.get('QuestionSubtypeId', type=int)
+#     limit = request.args.get('Limit', type=int)
+
+#     questions = fetch_questions(question_lv, question_subtype_id, limit)
+#     return jsonify(questions)
 
 
 def fetch_choices(question_ids):

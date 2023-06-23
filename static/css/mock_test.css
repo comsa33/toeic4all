@@ -182,3 +182,75 @@
         border-bottom: 1px solid #ccc;
     }
 }
+
+
+
+.control-group {
+    display: flex;
+    justify-content: space-around;
+    margin: 20px 0;
+}
+
+.question-slides {
+    display: flex;
+    overflow: auto;
+    scroll-snap-type: x mandatory;
+}
+
+.question-container {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+    width: 100%;
+    height: auto;
+}
+
+.question-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+#prev-question-btn {
+    left: 10px;
+}
+
+#next-question-btn {
+    right: 10px;
+}
+
+.pagination-container {
+    display: flex;
+    justify-content: center;
+}
+
+.question-container {
+    display: none;
+}
+
+.current {
+    display: block;
+}
+
+.pagination-item {
+    margin: 0 5px;
+    cursor: pointer;
+    padding: 10px;
+    background: lightgray;
+}
+
+.pagination-number {
+    width: 8px;
+    height: 8px;
+    background-color: #ddd;
+    border-radius: 4px;
+    display: inline-block;
+    margin: 2px;
+}
+
+.correct {
+    background-color: green;
+}
+
+.incorrect {
+    background-color: red;
+}
