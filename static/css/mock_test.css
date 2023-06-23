@@ -6,6 +6,8 @@
 }
 
 #generate-mocktest-btn {
+    font-size: 0.8em;
+    font-weight: 200;
     background-color: #ff5a1e; 
     border: none;
     color: white;
@@ -13,7 +15,6 @@
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s ease;
     border-radius: 50px;
@@ -28,14 +29,15 @@
 }
 
 #new-test-btn, #start-test-btn, #grade-test-btn {
-    background-color: #1e8fff; 
+    background-color: #f09d9b; 
     border: none;
     color: white;
     padding: 10px 20px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 0.9em;
+    font-size: 0.8em;
+    font-weight: 200;
     cursor: pointer;
     transition: background-color 0.3s ease;
     border-radius: 50px;
@@ -48,10 +50,6 @@
 
 #new-test-btn:active, #start-test-btn:active, #grade-test-btn:active {
     background-color: #047ff9;
-}
-
-#generate-mocktest-btn {
-    font-size: 0.8em;
 }
 
 .my-img-container {
@@ -99,6 +97,9 @@
     padding: 10px;
     text-align: center;
     background-color: #80808021;
+    font-size: 0.9em;
+    font-weight: 200;
+    color: gray;
 }
 
 .flex-container {
