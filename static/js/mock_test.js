@@ -46,7 +46,7 @@ window.addEventListener('load', function() {
             // 기본 선택 항목 추가
             const defaultOption = document.createElement('option');
             defaultOption.value = '';
-            defaultOption.textContent = '선택하세요';
+            defaultOption.textContent = '모든 문제 유형';
             defaultOption.selected = true;
             select.appendChild(defaultOption);
 
@@ -115,6 +115,7 @@ let totalQuestions = 0;
 
 // 모의고사 생성 함수
 document.getElementById("generate-mocktest-btn").addEventListener("click", function() {
+    document.getElementById('pagination-container').style.display = "none";
     document.getElementById('questionType').style.display = "none";
     document.getElementById('difficultyLevel').style.display = "none";
     document.getElementById('questionCount').style.display = "none";
@@ -139,10 +140,6 @@ document.getElementById("generate-mocktest-btn").addEventListener("click", funct
     let typeSelect = document.getElementById("questionType");
     let levelSelect = document.getElementById("difficultyLevel");
     let numInput = document.getElementById("questionCount");
-    
-    document.getElementById('questionTypeDescription').innerHTML = typeSelect.options[typeSelect.selectedIndex].textContent;
-    document.getElementById('difficultyLevelDescription').innerHTML = levelSelect.options[levelSelect.selectedIndex].textContent;
-    document.getElementById('questionCountDescription').innerHTML = document.getElementById("questionCount").value;
     
     let typeId = typeSelect.value;
     let level = levelSelect.value;
@@ -223,6 +220,9 @@ document.getElementById("generate-mocktest-btn").addEventListener("click", funct
                 document.getElementById('pagination-container').appendChild(div);
             }
         });
+    document.getElementById('questionTypeDescription').innerHTML = typeSelect.options[typeSelect.selectedIndex].textContent;
+    document.getElementById('difficultyLevelDescription').innerHTML = levelSelect.options[levelSelect.selectedIndex].textContent;
+    document.getElementById('questionCountDescription').innerHTML = totalQuestions;
 });
 
 // 문제 이동 함수
@@ -258,6 +258,7 @@ document.getElementById('next-question-btn').addEventListener('click', function(
 
 // 시험 시작 버튼 클릭 이벤트
 document.getElementById("start-test-btn").addEventListener("click", function() {
+    document.getElementById('pagination-container').style.display = "flex";
     document.getElementById('question-area').style.display = "flex";  // 문제 영역을 보임
     document.getElementById('grade-test-btn').style.display = "flex";  // 채점하기 버튼을 보임
     this.style.display = "none";  // 시험 시작 버튼을 숨김
