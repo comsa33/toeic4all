@@ -115,6 +115,9 @@ let totalQuestions = 0;
 
 // 모의고사 생성 함수
 document.getElementById("generate-mocktest-btn").addEventListener("click", function() {
+    document.getElementById('questionType').style.display = "none";
+    document.getElementById('difficultyLevel').style.display = "none";
+    document.getElementById('questionCount').style.display = "none";
     document.getElementById('question-area').innerHTML = '';  // 이 줄을 추가하세요
 
     // "새로운 모의고사 풀러가기" 버튼 생성
