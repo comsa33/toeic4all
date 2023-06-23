@@ -42,6 +42,15 @@ window.onload = function() {
         })
         .then(data => {
             const select = document.getElementById('questionType');
+
+            // 기본 선택 항목 추가
+            const defaultOption = document.createElement('option');
+            defaultOption.value = '';
+            defaultOption.textContent = '선택하세요';
+            defaultOption.selected = true;
+            select.appendChild(defaultOption);
+
+            // 다른 옵션들 추가
             data.forEach(item => {
                 const option = document.createElement('option');
                 option.value = item.Id;
@@ -264,7 +273,7 @@ window.onload = function() {
         let totalQuestions = document.getElementsByClassName('question-container').length;
 
         for (let i = 0; i < totalQuestions; i++) {
-            let questionId = document.getElementsByClassName('question-container')[i].id.split('-')[1];
+            let questionId = document.getElementsByClassName('col-12 col-md-6')[i].id.split('-')[1];
             let correctAnswer = document.getElementById('result-' + questionId).textContent;
 
             if (gradeQuestion(questionId, correctAnswer)) {
