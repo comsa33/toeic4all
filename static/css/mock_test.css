@@ -163,6 +163,8 @@
 .control-group {
     display: flex;
     justify-content: space-evenly;
+    padding-top: 20px;
+    background-color: #e9d9be;
 }
 
 .question-container {
@@ -184,6 +186,13 @@
     text-align: left; /* 이 속성이 문제 영역 내의 모든 텍스트를 왼쪽 정렬합니다. */
 }
 
+#test-info-msg {
+    padding-bottom: 20px;
+    background-color: #e9d9be;
+    color: #f09898;
+    font-weight: bold;
+}
+
 #test-result {
     margin-top: 20px;
     background-color: rgb(229, 228, 228);
@@ -192,6 +201,12 @@
     font-weight: bold;
     color: black;
     justify-content: center;
+}
+
+.form-group > label {
+    justify-content: center;
+    font-size: 0.8em;
+    margin-bottom: 0;
 }
 
 .time-taken{

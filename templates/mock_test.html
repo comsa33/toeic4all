@@ -56,6 +56,7 @@
             <label for="difficultyLevel">문제 난이도:</label>
             <p id="difficultyLevelDescription"></p>
             <select id="difficultyLevel" class="form-control">
+                <option value="">밸런스</option>
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
@@ -66,7 +67,7 @@
         <div class="form-group">
             <label for="questionCount">문제 수:</label>
             <p id="questionCountDescription"></p>
-            <input type="number" id="questionCount" min="6" max="30" class="form-control">
+            <input type="number" id="questionCount" min="1" max="30" value="10" class="form-control">
         </div>
     </div>    
     
