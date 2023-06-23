@@ -215,13 +215,27 @@
 
 .pagination-container {
     display: grid;
-    grid-template-columns: repeat(10, 1fr);  /* 각 줄에 최대 10개의 아이템이 오도록 설정 */
-    grid-auto-rows: auto; /* 새로운 줄이 자동으로 추가되도록 설정 */
-    grid-gap: 10px; /* 각 아이템 사이의 간격 설정 */
+    grid-template-columns: repeat(10, 1fr);
+    grid-auto-rows: auto;
+    grid-gap: 5px; /* 이 값을 줄여 간격을 좁히세요. */
+    justify-content: center; /* 이 속성이 요소를 화면 중앙에 배치합니다. */
+    width: fit-content; /* 이 속성이 요소의 너비를 내용에 맞게 조정합니다. */
+    margin: 0 auto; /* 이 속성이 요소를 화면 중앙에 배치합니다. */
+    font-size: .8em;;
+}
+
+.pagination-number {
+    padding: 10px; /* 이 값을 변경해 각 페이지 번호의 패딩을 조절하세요. */
+    text-align: center; /* 페이지 번호를 버튼 중앙에 배치합니다. */
 }
 
 .question-container {
     display: none;
+}
+
+.question-nav-btn {
+    color: #007bff; /* 버튼 색상을 파랑으로 설정합니다. */
+    text-decoration: none; /* 밑줄을 제거합니다. */
 }
 
 .current {
