@@ -53,6 +53,7 @@ window.onload = function() {
 }
 
 // 객체 초기화
+let totalQuestions;
 let timerPerQuestion = {};
 let totalTimer;
 let questionIndex = 0;  // 현재 표시되는 문제 인덱스
