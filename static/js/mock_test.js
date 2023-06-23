@@ -261,14 +261,14 @@ document.getElementById("grade-test-btn").addEventListener("click", function() {
     let totalQuestions = document.getElementsByClassName('question-container').length;
 
     for (let i = 0; i < totalQuestions; i++) {
-        let questionId = document.getElementsByClassName('question-container')[i].id.split('-')[1];
+        let questionId = document.getElementsByClassName('col-12 col-md-6')[i].id.split('-')[1];
         let correctAnswer = document.getElementById('result-' + questionId).textContent;
-
+    
         if (gradeQuestion(questionId, correctAnswer)) {
             correctCount++;
-            document.getElementById('pagination-' + questionId).style.backgroundColor = 'green';
+            document.getElementById('pagination-' + (i + 1)).style.backgroundColor = 'green';
         } else {
-            document.getElementById('pagination-' + questionId).style.backgroundColor = 'red';
+            document.getElementById('pagination-' + (i + 1)).style.backgroundColor = 'red';
         }
     }
 
