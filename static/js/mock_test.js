@@ -103,9 +103,9 @@ function convertSecondsToMinutes(timeInSeconds) {
 
 // 모의고사 생성 함수
 document.getElementById("generate-mocktest-btn").addEventListener("click", function() {
-    let typeSelect = document.getElementById("type-select");
-    let levelSelect = document.getElementById("level-select");
-    let numInput = document.getElementById("num-input");
+    let typeSelect = document.getElementById("questionType");
+    let levelSelect = document.getElementById("difficultyLevel");
+    let numInput = document.getElementById("questionCount");
 
     let typeId = typeSelect.value;
     let level = levelSelect.value;
