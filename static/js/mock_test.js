@@ -278,9 +278,9 @@ window.onload = function() {
 
             if (gradeQuestion(questionId, correctAnswer)) {
                 correctCount++;
-                document.getElementById('pagination-' + questionId).style.backgroundColor = 'green';
+                document.getElementById('pagination-' + i).style.backgroundColor = 'green';
             } else {
-                document.getElementById('pagination-' + questionId).style.backgroundColor = 'red';
+                document.getElementById('pagination-' + i).style.backgroundColor = 'red';
             }
 
             // 문제별 소요 시간 기록
