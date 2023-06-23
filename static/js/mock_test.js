@@ -169,7 +169,7 @@ document.getElementById("generate-mocktest-btn").addEventListener("click", funct
                             <p>[유형] ${data[i].QuestionSubType}</p>
                             <p>[해석] ${data[i].Translation}</p>
                             <p>[해설] ${data[i].Explanation}</p>
-                            <p>[어휘] ${data[i].Vocabulary.Word} - ${data[i].Vocabulary.Explanation}</p>
+                            <p>[어휘] ${data[i].Vocabulary[i].Word} - ${data[i].Vocabulary[i].Explanation}</p>
                             <div id="time-taken-${data[i].QuestionId}" style="display: none;"></div>
                         </div>
                     </div>
