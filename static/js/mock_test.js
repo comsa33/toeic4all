@@ -270,11 +270,11 @@ window.addEventListener('load', function() {
         document.getElementById('prev-next-button').style.display = "flex";  // 문제 영역을 보임
         document.getElementById('grade-test-btn').style.display = "flex";  // 채점하기 버튼을 보임
         this.style.display = "none";  // 시험 시작 버튼을 숨김
-
+        
         // 시험 정보 메시지 업데이트
         document.getElementById('test-info-msg').innerHTML = "시험을 시작했습니다!";
         totalTimer = startTimer();  // 총 시간 측정 시작
-
+        
         // 첫 번째 문제를 보이게 함
         let firstQuestion = document.getElementsByClassName('col-12 col-md-6')[0];
         let firstQuestionContainer = firstQuestion.getElementsByClassName('question-container')[0];
@@ -284,7 +284,7 @@ window.addEventListener('load', function() {
                 firstQuestionContainer.style.display = 'block';
             }
         }
-
+        
         // 첫 번째 문제의 시작 시간을 설정합니다.
         startTimes[0] = Date.now();
     });
@@ -296,28 +296,28 @@ window.addEventListener('load', function() {
         // 이전 타이머 멈춤
         let elapsedTime = Math.floor((Date.now() - startTimes[questionIndex]) / 1000);  // 밀리초를 초로 변환
         timerPerQuestion[questionIndex] = elapsedTime;  // 타이머 값을 저장합니다.
-
+        
         stopTimer(totalTimer);  // 총 시간 측정 종료
-
+        
         let correctCount = 0;
         let totalQuestions = document.getElementsByClassName('question-container').length;
         let notAnsweredCount = 0;
-
+        
         for (let i = 0; i < totalQuestions; i++) {
             let questionId = document.getElementsByClassName('col-12 col-md-6')[i].id.split('-')[1];
             let correctAnswer = document.getElementById('result-' + questionId).textContent;
-
+            
             if (!document.querySelector(`input[name="choice-${questionId}"]:checked`)) {
                 notAnsweredCount++;
             }
-
+            
             if (gradeQuestion(questionId, correctAnswer)) {
                 correctCount++;
                 document.getElementById('pagination-' + (i + 1)).style.backgroundColor = 'green';
             } else {
                 document.getElementById('pagination-' + (i + 1)).style.backgroundColor = 'red';
             }
-
+            
             // 문제별 소요 시간 기록
             let timeTakenDiv = document.getElementById('time-taken-' + questionId);
             let timeTaken = timerPerQuestion[i];
@@ -325,21 +325,22 @@ window.addEventListener('load', function() {
                 timeTakenDiv.style.display = 'block';
                 timeTakenDiv.textContent = `${(i + 1)}번 문제 소요시간: ${convertSecondsToMinutes(timeTaken)}`;
             }
-
+            
             // 문제의 추가 정보 표시
             let additionalInfoDiv = document.getElementById('additional-info-' + questionId);
             if (additionalInfoDiv) {
                 additionalInfoDiv.style.display = 'block';
             }
         }
-
+        
         if (notAnsweredCount > 0) {
             if (!confirm(`아직 ${notAnsweredCount}개의 문제를 풀지 않았습니다. 채점하시겠습니까?`)) {
                 return;
             }
         }
-
+        
         this.style.display = 'none';  // 채점 버튼 숨김
         document.getElementById('test-result').innerHTML = `당신의 점수: ${correctCount}/${totalQuestions} 소요 시간: ${convertSecondsToMinutes(getTotalTime())}`;
+        document.getElementById('test-result').style.display = "flex";  // 채점 결과를 보임
     });
 });
