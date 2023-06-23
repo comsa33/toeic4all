@@ -81,7 +81,8 @@ function stopTimer(timer) {
 
 // 문제 채점 함수
 function gradeQuestion(questionId, correctAnswer) {
-    let userAnswer = document.querySelector(`input[name="choice-${questionId}"]:checked`).value;
+    let userAnswerEl = document.querySelector(`input[name="choice-${questionId}"]:checked`);
+    let userAnswer = userAnswerEl ? userAnswerEl.value : null;
     return userAnswer === correctAnswer;
 }
 
@@ -289,7 +290,6 @@ window.addEventListener('load', function() {
     });
 });
 
-
 // 채점 버튼 클릭 이벤트
 window.addEventListener('load', function() {
     document.getElementById("grade-test-btn").addEventListener("click", function() {
@@ -301,10 +301,15 @@ window.addEventListener('load', function() {
 
         let correctCount = 0;
         let totalQuestions = document.getElementsByClassName('question-container').length;
+        let notAnsweredCount = 0;
 
         for (let i = 0; i < totalQuestions; i++) {
             let questionId = document.getElementsByClassName('col-12 col-md-6')[i].id.split('-')[1];
             let correctAnswer = document.getElementById('result-' + questionId).textContent;
+
+            if (!document.querySelector(`input[name="choice-${questionId}"]:checked`)) {
+                notAnsweredCount++;
+            }
 
             if (gradeQuestion(questionId, correctAnswer)) {
                 correctCount++;
@@ -325,6 +330,12 @@ window.addEventListener('load', function() {
             let additionalInfoDiv = document.getElementById('additional-info-' + questionId);
             if (additionalInfoDiv) {
                 additionalInfoDiv.style.display = 'block';
+            }
+        }
+
+        if (notAnsweredCount > 0) {
+            if (!confirm(`아직 ${notAnsweredCount}개의 문제를 풀지 않았습니다. 채점하시겠습니까?`)) {
+                return;
             }
         }
 
