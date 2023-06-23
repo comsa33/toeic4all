@@ -30,7 +30,7 @@ function fetchWithToken(url, options = {}) {
     }
 }
 
-window.onload = function() {
+window.addEventListener('load', function() {
     const url = '/api/question_types';
     fetchWithToken(url)
         .then(response => {
@@ -59,7 +59,7 @@ window.onload = function() {
             });
         })
         .catch(error => console.error('Error:', error));
-}
+});
 
 // 객체 초기화
 let timerPerQuestion = {};
@@ -268,7 +268,7 @@ document.getElementById("start-test-btn").addEventListener("click", function() {
 
 
 // 채점 버튼 클릭 이벤트
-window.onload = function() {
+window.addEventListener('load', function() {
     document.getElementById("grade-test-btn").addEventListener("click", function() {
         // 이전 타이머 멈춤
         let elapsedTime = Math.floor((Date.now() - startTimes[questionIndex]) / 1000);  // 밀리초를 초로 변환
@@ -308,4 +308,4 @@ window.onload = function() {
         this.style.display = 'none';  // 채점 버튼 숨김
         document.getElementById('test-result').innerHTML = `당신의 점수: ${correctCount}/${totalQuestions} 소요 시간: ${convertSecondsToMinutes(getTotalTime())}`;
     });
-}
+});
