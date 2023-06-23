@@ -53,7 +53,7 @@ window.onload = function() {
 }
 
 // 객체 초기화
-let totalQuestions;
+let totalQuestions = 0;
 let timerPerQuestion = {};
 let totalTimer;
 let questionIndex = 0;  // 현재 표시되는 문제 인덱스
@@ -104,6 +104,21 @@ function convertSecondsToMinutes(timeInSeconds) {
 
 // 모의고사 생성 함수
 document.getElementById("generate-mocktest-btn").addEventListener("click", function() {
+    document.getElementById('question-area').innerHTML = '';  // 이 줄을 추가하세요
+
+    // "새로운 모의고사 풀러가기" 버튼 생성
+    let newTestBtn = document.createElement('button');
+    newTestBtn.id = 'new-test-btn';
+    newTestBtn.textContent = '새로운 모의고사 풀러가기';
+    newTestBtn.addEventListener('click', function() {
+        // 버튼을 클릭하면 원래 화면으로 돌아갑니다.
+        location.reload();
+    });
+    document.body.appendChild(newTestBtn);
+
+    // "모의고사 생성" 버튼을 숨깁니다.
+    this.style.display = 'none';
+
     let typeSelect = document.getElementById("questionType");
     let levelSelect = document.getElementById("difficultyLevel");
     let numInput = document.getElementById("questionCount");
@@ -117,9 +132,10 @@ document.getElementById("generate-mocktest-btn").addEventListener("click", funct
         return;
     }
 
-    fetchWithToken(`/api/questions?typeId=${typeId}&level=${level}&num=${num}`)
+    fetchWithToken(`/api/questions?typeId=${typeId}&level=${level}&num_questions=${num}`)
         .then(response => response.json())
         .then(data => {
+            totalQuestions = data.length;
             let questionArea = document.getElementById('question-area');
             for (let i = 0; i < data.length; i++) {
                 let questionDiv = document.createElement('div');
