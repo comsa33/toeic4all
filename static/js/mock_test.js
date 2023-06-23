@@ -42,15 +42,6 @@ window.onload = function() {
         })
         .then(data => {
             const select = document.getElementById('questionType');
-
-            // 기본 선택 항목 추가
-            const defaultOption = document.createElement('option');
-            defaultOption.value = '';
-            defaultOption.textContent = '선택하세요';
-            defaultOption.selected = true;
-            select.appendChild(defaultOption);
-
-            // 다른 옵션들 추가
             data.forEach(item => {
                 const option = document.createElement('option');
                 option.value = item.Id;
