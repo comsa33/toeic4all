@@ -226,9 +226,10 @@ document.getElementById("generate-mocktest-btn").addEventListener("click", funct
             let prevButton = document.createElement('div');
             prevButton.id = 'prev-button';
             prevButton.className = 'pagination-button';
-            prevButton.textContent = '<';
+            prevButton.innerHTML = '<i class="fas fa-chevron-left"></i>';  // 이전 아이콘
             prevButton.addEventListener('click', function() {
                 if (questionIndex > 0) {
+                    this.style.color = 'darkgray';  // 클릭 시 색상 변경
                     changeQuestion(questionIndex - 1);
                 }
             });
@@ -249,9 +250,10 @@ document.getElementById("generate-mocktest-btn").addEventListener("click", funct
             let nextButton = document.createElement('div');
             nextButton.id = 'next-button';
             nextButton.className = 'pagination-button';
-            nextButton.textContent = '>';
+            nextButton.innerHTML = '<i class="fas fa-chevron-right"></i>';  // 다음 아이콘
             nextButton.addEventListener('click', function() {
                 if (questionIndex < totalQuestions - 1) {
+                    this.style.color = 'darkgray';  // 클릭 시 색상 변경
                     changeQuestion(questionIndex + 1);
                 }
             });
@@ -316,7 +318,7 @@ window.addEventListener('load', function() {
         if (firstPaginationItem) {
             firstPaginationItem.classList.add('pagination-number-active');
         }
-        
+
         // 첫 번째 문제의 시작 시간을 설정합니다.
         startTimes[0] = Date.now();
     });

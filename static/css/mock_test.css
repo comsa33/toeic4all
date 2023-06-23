@@ -269,6 +269,10 @@
     text-align: center;
 }
 
+.pagination-button i {
+    color: gray;
+}
+
 .pagination-number {
     text-align: center;
     width: 20px;
