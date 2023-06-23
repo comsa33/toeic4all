@@ -167,7 +167,8 @@ document.getElementById("generate-mocktest-btn").addEventListener("click", funct
             }
             // 첫 번째 문제를 표시합니다.
             document.getElementsByClassName('col-12 col-md-6')[0].style.display = 'block';
-            
+            document.getElementsByClassName('question-container')[0].style.display = 'block';
+
             // 페이지네이션 생성
             let totalQuestions = data.length;
             for (let i = 0; i < totalQuestions; i++) {
@@ -192,7 +193,8 @@ function changeQuestion(index) {
     // 이전 문제를 숨기고 새 문제를 표시합니다.
     document.getElementsByClassName('col-12 col-md-6')[questionIndex].style.display = 'none';
     document.getElementsByClassName('col-12 col-md-6')[index].style.display = 'block';
-    
+    document.getElementsByClassName('question-container')[index].style.display = 'block';
+
     questionIndex = index;
     
     // 새 타이머 시작
