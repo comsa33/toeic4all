@@ -14,7 +14,7 @@
     border: 1px solid #ccc;
 }
 
-.button {
+.generate-mocktest-btn {
     background-color: #ff5a1e; 
     border: none;
     color: white;
@@ -29,11 +29,11 @@
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
 }
 
-.button:hover {
+.generate-mocktest-btn:hover {
     background-color: #fa8256;
 }
 
-.button:active {
+.generate-mocktest-btn:active {
     background-color: #c24417;
 }
 
@@ -78,7 +78,7 @@
     background-color: #055282;
 }
 
-#generate-btn {
+#generate-mocktest-btn {
     font-size: 0.8em;
 }
 
@@ -217,6 +217,13 @@
     text-align: left; /* 이 속성이 문제 영역 내의 모든 텍스트를 왼쪽 정렬합니다. */
 }
 
+/* 화면 크기가 600px 이하일 때 적용 */
+@media screen and (max-width: 600px) {
+    #question-area {
+        width: 100%;
+    }
+}
+
 #prev-question-btn {
     position: absolute;
     top: 50%; /* 버튼을 컨테이너의 수직 가운데에 위치시킴 */
@@ -252,6 +259,7 @@
 }
 
 .pagination-number {
+    text-align: center;
     width: 20px;
     height: 20px;
     background-color: #ddd;
