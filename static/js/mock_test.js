@@ -554,7 +554,7 @@ window.addEventListener('load', function() {
             time_record: timeRecord
         };
 
-        fetchWithToken('api/user-test-detail', {
+        fetchWithToken('/api/user-test-detail', {
             method: 'POST',
             body: JSON.stringify(data),
             headers: {
@@ -576,7 +576,7 @@ window.addEventListener('load', function() {
                 question_ids: wrongQuestionIds,
                 test_id: testId
             };
-            fetchWithToken('api/wrong-question', {
+            fetchWithToken('/api/wrong-question', {
                 method: 'POST',
                 body: JSON.stringify(wrongQuestionData),
                 headers: {
