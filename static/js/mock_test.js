@@ -532,7 +532,8 @@ window.addEventListener('load', function() {
         // 채점 완료 후 API 호출하여 사용자의 시험 정보를 저장합니다.
         let wrongCount = totalQuestions - correctCount;
         let testId = document.getElementById('test-id').textContent;
-        let testType = document.getElementById('questionType').value;
+        let testTypeElement = document.getElementById('questionType');
+        let testType = testTypeElement.selectedOptions[0].textContent;
         let testLevelElement = document.getElementById('difficultyLevel');
         let testLevel = testLevelElement.selectedOptions[0].textContent;
         let timeRecord = getTotalTime();  // 전체 소요 시간을 초로 환산합니다.
