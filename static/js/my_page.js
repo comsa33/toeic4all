@@ -96,7 +96,7 @@ window.onload = function() {
                 }
             });
 
-            favouriteBtn.style.color = 'red';
+            favouriteBtn.style.color = '#ff4a4a';
             favouriteBtn.addEventListener('click', function() {
                 var question_id = this.getAttribute('data-question-id');
                 fetchWithToken('/api/favourite/question', {

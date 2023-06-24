@@ -251,7 +251,7 @@ document.getElementById("generate-mocktest-btn").addEventListener("click", funct
                 .then(data => {
                     if (data.status === 'favourite') {
                         favouriteBtn.classList.add('fav');
-                        favouriteBtn.style.color = 'red';  // Change button color to red
+                        favouriteBtn.style.color = '#ff4a4a';  // Change button color to red
                     }
                 });
 
@@ -335,7 +335,7 @@ document.getElementById("generate-mocktest-btn").addEventListener("click", funct
                                 alert('즐겨찾기에 추가하는 데 실패했습니다: ' + data.error);
                             } else {
                                 this.classList.add('fav');
-                                this.style.color = 'red';  // Change button color to red
+                                this.style.color = '#ff4a4a';  // Change button color to red
                                 alert('즐겨찾기에 성공적으로 추가되었습니다.');
                             }
                         });
@@ -511,10 +511,10 @@ window.addEventListener('load', function() {
 
             if (gradeQuestion(questionId, correctAnswer)) {
                 correctCount++;
-                document.getElementById('pagination-' + (i + 1)).style.backgroundColor = 'green';
+                document.getElementById('pagination-' + (i + 1)).style.backgroundColor = 'rgb(101, 201, 101)';
             } else {
                 wrongQuestionIds.push(questionId);
-                document.getElementById('pagination-' + (i + 1)).style.backgroundColor = 'red';
+                document.getElementById('pagination-' + (i + 1)).style.backgroundColor = 'rgb(255, 109, 109)';
             }
             
             // 문제별 소요 시간 기록

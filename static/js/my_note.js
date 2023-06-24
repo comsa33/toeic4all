@@ -140,7 +140,7 @@ function loadWrongQuestions(testId, testNo) {
             .then(data => {
                 if (data.status === 'favourite') {
                     favouriteBtn.classList.add('fav');
-                    favouriteBtn.style.color = 'red';  // Change button color to red
+                    favouriteBtn.style.color = '#ff4a4a';  // Change button color to red
                 }
             });
 
@@ -224,7 +224,7 @@ function loadWrongQuestions(testId, testNo) {
                             alert('즐겨찾기에 추가하는 데 실패했습니다: ' + data.error);
                         } else {
                             this.classList.add('fav');
-                            this.style.color = 'red';  // Change button color to red
+                            this.style.color = '#ff4a4a';  // Change button color to red
                             alert('즐겨찾기에 성공적으로 추가되었습니다.');
                         }
                     });
