@@ -371,8 +371,8 @@ function changeQuestion(index) {
 
     // 이전 문제를 숨기고 새 문제를 표시합니다.
     document.getElementsByClassName('col-12 col-md-6')[questionIndex].style.display = 'none';
-    document.getElementsByClassName('col-12 col-md-6')[index].style.display = 'block';
-    document.getElementsByClassName('question-container')[index].style.display = 'block';
+    document.getElementsByClassName('col-12 col-md-6')[index].style.display = 'flex';
+    document.getElementsByClassName('question-container')[index].style.display = 'flex';
 
     questionIndex = index;
     
@@ -399,7 +399,7 @@ function changeQuestion(index) {
     } else {
         document.getElementById('next-question-btn').style.display = 'block';
     }
-    
+
     // 새 타이머 시작
     startTimes[questionIndex] = Date.now();
 }

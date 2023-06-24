@@ -1,8 +1,8 @@
 #button-container {
     display: flex;
-    flex-direction: row; /* 요소들이 가로 방향으로 배치되도록 설정 */
-    justify-content: space-evenly; /* 요소들 사이에 균일한 공간을 만듭니다 */
+    justify-content: center; /* 요소들 사이에 균일한 공간을 만듭니다 */
     align-items: center; /* 요소들을 컨테이너의 중앙에 배치합니다 */
+    gap: 40px;
     margin-top: 20px;
 }
 
@@ -193,6 +193,7 @@
 
 .question-container {
     display: none;
+    flex-direction: column;
     flex: 0 0 auto;
     scroll-snap-align: start;
     width: 100%;
