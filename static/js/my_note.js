@@ -75,14 +75,16 @@ window.onload = function() {
             let durationSeconds = data.tests[i].time_record;
             let minutes = Math.floor(durationSeconds / 60);
             let seconds = durationSeconds % 60;
+            let testNoDatePart = data.tests[i].test_id.substring(0, 14);
+
             testDiv.id = 'test-' + data.tests[i].id;
             testDiv.className = 'col-12 col-md-6';
             testDiv.innerHTML = `
-            <div class="test-container" onClick="loadWrongQuestions(${data.tests[i].id}, '${data.tests[i].test_id}')">
+            <div class="test-container" onClick="loadWrongQuestions(${data.tests[i].id}, '${testNoDatePart}')">
             <div>
                 <div class="test-content">
                     <i class="fas fa-file-alt"></i>
-                    <p style="padding-bottom: 5px;"><strong>${data.tests[i].test_id}</strong></p>
+                    <p style="padding-bottom: 5px;"><strong>${testNoDatePart}</strong></p>
                     <p>오답 ${data.tests[i].wrong_count}개</p>
                     <p>${minutes}분 ${seconds}초 소요</p>
                     <p>${timeSince(koreanDate)}</p>
@@ -103,8 +105,7 @@ function loadWrongQuestions(testId, testNo) {
     .then(data => {
         let questionArea = document.getElementById('question-area');
         let mocktestNo = document.getElementById('mocktest-no');
-        let testNoDatePart = testNo.substring(0, 14); 
-        mocktestNo.innerHTML = `모의고사_${testNoDatePart}`;
+        mocktestNo.innerHTML = `모의고사_${testNo}`;
         for (let i = 0; i < data.length; i++) {
             let questionDiv = document.createElement('div');
             questionDiv.id = 'question-' + data[i].QuestionId;
