@@ -331,35 +331,35 @@
 .report-btn {
     position: absolute;
     bottom: 10px;
-    right: 20px;
+    left: 20px;
     background: none;
     border: none;
-    color: #656565;
+    color: #c2c1c1;
     cursor: pointer;
     transition: color 0.3s;
     font-size: 1rem;
 }
 
 .report-btn:hover {
-    color: #ff0000;
+    color: #ff4a4a;
 }
 
 .favourite-btn {
     position: absolute;
-    bottom: 10px;
-    left: 20px;
+    top: 10px;
+    right: 20px;
     background: none;
     border: none;
-    color: #656565;
+    color: #c2c1c1;
     cursor: pointer;
     transition: color 0.3s;
     font-size: 1rem;
 }
 
 .favourite-btn:hover {
-    color: #ff0000;
+    color: #ff4a4a;
 }
 
 .favourite-btn.fav {
-    color: red;  /* 즐겨찾기가 활성화된 버튼은 빨간색으로 표시 */
+    color: #ff4a4a;  /* 즐겨찾기가 활성화된 버튼은 빨간색으로 표시 */
 }
