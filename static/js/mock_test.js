@@ -467,13 +467,21 @@ window.addEventListener('load', function() {
         let notAnsweredCount = 0;
         
         for (let i = 0; i < totalQuestions; i++) {
-            let questionId = document.getElementsByClassName('col-12 col-md-6')[i].id.split('-')[1];
-            let correctAnswer = document.getElementById('result-' + questionId).textContent;
-            
             if (!document.querySelector(`input[name="choice-${questionId}"]:checked`)) {
                 notAnsweredCount++;
             }
-            
+        }
+        
+        if (notAnsweredCount > 0) {
+            if (!confirm(`아직 ${notAnsweredCount}개의 문제를 풀지 않았습니다. 채점하시겠습니까?`)) {
+                return;  // 채점하지 않고 종료합니다.
+            }
+        }
+        
+        for (let i = 0; i < totalQuestions; i++) {
+            let questionId = document.getElementsByClassName('col-12 col-md-6')[i].id.split('-')[1];
+            let correctAnswer = document.getElementById('result-' + questionId).textContent;
+
             if (gradeQuestion(questionId, correctAnswer)) {
                 correctCount++;
                 document.getElementById('pagination-' + (i + 1)).style.backgroundColor = 'green';
@@ -493,12 +501,6 @@ window.addEventListener('load', function() {
             let additionalInfoDiv = document.getElementById('additional-info-' + questionId);
             if (additionalInfoDiv) {
                 additionalInfoDiv.style.display = 'block';
-            }
-        }
-        
-        if (notAnsweredCount > 0) {
-            if (!confirm(`아직 ${notAnsweredCount}개의 문제를 풀지 않았습니다. 채점하시겠습니까?`)) {
-                return;
             }
         }
         
