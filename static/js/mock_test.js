@@ -395,6 +395,7 @@ window.addEventListener('load', function() {
     document.getElementById("start-test-btn").addEventListener("click", function() {
         document.getElementById('pagination-container').style.display = "grid";
         document.getElementById('question-area').style.display = "flex";  // 문제 영역을 보임
+        document.getElementById('prev-next-button').style.display = "flex";  // 문제 영역을 보임
         document.getElementById('grade-test-btn').style.display = "flex";  // 채점하기 버튼을 보임
         this.style.display = "none";  // 시험 시작 버튼을 숨김
         

@@ -30,7 +30,6 @@
 }
 
 #new-test-btn, #start-test-btn, #grade-test-btn {
-    background-color: #f09d9b; 
     border: none;
     color: white;
     padding: 10px 20px;
@@ -43,6 +42,27 @@
     transition: background-color 0.3s ease;
     border-radius: 50px;
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+#new-test-btn, #grade-test-btn {
+    background-color: #f09d9b; 
+}
+
+@keyframes heartbeat {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+#start-test-btn {
+    background-color: #6fae70; 
+    animation: heartbeat 2s infinite;
 }
 
 #new-test-btn:hover, #start-test-btn:hover, #grade-test-btn:hover {
@@ -233,6 +253,8 @@
 #prev-next-button {
     text-align: center;  /* 버튼들을 가운데로 정렬 */
     justify-content: center;
+    font-size: 0.8em;
+    font-weight: 400;
 }
 
 #prev-question-btn, #next-question-btn {
