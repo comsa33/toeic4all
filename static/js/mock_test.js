@@ -467,6 +467,7 @@ window.addEventListener('load', function() {
         let notAnsweredCount = 0;
         
         for (let i = 0; i < totalQuestions; i++) {
+            let questionId = document.getElementsByClassName('col-12 col-md-6')[i].id.split('-')[1];
             if (!document.querySelector(`input[name="choice-${questionId}"]:checked`)) {
                 notAnsweredCount++;
             }
