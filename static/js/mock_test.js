@@ -569,7 +569,7 @@ window.addEventListener('load', function() {
         })
         .then(json => {
             console.log(json);
-            let testId = json.id;
+            let testId = json.test_detail_id;
             
             // 틀린 문제들에 대해 한 번의 API 호출을 통해 저장합니다.
             let wrongQuestionData = {
@@ -595,7 +595,6 @@ window.addEventListener('load', function() {
             .then(json => console.log(json))
             .catch(error => console.log('Error:', error));
         })
-        .then(json => console.log(json))
         .catch(error => console.log('Error:', error));
     });
 });
