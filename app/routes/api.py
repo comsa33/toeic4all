@@ -420,7 +420,6 @@ def get_user_tests():
     return jsonify({"tests": [test.serialize for test in tests]}), 200
 
 
-
 @api.route('/my-note/tests/<int:test_id>/wrong-questions', methods=['GET'])
 @jwt_required()
 def get_wrong_questions_for_test(test_id):
