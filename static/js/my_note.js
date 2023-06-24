@@ -78,7 +78,7 @@ window.onload = function() {
             testDiv.id = 'test-' + data.tests[i].id;
             testDiv.className = 'col-12 col-md-6';
             testDiv.innerHTML = `
-            <div class="test-container" onClick="loadWrongQuestions(${data.tests[i].id}, ${data.tests[i].test_id})">
+            <div class="test-container" onClick="loadWrongQuestions(${data.tests[i].id}, '${data.tests[i].test_id}')">
             <div>
                 <div class="test-content">
                     <i class="fas fa-file-alt"></i>
@@ -103,7 +103,8 @@ function loadWrongQuestions(testId, testNo) {
     .then(data => {
         let questionArea = document.getElementById('question-area');
         let mocktestNo = document.getElementById('mocktest-no');
-        mocktestNo.innerHTML = `모의고사_${testNo}`;
+        let testNoDatePart = testNo.substring(0, 14); 
+        mocktestNo.innerHTML = `모의고사_${testNoDatePart}`;
         for (let i = 0; i < data.length; i++) {
             let questionDiv = document.createElement('div');
             questionDiv.id = 'question-' + data[i].QuestionId;
