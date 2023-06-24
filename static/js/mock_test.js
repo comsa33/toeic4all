@@ -174,22 +174,22 @@ document.getElementById("generate-mocktest-btn").addEventListener("click", funct
                 let vocabList = data[i].Vocabulary;
                 let vocabText = '';
                 for (let j = 0; j < vocabList.length; j++) {
-                    vocabText += `<p>    · ${vocabList[j].Word} : ${vocabList[j].Explanation}</p>`;
+                    vocabText += `<p style="margin-bottom: 0;">    · ${vocabList[j].Word} : ${vocabList[j].Explanation}</p>`;
                 }
                 questionDiv.id = 'question-' + data[i].QuestionId;
                 questionDiv.className = 'col-12 col-md-6';
                 questionDiv.innerHTML = `
                     <div class="question-container">
                         <p><strong><span class="question-number">${i+1}</span>. ${data[i].QuestionText}</strong></p>
-                        <ol id="choices-${data[i].QuestionId}" type="A"></ol>
+                        <ol id="choices-${data[i].QuestionId}" class="choice-box" type="A"></ol>
                         <p id="result-${data[i].QuestionId}" style="display: none;">${data[i].CorrectAnswer}</p>
                         <div id="additional-info-${data[i].QuestionId}" class="additional-info" style="display: none;">
                             <div class="time-taken" id="time-taken-${data[i].QuestionId}" style="display: none;"></div>
                             <p>[정답] ${data[i].CorrectAnswer}</p>
                             <p>[유형] ${data[i].QuestionSubType}</p>
                             <p>[해석] ${data[i].Translation}</p>
-                            <p>[해설] ${data[i].Explanation}</p>
-                            <p>[어휘]</p>
+                            <p>[해설]<br>    ${data[i].Explanation}</p>
+                            <p style="margin-bottom: 0;">[어휘]</p>
                             ${vocabText}
                         </div>
                         <!-- 즐찾 버튼 -->

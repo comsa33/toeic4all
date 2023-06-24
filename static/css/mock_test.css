@@ -178,8 +178,10 @@
 }
 
 .additional-info {
+    border-top: 1px solid #80808052;
     font-size: 0.75em;
     color: #555;
+    padding-bottom: 20px;
 }
 
 .control-group {
@@ -198,6 +200,10 @@
     border: 1px solid #000; /* 얇은 선으로 테두리를 만듭니다. 색상은 원하는 대로 조정하실 수 있습니다. */
     border-radius: 5px; /* 모서리를 둥글게 만듭니다. */
     padding: 10px; /* 내부 패딩을 추가하여 테두리와 내용 사이에 간격을 만듭니다. 필요에 따라 조정하실 수 있습니다. */
+}
+
+.choice-box {
+    padding-bottom: 20px;
 }
 
 #question-area {
@@ -239,8 +245,10 @@
     font-size: 0.9em;
     font-weight: bold;
     text-align: center;
-    color: rgb(255, 48, 48);
-    background-color: yellow;
+    color: #ff8484;
+    background-color: #cafeb3;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 /* 화면 크기가 600px 이하일 때 적용 */
@@ -321,7 +329,7 @@
 .report-btn {
     position: absolute;
     bottom: 10px;
-    right: 10px;
+    right: 20px;
     background: none;
     border: none;
     color: #656565;
@@ -337,7 +345,7 @@
 .favourite-btn {
     position: absolute;
     bottom: 10px;
-    left: 10px;
+    left: 20px;
     background: none;
     border: none;
     color: #656565;
