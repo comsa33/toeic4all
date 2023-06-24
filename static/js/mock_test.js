@@ -576,6 +576,9 @@ window.addEventListener('load', function() {
                 question_ids: wrongQuestionIds,
                 test_id: testId
             };
+
+            console.log(wrongQuestionData);
+
             fetchWithToken('/api/wrong-question', {
                 method: 'POST',
                 body: JSON.stringify(wrongQuestionData),

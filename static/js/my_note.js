@@ -72,18 +72,18 @@ window.onload = function() {
             let utcDate = new Date(data.tests[i].created_at);
             let koreanDate = new Date(utcDate.getTime() + (9 * 60 * 60 * 1000)); // Adding 9 hours to UTC time
             let testDiv = document.createElement('div');
-            let durationSeconds = data.tests[i].duration;
+            let durationSeconds = data.tests[i].time_record;
             let minutes = Math.floor(durationSeconds / 60);
             let seconds = durationSeconds % 60;
             testDiv.id = 'test-' + data.tests[i].id;
             testDiv.className = 'col-12 col-md-6';
             testDiv.innerHTML = `
-            <div class="test-container" onClick="loadWrongQuestions(${data.tests[i].id}, ${data.tests[i].test_no})">
+            <div class="test-container" onClick="loadWrongQuestions(${data.tests[i].id}, ${data.tests[i].test_id})">
             <div>
                 <div class="test-content">
                     <i class="fas fa-file-alt"></i>
-                    <p style="padding-bottom: 5px;"><strong>${data.tests[i].test_no}</strong></p>
-                    <p>오답 ${data.tests[i].wrong_questions}개</p>
+                    <p style="padding-bottom: 5px;"><strong>${data.tests[i].test_id}</strong></p>
+                    <p>오답 ${data.tests[i].wrong_count}개</p>
                     <p>${minutes}분 ${seconds}초 소요</p>
                     <p>${timeSince(koreanDate)}</p>
                 </div>
