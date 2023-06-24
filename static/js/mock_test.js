@@ -422,6 +422,20 @@ window.addEventListener('load', function() {
         // 첫 번째 문제의 시작 시간을 설정합니다.
         startTimes[0] = Date.now();
     });
+
+    // 이전 문제 이동 버튼 이벤트
+    document.getElementById('prev-question-btn').addEventListener('click', function() {
+        if (questionIndex > 0) {
+            changeQuestion(questionIndex - 1);
+        }
+    });
+
+    // 다음 문제 이동 버튼 이벤트
+    document.getElementById('next-question-btn').addEventListener('click', function() {
+        if (questionIndex < totalQuestions - 1) {
+            changeQuestion(questionIndex + 1);
+        }
+    });
 });
 
 // 채점 버튼 클릭 이벤트
