@@ -28,6 +28,17 @@ body {
     padding: 20px;
 }
 
+.p-question-text {
+  margin-top: 20px;
+  margin-right: 20px;
+  margin-left: 20px;
+}
+
+.choice-box {
+  padding-bottom: 20px;
+  font-weight: bold;
+}
+
 #question-area {
   padding-top: 20px;
   padding-bottom: 20px;

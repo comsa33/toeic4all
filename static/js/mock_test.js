@@ -205,7 +205,7 @@ document.getElementById("generate-mocktest-btn").addEventListener("click", funct
                 questionDiv.className = 'col-12 col-md-6';
                 questionDiv.innerHTML = `
                     <div class="question-container">
-                        <p><strong><span class="question-number">${i+1}</span>. ${data[i].QuestionText}</strong></p>
+                        <p class="p-question-text"><strong><span class="question-number">${i+1}</span>. ${data[i].QuestionText}</strong></p>
                         <ol id="choices-${data[i].QuestionId}" class="choice-box" type="A"></ol>
                         <p id="result-${data[i].QuestionId}" style="display: none;">${data[i].CorrectAnswer}</p>
                         <div id="additional-info-${data[i].QuestionId}" class="additional-info" style="display: none;">

@@ -204,8 +204,16 @@
     padding: 10px; /* 내부 패딩을 추가하여 테두리와 내용 사이에 간격을 만듭니다. 필요에 따라 조정하실 수 있습니다. */
 }
 
+
+.p-question-text {
+    margin-top: 20px;
+    margin-right: 20px;
+    margin-left: 20px;
+}
+
 .choice-box {
     padding-bottom: 20px;
+    font-weight: bold;
 }
 
 #question-area {
@@ -282,7 +290,6 @@
     padding-left: 30px;
     padding-right: 30px;
 }
-
 
 .pagination-container {
     display: grid;

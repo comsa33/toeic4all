@@ -41,9 +41,9 @@ window.onload = function() {
             questionDiv.className = 'col-12 col-md-6';
             questionDiv.innerHTML = `
                 <div class="question-container">
-                    <p><strong><span class="question-number">${i+1}</span>. ${data[i].QuestionText}</strong></p>
+                    <p class="p-question-text"><strong><span class="question-number">${i+1}</span>. ${data[i].QuestionText}</strong></p>
                     <!-- 선택지가 들어갈 부분 -->
-                    <ol id="choices-${data[i].QuestionId}" type="A"></ol>
+                    <ol id="choices-${data[i].QuestionId}" class="choice-box" type="A"></ol>
                     <!-- 결과 -->
                     <p id="result-${data[i].QuestionId}"></p>
                     <!-- 번역, 해설, 관련 단어 -->

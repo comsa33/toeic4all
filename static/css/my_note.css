@@ -179,6 +179,17 @@ body {
     color: red;  /* 즐겨찾기가 활성화된 버튼은 빨간색으로 표시 */
 }
 
+.p-question-text {
+    margin-top: 20px;
+    margin-right: 20px;
+    margin-left: 20px;
+}
+
+.choice-box {
+    padding-bottom: 20px;
+    font-weight: bold;
+}
+
 .question-container {
     position: relative;
     text-align: left;
