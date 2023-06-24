@@ -8,9 +8,12 @@ class UserTestDetail(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, nullable=False)
-    test_no = db.Column(db.String)
-    wrong_questions = db.Column(db.Integer)
-    duration = db.Column(db.Integer)
+    test_id = db.Column(db.String)
+    test_type = db.Column(db.String)
+    test_level = db.Column(db.String)
+    question_count = db.Column(db.Integer)
+    wrong_count = db.Column(db.Integer)
+    time_record = db.Column(db.Integer)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     @property
@@ -19,8 +22,11 @@ class UserTestDetail(db.Model):
         return {
             'id': self.id,
             'username': self.username,
-            'test_no': self.test_no,
-            'wrong_questions': self.wrong_questions,
-            'duration': self.duration,
+            'test_id': self.test_id,
+            'test_type': self.test_type,
+            'test_level': self.test_level,
+            'question_count': self.question_count,
+            'wrong_count': self.wrong_count,
+            'time_record': self.time_record,
             'created_at': self.created_at.isoformat() if self.created_at else None,
         }

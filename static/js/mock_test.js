@@ -111,6 +111,21 @@ function convertSecondsToMinutes(timeInSeconds) {
     return `${minutes}분 ${seconds}초`;
 }
 
+function generateTestId() {
+    // Date and Time part
+    let dt = new Date();
+    let dtPart = dt.getFullYear().toString() +
+        (dt.getMonth() + 1).toString().padStart(2, '0') + 
+        dt.getDate().toString().padStart(2, '0') + 
+        dt.getHours().toString().padStart(2, '0') + 
+        dt.getMinutes().toString().padStart(2, '0') + 
+        dt.getSeconds().toString().padStart(2, '0');
+
+    // UUID part (Here assuming a function 'generateUUID()' which returns a UUID)
+    let uuidPart = generateUUID();
+
+    return dtPart + '-' + uuidPart;
+}
 
 let totalQuestions = 0;
 
@@ -124,6 +139,9 @@ document.getElementById("generate-mocktest-btn").addEventListener("click", funct
     document.getElementById('difficultyLevelDescription').style.display = "flex";
     document.getElementById('questionCountDescription').style.display = "flex";
     document.getElementById('question-area').innerHTML = '';
+    
+    // Use this function to set test id
+    document.getElementById('test-id').textContent = generateTestId();
     
     let questionArea = document.getElementById('question-area');
 
@@ -465,6 +483,7 @@ window.addEventListener('load', function() {
         let correctCount = 0;
         let totalQuestions = document.getElementsByClassName('question-container').length;
         let notAnsweredCount = 0;
+        let wrongQuestionIds = [];
         
         for (let i = 0; i < totalQuestions; i++) {
             let questionId = document.getElementsByClassName('col-12 col-md-6')[i].id.split('-')[1];
@@ -478,7 +497,7 @@ window.addEventListener('load', function() {
                 return;  // 채점하지 않고 종료합니다.
             }
         }
-        
+
         for (let i = 0; i < totalQuestions; i++) {
             let questionId = document.getElementsByClassName('col-12 col-md-6')[i].id.split('-')[1];
             let correctAnswer = document.getElementById('result-' + questionId).textContent;
@@ -487,6 +506,7 @@ window.addEventListener('load', function() {
                 correctCount++;
                 document.getElementById('pagination-' + (i + 1)).style.backgroundColor = 'green';
             } else {
+                wrongQuestionIds.push(questionId);
                 document.getElementById('pagination-' + (i + 1)).style.backgroundColor = 'red';
             }
             
@@ -508,5 +528,63 @@ window.addEventListener('load', function() {
         this.style.display = 'none';  // 채점 버튼 숨김
         document.getElementById('test-result').innerHTML = `점수: ${correctCount}/${totalQuestions} · 시간: ${convertSecondsToMinutes(getTotalTime())}`;
         document.getElementById('test-result').style.display = "flex";  // 채점 결과를 보임
+
+        // 채점 완료 후 API 호출하여 사용자의 시험 정보를 저장합니다.
+        let wrongCount = totalQuestions - correctCount;
+        let testId = document.getElementById('test-id').textContent;
+        let testType = document.getElementById('questionType').value;
+        let testLevelElement = document.getElementById('difficultyLevel');
+        let testLevel = testLevelElement.selectedOptions[0].textContent;
+        let timeRecord = getTotalTime();  // 전체 소요 시간을 초로 환산합니다.
+
+        let data = {
+            test_id: testId,
+            test_type: testType,
+            test_level: testLevel,
+            question_count: totalQuestions,
+            wrong_count: wrongCount,
+            time_record: timeRecord
+        };
+
+        fetchWithToken('api/user-test-detail', {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(json => {
+            console.log(json);
+            let testId = json.id;
+            
+            // 틀린 문제들에 대해 한 번의 API 호출을 통해 저장합니다.
+            let wrongQuestionData = {
+                question_ids: wrongQuestionIds,
+                test_id: testId
+            };
+            fetchWithToken('api/wrong-question', {
+                method: 'POST',
+                body: JSON.stringify(wrongQuestionData),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(json => console.log(json))
+            .catch(error => console.log('Error:', error));
+        })
+        .then(json => console.log(json))
+        .catch(error => console.log('Error:', error));
     });
 });
