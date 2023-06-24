@@ -386,6 +386,20 @@ function changeQuestion(index) {
     let currentItem = document.getElementById('pagination-' + (index + 1));
     currentItem.classList.add('pagination-number-active');
 
+    // '이전 문제' 버튼의 표시 상태 업데이트
+    if (index == 0) {
+        document.getElementById('prev-question-btn').style.display = 'none';
+    } else {
+        document.getElementById('prev-question-btn').style.display = 'block';
+    }
+
+    // '다음 문제' 버튼의 표시 상태 업데이트
+    if (index == totalQuestions - 1) {
+        document.getElementById('next-question-btn').style.display = 'none';
+    } else {
+        document.getElementById('next-question-btn').style.display = 'block';
+    }
+    
     // 새 타이머 시작
     startTimes[questionIndex] = Date.now();
 }

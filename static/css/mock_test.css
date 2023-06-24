@@ -181,7 +181,7 @@
     border-top: 1px solid #80808052;
     font-size: 0.75em;
     color: #555;
-    padding-bottom: 20px;
+    padding-bottom: 40px;
 }
 
 .control-group {
@@ -261,8 +261,6 @@
 #prev-next-button {
     text-align: center;  /* 버튼들을 가운데로 정렬 */
     justify-content: center;
-    font-size: 0.8em;
-    font-weight: 400;
 }
 
 #prev-question-btn, #next-question-btn {
@@ -270,10 +268,12 @@
     display: inline-block;
     background: transparent;  /* 버튼 배경을 투명하게 */
     border: none;  /* 버튼 테두리 제거 */
+    font-size: 0.85em;
+    font-weight: bold;
 }
 
 #prev-question-btn:hover, #next-question-btn:hover {
-    color: #0056b3;
+    color: #ea5b19;
 }
 
 #col-12 col-md-6 {
