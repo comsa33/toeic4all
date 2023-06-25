@@ -206,11 +206,6 @@ document.getElementById("generate-mocktest-btn").addEventListener("click", funct
                     <div class="question-container">
                         <p class="p-question-text"><strong><span class="question-number">${i+1}</span>. ${data[i].QuestionText}</strong></p>
                         <ol id="choices-${data[i].QuestionId}" class="choice-box" type="A"></ol>
-                        <!-- Navigation buttons -->
-                        <div id="prev-next-button" style="display: none;">
-                            <button class="btn btn-primary question-nav-btn" id="prev-question-btn">이전 문제</button>
-                            <button class="btn btn-primary question-nav-btn" id="next-question-btn">다음 문제</button>
-                        </div>
                         <p id="result-${data[i].QuestionId}" style="display: none;">${data[i].CorrectAnswer}</p>
                         <div id="additional-info-${data[i].QuestionId}" class="additional-info" style="display: none;">
                             <div class="time-taken" id="time-taken-${data[i].QuestionId}" style="display: none;"></div>
