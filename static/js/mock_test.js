@@ -490,7 +490,6 @@ window.addEventListener('load', function() {
         let correctCount = 0;
         let totalQuestions = document.getElementsByClassName('question-container').length;
         let notAnsweredCount = 0;
-        let wrongQuestionIds = [];
         
         for (let i = 0; i < totalQuestions; i++) {
             let questionId = document.getElementsByClassName('col-12 col-md-6')[i].id.split('-')[1];
@@ -504,37 +503,6 @@ window.addEventListener('load', function() {
                 return;  // 채점하지 않고 종료합니다.
             }
         }
-
-        for (let i = 0; i < totalQuestions; i++) {
-            let questionId = document.getElementsByClassName('col-12 col-md-6')[i].id.split('-')[1];
-            let correctAnswer = document.getElementById('result-' + questionId).textContent;
-
-            if (gradeQuestion(questionId, correctAnswer)) {
-                correctCount++;
-                document.getElementById('pagination-' + (i + 1)).style.backgroundColor = 'rgb(101, 201, 101)';
-            } else {
-                wrongQuestionIds.push(questionId);
-                document.getElementById('pagination-' + (i + 1)).style.backgroundColor = 'rgb(255, 109, 109)';
-            }
-            
-            // 문제별 소요 시간 기록
-            let timeTakenDiv = document.getElementById('time-taken-' + questionId);
-            let timeTaken = timerPerQuestion[i];
-            if (timeTakenDiv && timeTaken) {
-                timeTakenDiv.style.display = 'block';
-                timeTakenDiv.textContent = `${(i + 1)}번 문제 소요시간: ${convertSecondsToMinutes(timeTaken)}`;
-            }
-            
-            // 문제의 추가 정보 표시
-            let additionalInfoDiv = document.getElementById('additional-info-' + questionId);
-            if (additionalInfoDiv) {
-                additionalInfoDiv.style.display = 'block';
-            }
-        }
-        
-        this.style.display = 'none';  // 채점 버튼 숨김
-        document.getElementById('test-result').innerHTML = `점수: ${correctCount}/${totalQuestions} · 시간: ${convertSecondsToMinutes(getTotalTime())}`;
-        document.getElementById('test-result').style.display = "flex";  // 채점 결과를 보임
 
         // 채점 완료 후 API 호출하여 사용자의 시험 정보를 저장합니다.
         let wrongCount = totalQuestions - correctCount;
@@ -571,30 +539,63 @@ window.addEventListener('load', function() {
             console.log(json);
             let testId = json.test_detail_id;
             
-            // 틀린 문제들에 대해 한 번의 API 호출을 통해 저장합니다.
-            let wrongQuestionData = {
-                question_ids: wrongQuestionIds,
-                test_id: testId
-            };
+            // 문제를 채점하고 결과를 저장합니다.
+            for (let i = 0; i < totalQuestions; i++) {
+                let questionId = document.getElementsByClassName('col-12 col-md-6')[i].id.split('-')[1];
+                let correctAnswer = document.getElementById('result-' + questionId).textContent;
 
-            console.log(wrongQuestionData);
+                let isCorrect = gradeQuestion(questionId, correctAnswer);
+                
+                if (isCorrect) {
+                    correctCount++;
+                    document.getElementById('pagination-' + (i + 1)).style.backgroundColor = 'rgb(101, 201, 101)';
+                } else {
+                    document.getElementById('pagination-' + (i + 1)).style.backgroundColor = 'rgb(255, 109, 109)';
+                }
+                
+                // 문제별 소요 시간 기록
+                let timeTakenDiv = document.getElementById('time-taken-' + questionId);
+                let timeTaken = timerPerQuestion[i];
+                if (timeTakenDiv && timeTaken) {
+                    timeTakenDiv.style.display = 'block';
+                    timeTakenDiv.textContent = `${(i + 1)}번 문제 소요시간: ${convertSecondsToMinutes(timeTaken)}`;
+                }
+                
+                // 문제의 추가 정보 표시
+                let additionalInfoDiv = document.getElementById('additional-info-' + questionId);
+                if (additionalInfoDiv) {
+                    additionalInfoDiv.style.display = 'block';
+                }
 
-            fetchWithToken('/api/wrong-question', {
-                method: 'POST',
-                body: JSON.stringify(wrongQuestionData),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(json => console.log(json))
-            .catch(error => console.log('Error:', error));
+                // 문제별 세부 정보를 API에 저장합니다.
+                let questionDetailData = {
+                    test_id: testId,
+                    question_id: questionId,
+                    is_correct: isCorrect,
+                    time_record_per_question: timerPerQuestion[i]
+                };
+
+                fetchWithToken('/api/test-question-detail', {
+                    method: 'POST',
+                    body: JSON.stringify(questionDetailData),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(json => console.log(json))
+                .catch(error => console.log('Error:', error));
+            }
         })
         .catch(error => console.log('Error:', error));
+                
+        this.style.display = 'none';  // 채점 버튼 숨김
+        document.getElementById('test-result').innerHTML = `점수: ${correctCount}/${totalQuestions} · 시간: ${convertSecondsToMinutes(getTotalTime())}`;
+        document.getElementById('test-result').style.display = "flex";  // 채점 결과를 보임
     });
 });

@@ -8,7 +8,8 @@ from flask import Blueprint, jsonify, request
 from sqlalchemy import and_, func, desc
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
-from app.models import GeneratedQuestionType, GeneratedQuestionSubType, GeneratedQuestion, GeneratedAnswer, GeneratedVocabulary, QuestionReport, MyQuestions, WrongQuestions, UserTestDetail
+from app.models import GeneratedQuestionType, GeneratedQuestionSubType, GeneratedQuestion, GeneratedAnswer, GeneratedVocabulary
+from app.models import QuestionReport, MyQuestions, WrongQuestions, UserTestDetail, UserTestQuestionsDetail
 from app import db
 
 
@@ -345,6 +346,38 @@ def check_answer():
     return jsonify({'is_correct': answer.is_correct})
 
 
+@api.route('/test-question-detail', methods=['POST'])
+@jwt_required()
+def add_test_question_detail():
+    username = get_jwt_identity()  # Get username from JWT token
+    test_id = request.json.get('test_id')
+    question_id = request.json.get('question_id')
+    is_correct = request.json.get('is_correct')
+    time_record_per_question = request.json.get('time_record_per_question')
+
+    # Validate input
+    if not test_id or not question_id or is_correct is None or not time_record_per_question:
+        return jsonify({"error": "Test ID, Question ID, correctness and time record are required"}), 400
+
+    # Check if the entry already exists
+    existing_entry = UserTestQuestionsDetail.query.filter_by(username=username, question_id=question_id, test_id=test_id).first()
+    if existing_entry:
+        return jsonify({"error": "This entry already exists"}), 400
+
+    # Add the question detail to the database
+    new_question_detail = UserTestQuestionsDetail(username=username,
+                                                  test_id=test_id,
+                                                  question_id=question_id,
+                                                  is_correct=is_correct,
+                                                  time_record_per_question=time_record_per_question)
+
+    # Save to database
+    db.session.add(new_question_detail)
+    db.session.commit()
+
+    return jsonify({"message": "Test question detail has been added"}), 201
+
+
 @api.route('/wrong-question', methods=['POST'])
 @jwt_required()
 def add_to_wrong_questions():
@@ -382,11 +415,10 @@ def save_user_test_detail():
     test_type = data.get('test_type')
     test_level = data.get('test_level')
     question_count = data.get('question_count')
-    wrong_count = data.get('wrong_count')
     time_record = data.get('time_record')
 
     # Validate input
-    if not all([test_id, test_type, test_level, question_count, wrong_count, time_record]):
+    if not all([test_id, test_type, test_level, question_count, time_record]):
         return jsonify({"error": "All fields are required"}), 400
 
     # Create the record
@@ -396,7 +428,6 @@ def save_user_test_detail():
         test_type=test_type,
         test_level=test_level,
         question_count=question_count,
-        wrong_count=wrong_count,
         time_record=time_record,
     )
 

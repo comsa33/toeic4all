@@ -9,3 +9,4 @@ from .user_detail import UserDetail
 from .my_questions import MyQuestions
 from .wrong_questions import WrongQuestions
 from .user_test_detail import UserTestDetail
+from .user_test_questions_detail import UserTestQuestionsDetail
