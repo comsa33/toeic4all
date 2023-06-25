@@ -32,14 +32,10 @@ def get_question_types():
     return jsonify(result)
 
 
-def create_formatted_question(question_type, level):
-    questions_query = GeneratedQuestion.query.filter_by(question_type_id=question_type.id)
-    if level:
-        questions_query = questions_query.filter(GeneratedQuestion.question_level == level)
-    question = questions_query.order_by(func.random()).first()
-
+def create_formatted_question(question):
     answers = GeneratedAnswer.query.filter(GeneratedAnswer.question_id == question.id).all()
     vocabularies = GeneratedVocabulary.query.filter(GeneratedVocabulary.question_id == question.id).all()
+    question_type = GeneratedQuestionType.query.get(question.question_type_id)
     question_sub_type = GeneratedQuestionSubType.query.get(question.question_sub_type_id)
 
     formatted_question = {
@@ -75,13 +71,14 @@ def get_questions():
         questions = GeneratedQuestion.query.filter_by(question_type_id=question_type.id, question_level=level).order_by(func.random()).limit(questions_per_type).all()
 
         for question in questions:
-            formatted_question = create_formatted_question(question_type, level)
+            formatted_question = create_formatted_question(question)
             result.append(formatted_question)
 
     shuffle(question_types)
     for i in range(remaining_questions):
         question_type = question_types[i]
-        formatted_question = create_formatted_question(question_type, level)
+        question = GeneratedQuestion.query.filter_by(question_type_id=question_type.id, question_level=level).order_by(func.random()).first()
+        formatted_question = create_formatted_question(question)
         result.append(formatted_question)
 
     return jsonify(result)
