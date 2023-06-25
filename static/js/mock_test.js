@@ -381,10 +381,11 @@ document.getElementById("generate-mocktest-btn").addEventListener("click", funct
                 }
             });
             paginationContainer.appendChild(nextButton);
+            
+            document.getElementById('questionTypeDescription').innerHTML = typeSelect.options[typeSelect.selectedIndex].textContent;
+            document.getElementById('difficultyLevelDescription').innerHTML = levelSelect.options[levelSelect.selectedIndex].textContent;
+            document.getElementById('questionCountDescription').innerHTML = data.length;
         });
-    document.getElementById('questionTypeDescription').innerHTML = typeSelect.options[typeSelect.selectedIndex].textContent;
-    document.getElementById('difficultyLevelDescription').innerHTML = levelSelect.options[levelSelect.selectedIndex].textContent;
-    document.getElementById('questionCountDescription').innerHTML = totalQuestions;
 });
 
 // 문제 이동 함수
