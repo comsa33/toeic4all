@@ -4,6 +4,7 @@
     --placeholder-color: #657786;
     --disabled-color: #fcd3d3;
     --background-color: #f5f8fa;
+    --hover-color: #df3e3e;
     --box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
@@ -90,13 +91,13 @@ body {
     cursor: pointer;
 }
 
-.btn-primary {
+.btn-primary, .btn-success {
     background-color: var(--primary-color);
     box-shadow: var(--box-shadow);
 }
 
-.btn-success {
-    background-color: var(--primary-color);
+.btn-primary:hover, .btn-success:hover {
+    background-color: var(--hover-color);
     box-shadow: var(--box-shadow);
 }
 
