@@ -204,6 +204,7 @@ body {
 .additional-info {
   font-size: 0.8em;
   margin-top: 20px;
+  margin-bottom: 20px;
   padding: 10px;
   border-top: 1px solid #ddd;
   display: none;  /* 초기에는 해석, 해설, 단어 부분을 숨깁니다 */
