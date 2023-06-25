@@ -1,7 +1,6 @@
 from datetime import datetime
 
 from .. import db
-from app.models import UserTestQuestionsDetail
 
 
 class UserTestDetail(db.Model):
@@ -15,20 +14,3 @@ class UserTestDetail(db.Model):
     question_count = db.Column(db.Integer)
     time_record = db.Column(db.Integer)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
-
-    @property
-    def serialize(self):
-        """Return object data in easily serializable format"""
-        wrong_count = UserTestQuestionsDetail.query.filter_by(test_id=self.id, is_correct=False).count()
-
-        return {
-            'id': self.id,
-            'username': self.username,
-            'test_id': self.test_id,
-            'test_type': self.test_type,
-            'test_level': self.test_level,
-            'question_count': self.question_count,
-            'wrong_count': wrong_count,
-            'time_record': self.time_record,
-            'created_at': self.created_at.isoformat() if self.created_at else None,
-        }

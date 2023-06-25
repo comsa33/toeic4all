@@ -406,6 +406,23 @@ def save_user_test_detail():
     return jsonify({"message": "Test detail has been saved", "test_detail_id": new_record.id}), 201
 
 
+def serialize_user_test_detail(test):
+    """Return object data in easily serializable format"""
+    wrong_count = UserTestQuestionsDetail.query.filter_by(test_id=test.id, is_correct=False).count()
+
+    return {
+        'id': test.id,
+        'username': test.username,
+        'test_id': test.test_id,
+        'test_type': test.test_type,
+        'test_level': test.test_level,
+        'question_count': test.question_count,
+        'wrong_count': wrong_count,
+        'time_record': test.time_record,
+        'created_at': test.created_at.isoformat() if test.created_at else None,
+    }
+
+
 @api.route('/my-note/tests', methods=['GET'])
 @jwt_required()
 def get_user_tests():
@@ -416,7 +433,7 @@ def get_user_tests():
         .order_by(desc(UserTestDetail.created_at))\
         .all()
 
-    return jsonify({"tests": [test.serialize for test in tests]}), 200
+    return jsonify({"tests": [serialize_user_test_detail(test) for test in tests]}), 200
 
 
 @api.route('/my-note/tests/<int:test_id>/wrong-questions', methods=['GET'])
