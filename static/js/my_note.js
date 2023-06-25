@@ -136,7 +136,7 @@ function loadWrongQuestions(testId, testNo) {
             questionArea.appendChild(questionDiv);
 
             let choicesOl = document.getElementById("choices-" + data[i].QuestionId);
-            let choices = data[i].Choices;
+            let choices = data[i].Choices || [];
 
             // Randomize the choices
             for (let j = choices.length - 1; j > 0; j--) {
