@@ -431,14 +431,14 @@ function changeQuestion(index) {
     if (index == 0) {
         document.getElementById('prev-question-btn').style.display = 'none';
     } else {
-        document.getElementById('prev-question-btn').style.display = 'block';
+        document.getElementById('prev-question-btn').style.display = 'flex';
     }
 
     // '다음 문제' 버튼의 표시 상태 업데이트
     if (index == totalQuestions - 1) {
         document.getElementById('next-question-btn').style.display = 'none';
     } else {
-        document.getElementById('next-question-btn').style.display = 'block';
+        document.getElementById('next-question-btn').style.display = 'flex';
     }
 
     // 새 타이머 시작

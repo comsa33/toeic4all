@@ -9,7 +9,7 @@
 #generate-mocktest-btn {
     font-size: 0.8em;
     font-weight: 200;
-    background-color: #ff5a1e; 
+    background-color: #ff7774; 
     border: none;
     color: white;
     padding: 10px 20px;
@@ -44,8 +44,12 @@
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
 }
 
-#new-test-btn, #grade-test-btn {
+#new-test-btn {
     background-color: #f09d9b; 
+}
+
+#grade-test-btn {
+    background-color: #ff7774; 
 }
 
 @keyframes heartbeat {
@@ -189,7 +193,7 @@
     justify-content: center;
     gap: 20px;
     padding-top: 20px;
-    background-color: #e9d9be;
+    background-color: #f09898;
 }
 
 .question-container {
@@ -200,7 +204,7 @@
     width: 100%;
     height: auto;
     padding: 20px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    box-shadow: 0 4px 8px 0 rgb(255 103 103 / 20%), 0 6px 20px 0 rgba(255 158 158 / 15%);
 }
 
 .p-question-text {
@@ -224,7 +228,7 @@
 
 #test-info-msg {
     padding-bottom: 20px;
-    background-color: #e9d9be;
+    background-color: #f09898;
     color: #f09898;
     font-weight: 300;
 }
@@ -268,21 +272,23 @@
 
 #prev-next-button {
     text-align: center;
+    gap: 40px;
     justify-content: center;
     padding-top: 15px;
 }
 
 #prev-question-btn, #next-question-btn {
-    color: #5b7fc8;
+    color: #f09d9b;
     display: inline-block;
     background: transparent;  /* 버튼 배경을 투명하게 */
     border: none;  /* 버튼 테두리 제거 */
     font-size: 0.85em;
     font-weight: bold;
+    box-shadow: 0 4px 8px 0 rgb(255 103 103 / 20%), 0 6px 20px 0 rgba(255 158 158 / 15%);
 }
 
 #prev-question-btn:hover, #next-question-btn:hover {
-    color: #ea5b19;
+    color: #f74741;
 }
 
 #col-12 col-md-6 {
