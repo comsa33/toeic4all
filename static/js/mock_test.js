@@ -184,7 +184,6 @@ document.getElementById("generate-mocktest-btn").addEventListener("click", funct
         .then(response => response.json())
         .then(data => {
             totalQuestions = data.length;
-            
 
             for (let i = 0; i < data.length; i++) {
                 let questionDiv = document.createElement('div');

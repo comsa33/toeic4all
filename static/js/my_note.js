@@ -108,21 +108,24 @@ function loadWrongQuestions(testId, testNo) {
         mocktestNo.innerHTML = `모의고사_${testNo}`;
         for (let i = 0; i < data.length; i++) {
             let questionDiv = document.createElement('div');
+            let vocabList = data[i].Vocabulary;
+            let vocabText = '';
+            for (let j = 0; j < vocabList.length; j++) {
+                vocabText += `<p style="margin-bottom: 0;">    · ${vocabList[j].Word} : ${vocabList[j].Explanation}</p>`;
+            }
             questionDiv.id = 'question-' + data[i].QuestionId;
             questionDiv.className = 'col-12 col-md-6';
             questionDiv.innerHTML = `
                 <div class="question-container">
                     <p class="p-question-text"><strong><span class="question-number">${i+1}</span>. ${data[i].QuestionText}</strong></p>
-                    <!-- 선택지가 들어갈 부분 -->
                     <ol id="choices-${data[i].QuestionId}" class="choice-box" type="A"></ol>
-                    <!-- 결과 -->
                     <p id="result-${data[i].QuestionId}"></p>
-                    <!-- 번역, 해설, 관련 단어 -->
                     <div id="additional-info-${data[i].QuestionId}" class="additional-info" style="display: none;">
                         <p>[유형] ${data[i].QuestionSubType}</p>
                         <p>[해석] ${data[i].Translation}</p>
                         <p>[해설] ${data[i].Explanation}</p>
-                        <p>[어휘] ${data[i].Vocabulary.Word} - ${data[i].Vocabulary.Explanation}</p>
+                        <p style="margin-bottom: 0;">[어휘]</p>
+                        ${vocabText}
                     </div>
                     <!-- 즐찾 버튼 -->
                     <button class="favourite-btn" data-question-id="${data[i].QuestionId}" title="내 오답노트에 추가하기"><i class="fas fa-heart"></i></button>
@@ -131,6 +134,39 @@ function loadWrongQuestions(testId, testNo) {
                 </div>
             `;
             questionArea.appendChild(questionDiv);
+
+            let choicesOl = document.getElementById("choices-" + data[i].QuestionId);
+            let choices = data[i].Choices;
+
+            // Randomize the choices
+            for (let j = choices.length - 1; j > 0; j--) {
+                const k = Math.floor(Math.random() * (j + 1));
+                [choices[j], choices[k]] = [choices[k], choices[j]];
+            }
+
+            for (let j = 0; j < choices.length; j++) {
+                let li = document.createElement('li');
+                li.innerHTML = `
+                    <input type="radio" name="choice-${data[i].QuestionId}" value="${choices[j]}">
+                    <label for="choice-${choices[j]}">${choices[j]}</label>
+                `;
+                choicesOl.appendChild(li);
+
+                // 이벤트 리스너 추가
+                let input = li.querySelector("input");
+                input.addEventListener("change", function() {
+                    let resultP = document.getElementById("result-" + data[i].QuestionId);
+                    let additionalInfoDiv = document.getElementById("additional-info-" + data[i].QuestionId);
+                    if (this.value === data[i].CorrectAnswer) {
+                        resultP.innerHTML = "정답입니다!";
+                        resultP.style.color = "rgb(101, 201, 101)";
+                    } else {
+                        resultP.innerHTML = "오답입니다! 정답은 " + data[i].CorrectAnswer + "입니다.";
+                        resultP.style.color = "rgb(255, 109, 109)";
+                    }
+                    additionalInfoDiv.style.display = "block";
+                });
+            }
 
             // After the questionDiv has been appended to questionArea
             fetchWithToken('/api/get_favourite_status?question_id=' + data[i].QuestionId, {
@@ -231,52 +267,6 @@ function loadWrongQuestions(testId, testNo) {
                 }
             });
         }
-        return data.map(question => question.QuestionId).join(',');
     })
     .catch(error => alert(error))
-    .then(questionIds => {
-        fetch('/api/choices_with_ids?QuestionIds=' + questionIds)
-        .then(response => response.json())
-        .then(data => {
-            for (let i = 0; i < data.count; i++) {
-                let choicesOl = document.getElementById('choices-' + data.data[i].QuestionId);
-                data.data[i].Choices.forEach(choice => {
-                    let choiceLi = document.createElement('li');
-                    choiceLi.innerHTML = `
-                        <input type="radio" class="answer-input" name="${data.data[i].QuestionId}" value="${choice.id}" data-question-id="${data.data[i].QuestionId}">
-                        ${choice.text}
-                    `;
-                    choicesOl.appendChild(choiceLi);
-                });
-            }
-
-            // Add event listener to each choice
-            let answerInputs = document.querySelectorAll('.answer-input');
-            answerInputs.forEach(input => {
-                input.addEventListener('change', function() {
-                    let questionId = this.dataset.questionId;
-                    let answerId = this.value;
-                    fetchWithToken('/api/check_answer', {
-                        method: 'POST',
-                        body: JSON.stringify({answer_id: answerId, question_id: questionId}),
-                        headers: {
-                            'Content-Type': 'application/json'
-                        }
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        let resultElement = document.getElementById('result-' + questionId);
-                        resultElement.textContent = data.is_correct ? 'Correct answer' : 'Wrong answer';
-                        resultElement.classList.add('result-message');
-                        if (data.is_correct) {
-                            resultElement.classList.add('correct');
-                        } else {
-                            resultElement.classList.add('wrong');
-                        }
-                        document.getElementById('additional-info-' + questionId).style.display = 'block';
-                    });
-                });
-            });
-        });
-    });
 };

@@ -1,4 +1,5 @@
 from random import shuffle
+from collections import defaultdict
 
 from flask import Blueprint, jsonify, request
 from sqlalchemy import and_, func, desc
@@ -297,7 +298,23 @@ def fetch_questions_by_ids(question_ids):
         GeneratedVocabulary.question_id.in_(question_ids)
     ).all()
 
-    vocabularies_dict = {v.question_id: {"Word": v.word, "Explanation": v.explanation} for v in vocabularies_data}
+    answers_data = db.session.query(
+        GeneratedAnswer
+    ).filter(
+        GeneratedAnswer.question_id.in_(question_ids)
+    ).all()
+
+    vocabularies_dict = defaultdict(list)
+    answers_dict = defaultdict(list)
+    correct_answers_dict = {}
+
+    for v in vocabularies_data:
+        vocabularies_dict[v.question_id].append({"Word": v.word, "Explanation": v.explanation})
+
+    for a in answers_data:
+        answers_dict[a.question_id].append(a.text)
+        if a.is_correct:
+            correct_answers_dict[a.question_id] = a.text
 
     # convert questions to dictionary
     questions_dict = [{
@@ -310,7 +327,9 @@ def fetch_questions_by_ids(question_ids):
         "QuestionLevel": data.GeneratedQuestion.question_level,
         "Translation": data.GeneratedQuestion.translation,
         "Explanation": data.GeneratedQuestion.explanation,
-        "Vocabulary": vocabularies_dict.get(data.GeneratedQuestion.id)
+        "Vocabularies": vocabularies_dict.get(data.GeneratedQuestion.id, []),
+        "Choices": answers_dict.get(data.GeneratedQuestion.id, []),
+        "CorrectAnswer": correct_answers_dict.get(data.GeneratedQuestion.id)
     } for data in questions_data]
 
     return questions_dict
