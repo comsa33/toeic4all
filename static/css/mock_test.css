@@ -299,30 +299,44 @@
     width: fit-content; /* 이 속성이 요소의 너비를 내용에 맞게 조정합니다. */
     margin: 0 auto; /* 이 속성이 요소를 화면 중앙에 배치합니다. */
     font-size: .75em;
-    font-weight: 300;
+    font-weight: 500;
     padding-top: 30px;
     padding-bottom: 20px;
 }
 
 .pagination-button {
     text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
 }
 
 .pagination-button i {
-    color: gray;
+    color: #f74741;
 }
 
 .pagination-number {
     text-align: center;
     width: 20px;
     height: 20px;
-    background-color: #ddd;
+    background-color: #fcd5d4;
+    color: #fe9f9d;
     border-radius: 4px;
-    display: inline-block;
+    display: flex;
     margin: 2px;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.pagination-number :hover {
+    scale: 1.1;
 }
 
 .pagination-number-active {
+    background-color: #fb4741;
+    color: white;
     animation: heartbeat 2s infinite;
 }
 

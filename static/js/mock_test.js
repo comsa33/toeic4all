@@ -285,8 +285,8 @@ document.getElementById("generate-mocktest-btn").addEventListener("click", funct
                     radioInput.addEventListener('change', function() {
                         if (this.checked) {
                             let paginationItem = document.getElementById('pagination-' + (i + 1));
-                            paginationItem.style.backgroundColor = 'rgb(119, 119, 119)';
-                            paginationItem.style.color = 'white';
+                            paginationItem.style.backgroundColor = '#f09d9b';
+                            paginationItem.style.color = '#ffe3e2';
                         }
                     });
                 
