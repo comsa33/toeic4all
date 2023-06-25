@@ -32,167 +32,59 @@ def get_question_types():
     return jsonify(result)
 
 
+def create_formatted_question(question_type, level):
+    questions_query = GeneratedQuestion.query.filter_by(question_type_id=question_type.id)
+    if level:
+        questions_query = questions_query.filter(GeneratedQuestion.question_level == level)
+    question = questions_query.order_by(func.random()).first()
+
+    answers = GeneratedAnswer.query.filter(GeneratedAnswer.question_id == question.id).all()
+    vocabularies = GeneratedVocabulary.query.filter(GeneratedVocabulary.question_id == question.id).all()
+    question_sub_type = GeneratedQuestionSubType.query.get(question.question_sub_type_id)
+
+    formatted_question = {
+        'QuestionId': question.id,
+        'QuestionText': question.question_text,
+        'QuestionTypeId': question_type.id,
+        'QuestionType': question_type.name_kor,
+        'QuestionSubTypeId': question_sub_type.id,
+        'QuestionSubType': question_sub_type.name_kor,
+        'QuestionLevel': question.question_level,
+        'Translation': question.translation,
+        'Explanation': question.explanation,
+        'Vocabulary': [{'Word': v.word, 'Explanation': v.explanation} for v in vocabularies],
+        'Choices': [a.text for a in answers],
+        'CorrectAnswer': next((a.text for a in answers if a.is_correct), None)
+    }
+
+    return formatted_question
+
+
 @api.route('/questions', methods=['GET'])
 @jwt_required()
 def get_questions():
     level = request.args.get('level')
     num_questions = request.args.get('num_questions', default=30, type=int)
 
-    # Fetch all question types
     question_types = GeneratedQuestionType.query.all()
-
-    # The number of questions per type
     questions_per_type = num_questions // len(question_types)
-
-    # The remaining number of questions
     remaining_questions = num_questions % len(question_types)
 
     result = []
     for question_type in question_types:
-        # Fetch the needed number of questions from each type
-        questions_query = GeneratedQuestion.query.filter_by(question_type_id=question_type.id)
-        if level:
-            questions_query = questions_query.filter(GeneratedQuestion.question_level == level)
-        questions = questions_query.order_by(func.random()).limit(questions_per_type).all()
+        questions = GeneratedQuestion.query.filter_by(question_type_id=question_type.id, question_level=level).order_by(func.random()).limit(questions_per_type).all()
 
-        # Format each question and add it to the result
         for question in questions:
-            answers = GeneratedAnswer.query.filter(GeneratedAnswer.question_id == question.id).all()
-            vocabularies = GeneratedVocabulary.query.filter(GeneratedVocabulary.question_id == question.id).all()
-            question_sub_type = GeneratedQuestionSubType.query.get(question.question_sub_type_id)
-
-            formatted_question = {
-                'QuestionId': question.id,
-                'QuestionText': question.question_text,
-                'QuestionTypeId': question_type.id,
-                'QuestionType': question_type.name_kor,
-                'QuestionSubTypeId': question_sub_type.id,
-                'QuestionSubType': question_sub_type.name_kor,
-                'QuestionLevel': question.question_level,
-                'Translation': question.translation,
-                'Explanation': question.explanation,
-                'Vocabulary': [{'Word': v.word, 'Explanation': v.explanation} for v in vocabularies],
-                'Choices': [a.text for a in answers],
-                'CorrectAnswer': next((a.text for a in answers if a.is_correct), None)
-            }
+            formatted_question = create_formatted_question(question_type, level)
             result.append(formatted_question)
 
-    # Fetch remaining questions from randomly chosen types
     shuffle(question_types)
     for i in range(remaining_questions):
         question_type = question_types[i]
-        questions_query = GeneratedQuestion.query.filter_by(question_type_id=question_type.id)
-        if level:
-            questions_query = questions_query.filter(GeneratedQuestion.question_level == level)
-        question = questions_query.order_by(func.random()).first()
-
-        # Format question and add it to the result
-        answers = GeneratedAnswer.query.filter(GeneratedAnswer.question_id == question.id).all()
-        vocabularies = GeneratedVocabulary.query.filter(GeneratedVocabulary.question_id == question.id).all()
-        question_sub_type = GeneratedQuestionSubType.query.get(question.question_sub_type_id)
-
-        formatted_question = {
-            'QuestionId': question.id,
-            'QuestionText': question.question_text,
-            'QuestionTypeId': question_type.id,
-            'QuestionType': question_type.name_kor,
-            'QuestionSubTypeId': question_sub_type.id,
-            'QuestionSubType': question_sub_type.name_kor,
-            'QuestionLevel': question.question_level,
-            'Translation': question.translation,
-            'Explanation': question.explanation,
-            'Vocabulary': [{'Word': v.word, 'Explanation': v.explanation} for v in vocabularies],
-            'Choices': [a.text for a in answers],
-            'CorrectAnswer': next((a.text for a in answers if a.is_correct), None)
-        }
+        formatted_question = create_formatted_question(question_type, level)
         result.append(formatted_question)
 
     return jsonify(result)
-
-
-def fetch_choices(question_ids):
-    if question_ids:
-        choices_query = GeneratedAnswer.query.filter(GeneratedAnswer.question_id.in_(question_ids))
-        choices = choices_query.all()
-        grouped_choices = {}
-        for choice in choices:
-            if choice.question_id not in grouped_choices:
-                grouped_choices[choice.question_id] = []
-            grouped_choices[choice.question_id].append(choice.text)
-        return {
-            "count": len(grouped_choices),
-            "data": [{"QuestionId": qid, "Choices": grouped_choices[qid]} for qid in grouped_choices]
-        }
-    else:
-        return {"error": "QuestionIds parameter is required"}, 400
-
-
-def fetch_choices_with_ids(question_ids):
-    if question_ids:
-        choices_query = GeneratedAnswer.query.filter(GeneratedAnswer.question_id.in_(question_ids))
-        choices = choices_query.all()
-        grouped_choices = {}
-        for choice in choices:
-            if choice.question_id not in grouped_choices:
-                grouped_choices[choice.question_id] = []
-            grouped_choices[choice.question_id].append({
-                "id": choice.id,
-                "text": choice.text
-            })
-        return {
-            "count": len(grouped_choices),
-            "data": [{"QuestionId": qid, "Choices": grouped_choices[qid]} for qid in grouped_choices]
-        }
-    else:
-        return {"error": "QuestionIds parameter is required"}, 400
-
-
-@api.route('/choices_with_ids', methods=['GET'])
-def get_choices_with_ids():
-    question_ids = request.args.get('QuestionIds')
-    if question_ids:
-        question_ids = list(map(int, question_ids.split(',')))
-        return jsonify(fetch_choices_with_ids(question_ids))
-    else:
-        return jsonify({"error": "QuestionIds parameter is required"}), 400
-
-
-# Get question choices
-@api.route('/choices', methods=['GET'])
-def get_choices():
-    question_ids = request.args.get('QuestionIds')
-    if question_ids:
-        question_ids = list(map(int, question_ids.split(',')))
-        return jsonify(fetch_choices(question_ids))
-    else:
-        return jsonify({"error": "QuestionIds parameter is required"}), 400
-
-
-def fetch_answers(question_ids):
-    if question_ids:
-        answers_query = GeneratedAnswer.query.filter(and_(GeneratedAnswer.question_id.in_(question_ids), GeneratedAnswer.is_correct==True))
-        answers = answers_query.all()
-        grouped_answers = {}
-        for answer in answers:
-            if answer.question_id not in grouped_answers:
-                grouped_answers[answer.question_id] = []
-            grouped_answers[answer.question_id].append(answer.text)
-        return {
-            "count": len(grouped_answers),
-            "data": [{"QuestionId": qid, "AnswerText": grouped_answers[qid]} for qid in grouped_answers]
-        }
-    else:
-        return {"error": "QuestionIds parameter is required"}, 400
-
-
-@api.route('/answer', methods=['GET'])
-def get_answer():
-    question_ids = request.args.get('QuestionIds')
-    if question_ids:
-        question_ids = list(map(int, question_ids.split(',')))
-        return jsonify(fetch_answers(question_ids))
-    else:
-        return jsonify({"error": "QuestionIds parameter is required"}), 400
 
 
 # 문제를 리포트하는 API
@@ -344,21 +236,6 @@ def get_favourite_questions():
     question_ids = [favourite.question_id for favourite in favourite_questions]
     questions = fetch_questions_by_ids(question_ids)
     return jsonify(questions)
-
-
-@api.route('/check_answer', methods=['POST'])
-@jwt_required()
-def check_answer():
-    data = request.get_json()
-    answer_id = data.get('answer_id')
-    question_id = data.get('question_id')
-
-    answer = GeneratedAnswer.query.filter_by(id=answer_id, question_id=question_id).first()
-
-    if not answer:
-        return jsonify({'error': 'Answer not found'}), 404
-
-    return jsonify({'is_correct': answer.is_correct})
 
 
 @api.route('/test-question-detail', methods=['POST'])
