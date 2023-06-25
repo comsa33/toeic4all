@@ -85,9 +85,9 @@ window.onload = function() {
                 <div class="test-content">
                     <i class="fas fa-file-alt"></i>
                     <p style="padding-bottom: 5px;"><strong>${testNoDatePart}</strong></p>
-                    <p>오답 ${data.tests[i].wrong_count}개</p>
-                    <p>${minutes}분 ${seconds}초 소요</p>
-                    <p>${timeSince(koreanDate)}</p>
+                    <p>'${data.tests[i].test_type}'유형 · ${data.tests[i].test_level}단계</p>
+                    <p>오답 ${data.tests[i].wrong_count}/${data.tests[i].question_count} (${((data.tests[i].wrong_count / data.tests[i].question_count) * 100).toFixed(2)}%)</p>
+                    <p>${minutes}분 ${seconds}초 소요 · ${timeSince(koreanDate)}</p>
                 </div>
             </div>
             `;
