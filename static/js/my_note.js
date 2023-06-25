@@ -108,7 +108,7 @@ function loadWrongQuestions(testId, testNo) {
         mocktestNo.innerHTML = `모의고사_${testNo}`;
         for (let i = 0; i < data.length; i++) {
             let questionDiv = document.createElement('div');
-            let vocabList = data[i].Vocabulary || [];
+            let vocabList = data[i].Vocabularies || [];
             let vocabText = '';
             for (let j = 0; j < vocabList.length; j++) {
                 vocabText += `<p style="margin-bottom: 0;">    · ${vocabList[j].Word} : ${vocabList[j].Explanation}</p>`;
