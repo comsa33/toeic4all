@@ -1,15 +1,11 @@
-import random
 from random import shuffle
-from datetime import datetime
-from collections import defaultdict
 
-from flask import render_template, make_response
 from flask import Blueprint, jsonify, request
 from sqlalchemy import and_, func, desc
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
 from app.models import GeneratedQuestionType, GeneratedQuestionSubType, GeneratedQuestion, GeneratedAnswer, GeneratedVocabulary
-from app.models import QuestionReport, MyQuestions, WrongQuestions, UserTestDetail, UserTestQuestionsDetail
+from app.models import QuestionReport, MyQuestions, UserTestDetail, UserTestQuestionsDetail
 from app import db
 
 
@@ -378,34 +374,6 @@ def add_test_question_detail():
     return jsonify({"message": "Test question detail has been added"}), 201
 
 
-@api.route('/wrong-question', methods=['POST'])
-@jwt_required()
-def add_to_wrong_questions():
-    question_ids = request.json.get('question_ids')
-    test_id = request.json.get('test_id')
-    username = get_jwt_identity()  # Get username from JWT token
-
-    # Validate input
-    if not question_ids or not test_id:
-        return jsonify({"error": "Question IDs and test ID are required"}), 400
-
-    for question_id in question_ids:
-        # Check if the question is already added
-        existing_entry = WrongQuestions.query.filter_by(username=username, question_id=question_id, test_id=test_id).first()
-        if existing_entry:
-            continue
-
-        # Add the question to the user's wrong questions
-        new_wrong_question = WrongQuestions(username=username, question_id=question_id, test_id=test_id)
-
-        # Save to database
-        db.session.add(new_wrong_question)
-
-    db.session.commit()
-
-    return jsonify({"message": f"{len(question_ids)} questions have been added to your wrong questions"}), 201
-
-
 @api.route('/user-test-detail', methods=['POST'])
 @jwt_required()
 def save_user_test_detail():
@@ -456,8 +424,11 @@ def get_user_tests():
 def get_wrong_questions_for_test(test_id):
     username = get_jwt_identity()
 
-    wrong_questions = WrongQuestions.query.filter_by(test_id=test_id, username=username).all()
-    question_ids = [wrong_question.question_id for wrong_question in wrong_questions]
-    questions = fetch_questions_by_ids(question_ids)
+    # UserTestQuestionsDetail 테이블에서 사용자의 테스트에 대한 문제 세부 정보를 불러옵니다.
+    user_question_details = UserTestQuestionsDetail.query.filter_by(test_id=test_id, username=username).all()
+
+    # is_correct가 False인 문제들만 뽑아냅니다.
+    wrong_question_ids = [detail.question_id for detail in user_question_details if not detail.is_correct]
+    questions = fetch_questions_by_ids(wrong_question_ids)
 
     return jsonify(questions), 200
