@@ -271,9 +271,10 @@ button:disabled {
 
 #community-guidelines-section {
     margin: 30px 0;
-    border: 1px solid #ccc;
+    border: 1px solid #ffd4d4;
+    background-color: #ffd3d380;
     padding: 20px;
-    background-color: #f9f9f9;
+    color: #f87272;
 }
 
 #toggle-guidelines-button {
@@ -286,8 +287,7 @@ button:disabled {
 
 #toggle-guidelines-button:hover {
     background-color: white; 
-    color: black; 
-    border: 2px solid #008CBA;
+    color: #5e5e5e; 
 }
 
 #community-guidelines-content {
