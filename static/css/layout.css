@@ -92,13 +92,13 @@ nav ul li a {
 }
 
 nav ul li a:hover {
-    color: #ffffff;
+    color: #535353;
     font-weight: bold;
     text-decoration: none;
 }
 
 nav ul .active a {
-    color: #ffffff;
+    color: #535353;
     font-weight: bold;
     text-decoration: none;
 }
@@ -164,7 +164,7 @@ body #hamburger-btn {
     left: 0;
     width: 60%;
     height: 100vh;
-    background-color: #333333ec;
+    background-color: #ff9797de;
     padding: 1rem;
     box-sizing: border-box;
     transform: translateX(-100%);
