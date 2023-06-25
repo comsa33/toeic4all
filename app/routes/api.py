@@ -92,6 +92,8 @@ def get_questions():
             if level:
                 question_query = question_query.filter(GeneratedQuestion.question_level == level)
             question = question_query.order_by(func.random()).first()
+            if question is None:
+                continue
             formatted_question = create_formatted_question(question)
             result.append(formatted_question)
             remaining_questions -= 1
