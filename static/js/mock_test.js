@@ -209,8 +209,8 @@ document.getElementById("generate-mocktest-btn").addEventListener("click", funct
                         <p id="result-${data[i].QuestionId}" style="display: none;">${data[i].CorrectAnswer}</p>
                         <div id="additional-info-${data[i].QuestionId}" class="additional-info" style="display: none;">
                             <div class="time-taken" id="time-taken-${data[i].QuestionId}" style="display: none;"></div>
+                            <p><strong>'${data[i].QuestionSubType}' 유형 · ${data[i].QuestionLevel}단계</strong></p>
                             <p>[정답] ${data[i].CorrectAnswer}</p>
-                            <p>[유형] ${data[i].QuestionSubType}</p>
                             <p>[해석] ${data[i].Translation}</p>
                             <p>[해설]<br>    ${data[i].Explanation}</p>
                             <p style="margin-bottom: 0;">[어휘]</p>

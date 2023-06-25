@@ -39,6 +39,11 @@ body {
   font-weight: bold;
 }
 
+.p-result-text {
+  font-size: .9rem;
+  font-weight:bold;
+}
+
 #question-area {
   padding-top: 20px;
   padding-bottom: 20px;

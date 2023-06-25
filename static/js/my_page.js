@@ -48,9 +48,9 @@ window.onload = function() {
                 <div class="question-container">
                     <p class="p-question-text"><strong><span class="question-number">${i+1}</span>. ${data[i].QuestionText}</strong></p>
                     <ol id="choices-${data[i].QuestionId}" class="choice-box" type="A"></ol>
-                    <p id="result-${data[i].QuestionId}"></p>
+                    <p id="result-${data[i].QuestionId}" class="p-result-text"></p>
                     <div id="additional-info-${data[i].QuestionId}" class="additional-info" style="display: none;">
-                        <p>[유형] ${data[i].QuestionSubType}</p>
+                        <p><strong>'${data[i].QuestionSubType}' 유형 · ${data[i].QuestionLevel}단계</strong></p>
                         <p>[해석] ${data[i].Translation}</p>
                         <p>[해설] ${data[i].Explanation}</p>
                         <p style="margin-bottom: 0;">[어휘]</p>
