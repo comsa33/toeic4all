@@ -200,8 +200,7 @@ body {
     text-align: left;
     margin-bottom: 2rem;
     padding: 1rem;
-    border: 1px solid #ddd;
-    border-radius: .5rem;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.1);
 }
 
 .icon-button {
@@ -256,15 +255,18 @@ body {
 
 #back-to-tests {
     border: none;
-    border-radius: 30px;
-    background-color: #328de2;
-    color: white;
+    padding: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.1);
+    background-color: #ececec;
+    color: #989898;
     font-size: .8rem;
+    font-weight: bold;
 }
 
 .test-container {
-    background: #ADD8E6;
-    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.1);
     padding: 20px;
     text-align: center;
     cursor: pointer;
