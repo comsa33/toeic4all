@@ -189,10 +189,51 @@ document.getElementById("generate-mocktest-btn").addEventListener("click", funct
                 let questionDiv = document.createElement('div');
                 questionDiv.style.display = "none";  // 처음에는 문제를 모두 숨깁니다.
                 document.getElementById("start-test-btn").style.display = "block";
+                
                 // 시험 정보 메시지 업데이트
                 let testInfoMsg = document.getElementById('test-info-msg');
                 testInfoMsg.style.display = "block";
                 testInfoMsg.innerHTML = "AI가 당신의 모의고사를 생성했습니다!";
+
+                // 페이지네이션 생성
+                let paginationContainer = document.getElementById('pagination-container');
+
+                // 이전 버튼 생성
+                let prevButton = document.createElement('div');
+                prevButton.id = 'prev-button';
+                prevButton.className = 'pagination-button';
+                prevButton.innerHTML = '<i class="fas fa-chevron-left"></i>';  // 이전 아이콘
+                prevButton.addEventListener('click', function() {
+                    if (questionIndex > 0) {
+                        this.style.color = 'darkgray';  // 클릭 시 색상 변경
+                        changeQuestion(questionIndex - 1);
+                    }
+                });
+                paginationContainer.appendChild(prevButton);
+
+                for (let i = 0; i < totalQuestions; i++) {
+                    let div = document.createElement('div');
+                    div.id = 'pagination-' + (i+1);
+                    div.className = 'pagination-number';
+                    div.textContent = i + 1;
+                    div.addEventListener('click', function() {
+                        changeQuestion(i);
+                    });
+                    paginationContainer.appendChild(div);
+                }
+
+                // 다음 버튼 생성
+                let nextButton = document.createElement('div');
+                nextButton.id = 'next-button';
+                nextButton.className = 'pagination-button';
+                nextButton.innerHTML = '<i class="fas fa-chevron-right"></i>';  // 다음 아이콘
+                nextButton.addEventListener('click', function() {
+                    if (questionIndex < totalQuestions - 1) {
+                        this.style.color = 'darkgray';  // 클릭 시 색상 변경
+                        changeQuestion(questionIndex + 1);
+                    }
+                });
+                paginationContainer.appendChild(nextButton);
 
                 // 문제 영역 업데이트
                 let vocabList = data[i].Vocabulary;
@@ -235,13 +276,29 @@ document.getElementById("generate-mocktest-btn").addEventListener("click", funct
 
                 for (let j = 0; j < choices.length; j++) {
                     let li = document.createElement('li');
-                    li.innerHTML = `
-                        <input type="radio" name="choice-${data[i].QuestionId}" value="${choices[j]}">
-                        <label for="choice-${choices[j]}">${choices[j]}</label>
-                    `;
+                    let radioInput = document.createElement('input');
+                    radioInput.type = 'radio';
+                    radioInput.name = `choice-${data[i].QuestionId}`;
+                    radioInput.value = choices[j];
+                
+                    // 문제를 푼 경우 페이지네이션의 색상을 변경
+                    radioInput.addEventListener('change', function() {
+                        if (this.checked) {
+                            let paginationItem = document.getElementById('pagination-' + (i + 1));
+                            paginationItem.style.backgroundColor = 'rgb(119, 119, 119)';
+                            paginationItem.style.color = 'white';
+                        }
+                    });
+                
+                    let label = document.createElement('label');
+                    label.htmlFor = `choice-${choices[j]}`;
+                    label.textContent = choices[j];
+                
+                    li.appendChild(radioInput);
+                    li.appendChild(label);
                     choicesOl.appendChild(li);
                 }
-
+                
                 // After the questionDiv has been appended to questionArea
                 fetchWithToken('/api/get_favourite_status?question_id=' + data[i].QuestionId, {
                     method: 'GET'
@@ -341,47 +398,6 @@ document.getElementById("generate-mocktest-btn").addEventListener("click", funct
                     }
                 });
             }
-
-            // 페이지네이션 생성
-            let paginationContainer = document.getElementById('pagination-container');
-
-            // 이전 버튼 생성
-            let prevButton = document.createElement('div');
-            prevButton.id = 'prev-button';
-            prevButton.className = 'pagination-button';
-            prevButton.innerHTML = '<i class="fas fa-chevron-left"></i>';  // 이전 아이콘
-            prevButton.addEventListener('click', function() {
-                if (questionIndex > 0) {
-                    this.style.color = 'darkgray';  // 클릭 시 색상 변경
-                    changeQuestion(questionIndex - 1);
-                }
-            });
-            paginationContainer.appendChild(prevButton);
-
-            for (let i = 0; i < totalQuestions; i++) {
-                let div = document.createElement('div');
-                div.id = 'pagination-' + (i+1);
-                div.className = 'pagination-number';
-                div.textContent = i + 1;
-                div.addEventListener('click', function() {
-                    changeQuestion(i);
-                });
-                paginationContainer.appendChild(div);
-            }
-
-            // 다음 버튼 생성
-            let nextButton = document.createElement('div');
-            nextButton.id = 'next-button';
-            nextButton.className = 'pagination-button';
-            nextButton.innerHTML = '<i class="fas fa-chevron-right"></i>';  // 다음 아이콘
-            nextButton.addEventListener('click', function() {
-                if (questionIndex < totalQuestions - 1) {
-                    this.style.color = 'darkgray';  // 클릭 시 색상 변경
-                    changeQuestion(questionIndex + 1);
-                }
-            });
-            paginationContainer.appendChild(nextButton);
-            
             document.getElementById('questionTypeDescription').innerHTML = typeSelect.options[typeSelect.selectedIndex].textContent;
             document.getElementById('difficultyLevelDescription').innerHTML = levelSelect.options[levelSelect.selectedIndex].textContent;
             document.getElementById('questionCountDescription').innerHTML = data.length;

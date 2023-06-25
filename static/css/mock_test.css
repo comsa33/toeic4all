@@ -299,7 +299,8 @@
     justify-content: center; /* 이 속성이 요소를 화면 중앙에 배치합니다. */
     width: fit-content; /* 이 속성이 요소의 너비를 내용에 맞게 조정합니다. */
     margin: 0 auto; /* 이 속성이 요소를 화면 중앙에 배치합니다. */
-    font-size: .8em;;
+    font-size: .8em;
+    font-weight: 200;
     padding-top: 30px;
     padding-bottom: 20px;
 }
@@ -323,8 +324,8 @@
 }
 
 .pagination-number-active {
-    background: rgb(119, 119, 119);
-    color: white;
+    font-weight: bold;
+    scale: 1.1;
 }
 
 .correct {
