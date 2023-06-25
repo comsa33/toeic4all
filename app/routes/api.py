@@ -59,27 +59,42 @@ def create_formatted_question(question):
 @api.route('/questions', methods=['GET'])
 @jwt_required()
 def get_questions():
+    type_id = request.args.get('typeId')
     level = request.args.get('level')
     num_questions = request.args.get('num_questions', default=30, type=int)
 
-    question_types = GeneratedQuestionType.query.all()
+    if type_id:
+        question_types = [GeneratedQuestionType.query.get(type_id)]
+    else:
+        question_types = GeneratedQuestionType.query.all()
+
     questions_per_type = num_questions // len(question_types)
     remaining_questions = num_questions % len(question_types)
 
     result = []
     for question_type in question_types:
-        questions = GeneratedQuestion.query.filter_by(question_type_id=question_type.id, question_level=level).order_by(func.random()).limit(questions_per_type).all()
+        questions_query = GeneratedQuestion.query.filter_by(question_type_id=question_type.id)
+        if level:
+            questions_query = questions_query.filter(GeneratedQuestion.question_level == level)
+        questions = questions_query.order_by(func.random()).limit(questions_per_type).all()
 
         for question in questions:
             formatted_question = create_formatted_question(question)
             result.append(formatted_question)
 
-    shuffle(question_types)
-    for i in range(remaining_questions):
-        question_type = question_types[i]
-        question = GeneratedQuestion.query.filter_by(question_type_id=question_type.id, question_level=level).order_by(func.random()).first()
-        formatted_question = create_formatted_question(question)
-        result.append(formatted_question)
+    remaining_question_types = list(question_types)
+    while remaining_questions > 0:
+        shuffle(remaining_question_types)
+        for question_type in remaining_question_types:
+            if remaining_questions <= 0:
+                break
+            question_query = GeneratedQuestion.query.filter_by(question_type_id=question_type.id)
+            if level:
+                question_query = question_query.filter(GeneratedQuestion.question_level == level)
+            question = question_query.order_by(func.random()).first()
+            formatted_question = create_formatted_question(question)
+            result.append(formatted_question)
+            remaining_questions -= 1
 
     return jsonify(result)
 
