@@ -43,7 +43,7 @@ body {
   height: 100%;
   background-size: cover;
   background-position: center;
-  filter: blur(0.5px);
+  filter: blur(1px);
   z-index: -1;
 }
   
