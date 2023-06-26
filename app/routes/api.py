@@ -368,18 +368,22 @@ def get_performance_question_type():
 
     # 질문 유형에 따른 사용자의 정답률을 계산합니다.
     results = db.session.query(
-        UserTestQuestionsDetail.question_id,
+        GeneratedQuestionType.name_kor,
         db.func.avg(db.case((UserTestQuestionsDetail.is_correct == True, 1), else_=0)).label('accuracy')
     ).join(
         UserTestDetail, UserTestDetail.id == UserTestQuestionsDetail.test_id
+    ).join(
+        GeneratedQuestion, GeneratedQuestion.id == UserTestQuestionsDetail.question_id
+    ).join(
+        GeneratedQuestionType, GeneratedQuestionType.id == GeneratedQuestion.question_type_id
     ).filter(
         UserTestDetail.username == username
     ).group_by(
-        UserTestQuestionsDetail.question_id
+        GeneratedQuestionType.name_kor
     ).all()
 
     # 쿼리 결과를 사전으로 변환
-    results = [{"question_id": row.question_id, "accuracy": row.accuracy} for row in results]
+    results = [{"question_type": row.name_kor, "accuracy": row.accuracy} for row in results]
 
     return jsonify({"results": results}), 200
 

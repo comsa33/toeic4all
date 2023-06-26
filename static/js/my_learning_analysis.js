@@ -74,7 +74,7 @@ function createBarChart(elementId, label, labels, data) {
 fetchWithToken('/api/performance/question-type')
     .then(response => response.json())
     .then(data => {
-        const labels = data.results.map(result => `Q${result.question_id}`);
+        const labels = data.results.map(result => result.question_type);
         const accuracies = data.results.map(result => parseFloat(result.accuracy));
         createLineChart('canvas-accuracy-by-type', 'Accuracy by Question Type', labels, accuracies);
     })
