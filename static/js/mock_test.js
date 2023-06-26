@@ -515,14 +515,24 @@ window.addEventListener('load', function() {
 // 채점 버튼 클릭 이벤트
 window.addEventListener('load', function() {
     document.getElementById("grade-test-btn").addEventListener("click", function() {
-        let timerEl = document.getElementById('question-timer-container');
-        timerEl.style.display = 'none';
         // 이전 타이머 멈춤
         if (timers[questionIndex]) {
             clearInterval(timers[questionIndex]);
         }
         let elapsedTime = Math.floor((Date.now() - startTimes[questionIndex]) / 1000);  // 밀리초를 초로 변환
         timerPerQuestion[questionIndex] = (timerPerQuestion[questionIndex] || 0) + elapsedTime;  // 타이머 값을 저장합니다.
+        
+        // 모든 타이머 종료
+        for (let i = 0; i < timers.length; i++) {
+            if (timers[i]) {
+                clearInterval(timers[i]);
+            }
+        }
+        // 타이머 컨테이너를 안보이게 합니다.
+        let timerContainers = document.getElementsByClassName('question-timer');
+        for (let i = 0; i < timerContainers.length; i++) {
+            timerContainers[i].style.display = 'none';
+        }
         
         stopTimer(totalTimer);  // 총 시간 측정 종료
         
