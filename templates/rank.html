@@ -28,6 +28,10 @@
         </select>
     </div>
 
+    <div class="info-icon" data-toggle="tooltip" title="">
+        <i class="fas fa-info-circle"></i>
+    </div>
+
     <div class="rank-table-container">
         <table id="rank-table" class="rank-table">
             <!-- 서버로부터 받아온 랭킹 데이터가 여기에 추가될 것입니다. -->
@@ -47,7 +51,7 @@
 {% endblock %}
 
 {% block additional_script %}
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
     <script src="{{ url_for('static', filename='js/rank.js') }}"></script>
 {% endblock %}
