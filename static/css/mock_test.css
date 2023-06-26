@@ -365,6 +365,11 @@
     background-color: rgb(255, 109, 109);
 }
 
+.question-timer {
+    top: 20px;
+    left: 20px;
+}
+
 .report-btn {
     position: absolute;
     bottom: 10px;

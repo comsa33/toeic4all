@@ -245,7 +245,7 @@ document.getElementById("generate-mocktest-btn").addEventListener("click", funct
                 questionDiv.className = 'col-12 col-md-6';
                 questionDiv.innerHTML = `
                     <div class="question-container">
-                        <p id="timer-${data[i].QuestionId}" class="question-timer" style="display: none;">0분 0초</p>
+                        <p id="timer-${i}" class="question-timer" style="display: none;">0분 0초</p>
                         <p class="p-question-text"><strong><span class="question-number">${i+1}</span>. ${data[i].QuestionText}</strong></p>
                         <ol id="choices-${data[i].QuestionId}" class="choice-box" type="A"></ol>
                         <p id="result-${data[i].QuestionId}" style="display: none;">${data[i].CorrectAnswer}</p>
@@ -406,13 +406,13 @@ document.getElementById("generate-mocktest-btn").addEventListener("click", funct
 });
 
 // 타이머 함수
-function startQuestionTimer(questionId) {
-    let timerEl = document.getElementById('timer-' + questionId);
-    timerEl.style.display = 'block';
+function startQuestionTimer(index) {
+    let timerEl = document.getElementById('timer-' + index);
+    timerEl.style.display = 'flex';
     
-    timers[questionId] = setInterval(function() {
-        timerPerQuestion[questionId] = (timerPerQuestion[questionId] || 0) + 1;
-        timerEl.textContent = convertSecondsToMinutes(timerPerQuestion[questionId]);
+    timers[index] = setInterval(function() {
+        timerPerQuestion[index] = (timerPerQuestion[index] || 0) + 1;
+        timerEl.textContent = convertSecondsToMinutes(timerPerQuestion[index]);
     }, 1000);
 }
 
