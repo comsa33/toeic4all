@@ -94,7 +94,7 @@ body {
 }
 
 .lnb a:hover {
-  background-color: rgba(0, 0, 0, 0.2); /* 마우스 호버시 배경색 변경 */
+  background-color: #ffffffc6; /* 마우스 호버시 배경색 변경 */
 }
 
 /* 모바일 버전 스타일 */
