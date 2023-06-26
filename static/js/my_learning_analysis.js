@@ -127,9 +127,9 @@ fetchWithToken('/api/performance/daily')
             data: heatmapData,
             start: new Date(data.results[0].date),
             id: "graph_a",
-            domain : "month",
+            domain : "week",
             subDomain : "day",
-            range : 12,
+            range : 52,
             tooltip: true,
         });
     })
