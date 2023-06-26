@@ -137,7 +137,7 @@ nav ul .active a {
 
 #nav-login:hover, #nav-logout:hover {
     transition: color 0.3s ease;
-    color: #ff6347;
+    color: #535353;
 }
 
 #desktop-nav-links-left,
