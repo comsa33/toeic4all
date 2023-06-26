@@ -120,5 +120,6 @@ body {
 
 .div-analysis-card h5 {
   font-size: .8em;
+  font-weight: bold;
   color: gray;
 }
