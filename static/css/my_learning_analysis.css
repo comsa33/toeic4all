@@ -126,13 +126,13 @@ body {
   color: #6e6e6e;
 }
 
-.minDate-previous, .minDate-next {
+#minDate-previous, #minDate-next {
   color: #709c1a;
   margin-bottom: 20px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.1);
 }
 
-.minDate-previous :hover, .minDate-next :hover {
+#minDate-previous :hover, #minDate-next :hover {
   color: #afcc74;
   scale: 1.1;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.2);
