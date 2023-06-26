@@ -121,18 +121,20 @@ fetchWithToken('/api/performance/daily')
         }, {});
 
         // 히트맵을 생성하고 HTML 요소에 연결합니다.
-        const cal = new CalHeatmap();
+        let cal = new CalHeatmap();
         cal.paint({
             itemSelector: "#heatmap",
-            start: new Date(data.results[0].date),
-            id: "graph_a",
-            domain : "month",
-            subDomain : "day",
-            range : 12,
-            tooltip: true,
+            range: 12,
+            domain: { type: "month" },
+            subDomain: { type: "day" },
+            verticalOrientation: false,
+            date: { start: new Date(data.results[0].date) },
+            data: { source: heatmapData },
+            label: {},
+            animationDuration: 800,
+            scale: {},
+            theme: 'light'
         }).then(() => {
-            // 데이터를 채웁니다.
-            cal.fill(heatmapData);
-        });
-    })
-    .catch(err => console.error(err));
+            console.log('Heatmap successfully created.');
+        }).catch(err => console.error(err));
+});
