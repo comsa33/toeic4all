@@ -18,6 +18,7 @@
         <ul id="desktop-nav-links-left">
             <li class="{{ 'active' if request.endpoint.endswith('mock_test') }}"><a href="{{ url_for('main.mock_test') }}">모의고사</a></li>
             <li class="{{ 'active' if request.endpoint.endswith('board_page') }}"><a href="{{ url_for('main.board_page') }}">Q&A 게시판</a></li>
+            <li class="{{ 'active' if request.endpoint.endswith('rank') }}"><a href="{{ url_for('main.rank') }}">순위</a></li>
         </ul>
         <ul id="desktop-nav-links-right">
             <!-- Update nav-user to include the dropdown menu -->
@@ -38,6 +39,7 @@
             <ul id="mobile-nav-links-left">
                 <li class="{{ 'active' if request.endpoint.endswith('mock_test') }}"><a href="{{ url_for('main.mock_test') }}">모의고사</a></li>
                 <li class="{{ 'active' if request.endpoint.endswith('board_page') }}"><a href="{{ url_for('main.board_page') }}">Q&A 게시판</a></li>
+                <li class="{{ 'active' if request.endpoint.endswith('rank') }}"><a href="{{ url_for('main.rank') }}">순위</a></li>
             </ul>
             <ul id="mobile-nav-links-right">
                 <li id="mobile-nav-user"></li>                

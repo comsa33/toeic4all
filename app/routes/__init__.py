@@ -43,3 +43,8 @@ def my_note():
 @main_bp.route('/my-learning-analysis')
 def my_learning_analysis():
     return render_template('my_learning_analysis.html')
+
+
+@main_bp.route('/rank')
+def rank():
+    return render_template('rank.html')

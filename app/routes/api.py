@@ -14,7 +14,7 @@ api = Blueprint('api', __name__)
 
 
 @api.route('/question_types', methods=['GET'])
-@jwt_required()
+@jwt_required(optional=True)
 def get_question_types():
     # Fetch all question types
     question_types = GeneratedQuestionType.query.all()
@@ -479,3 +479,41 @@ def get_daily_performance():
     results = [{"date": row.date.isoformat(), "test_count": row.test_count} for row in results]
 
     return jsonify({"results": results}), 200
+
+
+@api.route('/ranking', defaults={'question_type': None}, methods=['GET'])
+@api.route('/ranking/<question_type>', methods=['GET'])
+def get_user_ranking(question_type):
+    query = db.session.query(
+        UserTestDetail.username,
+        (func.sum(UserTestQuestionsDetail.is_correct) / func.count(UserTestQuestionsDetail.id)).label('accuracy_score'),
+        (func.count(UserTestQuestionsDetail.id)).label('activity_score'),
+        (func.avg(GeneratedQuestion.question_level)).label('difficulty_score'),
+    ).join(
+        UserTestDetail,
+        UserTestDetail.id == UserTestQuestionsDetail.test_id
+    ).join(
+        GeneratedQuestion,
+        GeneratedQuestion.id == UserTestQuestionsDetail.question_id
+    )
+
+    # 선택적으로 문제 유형을 필터링합니다.
+    if question_type is not None:
+        query = query.filter(GeneratedQuestion.question_type_id == question_type)
+
+    ranking = query.group_by(UserTestDetail.username).all()
+
+    # 정확성 점수, 활동 점수, 난이도 점수에 가중치를 적용하여 최종 점수를 계산합니다.
+    # 가중치는 적절한 값을 선택하여 조정할 수 있습니다.
+    accuracy_weight = 0.3
+    activity_weight = 0.3
+    difficulty_weight = 0.4
+    for user in ranking:
+        user.final_score = (user.accuracy_score * accuracy_weight + 
+                            user.activity_score * activity_weight +
+                            user.difficulty_score * difficulty_weight)
+
+    # 최종 점수를 기준으로 랭킹을 정렬합니다.
+    ranking.sort(key=lambda x: x.final_score, reverse=True)
+
+    return jsonify(ranking)
