@@ -14,6 +14,11 @@ body {
     font-family: 'Pretendard', sans-serif;
 }
 
+.row {
+  margin-right: 0;
+  margin-left: 0;
+}
+
 #side-btn-my-learning-analysis a {
     color: rgb(255, 77, 0);
 }
@@ -55,6 +60,7 @@ body {
   background-color: #f1b9b9b5;
   height: 100%; /* 화면 위아래 꽉 차게 */
   list-style-type: none; /* 점 제거 */
+  font-size: .8em;
 }
 
 .lnb ul {

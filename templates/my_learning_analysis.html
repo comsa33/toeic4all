@@ -27,9 +27,9 @@
         <div class="lnb">
             <ul>
                 <li id="side-btn-mydetail"><a href="{{ url_for('main.user_detail') }}">내 정보</a></li>
-                <li id="side-btn-myfav"><a href="{{ url_for('main.my_page') }}">내가 찜한 문제</a></li>
-                <li id="side-btn-mynote"><a href="{{ url_for('main.my_note') }}">내 오답노트</a></li>
-                <li id="side-btn-my-learning-analysis"><a href="{{ url_for('main.my_learning_analysis') }}">내 학습 분석</a></li>
+                <li id="side-btn-myfav"><a href="{{ url_for('main.my_page') }}">찜한 문제</a></li>
+                <li id="side-btn-mynote"><a href="{{ url_for('main.my_note') }}">오답노트</a></li>
+                <li id="side-btn-my-learning-analysis"><a href="{{ url_for('main.my_learning_analysis') }}">학습 분석</a></li>
             </ul>
         </div>
     </div>
@@ -39,25 +39,25 @@
         <div class="content">
             <!-- Accuracy by Question Type -->
             <div id="div-accuracy-by-type">
-                <h2>문제 유형별 정확도</h2>
+                <h5>문제 유형별 정확도</h5>
                 <!-- Here goes the chart or table -->
                 <canvas id="canvas-accuracy-by-type"></canvas>
             </div>
             <!-- Progress and Performance by Test -->
             <div id="div-progress-by-test">
-                <h2>테스트별 진행상황 및 성과</h2>
+                <h5>테스트별 진행상황 및 성과</h5>
                 <!-- Here goes the timeline -->
                 <canvas id="canvas-progress-by-test"></canvas>
             </div>
             <!-- Weak Areas -->
             <div id="div-weak-areas">
-                <h2>취약한 영역</h2>
+                <h5>취약한 영역</h5>
                 <!-- Here goes the table -->
                 <canvas id="canvas-weak-areas"></canvas>
             </div>
             <!-- Accuracy and Time by Test -->
             <div id="div-accuracy-time-by-test">
-                <h2>테스트별 정확도 및 소요 시간</h2>
+                <h5>테스트별 정확도 및 소요 시간</h5>
                 <!-- Here goes the chart or table -->
                 <canvas id="canvas-accuracy-time-by-test"></canvas>
             </div>
