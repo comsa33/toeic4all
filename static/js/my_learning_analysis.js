@@ -121,7 +121,7 @@ fetchWithToken('/api/performance/daily')
         }, {});
 
         // 히트맵을 생성하고 HTML 요소에 연결합니다.
-        let cal = new CalHeatMap();
+        let cal = new CalHeatmap();
         cal.init({
             itemSelector: "#heatmap",
             data: heatmapData,
