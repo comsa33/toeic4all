@@ -76,7 +76,7 @@ fetchWithToken('/api/performance/question-type')
     .then(data => {
         const labels = data.results.map(result => `Q${result.question_id}`);
         const accuracies = data.results.map(result => parseFloat(result.accuracy));
-        createLineChart('accuracy-by-type', 'Accuracy by Question Type', labels, accuracies);
+        createLineChart('canvas-accuracy-by-type', 'Accuracy by Question Type', labels, accuracies);
     })
     .catch(err => console.error(err));
 
@@ -86,7 +86,17 @@ fetchWithToken('/api/performance/question-level')
     .then(data => {
         const labels = data.results.map(result => `Level ${result.question_level}`);
         const accuracies = data.results.map(result => parseFloat(result.accuracy));
-        createBarChart('weak-areas', 'Weak Areas', labels, accuracies);
+        createBarChart('canvas-weak-areas', 'Weak Areas', labels, accuracies);
+    })
+    .catch(err => console.error(err));
+
+// 테스트별 정확도 및 소요 시간
+fetchWithToken('/api/performance/time-spent')
+    .then(response => response.json())
+    .then(data => {
+        const labels = data.results.map(result => `Q${result.question_id}`);
+        const times = data.results.map(result => parseFloat(result.average_time));
+        createBarChart('canvas-accuracy-time-by-test', 'Accuracy and Time by Test', labels, times);
     })
     .catch(err => console.error(err));
 
@@ -96,6 +106,6 @@ fetchWithToken('/api/growth')
     .then(data => {
         const labels = data.results.map(result => new Date(result.created_at).toLocaleDateString());
         const accuracies = data.results.map(result => parseFloat(result.accuracy));
-        createLineChart('progress-by-test', 'Progress and Performance by Test', labels, accuracies);
+        createLineChart('canvas-progress-by-test', 'Progress and Performance by Test', labels, accuracies);
     })
     .catch(err => console.error(err));
