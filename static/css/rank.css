@@ -53,6 +53,10 @@ body {
     color: white;
 }
 
+#rank-container {
+    max-width: 800px;
+}
+
 #question-type-selection {
     border-radius: 15px;
     height: 30px;
