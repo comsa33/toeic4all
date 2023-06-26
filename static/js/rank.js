@@ -50,22 +50,3 @@ window.addEventListener('DOMContentLoaded', (event) => {
     // 페이지 로딩 완료 후, 초기 랭킹 데이터를 가져옵니다.
     document.getElementById('question-type-selection').dispatchEvent(new Event('change'));
 });
-
-$(function () {
-    var options = {
-      trigger: 'click',
-      html: true,
-      placement: 'bottom',
-      content: function () {
-        return $('#tooltip-content').html();
-      }
-    }
-    $('.info-icon').popover(options);
-});
-
-$('body').on('click', function (e) {
-    if ($(e.target).data('toggle') !== 'popover'
-        && $(e.target).parents('.popover.in').length === 0) { 
-        $('[data-toggle="popover"]').popover('hide');
-    }
-});

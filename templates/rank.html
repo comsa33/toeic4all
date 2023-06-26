@@ -30,29 +30,16 @@
     </div>
 
     <div class="rank-table-container">
-        <div class="info-icon" data-toggle="tooltip" title="">
-            <i class="fas fa-info-circle"></i>
+        <div class="score-info">
+            <p><code>최종 점수 = 정확도 점수 * 0.5 + 활동 점수 * 0.3 + 난이도 점수 * 0.2</code></p>
         </div>
         <table id="rank-table" class="rank-table">
             <!-- 서버로부터 받아온 랭킹 데이터가 여기에 추가될 것입니다. -->
         </table>
     </div>
-
-    <!-- Tooltip Content -->
-    <div id="tooltip-content" style="display: none;">
-        <p>사용자의 순위는 아래 공식에 따라 계산됩니다:</p>
-        <p><code>최종 점수 = 정확도 점수 * 0.5 + 활동 점수 * 0.3 + 난이도 점수 * 0.2</code></p>
-        <ul style="font-size: .7em;">
-            <li>정확도 점수: 사용자가 푼 문제 중 정답을 선택한 비율</li>
-            <li>활동 점수: 사용자가 푼 문제의 총 개수</li>
-            <li>난이도 점수: 사용자가 푼 문제의 난이도 평균</li>
-        </ul>
-    </div>
 </div>
 {% endblock %}
 
 {% block additional_script %}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
     <script src="{{ url_for('static', filename='js/rank.js') }}"></script>
 {% endblock %}
