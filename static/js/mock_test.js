@@ -408,7 +408,7 @@ document.getElementById("generate-mocktest-btn").addEventListener("click", funct
 function changeQuestion(index) {
     // 이전 타이머 멈춤
     let elapsedTime = Math.floor((Date.now() - startTimes[questionIndex]) / 1000);  // 밀리초를 초로 변환
-    timerPerQuestion[questionIndex] = elapsedTime;  // 타이머 값을 저장합니다.
+    timerPerQuestion[questionIndex] = (timerPerQuestion[questionIndex] || 0) + elapsedTime;  // 타이머 값을 저장합니다.
 
     // 이전 문제를 숨기고 새 문제를 표시합니다.
     document.getElementsByClassName('col-12 col-md-6')[questionIndex].style.display = 'none';
