@@ -51,7 +51,6 @@ body {
     font-size: 0.83em;
     color: white;
 }
-
 .rank-selection-container, .rank-table-container {
     display: flex;
     justify-content: center;
@@ -62,14 +61,34 @@ body {
     border-collapse: collapse;
     margin: 0 auto;
     width: 70%;
+    font-size: .85em;
+    table-layout: fixed; /* 테이블 레이아웃을 고정합니다. */
 }
 
 .rank-table th, .rank-table td {
     border: 1px solid #ddd;
     padding: 8px;
+    overflow: hidden; /* 내용이 셀을 벗어나면 숨깁니다. */
+    text-overflow: ellipsis; /* 내용이 셀을 벗어나면 "..."으로 표시합니다. */
+    white-space: nowrap; /* 셀 내용을 한 줄에 표시합니다. */
 }
 
 .rank-table th {
-    background-color: #4CAF50;
+    background-color: #51c19d;
     color: white;
+}
+
+.rank-table th:nth-child(1),
+.rank-table td:nth-child(1) {
+    width: 10%; /* 랭킹 컬럼의 폭을 고정합니다. */
+}
+
+.rank-table th:nth-child(2),
+.rank-table td:nth-child(2) {
+    width: 60%; /* 사용자 이름 컬럼의 폭을 고정합니다. */
+}
+
+.rank-table th:nth-child(3),
+.rank-table td:nth-child(3) {
+    width: 30%; /* 점수 컬럼의 폭을 고정합니다. */
 }
