@@ -108,9 +108,10 @@ body {
 }
 
 .info-icon {
+    color: gray;
     position: absolute;
-    right: 10px;
-    top: 10px;
+    right: 20px;
+    top: -20px;
     cursor: pointer;
 }
 
@@ -119,10 +120,13 @@ body {
 }
 
 .popover {
-    background-color: rgba(128, 128, 128, 0.7); /* 투명한 회색 */
-    color: #ffffff; /* 글자 색 */
+    background-color: rgba(174, 174, 174, 0.887); /* 투명한 회색 */
+    color: #000000; /* 글자 색 */
+    font-weight: 200;
+    font-size: 0.8em;
 }
 
 .popover .popover-body {
+    padding: 20px;
     text-align: left; /* 왼쪽 정렬 */
 }
