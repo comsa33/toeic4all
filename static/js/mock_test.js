@@ -245,7 +245,9 @@ document.getElementById("generate-mocktest-btn").addEventListener("click", funct
                 questionDiv.className = 'col-12 col-md-6';
                 questionDiv.innerHTML = `
                     <div class="question-container">
-                        <p id="timer-${i}" class="question-timer" style="display: none;">0분 0초</p>
+                        <div id="question-timer-container">
+                            <p id="timer-${i}" class="question-timer">00:00</p>
+                        </div>
                         <p class="p-question-text"><strong><span class="question-number">${i+1}</span>. ${data[i].QuestionText}</strong></p>
                         <ol id="choices-${data[i].QuestionId}" class="choice-box" type="A"></ol>
                         <p id="result-${data[i].QuestionId}" style="display: none;">${data[i].CorrectAnswer}</p>
@@ -405,14 +407,13 @@ document.getElementById("generate-mocktest-btn").addEventListener("click", funct
         });
 });
 
-// 타이머 함수
+// 문제별 타이머 시작 함수
 function startQuestionTimer(index) {
-    let timerEl = document.getElementById('timer-' + index);
-    timerEl.style.display = 'flex';
-    
+    let time = timerPerQuestion[index] || 0;  // 이전에 멈춘 시점부터 시작합니다.
     timers[index] = setInterval(function() {
-        timerPerQuestion[index] = (timerPerQuestion[index] || 0) + 1;
-        timerEl.textContent = convertSecondsToMinutes(timerPerQuestion[index]);
+        let minutes = Math.floor(++time / 60);
+        let seconds = time % 60;
+        document.getElementById('timer-' + index).innerHTML = (minutes < 10 ? "0" : "") + minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
     }, 1000);
 }
 
@@ -421,10 +422,9 @@ function changeQuestion(index) {
     // 이전 타이머 멈춤
     if (timers[questionIndex]) {
         clearInterval(timers[questionIndex]);
-        document.getElementById('timer-' + questionIndex).style.display = 'none';
     }
     let elapsedTime = Math.floor((Date.now() - startTimes[questionIndex]) / 1000);  // 밀리초를 초로 변환
-    timerPerQuestion[questionIndex] = (timerPerQuestion[questionIndex] || 0) + elapsedTime;  // 타이머 값을 저장합니다.
+    timerPerQuestion[questionIndex] = (timerPerQuestion[questionIndex] || 0) + elapsedTime;  // 각 문제의 총 소요시간을 저장합니다.
 
     // 이전 문제를 숨기고 새 문제를 표시합니다.
     document.getElementsByClassName('col-12 col-md-6')[questionIndex].style.display = 'none';
@@ -515,10 +515,11 @@ window.addEventListener('load', function() {
 // 채점 버튼 클릭 이벤트
 window.addEventListener('load', function() {
     document.getElementById("grade-test-btn").addEventListener("click", function() {
+        let timerEl = document.getElementById('question-timer-container');
+        timerEl.style.display = 'none';
         // 이전 타이머 멈춤
         if (timers[questionIndex]) {
             clearInterval(timers[questionIndex]);
-            document.getElementById('timer-' + questionIndex).style.display = 'none';
         }
         let elapsedTime = Math.floor((Date.now() - startTimes[questionIndex]) / 1000);  // 밀리초를 초로 변환
         timerPerQuestion[questionIndex] = (timerPerQuestion[questionIndex] || 0) + elapsedTime;  // 타이머 값을 저장합니다.

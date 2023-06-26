@@ -366,6 +366,13 @@
 }
 
 .question-timer {
+    font-size: 0.7em;
+    font-weight: 200;
+    text-align: left;
+    color: rgb(163, 163, 163);
+}
+
+#question-timer-container {
     top: 20px;
     left: 20px;
 }
