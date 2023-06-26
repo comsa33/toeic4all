@@ -109,3 +109,31 @@ fetchWithToken('/api/growth')
         createLineChart('canvas-progress-by-test', '모의고사별 성적 (%)', labels, accuracies); // y축 레이블에 % 추가
     })
     .catch(err => console.error(err));
+
+fetchWithToken('/api/performance/daily')
+    .then(response => response.json())
+    .then(data => {
+        // 히트맵 데이터를 생성합니다.
+        const heatmapData = data.results.reduce((acc, cur) => {
+            acc[new Date(cur.date).getTime() / 1000] = cur.test_count;
+            return acc;
+        }, {});
+
+        // 히트맵을 생성하고 HTML 요소에 연결합니다.
+        var cal = new CalHeatMap();
+        cal.init({
+            itemSelector: "#heatmap",
+            data: heatmapData,
+            dataType: "json",
+            start: new Date(),
+            id: "graph_id",
+            domain: "month",
+            subDomain: "day",
+            range: 12,
+            cellSize: 15,
+            cellPadding: 5,
+            domainGutter: 10,
+            tooltip: true,
+        });
+    })
+    .catch(err => console.error(err));

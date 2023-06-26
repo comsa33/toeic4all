@@ -37,6 +37,12 @@
     <!-- Learning Analysis Contents -->
     <div class="col-12 col-md-9 order-md-2">
         <div class="content">
+            <!-- Daily Study Activity -->
+            <div id="div-daily-activity" class="div-analysis-card">
+                <h5>일별 학습 활동</h5>
+                <!-- Here goes the heatmap -->
+                <div id="heatmap"></div>
+            </div>
             <!-- Accuracy by Question Type -->
             <div id="div-accuracy-by-type" class="div-analysis-card">
                 <h5>문제 유형별 정확도</h5>
@@ -68,5 +74,6 @@
 
 {% block additional_script %}
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{{ url_for('static', filename='js/cal-heatmap.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/my_learning_analysis.js') }}"></script>
 {% endblock %}

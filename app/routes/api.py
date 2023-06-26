@@ -2,7 +2,7 @@ from random import shuffle
 from collections import defaultdict
 
 from flask import Blueprint, jsonify, request
-from sqlalchemy import and_, func, desc
+from sqlalchemy import func, desc, Date
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
 from app.models import GeneratedQuestionType, GeneratedQuestionSubType, GeneratedQuestion, GeneratedAnswer, GeneratedVocabulary
@@ -456,5 +456,26 @@ def get_growth():
 
     # 쿼리 결과를 사전으로 변환
     results = [{"created_at": row.created_at, "accuracy": row.accuracy} for row in results]
+
+    return jsonify({"results": results}), 200
+
+
+@api.route('/performance/daily', methods=['GET'])
+@jwt_required()
+def get_daily_performance():
+    username = get_jwt_identity()
+
+    # 일자별로 사용자의 테스트 수를 집계합니다.
+    results = db.session.query(
+        func.count(UserTestDetail.id).label('test_count'),
+        func.cast(UserTestDetail.created_at, Date).label('date')
+    ).filter(
+        UserTestDetail.username == username
+    ).group_by(
+        func.cast(UserTestDetail.created_at, Date)
+    ).all()
+
+    # 쿼리 결과를 사전으로 변환
+    results = [{"date": row.date.isoformat(), "test_count": row.test_count} for row in results]
 
     return jsonify({"results": results}), 200
