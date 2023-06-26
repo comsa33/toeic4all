@@ -51,6 +51,15 @@ body {
     font-size: 0.83em;
     color: white;
 }
+
+.rank-info-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    font-size: .85em;
+    color: rgb(151, 151, 151);
+}
+
 .rank-selection-container, .rank-table-container {
     display: flex;
     justify-content: center;
