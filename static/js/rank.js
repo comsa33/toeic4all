@@ -55,9 +55,17 @@ $(function () {
     var options = {
       trigger: 'click',
       html: true,
+      placement: 'bottom',
       content: function () {
         return $('#tooltip-content').html();
       }
     }
     $('.info-icon').popover(options);
+});
+
+$('body').on('click', function (e) {
+    if ($(e.target).data('toggle') !== 'popover'
+        && $(e.target).parents('.popover.in').length === 0) { 
+        $('[data-toggle="popover"]').popover('hide');
+    }
 });
