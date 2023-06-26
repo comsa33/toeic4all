@@ -108,7 +108,8 @@ body {
 }
 
 .info-icon {
-    position: absolute;
+    color: gray;
+    position: relative;
     right: 10px;
     top: 10px;
     cursor: pointer;
