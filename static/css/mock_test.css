@@ -69,12 +69,12 @@
     animation: heartbeat 2s infinite;
 }
 
-#new-test-btn:hover, #start-test-btn:hover, #grade-test-btn:hover {
-    background-color: #56a8f9;
+#start-test-btn:hover {
+    background-color: #5a9e5a;
 }
 
-#new-test-btn:active, #start-test-btn:active, #grade-test-btn:active {
-    background-color: #047ff9;
+#new-test-btn:hover, #grade-test-btn:hover {
+    background-color: #ca423f;
 }
 
 .my-img-container {
