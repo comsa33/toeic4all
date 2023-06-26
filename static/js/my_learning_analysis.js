@@ -129,7 +129,7 @@ fetchWithToken('/api/performance/daily')
             id: "graph_a",
             domain : "month",
             subDomain : "day",
-            range : 6,
+            range : 12,
             tooltip: true
         });
         // '이전' 버튼 클릭시 이전 달로 이동
