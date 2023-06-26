@@ -2,7 +2,7 @@ from random import shuffle
 from collections import defaultdict
 
 from flask import Blueprint, jsonify, request
-from sqlalchemy import func, desc, Date
+from sqlalchemy import func, desc, Date, Integer
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
 from app.models import GeneratedQuestionType, GeneratedQuestionSubType, GeneratedQuestion, GeneratedAnswer, GeneratedVocabulary
@@ -486,7 +486,7 @@ def get_daily_performance():
 def get_user_ranking(question_type):
     query = db.session.query(
         UserTestDetail.username,
-        (func.sum(UserTestQuestionsDetail.is_correct) / func.count(UserTestQuestionsDetail.id)).label('accuracy_score'),
+        (func.sum(func.cast(UserTestQuestionsDetail.is_correct, Integer)) / func.count(UserTestQuestionsDetail.id)).label('accuracy_score'),
         (func.count(UserTestQuestionsDetail.id)).label('activity_score'),
         (func.avg(GeneratedQuestion.question_level)).label('difficulty_score'),
     ).join(
