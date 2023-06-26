@@ -378,7 +378,10 @@ def get_performance_question_type():
         UserTestQuestionsDetail.question_id
     ).all()
 
-    return jsonify({"results": [dict(row) for row in results]}), 200
+    # 쿼리 결과를 사전으로 변환
+    results = [{"question_id": row.question_id, "accuracy": row.accuracy} for row in results]
+
+    return jsonify({"results": results}), 200
 
 
 @api.route('/performance/question-level', methods=['GET'])
@@ -399,7 +402,10 @@ def get_performance_question_level():
         GeneratedQuestion.question_level
     ).all()
 
-    return jsonify({"results": [dict(row) for row in results]}), 200
+    # 쿼리 결과를 사전으로 변환
+    results = [{"question_level": row.question_level, "accuracy": row.accuracy, "average_time": row.average_time} for row in results]
+
+    return jsonify({"results": results}), 200
 
 
 @api.route('/performance/time-spent', methods=['GET'])
@@ -417,7 +423,10 @@ def get_performance_time_spent():
         UserTestQuestionsDetail.question_id
     ).all()
 
-    return jsonify({"results": [dict(row) for row in results]}), 200
+    # 쿼리 결과를 사전으로 변환
+    results = [{"question_id": row.question_id, "average_time": row.average_time} for row in results]
+
+    return jsonify({"results": results}), 200
 
 
 @api.route('/growth', methods=['GET'])
@@ -437,4 +446,7 @@ def get_growth():
         UserTestDetail.created_at
     ).all()
 
-    return jsonify({"results": [dict(row) for row in results]}), 200
+    # 쿼리 결과를 사전으로 변환
+    results = [{"created_at": row.created_at, "accuracy": row.accuracy} for row in results]
+
+    return jsonify({"results": results}), 200
