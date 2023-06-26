@@ -508,10 +508,19 @@ def get_user_ranking(question_type):
     accuracy_weight = 0.3
     activity_weight = 0.3
     difficulty_weight = 0.4
-    for user in ranking:
-        user.final_score = (float(user.accuracy_score) * accuracy_weight + 
-                            float(user.activity_score) * activity_weight +
-                            float(user.difficulty_score) * difficulty_weight)
+    for idx, user in enumerate(ranking):
+        final_score = (
+            float(user.accuracy_score) * accuracy_weight +
+            float(user.activity_score) * activity_weight +
+            float(user.difficulty_score) * difficulty_weight
+        )
+        ranking[idx] = {
+            'username': user.username,
+            'accuracy_score': user.accuracy_score,
+            'activity_score': user.activity_score,
+            'difficulty_score': user.difficulty_score,
+            'final_score': final_score
+        }
 
     # 최종 점수를 기준으로 랭킹을 정렬합니다.
     ranking.sort(key=lambda x: x.final_score, reverse=True)
