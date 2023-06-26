@@ -18,14 +18,32 @@ window.addEventListener('DOMContentLoaded', (event) => {
         fetch('/api/ranking' + (questionTypeId ? '/' + questionTypeId : ''))
             .then(response => response.json())
             .then(ranking => {
-                const container = document.getElementById('rank-table-container');
-                container.textContent = ''; // 기존의 랭킹 데이터를 비웁니다.
+                const table = document.getElementById('rank-table');
+                table.innerHTML = ''; // 기존의 랭킹 데이터를 비웁니다.
 
-                ranking.forEach((userRanking, index) => {
-                    const rankElement = document.createElement('div');
-                    rankElement.textContent = (index + 1) + '. ' + userRanking.username + ': ' + userRanking.final_score;
-                    container.appendChild(rankElement);
+                // 테이블 헤더를 추가합니다.
+                const thead = document.createElement('thead');
+                const headerRow = document.createElement('tr');
+                ['Rank', 'Username', 'Score'].forEach(headerText => {
+                    const th = document.createElement('th');
+                    th.textContent = headerText;
+                    headerRow.appendChild(th);
                 });
+                thead.appendChild(headerRow);
+                table.appendChild(thead);
+
+                // 랭킹 데이터를 테이블에 추가합니다.
+                const tbody = document.createElement('tbody');
+                ranking.forEach((userRanking, index) => {
+                    const tr = document.createElement('tr');
+                    [index + 1, userRanking.username, userRanking.final_score].forEach(text => {
+                        const td = document.createElement('td');
+                        td.textContent = text;
+                        tr.appendChild(td);
+                    });
+                    tbody.appendChild(tr);
+                });
+                table.appendChild(tbody);
             });
     });
 

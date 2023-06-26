@@ -51,3 +51,25 @@ body {
     font-size: 0.83em;
     color: white;
 }
+
+.rank-selection-container, .rank-table-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.rank-table {
+    border-collapse: collapse;
+    margin: 0 auto;
+    width: 70%;
+}
+
+.rank-table th, .rank-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.rank-table th {
+    background-color: #4CAF50;
+    color: white;
+}
