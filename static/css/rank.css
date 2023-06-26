@@ -74,7 +74,7 @@ body {
 .rank-table {
     border-collapse: collapse;
     margin: 0 auto;
-    width: 70%;
+    width: 90%;
     font-size: .85em;
     table-layout: fixed; /* 테이블 레이아웃을 고정합니다. */
 }
@@ -94,12 +94,12 @@ body {
 
 .rank-table th:nth-child(1),
 .rank-table td:nth-child(1) {
-    width: 10%; /* 랭킹 컬럼의 폭을 고정합니다. */
+    width: 20%; /* 랭킹 컬럼의 폭을 고정합니다. */
 }
 
 .rank-table th:nth-child(2),
 .rank-table td:nth-child(2) {
-    width: 60%; /* 사용자 이름 컬럼의 폭을 고정합니다. */
+    width: 50%; /* 사용자 이름 컬럼의 폭을 고정합니다. */
 }
 
 .rank-table th:nth-child(3),
