@@ -481,8 +481,9 @@ def get_daily_performance():
     return jsonify({"results": results}), 200
 
 
-@api.route('/ranking', methods=['GET'])
-def get_user_ranking():
+@api.route('/ranking', defaults={'question_type': None}, methods=['GET'])
+@api.route('/ranking/<int:question_type>', methods=['GET'])
+def get_user_ranking(question_type):
     accuracy_weight = 0.5
     activity_weight = 0.3
     difficulty_weight = 0.2
@@ -496,9 +497,12 @@ def get_user_ranking():
         UserTestDetail, UserTestDetail.id == UserTestQuestionsDetail.test_id
     ).join(
         GeneratedQuestion, GeneratedQuestion.id == UserTestQuestionsDetail.question_id
-    ).group_by(
-        UserTestDetail.username
     )
+
+    if question_type is not None:
+        query = query.filter(GeneratedQuestion.question_type_id == question_type)
+
+    query = query.group_by(UserTestDetail.username)
 
     ranking = query.all()
 
@@ -508,5 +512,8 @@ def get_user_ranking():
                                user['activity_score'] * activity_weight +
                                float(user['difficulty_score']) * difficulty_weight)
         ranking[i] = user  # Replace the tuple with the updated dictionary
+
+    # 최종 점수를 기준으로 랭킹을 정렬합니다.
+    ranking.sort(key=lambda x: x['final_score'], reverse=True)
 
     return jsonify(ranking)
