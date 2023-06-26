@@ -74,6 +74,8 @@ body {
     display: flex;
     justify-content: center;
     margin-top: 20px;
+    flex-direction: column;
+    align-items: center;
 }
 
 .rank-table {
@@ -114,12 +116,5 @@ body {
 
 .score-info {
     color: gray;
-    position: absolute;
-    right: 20px;
-    top: -20px;
     font-size: 0.8em;
-}
-
-.rank-table-container {
-    position: relative;
 }
