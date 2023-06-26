@@ -9,7 +9,7 @@
     <div class="blur-bg-image" data-bg-url="{{ url_for('static', filename='images/ranking-img1.jpg') }}"></div>
     <div class="my-img-text">
         <h1 class="h1-on-img" style="text-align:center; margin-bottom: 2rem;">지금 바로 경쟁에 참여해 보세요!</h1>
-        <p class="p-on-img">당신의 능력을 향상시키며 동시에 다른 사용자들과 순위 경쟁을 즐겨보세요. 당신이 상위권에 올라갈 수록, 당신의 학습 열정과 노력이 보여집니다. 시작은 지금부터!</p>
+        <p class="p-on-img">당신의 능력을 향상시키며 동시에<br>다른 사용자들과 순위 경쟁을 즐겨보세요.<br>시작은 지금부터!</p>
     </div>
 </div>
 <script>
@@ -21,16 +21,6 @@
 {% endblock %}
 
 {% block content %}
-    <div class="rank-info-container">
-        <p>사용자의 순위는 아래 공식에 따라 계산됩니다:</p>
-        <p><code>최종 점수 = 정확도 점수 * 0.5 + 활동 점수 * 0.3 + 난이도 점수 * 0.2</code></p>
-        <ul>
-            <li><strong>정확도 점수:</strong> 사용자가 푼 문제 중 정답을 선택한 비율</li>
-            <li><strong>활동 점수:</strong> 사용자가 푼 문제의 총 개수</li>
-            <li><strong>난이도 점수:</strong> 사용자가 푼 문제의 난이도 평균</li>
-        </ul>
-    </div>
-
     <div class="rank-selection-container">
         <select id="question-type-selection">
             <option value="">전체 유형</option>
@@ -43,8 +33,21 @@
             <!-- 서버로부터 받아온 랭킹 데이터가 여기에 추가될 것입니다. -->
         </table>
     </div>
+
+    <!-- Tooltip Content -->
+    <div id="tooltip-content" style="display: none;">
+        <p>사용자의 순위는 아래 공식에 따라 계산됩니다:</p>
+        <p><code>최종 점수 = 정확도 점수 * 0.5 + 활동 점수 * 0.3 + 난이도 점수 * 0.2</code></p>
+        <ul>
+            <li><strong>정확도 점수:</strong> 사용자가 푼 문제 중 정답을 선택한 비율</li>
+            <li><strong>활동 점수:</strong> 사용자가 푼 문제의 총 개수</li>
+            <li><strong>난이도 점수:</strong> 사용자가 푼 문제의 난이도 평균</li>
+        </ul>
+    </div>
 {% endblock %}
 
 {% block additional_script %}
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="{{ url_for('static', filename='js/rank.js') }}"></script>
 {% endblock %}

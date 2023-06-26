@@ -41,23 +41,28 @@ body {
     text-align: center;
     padding: 30px 0px 0px 0px;
     font-weight: bold;
-    font-size: 2em;
-    color: #ff5a1e;
+    font-size: 1.7em;
+    color: #fdc5c5;
 }
 
 .p-on-img {
     text-align: center;
     padding: 0px 0px 150px 0px;
-    font-size: 0.83em;
+    font-size: 0.8em;
+    font-weight: 300;
     color: white;
 }
 
-.rank-info-container {
+#question-type-selection {
+    border-radius: 15px;
+    height: 30px;
     display: flex;
     justify-content: center;
-    margin-top: 20px;
-    font-size: .85em;
-    color: rgb(151, 151, 151);
+    align-items: center;
+    padding-left: 10px;
+    border: 1px solid #51c19d;
+    background-color: #c6ffed;
+    color: #2e6150;
 }
 
 .rank-selection-container, .rank-table-container {
@@ -100,4 +105,11 @@ body {
 .rank-table th:nth-child(3),
 .rank-table td:nth-child(3) {
     width: 30%; /* 점수 컬럼의 폭을 고정합니다. */
+}
+
+.info-icon {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    cursor: pointer;
 }
