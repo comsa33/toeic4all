@@ -96,7 +96,7 @@ fetchWithToken('/api/performance/question-level')
     .then(data => {
         const labels = data.results.map(result => `Level ${result.question_level}`);
         const accuracies = data.results.map(result => parseFloat(result.accuracy) * 100); // 정확도를 백분율로 변환
-        createBarChart('canvas-weak-areas', '난이도별 성적 (%)', labels, accuracies); // y축 레이블에 % 추가
+        createBarChart('canvas-weak-areas', '문제 난이도별 성적 (%)', labels, accuracies); // y축 레이블에 % 추가
     })
     .catch(err => console.error(err));
 
