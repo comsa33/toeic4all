@@ -417,18 +417,22 @@ def get_performance_question_level():
 def get_performance_time_spent():
     username = get_jwt_identity()
 
-    # 각 문제에 대한 사용자의 평균 소요 시간을 계산합니다.
+    # 각 문제 유형에 대한 사용자의 평균 소요 시간을 계산합니다.
     results = db.session.query(
-        UserTestQuestionsDetail.question_id,
+        GeneratedQuestionType.name_kor,
         db.func.avg(UserTestQuestionsDetail.time_record_per_question).label('average_time')
+    ).join(
+        UserTestQuestionsDetail, UserTestQuestionsDetail.question_id == GeneratedQuestion.id
+    ).join(
+        GeneratedQuestionType, GeneratedQuestion.question_type_id == GeneratedQuestionType.id
     ).filter(
         UserTestQuestionsDetail.username == username
     ).group_by(
-        UserTestQuestionsDetail.question_id
+        GeneratedQuestionType.name_kor
     ).all()
 
     # 쿼리 결과를 사전으로 변환
-    results = [{"question_id": row.question_id, "average_time": row.average_time} for row in results]
+    results = [{"question_type": row.name_kor, "average_time": row.average_time} for row in results]
 
     return jsonify({"results": results}), 200
 

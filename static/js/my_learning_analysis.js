@@ -76,27 +76,27 @@ fetchWithToken('/api/performance/question-type')
     .then(data => {
         const labels = data.results.map(result => result.question_type);
         const accuracies = data.results.map(result => parseFloat(result.accuracy));
-        createLineChart('canvas-accuracy-by-type', 'Accuracy by Question Type', labels, accuracies);
+        createLineChart('canvas-accuracy-by-type', '문제 유형별 정확도', labels, accuracies);
     })
     .catch(err => console.error(err));
 
-// 취약한 영역
+// 난이도별 성적
 fetchWithToken('/api/performance/question-level')
     .then(response => response.json())
     .then(data => {
         const labels = data.results.map(result => `Level ${result.question_level}`);
         const accuracies = data.results.map(result => parseFloat(result.accuracy));
-        createBarChart('canvas-weak-areas', 'Weak Areas', labels, accuracies);
+        createBarChart('canvas-weak-areas', '난이도별 성적', labels, accuracies);
     })
     .catch(err => console.error(err));
 
-// 테스트별 정확도 및 소요 시간
+// 문제 유형별 소요 시간
 fetchWithToken('/api/performance/time-spent')
     .then(response => response.json())
     .then(data => {
-        const labels = data.results.map(result => `Q${result.question_id}`);
+        const labels = data.results.map(result => result.question_type);
         const times = data.results.map(result => parseFloat(result.average_time));
-        createBarChart('canvas-accuracy-time-by-test', 'Accuracy and Time by Test', labels, times);
+        createBarChart('canvas-accuracy-time-by-test', '문제 유형별 소요 시간', labels, times);
     })
     .catch(err => console.error(err));
 
@@ -106,6 +106,6 @@ fetchWithToken('/api/growth')
     .then(data => {
         const labels = data.results.map(result => new Date(result.created_at).toLocaleDateString());
         const accuracies = data.results.map(result => parseFloat(result.accuracy));
-        createLineChart('canvas-progress-by-test', 'Progress and Performance by Test', labels, accuracies);
+        createLineChart('canvas-progress-by-test', '모의고사별 성적', labels, accuracies);
     })
     .catch(err => console.error(err));
