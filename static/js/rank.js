@@ -56,6 +56,7 @@ $(function () {
       trigger: 'click',
       html: true,
       placement: 'bottom',
+      boundary: 'viewport',
       content: function () {
         return $('#tooltip-content').html();
       }

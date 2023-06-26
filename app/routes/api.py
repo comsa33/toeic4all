@@ -445,7 +445,7 @@ def get_growth():
     # 시간에 따른 사용자의 정답률을 계산합니다.
     results = db.session.query(
         UserTestDetail.test_id,  # Add this line
-        db.func.max(UserTestDetail.created_at).label('latest_created_at'),  # Change this line
+        db.func.max(UserTestDetail.created_at).label('latest_created_at'),
         db.func.avg(db.case((UserTestQuestionsDetail.is_correct == True, 1), else_=0)).label('accuracy')
     ).join(
         UserTestQuestionsDetail, UserTestDetail.id == UserTestQuestionsDetail.test_id
