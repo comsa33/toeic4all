@@ -53,7 +53,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 $(function () {
     var options = {
-      trigger: 'hover',
+      trigger: 'click',
       html: true,
       content: function () {
         return $('#tooltip-content').html();
