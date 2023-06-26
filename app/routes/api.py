@@ -389,7 +389,7 @@ def get_performance_question_level():
     # question_level로 그룹화하고, 각 그룹별 정답률과 평균 소요 시간을 계산합니다.
     results = db.session.query(
         GeneratedQuestion.question_level,
-        db.func.avg(db.case((UserTestQuestionsDetail.is_correct == True, 1), else_=0)).label('accuracy')
+        db.func.avg(db.case((UserTestQuestionsDetail.is_correct == True, 1), else_=0)).label('accuracy'),
         db.func.avg(UserTestQuestionsDetail.time_record_per_question).label('average_time')
     ).join(
         GeneratedQuestion, UserTestQuestionsDetail.question_id == GeneratedQuestion.id
