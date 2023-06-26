@@ -1,16 +1,17 @@
 :root {
-    --primary-color: #1da1f2;
-    --secondary-color: #14171a;
-    --placeholder-color: #657786;
-    --disabled-color: #aac9f1;
-    --background-color: #f5f8fa;
-    --box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  --primary-color: #f87272;
+  --secondary-color: #14171a;
+  --placeholder-color: #657786;
+  --disabled-color: #ffd5d5;
+  --hover-color: #df3e3e;
+  --background-color: #f5f8fa;
+  --box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 body {
-    background-color: var(--background-color);
-    color: var(--secondary-color);
-    font-family: 'Pretendard', sans-serif;
+  background-color: var(--background-color);
+  color: var(--secondary-color);
+  font-family: 'Pretendard', sans-serif;
 }
 
 #side-btn-myfav a {

@@ -38,3 +38,8 @@ def my_page():
 @main_bp.route('/mynote')
 def my_note():
     return render_template('my_note.html')
+
+
+@main_bp.route('/my-learning-analysis')
+def my_learning_analysis():
+    return render_template('my_learning_analysis.html')

@@ -1,8 +1,9 @@
 :root {
-    --primary-color: #1da1f2;
+    --primary-color: #f87272;
     --secondary-color: #14171a;
     --placeholder-color: #657786;
-    --disabled-color: #aac9f1;
+    --disabled-color: #ffd5d5;
+    --hover-color: #df3e3e;
     --background-color: #f5f8fa;
     --box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }

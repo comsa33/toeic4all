@@ -34,6 +34,7 @@ function updateUI(isLoggedIn, username) {
                 <li><a href="/user-detail">내 정보</a></li>
                 <li><a href="/mypage">찜한 문제</a></li>
                 <li><a href="/mynote">내 오답노트</a></li>
+                <li><a href="/my-learning-analysis">내 학습 분석</a></li>
             </ul>
         `;
         const userMobileMenuHtml = `
@@ -42,6 +43,7 @@ function updateUI(isLoggedIn, username) {
                 <li><a href="/user-detail">내 정보</a></li>
                 <li><a href="/mypage">찜한 문제</a></li>
                 <li><a href="/mynote">내 오답노트</a></li>
+                <li><a href="/my-learning-analysis">내 학습 분석</a></li>
             </ul>
         `;
 

@@ -359,3 +359,83 @@ def get_wrong_questions_for_test(test_id):
     questions = fetch_questions_by_ids(wrong_question_ids)
 
     return jsonify(questions), 200
+
+
+@api.route('/performance/question-type', methods=['GET'])
+@jwt_required()
+def get_performance_question_type():
+    username = get_jwt_identity()
+
+    # question_type_id로 그룹화하고, 각 그룹별 정답률과 평균 소요 시간을 계산합니다.
+    results = db.session.query(
+        UserTestQuestionsDetail.question_id,
+        db.func.avg(UserTestQuestionsDetail.is_correct).label('accuracy'),
+        db.func.avg(UserTestQuestionsDetail.time_record_per_question).label('average_time')
+    ).join(
+        GeneratedQuestion, UserTestQuestionsDetail.question_id == GeneratedQuestion.id
+    ).filter(
+        UserTestQuestionsDetail.username == username
+    ).group_by(
+        GeneratedQuestion.question_type_id
+    ).all()
+
+    return jsonify({"results": [dict(row) for row in results]}), 200
+
+
+@api.route('/performance/question-level', methods=['GET'])
+@jwt_required()
+def get_performance_question_level():
+    username = get_jwt_identity()
+
+    # question_level로 그룹화하고, 각 그룹별 정답률과 평균 소요 시간을 계산합니다.
+    results = db.session.query(
+        GeneratedQuestion.question_level,
+        db.func.avg(UserTestQuestionsDetail.is_correct).label('accuracy'),
+        db.func.avg(UserTestQuestionsDetail.time_record_per_question).label('average_time')
+    ).join(
+        GeneratedQuestion, UserTestQuestionsDetail.question_id == GeneratedQuestion.id
+    ).filter(
+        UserTestQuestionsDetail.username == username
+    ).group_by(
+        GeneratedQuestion.question_level
+    ).all()
+
+    return jsonify({"results": [dict(row) for row in results]}), 200
+
+
+@api.route('/performance/time-spent', methods=['GET'])
+@jwt_required()
+def get_performance_time_spent():
+    username = get_jwt_identity()
+
+    # 각 문제에 대한 사용자의 평균 소요 시간을 계산합니다.
+    results = db.session.query(
+        UserTestQuestionsDetail.question_id,
+        db.func.avg(UserTestQuestionsDetail.time_record_per_question).label('average_time')
+    ).filter(
+        UserTestQuestionsDetail.username == username
+    ).group_by(
+        UserTestQuestionsDetail.question_id
+    ).all()
+
+    return jsonify({"results": [dict(row) for row in results]}), 200
+
+
+@api.route('/growth', methods=['GET'])
+@jwt_required()
+def get_growth():
+    username = get_jwt_identity()
+
+    # 시간에 따른 사용자의 정답률을 계산합니다.
+    results = db.session.query(
+        UserTestDetail.created_at,
+        db.func.avg(UserTestQuestionsDetail.is_correct).label('accuracy')
+    ).join(
+        UserTestQuestionsDetail, UserTestDetail.id == UserTestQuestionsDetail.test_id
+    ).filter(
+        UserTestDetail.username == username
+    ).group_by(
+        UserTestDetail.created_at
+    ).all()
+
+    return jsonify({"results": [dict(row) for row in results]}), 200
