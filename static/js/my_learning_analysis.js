@@ -127,13 +127,19 @@ fetchWithToken('/api/performance/daily')
             data: heatmapData,
             start: new Date(data.results[0].date),
             id: "graph_a",
-            domain : "week",
+            domain : "month",
             subDomain : "day",
-            range : 52,
-            tooltip: true,
-            cellSize: 10,
-            cellPadding: 2,
-            domainLabelFormat: "%m"
+            range : 6,
+            tooltip: true
+        });
+        // '이전' 버튼 클릭시 이전 달로 이동
+        document.querySelector('#minDate-previous').addEventListener('click', function() {
+            cal.previous(1);  // 이전 달로 이동
+        });
+
+        // '다음' 버튼 클릭시 다음 달로 이동
+        document.querySelector('#minDate-next').addEventListener('click', function() {
+            cal.next(1);  // 다음 달로 이동
         });
     })
     .catch(err => console.error(err));

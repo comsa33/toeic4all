@@ -120,6 +120,7 @@ body {
 }
 
 .div-analysis-card h5 {
+  padding: 10px;
   font-size: .9em;
   font-weight: bold;
   color: #6e6e6e;
