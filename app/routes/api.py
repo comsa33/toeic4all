@@ -446,7 +446,7 @@ def get_growth():
     results = db.session.query(
         UserTestDetail.test_id,  # Add this line
         db.func.max(UserTestDetail.created_at).label('latest_created_at'),  # Change this line
-        db.func.avg(db.case([(UserTestQuestionsDetail.is_correct == True, 1)], else_=0)).label('accuracy')
+        db.func.avg(db.case((UserTestQuestionsDetail.is_correct == True, 1), else_=0)).label('accuracy')
     ).join(
         UserTestQuestionsDetail, UserTestDetail.id == UserTestQuestionsDetail.test_id
     ).filter(
