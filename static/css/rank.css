@@ -108,9 +108,21 @@ body {
 }
 
 .info-icon {
-    color: gray;
-    position: relative;
+    position: absolute;
     right: 10px;
     top: 10px;
     cursor: pointer;
+}
+
+.rank-table-container {
+    position: relative;
+}
+
+.popover {
+    background-color: rgba(128, 128, 128, 0.7); /* 투명한 회색 */
+    color: #ffffff; /* 글자 색 */
+}
+
+.popover .popover-body {
+    text-align: left; /* 왼쪽 정렬 */
 }
