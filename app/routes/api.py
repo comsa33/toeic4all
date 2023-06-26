@@ -422,7 +422,7 @@ def get_performance_time_spent():
         GeneratedQuestionType.name_kor,
         db.func.avg(UserTestQuestionsDetail.time_record_per_question).label('average_time')
     ).join(
-        UserTestQuestionsDetail, UserTestQuestionsDetail.question_id == GeneratedQuestion.id
+        GeneratedQuestion, UserTestQuestionsDetail.question_id == GeneratedQuestion.id
     ).join(
         GeneratedQuestionType, GeneratedQuestion.question_type_id == GeneratedQuestionType.id
     ).filter(
