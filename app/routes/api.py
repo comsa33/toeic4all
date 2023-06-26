@@ -509,9 +509,9 @@ def get_user_ranking(question_type):
     activity_weight = 0.3
     difficulty_weight = 0.4
     for user in ranking:
-        user.final_score = (user.accuracy_score * accuracy_weight + 
-                            user.activity_score * activity_weight +
-                            user.difficulty_score * difficulty_weight)
+        user.final_score = (float(user.accuracy_score) * accuracy_weight + 
+                            float(user.activity_score) * activity_weight +
+                            float(user.difficulty_score) * difficulty_weight)
 
     # 최종 점수를 기준으로 랭킹을 정렬합니다.
     ranking.sort(key=lambda x: x.final_score, reverse=True)
