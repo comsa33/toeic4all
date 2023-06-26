@@ -456,7 +456,7 @@ def get_growth():
     ).all()
 
     # 쿼리 결과를 사전으로 변환
-    results = [{"latest_created_at": row.created_at, "accuracy": row.accuracy} for row in results]
+    results = [{"created_at": row.latest_created_at, "accuracy": row.accuracy} for row in results]
 
     return jsonify({"results": results}), 200
 
