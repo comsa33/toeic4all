@@ -55,6 +55,7 @@ body {
 
 #rank-container {
     max-width: 800px;
+    margin: auto;
 }
 
 #question-type-selection {
