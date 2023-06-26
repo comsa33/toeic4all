@@ -41,21 +41,25 @@
             <div id="accuracy-by-type">
                 <h2>문제 유형별 정확도</h2>
                 <!-- Here goes the chart or table -->
+                <canvas id="accuracy-by-type"></canvas>
             </div>
             <!-- Progress and Performance by Test -->
             <div id="progress-by-test">
                 <h2>테스트별 진행상황 및 성과</h2>
                 <!-- Here goes the timeline -->
+                <canvas id="progress-by-test"></canvas>
             </div>
             <!-- Weak Areas -->
             <div id="weak-areas">
                 <h2>취약한 영역</h2>
                 <!-- Here goes the table -->
+                <canvas id="weak-areas"></canvas>
             </div>
             <!-- Accuracy and Time by Test -->
             <div id="accuracy-time-by-test">
                 <h2>테스트별 정확도 및 소요 시간</h2>
                 <!-- Here goes the chart or table -->
+                <canvas id="accuracy-time-by-test"></canvas>
             </div>
         </div>
     </div>
@@ -64,4 +68,5 @@
 
 {% block additional_script %}
     <script src="{{ url_for('static', filename='js/my_learning_analysis.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 {% endblock %}
