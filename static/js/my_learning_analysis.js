@@ -70,23 +70,13 @@ function createBarChart(elementId, label, labels, data) {
     });
 }
 
-// 문제 유형별 정확도
+// 정확도 백분율로 계산
 fetchWithToken('/api/performance/question-type')
     .then(response => response.json())
     .then(data => {
         const labels = data.results.map(result => result.question_type);
-        const accuracies = data.results.map(result => parseFloat(result.accuracy));
-        createLineChart('canvas-accuracy-by-type', '문제 유형별 정확도', labels, accuracies);
-    })
-    .catch(err => console.error(err));
-
-// 난이도별 성적
-fetchWithToken('/api/performance/question-level')
-    .then(response => response.json())
-    .then(data => {
-        const labels = data.results.map(result => `Level ${result.question_level}`);
-        const accuracies = data.results.map(result => parseFloat(result.accuracy));
-        createBarChart('canvas-weak-areas', '난이도별 성적', labels, accuracies);
+        const accuracies = data.results.map(result => parseFloat(result.accuracy) * 100); // 여기서 정확도를 백분율로 변환
+        createLineChart('canvas-accuracy-by-type', '문제 유형별 정확도 (%)', labels, accuracies); // y축 레이블에 % 추가
     })
     .catch(err => console.error(err));
 
@@ -96,7 +86,17 @@ fetchWithToken('/api/performance/time-spent')
     .then(data => {
         const labels = data.results.map(result => result.question_type);
         const times = data.results.map(result => parseFloat(result.average_time));
-        createBarChart('canvas-accuracy-time-by-test', '문제 유형별 소요 시간', labels, times);
+        createBarChart('canvas-time-by-type', '문제 유형별 소요 시간 (초)', labels, times); // y축 레이블에 초 추가
+    })
+    .catch(err => console.error(err));
+
+// 난이도별 성적
+fetchWithToken('/api/performance/question-level')
+    .then(response => response.json())
+    .then(data => {
+        const labels = data.results.map(result => `Level ${result.question_level}`);
+        const accuracies = data.results.map(result => parseFloat(result.accuracy) * 100); // 정확도를 백분율로 변환
+        createBarChart('canvas-weak-areas', '난이도별 성적 (%)', labels, accuracies); // y축 레이블에 % 추가
     })
     .catch(err => console.error(err));
 
@@ -105,7 +105,7 @@ fetchWithToken('/api/growth')
     .then(response => response.json())
     .then(data => {
         const labels = data.results.map(result => new Date(result.created_at).toLocaleDateString());
-        const accuracies = data.results.map(result => parseFloat(result.accuracy));
-        createLineChart('canvas-progress-by-test', '모의고사별 성적', labels, accuracies);
+        const accuracies = data.results.map(result => parseFloat(result.accuracy) * 100); // 정확도를 백분율로 변환
+        createLineChart('canvas-progress-by-test', '모의고사별 성적 (%)', labels, accuracies); // y축 레이블에 % 추가
     })
     .catch(err => console.error(err));
