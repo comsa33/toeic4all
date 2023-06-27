@@ -20,8 +20,8 @@ window.onload = function() {
                 const seconds = Math.floor(diff % 60);
     
                 countdownElement.innerHTML = 
-                    `다음 토익 시험 (${data.results[0].toeic_test_no} 회차) 까지: <br>` +
-                    `${days}일 ${hours}시간 ${minutes}분 ${seconds}초`;
+                    `<p style="font-size:0.8em;">다음 토익 시험 (${data.results[0].toeic_test_no} 회차) 까지: </p>` +
+                    `<span>${days}일 ${hours}시간 ${minutes}분 ${seconds}초</span>`;
             })
             .catch(error => {
                 countdownElement.innerHTML = '토익 시험 정보를 가져오는 데 실패했습니다.';
