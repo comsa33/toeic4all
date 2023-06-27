@@ -44,6 +44,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
         const questionTypeId = event.target.value;
         fetch('/api/ranking' + (questionTypeId ? '/' + questionTypeId : ''))
             .then(response => response.json())
+            .then(ranking => {
+                ranking.forEach((userRanking, index) => {
+                    userRanking.rank = index + 1;
+                });
+                return ranking;
+            })
             .then(updateTable);
     });
 
@@ -92,7 +98,7 @@ function updateTable(ranking, sortKey = null) {
     if (sortKey) {
         ranking = [...ranking].sort((a, b) => sortOrder * (a[sortKey] - b[sortKey]));
     }
-    ranking.slice(0, 30).forEach((userRanking, index) => {
+    ranking.slice(0, 30).forEach((userRanking) => {
         const tr = document.createElement('tr');
 
         // 로그인된 사용자의 행이면 색상을 변경합니다.
@@ -101,7 +107,7 @@ function updateTable(ranking, sortKey = null) {
         }
 
         [
-            index + 1,
+            userRanking.rank,
             userRanking.username,
             Number(userRanking.accuracy_score).toFixed(2),
             userRanking.activity_score,
