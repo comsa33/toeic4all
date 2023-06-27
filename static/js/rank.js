@@ -61,6 +61,8 @@ const headers = {
     '종합점수': 'final_score'
 };
 
+let sortOrder = -1; // 초기 정렬 순서를 내림차순으로 설정
+
 // 랭킹 데이터를 테이블에 추가하고 정렬하는 함수
 function updateTable(ranking, sortKey = null) {
     const jwtToken = localStorage.getItem('access_token');
@@ -74,6 +76,7 @@ function updateTable(ranking, sortKey = null) {
         const th = document.createElement('th');
         th.textContent = headerText;
         th.addEventListener('click', () => {
+            sortOrder *= -1; // 정렬 순서를 토글
             updateTable(ranking, key);
         });
         headerRow.appendChild(th);
@@ -84,7 +87,7 @@ function updateTable(ranking, sortKey = null) {
     // 랭킹 데이터를 테이블에 추가합니다.
     const tbody = document.createElement('tbody');
     if (sortKey) {
-        ranking = [...ranking].sort((a, b) => a[sortKey] - b[sortKey]);
+        ranking = [...ranking].sort((a, b) => sortOrder * (a[sortKey] - b[sortKey]));
     }
     ranking.slice(0, 30).forEach((userRanking, index) => {
         const tr = document.createElement('tr');
