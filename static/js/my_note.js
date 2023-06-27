@@ -148,7 +148,7 @@ function loadWrongQuestions(testId, testNo) {
         new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: labels,
+                labels: ['틀린 문제 수'],
                 datasets: datasets
             },
             options: {
@@ -165,7 +165,9 @@ function loadWrongQuestions(testId, testNo) {
                 },
                 plugins: {
                     legend: {
-                        display: false
+                        position: 'right',
+                        labels: {
+                            boxWidth: 20,
                     }
                 }
             }
