@@ -94,6 +94,7 @@ h1.display-4 {
 }
 
 .h1-on-img {
+    color: #ff4444;
     text-align: center;
     padding: 150px 0px 0px 0px;
     font-weight: bold;
@@ -102,9 +103,11 @@ h1.display-4 {
 }
 
 .p-on-img {
-    text-align: center;
+    color: #691616;
+    text-align: justify;
     padding: 0px 0px 150px 0px;
-    font-size: 1em;
+    font-size: 1.2em;
+    font-weight: 200;
 }
 
 @media screen and (max-width: 600px) {
