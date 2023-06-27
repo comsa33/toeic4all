@@ -520,11 +520,11 @@ def get_user_ranking(question_type):
 
         # Normalize activity_score and difficulty_score
         user['activity_score'] = normalize(user['activity_score'], min_activity_score, max_activity_score)
-        user['difficulty_score'] = normalize(float(user['difficulty_score']), min_difficulty_score, max_difficulty_score)
+        user['difficulty_score'] = normalize(user['difficulty_score'], min_difficulty_score, max_difficulty_score)
 
         user['final_score'] = (float(user['accuracy_score']) *
                                (user['activity_score'] * activity_weight +
-                                user['difficulty_score'] * difficulty_weight))
+                                float(user['difficulty_score']) * difficulty_weight))
         ranking[i] = user
 
     ranking.sort(key=lambda x: x['final_score'], reverse=True)
