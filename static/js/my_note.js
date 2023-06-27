@@ -106,42 +106,7 @@ function loadTestGraph(testId) {
     fetchWithToken(`/api/my-note/tests/${testId}/wrong-questions`)
         .then(response => response.json())
         .then(data => {
-            // 문제 유형별로 문제를 그룹화합니다.
-            const questionTypeCount = data.reduce((acc, question) => {
-                const questionType = question.QuestionType;
-                if (!acc[questionType]) {
-                acc[questionType] = 0;
-                }
-                acc[questionType]++;
-                return acc;
-            }, {});
-
-            const labels = Object.keys(questionTypeCount);
-            const values = Object.values(questionTypeCount);
-
-            // 바 차트를 생성합니다.
-            const ctx = document.getElementById('graph-area').getContext('2d');
-            new Chart(ctx, {
-                type: 'bar',
-                data: {
-                labels: labels,
-                datasets: [{
-                    label: '문제 유형별 잘못된 문제 수',
-                    data: values,
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    borderWidth: 1
-                }]
-                },
-                options: {
-                responsive: true,
-                scales: {
-                    y: {
-                    beginAtZero: true
-                    }
-                }
-                }
-            });
+            
         });
 }
 
@@ -152,6 +117,44 @@ function loadWrongQuestions(testId, testNo) {
     fetchWithToken('/api/my-note/tests/' + testId + '/wrong-questions')
     .then(response => response.json())
     .then(data => {
+        // 문제 유형별로 문제를 그룹화합니다.
+        const questionTypeCount = data.reduce((acc, question) => {
+            const questionType = question.QuestionType;
+            if (!acc[questionType]) {
+            acc[questionType] = 0;
+            }
+            acc[questionType]++;
+            return acc;
+        }, {});
+
+        const labels = Object.keys(questionTypeCount);
+        const values = Object.values(questionTypeCount);
+
+        // 바 차트를 생성합니다.
+        const ctx = document.getElementById('graph-area').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+            labels: labels,
+            datasets: [{
+                label: '문제 유형별 잘못된 문제 수',
+                data: values,
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+            },
+            options: {
+            responsive: true,
+            scales: {
+                y: {
+                beginAtZero: true
+                }
+            }
+            }
+        });
+
+        // 문제를 화면에 보여줍니다.
         let questionArea = document.getElementById('question-area');
         let mocktestNo = document.getElementById('mocktest-no');
         mocktestNo.innerHTML = `모의고사_${testNo}`;
