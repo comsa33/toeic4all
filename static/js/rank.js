@@ -34,9 +34,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
                 // 랭킹 데이터를 테이블에 추가합니다.
                 const tbody = document.createElement('tbody');
-                ranking.forEach((userRanking, index) => {
+                ranking.slice(0, 30).forEach((userRanking, index) => {
                     const tr = document.createElement('tr');
-                    [index + 1, userRanking.username, userRanking.final_score].forEach(text => {
+                    [index + 1, userRanking.username, parseFloat(userRanking.final_score).toFixed(2)].forEach(text => {
                         const td = document.createElement('td');
                         td.textContent = text;
                         tr.appendChild(td);
@@ -44,6 +44,16 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     tbody.appendChild(tr);
                 });
                 table.appendChild(tbody);
+
+                // 랭킹이 30위를 넘어가는 경우, 사용자에게 알립니다.
+                if (ranking.length > 30) {
+                    const tr = document.createElement('tr');
+                    const td = document.createElement('td');
+                    td.colSpan = 3;
+                    td.textContent = '...';
+                    tr.appendChild(td);
+                    tbody.appendChild(tr);
+                }
             });
     });
 
