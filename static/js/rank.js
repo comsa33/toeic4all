@@ -53,8 +53,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 // 랭킹 데이터 프로퍼티와 헤더 텍스트 매핑
 const headers = {
-    '순위': 'index',
-    '아이디': 'username',
+    '순위': null,
+    '아이디': null,
     '성적': 'accuracy_score',
     '기여도': 'activity_score',
     '난이도': 'difficulty_score',
