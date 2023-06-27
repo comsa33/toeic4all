@@ -137,7 +137,7 @@ function loadWrongQuestions(testId, testNo) {
         const datasets = labels.map((label, index) => {
             return {
                 label: label,
-                data: labels.map((_, i) => i === index ? questionTypeCount[label] : 0),  // 해당 문제 유형의 데이터만 1이고 나머지는 0인 데이터 배열
+                data: [questionTypeCount[label]], // 해당 문제 유형의 데이터만 있는 데이터 배열
                 backgroundColor: backgroundColors[index],
                 borderWidth: 1
             };
