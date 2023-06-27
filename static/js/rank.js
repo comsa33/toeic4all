@@ -98,11 +98,14 @@ function updateTable(ranking, sortKey = null) {
     if (sortKey) {
         ranking = [...ranking].sort((a, b) => sortOrder * (a[sortKey] - b[sortKey]));
     }
-    ranking.slice(0, 30).forEach((userRanking) => {
+    const top30Ranking = ranking.slice(0, 30);
+    const currentUserRanking = ranking.find(userRanking => jwtToken && userRanking.username === window.loggedInUsername);
+
+    const addRow = (userRanking, highlight = false) => {
         const tr = document.createElement('tr');
 
         // 로그인된 사용자의 행이면 색상을 변경합니다.
-        if (jwtToken && userRanking.username === window.loggedInUsername) {
+        if (highlight) {
             tr.className = 'highlight';
         }
 
@@ -118,17 +121,33 @@ function updateTable(ranking, sortKey = null) {
             td.textContent = text;
             tr.appendChild(td);
         });
+
         tbody.appendChild(tr);
-    });
-    table.appendChild(tbody);
+    };
+
+    top30Ranking.forEach(addRow);
 
     // 랭킹이 30위를 넘어가는 경우, 사용자에게 알립니다.
     if (ranking.length > 30) {
         const tr = document.createElement('tr');
         const td = document.createElement('td');
-        td.colSpan = 3;
+        td.colSpan = 6;
         td.textContent = '...';
         tr.appendChild(td);
         tbody.appendChild(tr);
     }
+
+    // 로그인된 사용자가 30위 밖에 있다면, 그 사용자의 행을 추가합니다.
+    if (currentUserRanking && !top30Ranking.includes(currentUserRanking)) {
+        addRow(currentUserRanking, true);
+
+        const tr = document.createElement('tr');
+        const td = document.createElement('td');
+        td.colSpan = 6;
+        td.textContent = '...';
+        tr.appendChild(td);
+        tbody.appendChild(tr);
+    }
+
+    table.appendChild(tbody);
 }
