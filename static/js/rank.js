@@ -75,10 +75,13 @@ function updateTable(ranking, sortKey = null) {
     Object.entries(headers).forEach(([headerText, key]) => {
         const th = document.createElement('th');
         th.textContent = headerText;
-        th.addEventListener('click', () => {
-            sortOrder *= -1; // 정렬 순서를 토글
-            updateTable(ranking, key);
-        });
+        if (key) {
+            th.classList.add('sortable'); 
+            th.addEventListener('click', () => {
+                sortOrder *= -1; // 정렬 순서를 토글
+                updateTable(ranking, key);
+            });
+        }
         headerRow.appendChild(th);
     });
     thead.appendChild(headerRow);
