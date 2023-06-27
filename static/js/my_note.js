@@ -130,7 +130,7 @@ function loadWrongQuestions(testId, testNo) {
         const labels = Object.keys(questionTypeCount);
         const backgroundColors = labels.map((_, index) => {
             const hue = index * (360 / labels.length);
-            return `hsl(${hue}, 30%, 90%)`;
+            return `hsl(${hue}, 45%, 70%)`;
         });
 
         // 각 문제 유형별로 데이터셋을 생성합니다.
@@ -194,7 +194,7 @@ function loadWrongQuestions(testId, testNo) {
         const subTypeLabels = Object.keys(questionSubTypeCount);
         const subTypeBackgroundColors = subTypeLabels.map((_, index) => {
             const hue = index * (360 / subTypeLabels.length);
-            return `hsl(${hue}, 30%, 90%)`;
+            return `hsl(${hue}, 45%, 70%)`;
         });
 
         // 각 문제 세부 유형별로 데이터셋을 생성합니다.
