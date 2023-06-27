@@ -41,11 +41,13 @@
         </div>
         <button id="back-to-tests" style="display: none;">⏴ 내 모의고사 목록</button>
         <div id="my-tests"></div>
+        <div id="graph-area"></div>
         <div id="question-area" class="row"></div>
     </div>
 </div>
 {% endblock %}
 
 {% block additional_script %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="{{ url_for('static', filename='js/my_note.js') }}"></script>
 {% endblock %}
