@@ -140,7 +140,13 @@ function loadWrongQuestions(testId, testNo) {
                 data: [questionTypeCount[label]], // 해당 문제 유형의 데이터만 있는 데이터 배열
                 backgroundColor: backgroundColors[index],
                 borderWidth: 1,
-                barThickness: 10
+                barThickness: 10,
+                borderRadius: {
+                    topLeft: 10,
+                    topRight: 10,
+                    bottomLeft: 10,
+                    bottomRight: 10
+                }
             };
         });
 
