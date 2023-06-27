@@ -504,7 +504,7 @@ def get_user_ranking(question_type):
 
     query = query.group_by(UserTestDetail.username)
 
-    ranking = query.all()
+    ranking = [user._asdict() for user in query.all()]
 
     def normalize(value, min_val, max_val):
         return (value - min_val) / (max_val - min_val)
@@ -516,7 +516,7 @@ def get_user_ranking(question_type):
     max_difficulty_score = max([user['difficulty_score'] for user in ranking])
 
     for i in range(len(ranking)):
-        user = ranking[i]._asdict()  # Convert to dictionary
+        user = ranking[i]
 
         # Normalize activity_score and difficulty_score
         user['activity_score'] = normalize(user['activity_score'], min_activity_score, max_activity_score)
