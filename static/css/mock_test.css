@@ -103,8 +103,9 @@
 }
 
 .h1-on-img {
-    text-align: left;
-    padding: 30px 0px 0px 0px;
+    text-align: left !important;
+    padding: 55px 0px 0px 0px;
+    margin-bottom: 0 !important;
     font-weight: bold;
     font-size: 2em;
     color: #f65555;
@@ -114,6 +115,7 @@
     text-align: left;
     font-size: 1.2em;
     font-weight: 200;
+    color: #a43737;
 }
 
 .test-info {

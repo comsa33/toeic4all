@@ -40,8 +40,9 @@ body {
 }
 
 .h1-on-img {
-    text-align: left;
-    padding: 30px 0px 0px 0px;
+    text-align: left !important;
+    padding: 55px 0px 0px 0px;
+    margin-bottom: 0 !important;
     font-weight: bold;
     font-size: 1.7em;
     color: #fdc5c5;
