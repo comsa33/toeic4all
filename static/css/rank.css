@@ -82,7 +82,8 @@ body {
     border-collapse: collapse;
     margin: 0 auto;
     width: 90%;
-    font-size: .85em;
+    font-size: .8em;
+    font-weight: 300;
     table-layout: fixed; /* 테이블 레이아웃을 고정합니다. */
 }
 
@@ -95,27 +96,44 @@ body {
 }
 
 .rank-table th {
-    background-color: #51c19d;
-    color: white;
+    background-color: #ffdce2;
+    border: 2px solid #ff6347;
+    font-weight: bolder;
 }
 
 tr.highlight {
-    background-color: pink;
+    background-color: #ffeef0;
+    border: 2px solid #278646;
 }
 
 .rank-table th:nth-child(1),
 .rank-table td:nth-child(1) {
-    width: 20%; /* 랭킹 컬럼의 폭을 고정합니다. */
+    width: 10%; /* 랭킹 컬럼의 폭을 고정합니다. */
 }
 
 .rank-table th:nth-child(2),
 .rank-table td:nth-child(2) {
-    width: 50%; /* 사용자 이름 컬럼의 폭을 고정합니다. */
+    width: 30%; /* 사용자 이름 컬럼의 폭을 고정합니다. */
 }
 
 .rank-table th:nth-child(3),
 .rank-table td:nth-child(3) {
-    width: 30%; /* 점수 컬럼의 폭을 고정합니다. */
+    width: 15%; /* 점수 컬럼의 폭을 고정합니다. */
+}
+
+.rank-table th:nth-child(4),
+.rank-table td:nth-child(4) {
+    width: 15%; /* 점수 컬럼의 폭을 고정합니다. */
+}
+
+.rank-table th:nth-child(5),
+.rank-table td:nth-child(5) {
+    width: 15%; /* 점수 컬럼의 폭을 고정합니다. */
+}
+
+.rank-table th:nth-child(6),
+.rank-table td:nth-child(6) {
+    width: 15%; /* 점수 컬럼의 폭을 고정합니다. */
 }
 
 .score-info {

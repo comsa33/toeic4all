@@ -51,7 +51,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 // 테이블 헤더를 추가합니다.
                 const thead = document.createElement('thead');
                 const headerRow = document.createElement('tr');
-                ['Rank', 'Username', 'Score'].forEach(headerText => {
+                ['Rank', 'Username', 'Accuracy Score', 'Activity Score', 'Difficulty Score', 'Final Score'].forEach(headerText => {
                     const th = document.createElement('th');
                     th.textContent = headerText;
                     headerRow.appendChild(th);
@@ -69,7 +69,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         tr.className = 'highlight';
                     }
 
-                    [index + 1, userRanking.username, parseFloat(userRanking.final_score).toFixed(2)].forEach(text => {
+                    [
+                        index + 1,
+                        userRanking.username,
+                        userRanking.accuracy_score.toFixed(2),
+                        userRanking.activity_score,
+                        userRanking.difficulty_score.toFixed(2),
+                        userRanking.final_score.toFixed(2)
+                    ].forEach(text => {
                         const td = document.createElement('td');
                         td.textContent = text;
                         tr.appendChild(td);
