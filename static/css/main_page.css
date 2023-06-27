@@ -88,15 +88,15 @@ h1.display-4 {
 }
 
 .header-text {
-    width: 80%; /* 원하는 길이에 따라 조정 */
-    margin: 0 auto;
+    width: 80%;
+    margin: auto;
     text-align: left;
 }
 
 .h1-on-img {
     color: #ff4444;
-    text-align: center;
-    padding: 150px 0px 0px 0px;
+    text-align: left;
+    padding: 136px 0px 0px 0px;
     font-weight: bold;
     font-size: 2em;
     white-space: nowrap;
@@ -104,7 +104,7 @@ h1.display-4 {
 
 .p-on-img {
     color: #691616;
-    text-align: justify;
+    text-align: left;
     padding: 0px 0px 150px 0px;
     font-size: 1.2em;
     font-weight: 200;
