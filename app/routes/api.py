@@ -573,7 +573,10 @@ def get_toeic_info():
                 date_info = re.search(r'\d{4}\.\d{2}\.\d{2}', exam_date_time).group()
                 formatted_date_time = datetime.strptime(date_info, '%Y.%m.%d').replace(hour=hour, minute=minute)
                 # 딕셔너리에 담아 리스트에 추가
-                results.append({"toeic_test_no": exam_number, "toeic_test_datetime": formatted_date_time})
+                results.append({
+                    "toeic_test_no": exam_number,
+                    "toeic_test_datetime": formatted_date_time.isoformat()
+                })
             except Exception as e:
                 return jsonify({'error': 'Failed to normalize TOEIC schedule information', 'details': str(e)}), 500
 
