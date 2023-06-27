@@ -72,21 +72,6 @@ h1.display-4 {
     100% { transform: translateY(0); }
 }
 
-@keyframes animate-text {
-    0% {
-        transform: scale(100);
-        letter-spacing: 40px;
-    }
-    100% {
-        transform: scale(1);
-        letter-spacing: normal;
-    }
-}
-
-.animate-h1 {
-    animation: animate-text 0.7s forwards;
-}
-
 .header-text {
     width: 80%;
     margin: auto;
