@@ -19,8 +19,8 @@ body {
 }
 
 .row {
-    margin-right: 0;
-    margin-left: 0;
+    width: 1000px;
+    margin: 0 0 0 0;
 }
 
 .container {
