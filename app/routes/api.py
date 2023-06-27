@@ -1,6 +1,10 @@
 from random import shuffle
 from collections import defaultdict
+import re
 
+import requests
+from bs4 import BeautifulSoup
+from datetime import datetime
 from flask import Blueprint, jsonify, request
 from sqlalchemy import func, desc, Date, Integer
 from flask_jwt_extended import jwt_required, get_jwt_identity
@@ -530,3 +534,47 @@ def get_user_ranking(question_type):
     ranking.sort(key=lambda x: x['final_score'], reverse=True)
 
     return jsonify(ranking)
+
+
+@api.route('/toeic-info', methods=['GET'])
+def get_toeic_info():
+    url = "https://exam.toeic.co.kr/receipt/examSchList.php"
+
+    try:
+        response = requests.get(url)
+        html = response.text
+    except Exception as e:
+        return jsonify({'error': 'Failed to get TOEIC schedule', 'details': str(e)}), 500
+
+    soup = BeautifulSoup(html, 'html.parser')
+    rows = soup.select('table tr')
+
+    results = []
+
+    for row in rows:
+        columns = row.select('td')
+        if len(columns) > 2:
+            try:
+                # 회차에서 숫자만 추출
+                exam_number = re.search(r'\d+', columns[0].get_text()).group()
+                # 시험일시에서 날짜와 시간 추출
+                exam_date_time = re.search(r'\d{4}\.\d{2}\.\d{2}.+\d{1,2}시\d{1,2}분', columns[1].get_text()).group()
+            except Exception as e:
+                return jsonify({'error': 'Failed to parse TOEIC schedule information', 'details': str(e)}), 500
+
+            try:
+                # 시간 정보를 정규화합니다 (예: "오전 9시20분" -> "09:20")
+                time_info = re.search(r'(\d{1,2})시(\d{1,2})분', exam_date_time)
+                hour = int(time_info.group(1))
+                minute = int(time_info.group(2))
+                if '오후' in exam_date_time and hour < 12:
+                    hour += 12
+                # 날짜와 시간 정보를 datetime 객체로 변환합니다.
+                date_info = re.search(r'\d{4}\.\d{2}\.\d{2}', exam_date_time).group()
+                formatted_date_time = datetime.strptime(date_info, '%Y.%m.%d').replace(hour=hour, minute=minute)
+                # 딕셔너리에 담아 리스트에 추가
+                results.append({"toeic_test_no": exam_number, "toeic_test_datetime": formatted_date_time})
+            except Exception as e:
+                return jsonify({'error': 'Failed to normalize TOEIC schedule information', 'details': str(e)}), 500
+
+    return jsonify({"results": results}), 200

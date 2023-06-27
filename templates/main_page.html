@@ -55,8 +55,9 @@
 {% endblock %}
 
 {% block additional_script %}
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-<script>
-    AOS.init();
-</script>
+    <script src="{{ url_for('static', filename='js/main_page.js') }}"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
 {% endblock %}

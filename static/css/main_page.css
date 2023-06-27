@@ -36,6 +36,14 @@ h1.display-4 {
     z-index: 1;
 }
 
+#countdown {
+    color: white;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    border-radius: 5px;
+    text-align: right;
+}
+
 .arrow-down {
     position: absolute;
     bottom: 5%;
