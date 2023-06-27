@@ -138,7 +138,7 @@ function loadWrongQuestions(testId, testNo) {
         // 가로 바 차트를 생성합니다.
         const ctx = document.getElementById('graph-area').getContext('2d');
         new Chart(ctx, {
-            type: 'horizontalBar',
+            type: 'bar',
             data: {
                 labels: labels,
                 datasets: [{
@@ -150,6 +150,7 @@ function loadWrongQuestions(testId, testNo) {
             },
             options: {
                 responsive: true,
+                indexAxis: 'y',
                 scales: {
                     x: {
                         beginAtZero: true
