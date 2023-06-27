@@ -139,7 +139,8 @@ function loadWrongQuestions(testId, testNo) {
                 label: label,
                 data: [questionTypeCount[label]], // 해당 문제 유형의 데이터만 있는 데이터 배열
                 backgroundColor: backgroundColors[index],
-                borderWidth: 1
+                borderWidth: 1,
+                barThickness: 10
             };
         });
 
@@ -156,10 +157,12 @@ function loadWrongQuestions(testId, testNo) {
                 indexAxis: 'y',
                 scales: {
                     x: {
+                        display: false,
                         beginAtZero: true,
                         stacked: true
                     },
                     y: {
+                        display: false,
                         stacked: true
                     }
                 },
