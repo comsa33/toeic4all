@@ -72,9 +72,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     [
                         index + 1,
                         userRanking.username,
-                        userRanking.accuracy_score.toFixed(2),
+                        userRanking.accuracy_score,
                         userRanking.activity_score,
-                        userRanking.difficulty_score.toFixed(2),
+                        userRanking.difficulty_score,
                         userRanking.final_score.toFixed(2)
                     ].forEach(text => {
                         const td = document.createElement('td');
