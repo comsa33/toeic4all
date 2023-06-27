@@ -101,17 +101,17 @@ h1.display-4 {
     }
 }
 
-.col-lg-4 p {
+.col-lg-6 p {
     font-size: 0.85rem;
     line-height: 1.5;
     color:#ffa9a9
 }
 
-.col-lg-4 i {
+.col-lg-6 i {
     color: #ffa9a9;
 }
 
-.col-lg-4 h5 {
+.col-lg-6 h5 {
     font-size: 1.25rem;
     font-weight: bold;
     color: #fa7272;
