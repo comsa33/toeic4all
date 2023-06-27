@@ -74,8 +74,8 @@ h1.display-4 {
 
 @keyframes animate-text {
     0% {
-        transform: scale(20);
-        letter-spacing: 12px;
+        transform: scale(100);
+        letter-spacing: 40px;
     }
     100% {
         transform: scale(1);
@@ -84,7 +84,7 @@ h1.display-4 {
 }
 
 .animate-h1 {
-    animation: animate-text 2s forwards;
+    animation: animate-text 0.7s forwards;
 }
 
 .header-text {
