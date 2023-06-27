@@ -105,7 +105,7 @@ function updateTable(ranking, sortKey = null) {
         const tr = document.createElement('tr');
 
         // 로그인된 사용자의 행이면 색상을 변경합니다.
-        if (highlight) {
+        if (highlight && jwtToken && userRanking.username === window.loggedInUsername) {
             tr.className = 'highlight';
         }
 
@@ -125,7 +125,10 @@ function updateTable(ranking, sortKey = null) {
         tbody.appendChild(tr);
     };
 
-    top30Ranking.forEach(addRow);
+    top30Ranking.forEach((userRanking) => {
+        addRow(userRanking, userRanking === currentUserRanking);
+    });
+    
 
     // 랭킹이 30위를 넘어가는 경우, 사용자에게 알립니다.
     if (ranking.length > 30) {
