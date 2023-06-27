@@ -168,11 +168,15 @@ function loadWrongQuestions(testId, testNo) {
                 },
                 plugins: {
                     legend: {
-                        position: 'right',
+                        position: 'top',
                         labels: {
                             boxWidth: 20
                         }
-                    }
+                    },
+                    title: {
+                        display: true,
+                        text: '오답 문제 유형별 분포'
+                      }
                 }
             }
         });

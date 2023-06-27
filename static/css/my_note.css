@@ -241,6 +241,11 @@ body {
     color: red;
 }
 
+#graph-container {
+    width: 50%;
+    margin: 0 auto;
+}
+
 #my-tests {
     display: grid;
     grid-template-columns: repeat(1, 1fr);
