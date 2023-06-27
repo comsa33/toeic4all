@@ -101,14 +101,14 @@ document.addEventListener('click', function(event) {
     }
 });
 
-window.onscroll = function() {fadeGradient()};
+// window.onscroll = function() {fadeGradient()};
 
-function fadeGradient() {
-    var scrollHeight = document.body.scrollHeight;
-    var scrollPosition = window.innerHeight + window.scrollY;
-    if ((scrollHeight - scrollPosition) / scrollHeight <= 0.1) {
-        document.body.style.background = "none";
-    } else {
-        document.body.style.background = "linear-gradient(to top, white 20%, transparent 90%)";
-    }
-}
+// function fadeGradient() {
+//     var scrollHeight = document.body.scrollHeight;
+//     var scrollPosition = window.innerHeight + window.scrollY;
+//     if ((scrollHeight - scrollPosition) / scrollHeight <= 0.1) {
+//         document.body.style.background = "none";
+//     } else {
+//         document.body.style.background = "linear-gradient(to top, white 20%, transparent 90%)";
+//     }
+// }

@@ -1,4 +1,25 @@
+function fetchWithToken(url, options = {}) {
+    const jwtToken = localStorage.getItem('access_token');
+    if (jwtToken) {
+        let headers = options.headers || {};
+        headers['Authorization'] = `Bearer ${jwtToken}`;
+        return fetch(url, {...options, headers});
+    } else {
+        return;
+    }
+}
+
 window.addEventListener('DOMContentLoaded', (event) => {
+    // 로그인된 사용자의 이름을 가져옵니다.
+    fetchWithToken('/user/status')
+        .then(response => response.json())
+        .then(status => {
+            if (status.status === 'logged_in') {
+                // 로그인된 사용자의 이름을 전역 변수로 저장합니다.
+                window.loggedInUsername = status.username;
+            }
+        });
+
     // 문제 유형을 가져와서 선택박스에 추가합니다.
     fetch('/api/question_types')
         .then(response => response.json())
@@ -36,6 +57,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 const tbody = document.createElement('tbody');
                 ranking.slice(0, 30).forEach((userRanking, index) => {
                     const tr = document.createElement('tr');
+
+                    // 로그인된 사용자의 행이면 색상을 변경합니다.
+                    if (window.loggedInUsername === userRanking.username) {
+                        tr.className = 'highlight';
+                    }
+
                     [index + 1, userRanking.username, parseFloat(userRanking.final_score).toFixed(2)].forEach(text => {
                         const td = document.createElement('td');
                         td.textContent = text;

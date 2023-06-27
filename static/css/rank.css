@@ -99,6 +99,10 @@ body {
     color: white;
 }
 
+tr.highlight {
+    background-color: pink;
+}
+
 .rank-table th:nth-child(1),
 .rank-table td:nth-child(1) {
     width: 20%; /* 랭킹 컬럼의 폭을 고정합니다. */
