@@ -15,7 +15,7 @@ body {
 }
 
 .row {
-  width: 1000px;
+  max-width: 1000px;
   margin: 0 0 0 0;
 }
 
@@ -86,8 +86,7 @@ body {
   }
 }
 
-
-@media (min-width: 601px) {
+/* @media (min-width: 601px) {
   .order-md-1 {
     order: 1;
   }
@@ -105,7 +104,7 @@ body {
     flex: 0 0 75%;
     max-width: 75%;
   }
-}
+} */
 
 .div-analysis-card {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.1);
