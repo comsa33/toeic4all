@@ -167,7 +167,8 @@ function loadWrongQuestions(testId, testNo) {
                     legend: {
                         position: 'right',
                         labels: {
-                            boxWidth: 20,
+                            boxWidth: 20
+                        }
                     }
                 }
             }
