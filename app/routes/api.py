@@ -485,9 +485,9 @@ def get_daily_performance():
 @api.route('/ranking', defaults={'question_type': None}, methods=['GET'])
 @api.route('/ranking/<int:question_type>', methods=['GET'])
 def get_user_ranking(question_type):
-    accuracy_weight = 0.5
-    activity_weight = 0.3
-    difficulty_weight = 0.2
+    accuracy_weight = 0.3
+    activity_weight = 0.4
+    difficulty_weight = 0.3
 
     query = db.session.query(
         UserTestDetail.username.label('username'),
