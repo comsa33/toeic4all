@@ -64,12 +64,12 @@
     }
 }
 
-#start-test-btn {
+#start-test-btn, #mynote-btn {
     background-color: #6fae70; 
     animation: heartbeat 2s infinite;
 }
 
-#start-test-btn:hover {
+#start-test-btn:hover, #mynote-btn:hover {
     background-color: #5a9e5a;
 }
 

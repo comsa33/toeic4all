@@ -644,6 +644,7 @@ window.addEventListener('load', function() {
         .catch(error => console.log('Error:', error));
                 
         this.style.display = 'none';  // 채점 버튼 숨김
+        document.getElementById('mynote-btn').style.display = "flex";
         document.getElementById('test-result').innerHTML = `점수: ${correctCount}/${totalQuestions} · 시간: ${convertSecondsToMinutes(getTotalTime())}`;
         document.getElementById('test-result').style.display = "flex";  // 채점 결과를 보임
     });
