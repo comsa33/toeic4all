@@ -10,8 +10,10 @@
 <div id="my-img-container" class="my-img-container">
     <div class="blur-bg-image" data-bg-url="{{ url_for('static', filename='images/main-img1.jpg') }}"></div>
     <div class="my-img-text">
-        <h1 class="h1-on-img animate-h1">토익 공부의 혁신! 모두의 토익!</h1>
-        <p class="p-on-img">AI가 엄선한 문제들로 획기적인 점수 상승을 경험해 보세요.</p>
+        <div class="header-text">
+            <h1 class="h1-on-img animate-h1">토익 공부의 혁신! 모두의 토익!</h1>
+            <p class="p-on-img">토익 입문자부터 고득점을 목표로 하는 학생까지, AI가 당신을 완벽히 이해합니다. 개인별 맞춤형 문제를 통해 실력 향상의 지름길을 제공! 지금 AI와 함께 당신의 토익 점수를 새 단계로 끌어올려보세요!</p>
+        </div>
     </div>
     <div id="arrow" class="arrow-down">
         <span></span>
@@ -19,6 +21,7 @@
         <span></span>
     </div>
 </div>
+
 <script>
     // 이미지의 URL을 가져와서 CSS 스타일로 적용합니다.
     var blurBgImage = document.querySelector('.blur-bg-image');

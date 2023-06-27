@@ -87,6 +87,12 @@ h1.display-4 {
     animation: animate-text 2s forwards;
 }
 
+.header-text {
+    width: 80%; /* 원하는 길이에 따라 조정 */
+    margin: 0 auto;
+    text-align: left;
+}
+
 .h1-on-img {
     text-align: center;
     padding: 150px 0px 0px 0px;
