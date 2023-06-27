@@ -141,12 +141,6 @@ function loadWrongQuestions(testId, testNo) {
                 backgroundColor: backgroundColors[index],
                 borderWidth: 1,
                 barThickness: 10,
-                borderRadius: {
-                    topLeft: 10,
-                    topRight: 10,
-                    bottomLeft: 10,
-                    bottomRight: 10
-                }
             };
         });
 
