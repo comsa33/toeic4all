@@ -181,6 +181,70 @@ function loadWrongQuestions(testId, testNo) {
             }
         });
 
+        // 문제 세부 유형별로 문제를 그룹화합니다.
+        const questionSubTypeCount = data.reduce((acc, question) => {
+            const questionSubType = question.QuestionSubType;
+            if (!acc[questionSubType]) {
+            acc[questionSubType] = 0;
+            }
+            acc[questionSubType]++;
+            return acc;
+        }, {});
+
+        const subTypeLabels = Object.keys(questionSubTypeCount);
+        const subTypeBackgroundColors = subTypeLabels.map((_, index) => {
+            const hue = index * (360 / subTypeLabels.length);
+            return `hsl(${hue}, 60%, 60%)`;
+        });
+
+        // 각 문제 세부 유형별로 데이터셋을 생성합니다.
+        const subTypeDatasets = subTypeLabels.map((label, index) => {
+            return {
+                label: label,
+                data: [questionSubTypeCount[label]], // 해당 문제 세부 유형의 데이터만 있는 데이터 배열
+                backgroundColor: subTypeBackgroundColors[index],
+                borderWidth: 1,
+                barThickness: 10,
+            };
+        });
+
+        // 가로 바 차트를 생성합니다.
+        const subTypeCtx = document.getElementById('detailed-graph-area').getContext('2d');
+        new Chart(subTypeCtx, {
+            type: 'bar',
+            data: {
+                labels: ['틀린 문제 수'],
+                datasets: subTypeDatasets
+            },
+            options: {
+                responsive: true,
+                indexAxis: 'y',
+                scales: {
+                    x: {
+                        display: false,
+                        beginAtZero: true,
+                        stacked: true
+                    },
+                    y: {
+                        display: false,
+                        stacked: true
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            boxWidth: 20
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: '오답 문제 세부 유형별 분포'
+                    }
+                }
+            }
+        });
+
         // 문제를 화면에 보여줍니다.
         let questionArea = document.getElementById('question-area');
         let mocktestNo = document.getElementById('mocktest-no');
