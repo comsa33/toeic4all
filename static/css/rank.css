@@ -96,14 +96,14 @@ body {
 }
 
 .rank-table th {
-    background-color: #ffdce2;
-    border: 2px solid #ff6347;
-    font-weight: bolder;
+    background-color: #51c19d;
+    color: white;
 }
 
 tr.highlight {
-    background-color: #ffeef0;
-    border: 2px solid #278646;
+    background-color: #ffdce2;
+    border: 2px solid #ff6347;
+    font-weight: bolder;
 }
 
 .rank-table th:nth-child(1),

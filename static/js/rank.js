@@ -51,7 +51,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 // 테이블 헤더를 추가합니다.
                 const thead = document.createElement('thead');
                 const headerRow = document.createElement('tr');
-                ['Rank', 'Username', 'Accuracy Score', 'Activity Score', 'Difficulty Score', 'Final Score'].forEach(headerText => {
+                ['순위', '아이디', '성적', '기여도', '난이도', '종합점수'].forEach(headerText => {
                     const th = document.createElement('th');
                     th.textContent = headerText;
                     headerRow.appendChild(th);
