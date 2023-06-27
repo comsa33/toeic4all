@@ -12,7 +12,7 @@ window.onload = function() {
             .then(response => response.json())
             .then(data => {
                 const now = new Date();
-                const nextExam = new Date(data.results[0].toeic_test_datetime);
+                const nextExam = new Date(data.results[0].toeic_test_datetime + 'Z');  // append 'Z' to indicate UTC
                 const diff = Math.max((nextExam - now) / 1000, 0);  // remaining time in seconds
                 const days = Math.floor(diff / 86400);
                 const hours = Math.floor(diff / 3600) % 24;
@@ -27,6 +27,7 @@ window.onload = function() {
                 countdownElement.innerHTML = '토익 시험 정보를 가져오는 데 실패했습니다.';
             });
     }
+    
     
     updateCountdown();
     setInterval(updateCountdown, 1000);  // update every second
