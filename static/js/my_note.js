@@ -149,7 +149,11 @@ function loadWrongQuestions(testId, testNo) {
                 indexAxis: 'y',
                 scales: {
                     x: {
+                        stacked: true,
                         beginAtZero: true
+                    },
+                    y: {
+                        stacked: true
                     }
                 }
             }
