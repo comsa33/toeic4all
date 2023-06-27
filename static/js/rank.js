@@ -113,7 +113,7 @@ function updateTable(ranking, sortKey = null) {
             userRanking.rank,
             userRanking.username,
             Number(userRanking.accuracy_score).toFixed(2),
-            userRanking.activity_score,
+            userRanking.activity_score.toFixed(2),
             Number(userRanking.difficulty_score).toFixed(2),
             userRanking.final_score.toFixed(2)
         ].forEach(text => {
