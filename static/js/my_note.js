@@ -130,35 +130,38 @@ function loadWrongQuestions(testId, testNo) {
         const labels = Object.keys(questionTypeCount);
         const values = Object.values(questionTypeCount);
 
-        // 바 차트를 생성합니다.
+        const backgroundColors = labels.map((_, index) => {
+            const hue = index * (360 / labels.length);
+            return `hsl(${hue}, 60%, 60%)`;
+        });
+    
+        // 가로 바 차트를 생성합니다.
         const ctx = document.getElementById('graph-area').getContext('2d');
         new Chart(ctx, {
-            type: 'bar',
+            type: 'horizontalBar',
             data: {
                 labels: labels,
                 datasets: [{
-                    label: '틀린 문제 유형별 비율',
+                    label: '내가 틀린 문제 유형별 비율',
                     data: values,
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    borderColor: 'rgba(75, 192, 192, 1)',
+                    backgroundColor: backgroundColors,
                     borderWidth: 1
                 }]
             },
             options: {
                 responsive: true,
-                indexAxis: 'y',
                 scales: {
                     x: {
-                        stacked: true,
                         beginAtZero: true
-                    },
-                    y: {
-                        stacked: true
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
                     }
                 }
             }
         });
-        
 
         // 문제를 화면에 보여줍니다.
         let questionArea = document.getElementById('question-area');
