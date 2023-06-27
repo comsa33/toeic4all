@@ -310,20 +310,8 @@ body {
 }
 
 /* For larger screens, adjust the number of columns */
-@media screen and (min-width: 600px) and (max-width: 1200px) {
+@media screen and (min-width: 600px) {
     #my-tests {
         grid-template-columns: repeat(3, 1fr);
-    }
-}
-
-@media screen and (min-width: 1201px) and (max-width: 1600px) {
-    #my-tests {
-        grid-template-columns: repeat(4, 1fr);
-    }
-}
-
-@media screen and (min-width: 1601px) {
-    #my-tests {
-        grid-template-columns: repeat(5, 1fr);
     }
 }
