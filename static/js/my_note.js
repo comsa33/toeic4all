@@ -131,26 +131,29 @@ function loadWrongQuestions(testId, testNo) {
         const values = Object.values(questionTypeCount);
 
         // 바 차트를 생성합니다.
-        const ctx = document.getElementById('graph-area').getContext('2d');
         new Chart(ctx, {
-            type: 'bar',
+            type: 'horizontalBar',
             data: {
-            labels: labels,
-            datasets: [{
-                label: '문제 유형별 잘못된 문제 수',
-                data: values,
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1
-            }]
+                labels: labels,
+                datasets: [{
+                    label: '문제 유형별 잘못된 문제 수',
+                    data: values,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
             },
             options: {
-            responsive: true,
-            scales: {
-                y: {
-                beginAtZero: true
+                responsive: true,
+                scales: {
+                    x: {
+                        stacked: true,
+                        beginAtZero: true
+                    },
+                    y: {
+                        stacked: true
+                    }
                 }
-            }
             }
         });
 
