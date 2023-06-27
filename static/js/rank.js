@@ -51,6 +51,16 @@ window.addEventListener('DOMContentLoaded', (event) => {
     document.getElementById('question-type-selection').dispatchEvent(new Event('change'));
 });
 
+// 랭킹 데이터 프로퍼티와 헤더 텍스트 매핑
+const headers = {
+    '순위': 'index',
+    '아이디': 'username',
+    '성적': 'accuracy_score',
+    '기여도': 'activity_score',
+    '난이도': 'difficulty_score',
+    '종합점수': 'final_score'
+};
+
 // 랭킹 데이터를 테이블에 추가하고 정렬하는 함수
 function updateTable(ranking, sortKey = null) {
     const jwtToken = localStorage.getItem('access_token');
@@ -60,11 +70,11 @@ function updateTable(ranking, sortKey = null) {
     // 테이블 헤더를 추가합니다.
     const thead = document.createElement('thead');
     const headerRow = document.createElement('tr');
-    ['순위', '아이디', '성적', '기여도', '난이도', '종합점수'].forEach((headerText, index) => {
+    Object.entries(headers).forEach(([headerText, key]) => {
         const th = document.createElement('th');
         th.textContent = headerText;
         th.addEventListener('click', () => {
-            updateTable(ranking, headerText.toLowerCase().replace(' ', '_'));
+            updateTable(ranking, key);
         });
         headerRow.appendChild(th);
     });
