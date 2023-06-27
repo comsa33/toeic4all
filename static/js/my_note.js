@@ -110,6 +110,63 @@ function loadTestGraph(testId) {
         });
 }
 
+function createGraph(contextId, title, questionCount) {
+    const labels = Object.keys(questionCount);
+    const backgroundColors = labels.map((_, index) => {
+        const hue = index * (360 / labels.length);
+        return `hsl(${hue}, 45%, 70%)`;
+    });
+
+    // 각 문제 유형별로 데이터셋을 생성합니다.
+    const datasets = labels.map((label, index) => {
+        return {
+            label: label,
+            data: [questionCount[label]], // 해당 문제 유형의 데이터만 있는 데이터 배열
+            backgroundColor: backgroundColors[index],
+            borderWidth: 1,
+            barThickness: 6,
+        };
+    });
+
+    // 가로 바 차트를 생성합니다.
+    const ctx = document.getElementById(contextId).getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['틀린 문제 수'],
+            datasets: datasets
+        },
+        options: {
+            responsive: true,
+            indexAxis: 'y',
+            scales: {
+                x: {
+                    display: false,
+                    beginAtZero: true,
+                    stacked: true
+                },
+                y: {
+                    display: false,
+                    stacked: true
+                }
+            },
+            plugins: {
+                legend: {
+                    position: 'top',
+                    labels: {
+                        boxWidth: 20
+                    }
+                },
+                title: {
+                    display: true,
+                    text: title
+                }
+            }
+        }
+    });
+}
+
+
 function loadWrongQuestions(testId, testNo) {
     document.getElementById('my-tests').style.display = 'none'; // Hide test list
     document.getElementById('back-to-tests').style.display = 'block'; // Show back button
@@ -127,59 +184,7 @@ function loadWrongQuestions(testId, testNo) {
             return acc;
         }, {});
 
-        const labels = Object.keys(questionTypeCount);
-        const backgroundColors = labels.map((_, index) => {
-            const hue = index * (360 / labels.length);
-            return `hsl(${hue}, 45%, 70%)`;
-        });
-
-        // 각 문제 유형별로 데이터셋을 생성합니다.
-        const datasets = labels.map((label, index) => {
-            return {
-                label: label,
-                data: [questionTypeCount[label]], // 해당 문제 유형의 데이터만 있는 데이터 배열
-                backgroundColor: backgroundColors[index],
-                borderWidth: 1,
-                barThickness: 6,
-            };
-        });
-
-        // 가로 바 차트를 생성합니다.
-        const ctx = document.getElementById('graph-area').getContext('2d');
-        new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['틀린 문제 수'],
-                datasets: datasets
-            },
-            options: {
-                responsive: true,
-                indexAxis: 'y',
-                scales: {
-                    x: {
-                        display: false,
-                        beginAtZero: true,
-                        stacked: true
-                    },
-                    y: {
-                        display: false,
-                        stacked: true
-                    }
-                },
-                plugins: {
-                    legend: {
-                        position: 'top',
-                        labels: {
-                            boxWidth: 20
-                        }
-                    },
-                    title: {
-                        display: true,
-                        text: '오답 문제 유형별 분포'
-                      }
-                }
-            }
-        });
+        createGraph('graph-area', '오답 문제 유형별 분포', questionTypeCount);
 
         // 문제 세부 유형별로 문제를 그룹화합니다.
         const questionSubTypeCount = data.reduce((acc, question) => {
@@ -191,59 +196,7 @@ function loadWrongQuestions(testId, testNo) {
             return acc;
         }, {});
 
-        const subTypeLabels = Object.keys(questionSubTypeCount);
-        const subTypeBackgroundColors = subTypeLabels.map((_, index) => {
-            const hue = index * (360 / subTypeLabels.length);
-            return `hsl(${hue}, 45%, 70%)`;
-        });
-
-        // 각 문제 세부 유형별로 데이터셋을 생성합니다.
-        const subTypeDatasets = subTypeLabels.map((label, index) => {
-            return {
-                label: label,
-                data: [questionSubTypeCount[label]], // 해당 문제 세부 유형의 데이터만 있는 데이터 배열
-                backgroundColor: subTypeBackgroundColors[index],
-                borderWidth: 1,
-                barThickness: 6,
-            };
-        });
-
-        // 가로 바 차트를 생성합니다.
-        const subTypeCtx = document.getElementById('detailed-graph-area').getContext('2d');
-        new Chart(subTypeCtx, {
-            type: 'bar',
-            data: {
-                labels: ['틀린 문제 수'],
-                datasets: subTypeDatasets
-            },
-            options: {
-                responsive: true,
-                indexAxis: 'y',
-                scales: {
-                    x: {
-                        display: false,
-                        beginAtZero: true,
-                        stacked: true
-                    },
-                    y: {
-                        display: false,
-                        stacked: true
-                    }
-                },
-                plugins: {
-                    legend: {
-                        position: 'top',
-                        labels: {
-                            boxWidth: 20
-                        }
-                    },
-                    title: {
-                        display: true,
-                        text: '오답 문제 세부 유형별 분포'
-                    }
-                }
-            }
-        });
+        createGraph('detailed-graph-area', '오답 문제 세부 유형별 분포', questionSubTypeCount);
 
         // 문제를 화면에 보여줍니다.
         let questionArea = document.getElementById('question-area');
