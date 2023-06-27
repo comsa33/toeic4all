@@ -38,6 +38,7 @@ h1.display-4 {
 
 #countdown {
     font-family: 'Courier New', monospace;
+    font-size: 17px;
     color: white;
     background-color: rgba(0, 0, 0, 0.5);
     padding: 10px;
