@@ -128,32 +128,39 @@ function loadWrongQuestions(testId, testNo) {
         }, {});
 
         const labels = Object.keys(questionTypeCount);
-        const values = Object.values(questionTypeCount);
-
         const backgroundColors = labels.map((_, index) => {
             const hue = index * (360 / labels.length);
             return `hsl(${hue}, 60%, 60%)`;
         });
-    
+
+        // 각 문제 유형별로 데이터셋을 생성합니다.
+        const datasets = labels.map((label, index) => {
+            return {
+                label: label,
+                data: labels.map((_, i) => i === index ? questionTypeCount[label] : 0),  // 해당 문제 유형의 데이터만 1이고 나머지는 0인 데이터 배열
+                backgroundColor: backgroundColors[index],
+                borderWidth: 1
+            };
+        });
+
         // 가로 바 차트를 생성합니다.
         const ctx = document.getElementById('graph-area').getContext('2d');
         new Chart(ctx, {
             type: 'bar',
             data: {
                 labels: labels,
-                datasets: [{
-                    label: '내가 틀린 문제 유형별 비율',
-                    data: values,
-                    backgroundColor: backgroundColors,
-                    borderWidth: 1
-                }]
+                datasets: datasets
             },
             options: {
                 responsive: true,
                 indexAxis: 'y',
                 scales: {
                     x: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        stacked: true
+                    },
+                    y: {
+                        stacked: true
                     }
                 },
                 plugins: {
