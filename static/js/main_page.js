@@ -6,7 +6,8 @@ window.onload = function() {
     countdownElement.style.position = 'absolute';
     countdownElement.style.right = '20px';
     countdownElement.style.top = '20px';
-    countdownElement.style.fontSize = '20px';
+    countdownElement.style.fontSize = '17px';
+    countdownElement.style.fontWeight = '200';
     document.getElementById('my-img-container').appendChild(countdownElement);
 
     function updateCountdown() {
