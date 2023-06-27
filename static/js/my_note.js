@@ -130,7 +130,7 @@ function loadWrongQuestions(testId, testNo) {
         const labels = Object.keys(questionTypeCount);
         const backgroundColors = labels.map((_, index) => {
             const hue = index * (360 / labels.length);
-            return `hsl(${hue}, 60%, 60%)`;
+            return `hsl(${hue}, 30%, 90%)`;
         });
 
         // 각 문제 유형별로 데이터셋을 생성합니다.
@@ -140,7 +140,7 @@ function loadWrongQuestions(testId, testNo) {
                 data: [questionTypeCount[label]], // 해당 문제 유형의 데이터만 있는 데이터 배열
                 backgroundColor: backgroundColors[index],
                 borderWidth: 1,
-                barThickness: 10,
+                barThickness: 6,
             };
         });
 
@@ -194,7 +194,7 @@ function loadWrongQuestions(testId, testNo) {
         const subTypeLabels = Object.keys(questionSubTypeCount);
         const subTypeBackgroundColors = subTypeLabels.map((_, index) => {
             const hue = index * (360 / subTypeLabels.length);
-            return `hsl(${hue}, 60%, 60%)`;
+            return `hsl(${hue}, 30%, 90%)`;
         });
 
         // 각 문제 세부 유형별로 데이터셋을 생성합니다.
@@ -204,7 +204,7 @@ function loadWrongQuestions(testId, testNo) {
                 data: [questionSubTypeCount[label]], // 해당 문제 세부 유형의 데이터만 있는 데이터 배열
                 backgroundColor: subTypeBackgroundColors[index],
                 borderWidth: 1,
-                barThickness: 10,
+                barThickness: 6,
             };
         });
 
