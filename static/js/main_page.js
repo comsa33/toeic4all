@@ -20,7 +20,7 @@ window.onload = function() {
                 const seconds = Math.floor(diff % 60);
     
                 countdownElement.innerHTML = 
-                    `<p style="font-size:0.8em;">다음 토익 시험 (${data.results[0].toeic_test_no} 회차) 까지: </p>` +
+                    `<p style="font-size:0.7em; margin-bottom: 5px;">다음 토익 시험 (${data.results[0].toeic_test_no} 회차) 까지</p>` +
                     `<span>${days}일 ${hours}시간 ${minutes}분 ${seconds}초</span>`;
             })
             .catch(error => {
