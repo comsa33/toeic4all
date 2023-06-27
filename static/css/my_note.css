@@ -242,16 +242,15 @@ body {
 }
 
 #graph-container {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    align-items: center;
+    padding-top: 20px;
+    display: block;
+    width: 65%;
+    margin: auto;
 }
 
 @media (max-width: 600px) {
     #graph-container {
-        flex-direction: column;
+        width: 100%;
     }
 }
 
