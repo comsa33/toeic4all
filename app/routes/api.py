@@ -485,9 +485,8 @@ def get_daily_performance():
 @api.route('/ranking', defaults={'question_type': None}, methods=['GET'])
 @api.route('/ranking/<int:question_type>', methods=['GET'])
 def get_user_ranking(question_type):
-    accuracy_weight = 0.5
-    activity_weight = 0.25
-    difficulty_weight = 0.25
+    activity_weight = 0.5
+    difficulty_weight = 0.5
 
     query = db.session.query(
         UserTestDetail.username.label('username'),
@@ -509,9 +508,9 @@ def get_user_ranking(question_type):
 
     for i in range(len(ranking)):
         user = ranking[i]._asdict()  # Convert to dictionary
-        user['final_score'] = (float(user['accuracy_score']) * accuracy_weight +
-                               user['activity_score'] * activity_weight +
-                               float(user['difficulty_score']) * difficulty_weight)
+        user['final_score'] = (float(user['accuracy_score']) *
+                               (user['activity_score'] * activity_weight +
+                               float(user['difficulty_score']) * difficulty_weight))
         ranking[i] = user  # Replace the tuple with the updated dictionary
 
     # 최종 점수를 기준으로 랭킹을 정렬합니다.
