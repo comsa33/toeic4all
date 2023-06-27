@@ -99,25 +99,30 @@ body {
 
 /* 모바일 버전 스타일 */
 @media (max-width: 600px) {
-  .lnb {
-      height: auto;
-      padding-top: 0;
-      margin-top: 5px
-  }
+    .row {
+        width: 100%;
+        margin: 0 0 0 0;
+    }
+    
+    .lnb {
+        height: auto;
+        padding-top: 0;
+        margin-top: 5px
+    }
 
-  .lnb ul {
-      display: flex; /* 항목들을 가로로 배치 */
-      flex-direction: row; /* 추가된 코드 */
-      justify-content: space-around; /* 추가된 코드 */
-      list-style-type: none;
-  }
+    .lnb ul {
+        display: flex; /* 항목들을 가로로 배치 */
+        flex-direction: row; /* 추가된 코드 */
+        justify-content: space-around; /* 추가된 코드 */
+        list-style-type: none;
+    }
 
-  .lnb li {
-      border-bottom: none; /* 구분선 제거 */
-      border-right: none; /* 오른쪽 구분선 제거 */
-      flex: 1; /* 항목들의 너비를 균등하게 */
-      text-align: center;
-  }
+    .lnb li {
+        border-bottom: none; /* 구분선 제거 */
+        border-right: none; /* 오른쪽 구분선 제거 */
+        flex: 1; /* 항목들의 너비를 균등하게 */
+        text-align: center;
+    }
 }
 
 .report-btn {
