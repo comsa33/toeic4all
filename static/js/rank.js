@@ -44,59 +44,69 @@ window.addEventListener('DOMContentLoaded', (event) => {
         const questionTypeId = event.target.value;
         fetch('/api/ranking' + (questionTypeId ? '/' + questionTypeId : ''))
             .then(response => response.json())
-            .then(ranking => {
-                const table = document.getElementById('rank-table');
-                table.innerHTML = ''; // 기존의 랭킹 데이터를 비웁니다.
-
-                // 테이블 헤더를 추가합니다.
-                const thead = document.createElement('thead');
-                const headerRow = document.createElement('tr');
-                ['순위', '아이디', '성적', '기여도', '난이도', '종합점수'].forEach(headerText => {
-                    const th = document.createElement('th');
-                    th.textContent = headerText;
-                    headerRow.appendChild(th);
-                });
-                thead.appendChild(headerRow);
-                table.appendChild(thead);
-
-                // 랭킹 데이터를 테이블에 추가합니다.
-                const tbody = document.createElement('tbody');
-                ranking.slice(0, 30).forEach((userRanking, index) => {
-                    const tr = document.createElement('tr');
-
-                    // 로그인된 사용자의 행이면 색상을 변경합니다.
-                    if (jwtToken && userRanking.username === window.loggedInUsername) {
-                        tr.className = 'highlight';
-                    }
-
-                    [
-                        index + 1,
-                        userRanking.username,
-                        Number(userRanking.accuracy_score).toFixed(2),
-                        userRanking.activity_score,
-                        Number(userRanking.difficulty_score).toFixed(2),
-                        userRanking.final_score.toFixed(2)
-                    ].forEach(text => {
-                        const td = document.createElement('td');
-                        td.textContent = text;
-                        tr.appendChild(td);
-                    });
-                    tbody.appendChild(tr);
-                });
-                table.appendChild(tbody);
-
-                // 랭킹이 30위를 넘어가는 경우, 사용자에게 알립니다.
-                if (ranking.length > 30) {
-                    const tr = document.createElement('tr');
-                    const td = document.createElement('td');
-                    td.colSpan = 3;
-                    td.textContent = '...';
-                    tr.appendChild(td);
-                    tbody.appendChild(tr);
-                }
-            });
+            .then(updateTable);
     });
 
     // 페이지 로딩 완료 후, 초기 랭킹 데이터를 가져옵니다.
     document.getElementById('question-type-selection').dispatchEvent(new Event('change'));
 });
+
+// 랭킹 데이터를 테이블에 추가하고 정렬하는 함수
+function updateTable(ranking, sortKey = null) {
+    const jwtToken = localStorage.getItem('access_token');
+    const table = document.getElementById('rank-table');
+    table.innerHTML = ''; // 기존의 랭킹 데이터를 비웁니다.
+
+    // 테이블 헤더를 추가합니다.
+    const thead = document.createElement('thead');
+    const headerRow = document.createElement('tr');
+    ['순위', '아이디', '성적', '기여도', '난이도', '종합점수'].forEach((headerText, index) => {
+        const th = document.createElement('th');
+        th.textContent = headerText;
+        th.addEventListener('click', () => {
+            updateTable(ranking, headerText.toLowerCase().replace(' ', '_'));
+        });
+        headerRow.appendChild(th);
+    });
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
+
+    // 랭킹 데이터를 테이블에 추가합니다.
+    const tbody = document.createElement('tbody');
+    if (sortKey) {
+        ranking = [...ranking].sort((a, b) => a[sortKey] - b[sortKey]);
+    }
+    ranking.slice(0, 30).forEach((userRanking, index) => {
+        const tr = document.createElement('tr');
+
+        // 로그인된 사용자의 행이면 색상을 변경합니다.
+        if (jwtToken && userRanking.username === window.loggedInUsername) {
+            tr.className = 'highlight';
+        }
+
+        [
+            index + 1,
+            userRanking.username,
+            Number(userRanking.accuracy_score).toFixed(2),
+            userRanking.activity_score,
+            Number(userRanking.difficulty_score).toFixed(2),
+            userRanking.final_score.toFixed(2)
+        ].forEach(text => {
+            const td = document.createElement('td');
+            td.textContent = text;
+            tr.appendChild(td);
+        });
+        tbody.appendChild(tr);
+    });
+    table.appendChild(tbody);
+
+    // 랭킹이 30위를 넘어가는 경우, 사용자에게 알립니다.
+    if (ranking.length > 30) {
+        const tr = document.createElement('tr');
+        const td = document.createElement('td');
+        td.colSpan = 3;
+        td.textContent = '...';
+        tr.appendChild(td);
+        tbody.appendChild(tr);
+    }
+}

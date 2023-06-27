@@ -101,6 +101,7 @@ body {
 }
 
 tr.highlight {
+    color: #ff6347;
     background-color: #ffdce2;
     border: 2px solid #ff6347;
     font-weight: bolder;
