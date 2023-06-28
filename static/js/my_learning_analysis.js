@@ -108,7 +108,7 @@ function createRadarChart(elementId, label, labels, data) {
                             if (label) {
                                 label += ': ';
                             }
-                            label += context.parsed.r + '%';  // 단위를 백분율로 표시
+                            label += context.parsed.r.toFixed(2) + '%';
                             return label;
                         }
                     }
@@ -118,7 +118,7 @@ function createRadarChart(elementId, label, labels, data) {
                 r: {
                     beginAtZero: true,
                     ticks: {
-                        stepSize: 20,  // 20% 간격으로 표시
+                        stepSize: 50,
                         callback: function(value) {
                             return value + '%';
                         }
@@ -210,7 +210,7 @@ function createMainTypeDonutChart(elementId, label, data) {
                             if (label) {
                                 label += ': ';
                             }
-                            label += context.parsed.y + '(초)';
+                            label += context.raw + '(초)';
                             return label;
                         }
                     }
