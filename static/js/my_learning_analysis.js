@@ -48,7 +48,7 @@ function createLineChart(elementId, label, labels, data) {
 
     // 라벨의 갯수에 따라 컨테이너의 너비 설정
     canvas.style.width = `${labels.length * 80}px`; // 60px per label, adjust as needed
-    canvas.style.height = '300px'; // set height
+    canvas.style.height = '200px'; // set height
 
     const ctx = canvas.getContext('2d');
 
@@ -264,6 +264,23 @@ function createDonutChart(elementId, label, selectedType) {
     });
 }
 
+function getUniqueLabels(results) {
+    const uniqueLabels = [];
+    let lastLabel = null;
+    
+    for (const result of results) {
+        const label = new Date(result.created_at).toLocaleDateString();
+        if (label !== lastLabel) {
+            uniqueLabels.push(label);
+            lastLabel = label;
+        } else {
+            uniqueLabels.push(''); // add an empty label if the date is the same as the last one
+        }
+    }
+    
+    return uniqueLabels;
+}
+
 function loadData(page) {
     if (isLoading || isLastPage) {
         return;
@@ -274,7 +291,7 @@ function loadData(page) {
     fetchWithToken(`/api/growth?page=${page}`)
         .then(response => response.json())
         .then(data => {
-            const labels = data.results.map(result => new Date(result.created_at).toLocaleDateString());
+            const labels = getUniqueLabels(data.results);
             const accuracies = data.results.map(result => parseFloat(result.accuracy) * 100);
 
             if (myLineChart) {
