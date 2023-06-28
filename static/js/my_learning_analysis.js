@@ -47,7 +47,7 @@ function createLineChart(elementId, label, labels, data) {
     const canvas = document.getElementById(elementId);
 
     // 라벨의 갯수에 따라 컨테이너의 너비 설정
-    canvas.style.width = `${labels.length * 60}px`; // 60px per label, adjust as needed
+    canvas.style.width = `${labels.length * 100}px`; // 60px per label, adjust as needed
 
     const ctx = canvas.getContext('2d');
 
@@ -65,10 +65,7 @@ function createLineChart(elementId, label, labels, data) {
                 borderColor: 'rgba(75, 192, 192, 1)',
                 tension: 0.1
             }]
-        },
-        options: {
-            responsive: false, // prevent the chart from resizing itself
-        },
+        }
     });
 }
 
