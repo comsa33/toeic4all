@@ -155,20 +155,20 @@ function createStackedBarChart(elementId, labels, datasets, yAxisUnit, stepSize)
                     stacked: true,
                     grid: {
                         display: false
-                    }
-                },
-                y: {
-                    stacked: true,
+                    },
                     beginAtZero: true,
                     title: {
                         display: true,
                         text: yAxisUnit
                     },
-                    grid: {
-                        display: false
-                    },
                     ticks: {
                         stepSize: stepSize
+                    }
+                },
+                y: {
+                    stacked: true,
+                    grid: {
+                        display: false
                     }
                 }
             }
@@ -337,7 +337,7 @@ window.onload = function() {
                             backgroundColor: color,
                             borderColor: color,
                             borderWidth: 1,
-                            barThickness: 6,
+                            barThickness: 20,
                         });
                     } else {
                         wrongCountDatasets[datasetIndex].data.push(subTypeData.wrong_count);
