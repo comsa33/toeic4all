@@ -48,6 +48,7 @@ function createLineChart(elementId, label, labels, data) {
 
     // 라벨의 갯수에 따라 컨테이너의 너비 설정
     canvas.style.width = `${labels.length * 80}px`; // 60px per label, adjust as needed
+    canvas.style.height = '300px'; // set height
 
     const ctx = canvas.getContext('2d');
 
@@ -72,7 +73,7 @@ function createLineChart(elementId, label, labels, data) {
                 y: {
                     beginAtZero: true,
                     ticks: {
-                        stepSize: 20
+                        stepSize: 50
                     }
                 }
             }
