@@ -81,6 +81,39 @@ function createStackedBarChart(elementId, labels, datasets) {
         },
         options: {
             responsive: true,
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        title: function(context) {
+                            return context[0].dataset.label;
+                        },
+                        label: function(context) {
+                            let label = context.label || '';
+                            if (label) {
+                                label += ': ';
+                            }
+                            label += context.parsed.y;
+                            return label;
+                        }
+                    }
+                },
+                legend: {
+                    labels: {
+                        generateLabels: function(chart) {
+                            const datasets = chart.data.datasets;
+                            if (chart.legend && Array.isArray(datasets)) {
+                                return datasets.map(function(dataset, i) {
+                                    return {
+                                        text: dataset.label
+                                        // 추가적으로 필요한 설정은 여기에
+                                    };
+                                });
+                            }
+                            return null;
+                        }
+                    }
+                }
+            },
             scales: {
                 x: {
                     stacked: true,
