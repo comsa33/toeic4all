@@ -284,9 +284,13 @@ window.onload = function() {
     fetchWithToken('/api/performance/time-spent')
         .then(response => response.json())
         .then(data => {
-            const labels = data.results.map(result => result.question_type);
-            const times = data.results.map(result => parseFloat(result.average_time));
-            createBarChart('canvas-time-by-type', '문제 유형별 소요 시간 (초)', labels, times); // y축 레이블에 초 추가
+            // 데이터를 도넛 차트에 사용할 형태로 변환
+            const transformedData = data.results.map(result => ({
+                question_subtype: result.question_type,
+                average_time: parseFloat(result.average_time)
+            }));
+            // 도넛 차트 생성
+            createDonutChart('canvas-time-by-type', '문제 유형별 소요 시간 (초)', transformedData);
         })
         .catch(err => console.error(err));
     
