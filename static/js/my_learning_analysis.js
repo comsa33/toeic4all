@@ -80,7 +80,7 @@ function createLineChart(elementId, label, labels, data) {
                             if (label) {
                                 label += ': ';
                             }
-                            label += context.parsed.r.toFixed(2) + '점(100점 만점)';
+                            label += parseFloat(context.parsed.y).toFixed(2) + '점(100점 만점)';
                             return label;
                         }
                     }
@@ -227,7 +227,7 @@ function createMainTypeDonutChart(elementId, label, data) {
                             if (label) {
                                 label += ': ';
                             }
-                            label += context.raw.toFixed(2) + '(초)';
+                            label += parseFloat(context.raw).toFixed(2) + '(초)';
                             return label;
                         }
                     }
@@ -271,7 +271,7 @@ function createDonutChart(elementId, label, selectedType) {
                             if (label) {
                                 label += ': ';
                             }
-                            label += context.raw.toFixed(2) + '(초)';
+                            label += parseFloat(context.raw).toFixed(2) + '(초)';
                             return label;
                         }
                     }
