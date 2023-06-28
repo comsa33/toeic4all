@@ -129,6 +129,7 @@ function createStackedBarChart(elementId, labels, datasets, yAxisUnit, stepSize)
         },
         options: {
             responsive: true,
+            indexAxis: 'y',
             plugins: {
                 legend: {
                     display: false
@@ -329,7 +330,8 @@ window.onload = function() {
                             data: Array(index).fill(0).concat([subTypeData.wrong_count]),
                             backgroundColor: color,
                             borderColor: color,
-                            borderWidth: 1
+                            borderWidth: 1,
+                            barThickness: 6,
                         });
                     } else {
                         wrongCountDatasets[datasetIndex].data.push(subTypeData.wrong_count);
