@@ -1,3 +1,5 @@
+const colorScale = d3.scale.category20();
+
 let questionTypeData;  // 주 유형 데이터를 저장하는 전역 변수
 let myDonutChart;  // 도넛 차트를 참조하는 전역 변수
 
@@ -205,8 +207,6 @@ function createDonutChart(elementId, label, selectedType) {
 }
 
 window.onload = function() {
-    const colorScale = d3.scale.category20();
-
     fetchWithToken('/api/performance/question-subtype')
         .then(response => response.json())
         .then(data => {
