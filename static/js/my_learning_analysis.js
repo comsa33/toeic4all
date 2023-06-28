@@ -96,22 +96,6 @@ function createStackedBarChart(elementId, labels, datasets) {
                             return label;
                         }
                     }
-                },
-                legend: {
-                    labels: {
-                        generateLabels: function(chart) {
-                            const datasets = chart.data.datasets;
-                            if (chart.legend && Array.isArray(datasets)) {
-                                return datasets.map(function(dataset, i) {
-                                    return {
-                                        text: dataset.label
-                                        // 추가적으로 필요한 설정은 여기에
-                                    };
-                                });
-                            }
-                            return null;
-                        }
-                    }
                 }
             },
             scales: {
@@ -127,8 +111,23 @@ function createStackedBarChart(elementId, labels, datasets) {
     });
 }
 
+// 색상을 변화시키는 함수
+function shadeColor(color, percent) {
+    const f = parseInt(color.slice(1), 16),
+        t = percent < 0 ? 0 : 255,
+        p = percent < 0 ? percent * -1 : percent,
+        R = f >> 16,
+        G = (f >> 8) & 0x00FF,
+        B = f & 0x0000FF;
+    return "#" + ((0x1000000 + (Math.round((t - R) * p) + R) * 0x10000 + (Math.round((t - G) * p) + G) * 0x100 + (Math.round((t - B) * p) + B)).toString(16).slice(1));
+}
+
 window.onload = function() {
-    // 주 유형별 세부 유형의 틀린 문제 수와 평균 풀이 시간
+    // 주 유형 별 대표 색상
+    const typeColors = ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF'];
+    // 색상 변화를 위한 계수
+    const colorChangeFactor = 50;
+
     fetchWithToken('/api/performance/question-subtype')
         .then(response => response.json())
         .then(data => {
@@ -140,24 +139,25 @@ window.onload = function() {
             let avgTimeDatasets = [];
 
             typeLabels.forEach((typeLabel, index) => {
-                let bgColor = 'rgba(' + (index * 50 % 256) + ', ' + ((index + 100) * 50 % 256) + ', ' + ((index + 200) * 50 % 256) + ', 0.2)';
-                let brColor = 'rgba(' + (index * 50 % 256) + ', ' + ((index + 100) * 50 % 256) + ', ' + ((index + 200) * 50 % 256) + ', 1)';
-                
-                data[typeLabel].forEach(subTypeData => {
+                const baseColor = typeColors[index % typeColors.length];
+
+                data[typeLabel].forEach((subTypeData, subTypeIndex) => {
+                    let color = shadeColor(baseColor, colorChangeFactor * subTypeIndex);
+                    
                     let datasetIndex = wrongCountDatasets.findIndex(dataset => dataset.label === subTypeData.question_subtype);
                     if (datasetIndex === -1) {
                         wrongCountDatasets.push({
                             label: subTypeData.question_subtype,
                             data: Array(index).fill(0).concat([subTypeData.wrong_count]),
-                            backgroundColor: bgColor,
-                            borderColor: brColor,
+                            backgroundColor: color,
+                            borderColor: color,
                             borderWidth: 1
                         });
                         avgTimeDatasets.push({
                             label: subTypeData.question_subtype,
                             data: Array(index).fill(0).concat([subTypeData.average_time]),
-                            backgroundColor: bgColor,
-                            borderColor: brColor,
+                            backgroundColor: color,
+                            borderColor: color,
                             borderWidth: 1
                         });
                     } else {
@@ -166,11 +166,11 @@ window.onload = function() {
                     }
                 });
             });
-
+    
             createStackedBarChart('canvas-wrong-question-by-type-subtype', typeLabels, wrongCountDatasets);
             createStackedBarChart('canvas-avg-time-by-type-subtype', typeLabels, avgTimeDatasets);
         })
-        .catch(err => console.error(err));
+        .catch(err => console.error(err));    
 
     // 정확도 백분율로 계산
     fetchWithToken('/api/performance/question-type')
