@@ -86,11 +86,6 @@ body {
   }
 }
 
-#div-progress-by-test {
-  overflow-x: auto;
-  overflow-y: hidden;
-}
-
 #canvas-container-progress {
   white-space: nowrap;
 }
