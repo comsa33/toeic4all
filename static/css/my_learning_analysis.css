@@ -86,7 +86,7 @@ body {
   }
 }
 
-#div-progress-by-test, #div-daily-activity {
+#div-progress-by-test, #heatmap {
   overflow-x: auto;
   overflow-y: hidden;
 }
