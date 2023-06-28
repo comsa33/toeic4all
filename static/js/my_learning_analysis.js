@@ -75,6 +75,8 @@ function createLineChart(elementId, label, labels, data) {
                     ticks: {
                         stepSize: 20
                     }
+                }
+            }
         },
     });
 }
