@@ -200,6 +200,18 @@ function createDonutChart(elementId, label, selectedType) {
             plugins: {
                 legend: {
                     display: true
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            let label = context.label || '';
+                            if (label) {
+                                label += ': ';
+                            }
+                            label += context.parsed.r + '(초)';
+                            return label;
+                        }
+                    }
                 }
             }
         }
