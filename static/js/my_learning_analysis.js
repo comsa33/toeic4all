@@ -122,7 +122,7 @@ function createStackedBarChart(elementId, labels, datasets, yAxisUnit, stepSize)
 }
 
 window.onload = function() {
-    const typeColors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b'];
+    const colorScale = d3.scale.category20();
     
     fetchWithToken('/api/performance/question-subtype')
         .then(response => response.json())
@@ -135,28 +135,23 @@ window.onload = function() {
             let avgTimeDatasets = [];
     
             typeLabels.forEach((typeLabel, index) => {
-                let typeColor = typeColors[index % typeColors.length];
-            
-                // 주유형별로 대표 색상 선택
-                let bgColor = typeColor;
-                let brColor = typeColor;
-                
-                data[typeLabel].forEach(subTypeData => {
+                data[typeLabel].forEach((subTypeData, subTypeIndex) => {
                     let datasetIndex = wrongCountDatasets.findIndex(dataset => dataset.label === subTypeData.question_subtype);
+                    let color = colorScale(subTypeIndex % 20);  // category20 스케일은 20개의 고유 색상을 제공합니다.
+
                     if (datasetIndex === -1) {
                         wrongCountDatasets.push({
                             label: subTypeData.question_subtype,
                             data: Array(index).fill(0).concat([subTypeData.wrong_count]),
-                            backgroundColor: bgColor,
-                            borderColor: brColor,
+                            backgroundColor: color,
+                            borderColor: color,
                             borderWidth: 1
                         });
-                        
                         avgTimeDatasets.push({
                             label: subTypeData.question_subtype,
                             data: Array(index).fill(0).concat([subTypeData.average_time]),
-                            backgroundColor: bgColor,
-                            borderColor: brColor,
+                            backgroundColor: color,
+                            borderColor: color,
                             borderWidth: 1
                         });
                     } else {
