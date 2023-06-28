@@ -1,5 +1,13 @@
 const colorScale = d3.scale.category20();
 
+// 테스트별 진행상황 및 성과
+let currentPage = 1;
+let isLoading = false;
+let isLastPage = false;
+
+// 기존의 차트가 있으면 제거합니다.
+let myLineChart = null;
+
 let questionTypeData;  // 주 유형 데이터를 저장하는 전역 변수
 let myDonutCharts = {};
 
@@ -37,7 +45,12 @@ function fetchWithToken(url, options = {}) {
 
 function createLineChart(elementId, label, labels, data) {
     const ctx = document.getElementById(elementId).getContext('2d');
-    new Chart(ctx, {
+
+    if (myLineChart) {
+        myLineChart.destroy();
+    }
+
+    myLineChart = new Chart(ctx, {
         type: 'line',
         data: {
             labels: labels,
@@ -47,30 +60,6 @@ function createLineChart(elementId, label, labels, data) {
                 borderColor: 'rgba(75, 192, 192, 1)',
                 tension: 0.1
             }]
-        }
-    });
-}
-
-function createBarChart(elementId, label, labels, data) {
-    const ctx = document.getElementById(elementId).getContext('2d');
-    new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: labels,
-            datasets: [{
-                label: label,
-                data: data,
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
         }
     });
 }
@@ -254,7 +243,47 @@ function createDonutChart(elementId, label, selectedType) {
     });
 }
 
+function loadData(page) {
+    if (isLoading || isLastPage) {
+        return;
+    }
+
+    isLoading = true;
+
+    fetchWithToken(`/api/growth?page=${page}`)
+        .then(response => response.json())
+        .then(data => {
+            const labels = data.results.map(result => new Date(result.created_at).toLocaleDateString());
+            const accuracies = data.results.map(result => parseFloat(result.accuracy) * 100);
+
+            if (myLineChart) {
+                myLineChart.data.labels.push(...labels);
+                myLineChart.data.datasets[0].data.push(...accuracies);
+                myLineChart.update();
+            } else {
+                createLineChart('canvas-progress-by-test', '모의고사별 성적 (%)', labels, accuracies);
+            }
+
+            if (data.results.length < 10) { // 가정: 페이지당 10개의 항목이 반환된다.
+                isLastPage = true;
+            }
+
+            isLoading = false;
+        })
+        .catch(err => console.error(err));
+}
+
+const graphContainer = document.getElementById('div-progress-by-test');
+
+graphContainer.onscroll = function() {
+    if ((this.scrollWidth - this.scrollLeft) <= (this.clientWidth + 200)) {
+        loadData(++currentPage);
+    }
+};
+
 window.onload = function() {
+    loadData(currentPage);
+
     fetchWithToken('/api/performance/question-subtype')
         .then(response => response.json())
         .then(data => {
@@ -331,16 +360,6 @@ window.onload = function() {
             const labels = data.results.map(result => `Level ${result.question_level}`);
             const accuracies = data.results.map(result => parseFloat(result.accuracy) * 100); // 정확도를 백분율로 변환
             createRadarChart('canvas-weak-areas', '문제 난이도별 성적 (%)', labels, accuracies); // y축 레이블에 % 추가
-        })
-        .catch(err => console.error(err));
-    
-    // 테스트별 진행상황 및 성과
-    fetchWithToken('/api/growth')
-        .then(response => response.json())
-        .then(data => {
-            const labels = data.results.map(result => new Date(result.created_at).toLocaleDateString());
-            const accuracies = data.results.map(result => parseFloat(result.accuracy) * 100); // 정확도를 백분율로 변환
-            createLineChart('canvas-progress-by-test', '모의고사별 성적 (%)', labels, accuracies); // y축 레이블에 % 추가
         })
         .catch(err => console.error(err));
     

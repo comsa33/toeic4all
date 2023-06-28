@@ -481,14 +481,21 @@ def get_performance_time_spent():
     return jsonify({"results": results}), 200
 
 
+# 기본 페이지 크기를 정의합니다.
+DEFAULT_PAGE_SIZE = 10
+
+
 @api.route('/growth', methods=['GET'])
 @jwt_required()
 def get_growth():
     username = get_jwt_identity()
 
+    page = request.args.get('page', default=1, type=int)
+    per_page = request.args.get('per_page', default=DEFAULT_PAGE_SIZE, type=int)
+
     # 시간에 따른 사용자의 정답률을 계산합니다.
     results = db.session.query(
-        UserTestDetail.test_id,  # Add this line
+        UserTestDetail.test_id,
         db.func.max(UserTestDetail.created_at).label('latest_created_at'),
         db.func.avg(db.case((UserTestQuestionsDetail.is_correct == True, 1), else_=0)).label('accuracy')
     ).join(
@@ -496,8 +503,8 @@ def get_growth():
     ).filter(
         UserTestDetail.username == username
     ).group_by(
-        UserTestDetail.test_id  # Change this line
-    ).all()
+        UserTestDetail.test_id
+    ).paginate(page, per_page, False).items
 
     # 쿼리 결과를 사전으로 변환
     results = [{"created_at": row.latest_created_at, "accuracy": row.accuracy} for row in results]
