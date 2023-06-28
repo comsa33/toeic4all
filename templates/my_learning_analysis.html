@@ -37,30 +37,42 @@
                     <div id="heatmap-inner" style="width: max-content;"></div>
                 </div>
             </div>
+
             <!-- Accuracy by Question Type -->
             <div id="div-accuracy-by-type" class="div-analysis-card">
                 <h5>문제 유형별 정확도</h5>
                 <!-- Here goes the chart or table -->
                 <canvas id="canvas-accuracy-by-type"></canvas>
             </div>
-            <!-- Accuracy and Wrong Questions by SubType -->
-            <div id="div-performance-by-subtype" class="div-analysis-card">
-                <h5>세부 유형별 틀린 문제와 평균 풀이 시간</h5>
+
+            <!-- Wrong Questions by Type and SubType -->
+            <div id="div-wrong-question-by-type-subtype" class="div-analysis-card">
+                <h5>주 유형별 세부 유형의 틀린 문제 수</h5>
                 <!-- Here goes the chart -->
-                <canvas id="canvas-performance-by-subtype"></canvas>
+                <canvas id="canvas-wrong-question-by-type-subtype"></canvas>
             </div>
+
+            <!-- Average Time by Type and SubType -->
+            <div id="div-avg-time-by-type-subtype" class="div-analysis-card">
+                <h5>주 유형별 세부 유형의 평균 풀이 시간</h5>
+                <!-- Here goes the chart -->
+                <canvas id="canvas-avg-time-by-type-subtype"></canvas>
+            </div>
+
             <!-- Accuracy and Time by Test -->
             <div id="div-time-by-type" class="div-analysis-card">
                 <h5>문제 유형별 소요 시간</h5>
                 <!-- Here goes the chart or table -->
                 <canvas id="canvas-time-by-type"></canvas>
             </div>
+
             <!-- Weak Areas -->
             <div id="div-weak-areas" class="div-analysis-card">
                 <h5>문제 난이도별 평균 성적</h5>
                 <!-- Here goes the table -->
                 <canvas id="canvas-weak-areas"></canvas>
             </div>
+            
             <!-- Progress and Performance by Test -->
             <div id="div-progress-by-test" class="div-analysis-card">
                 <h5>테스트별 진행상황 및 성과</h5>

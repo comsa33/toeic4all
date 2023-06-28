@@ -397,8 +397,9 @@ def get_performance_question_type():
 def get_performance_question_subtype():
     username = get_jwt_identity()
 
-    # 세부 유형에 따른 틀린 문제의 개수와 문제 풀이에 걸린 평균 시간을 동시에 계산합니다.
+    # 주 유형에 따른 세부 유형의 틀린 문제의 개수와 문제 풀이에 걸린 평균 시간을 동시에 계산합니다.
     results = db.session.query(
+        GeneratedQuestionType.name_kor.label('question_type'),
         GeneratedQuestionSubType.name_kor,
         db.func.count(db.case((UserTestQuestionsDetail.is_correct == False, UserTestQuestionsDetail.id), else_=None)).label('wrong_count'),
         db.func.avg(UserTestQuestionsDetail.time_record_per_question).label('average_time')
@@ -408,16 +409,27 @@ def get_performance_question_subtype():
         GeneratedQuestion, GeneratedQuestion.id == UserTestQuestionsDetail.question_id
     ).join(
         GeneratedQuestionSubType, GeneratedQuestionSubType.id == GeneratedQuestion.question_sub_type_id
+    ).join(
+        GeneratedQuestionType, GeneratedQuestionType.id == GeneratedQuestionSubType.question_type_id
     ).filter(
         UserTestDetail.username == username
     ).group_by(
+        GeneratedQuestionType.name_kor,
         GeneratedQuestionSubType.name_kor
     ).all()
 
     # 쿼리 결과를 사전으로 변환
-    results = [{"question_subtype": row.name_kor, "average_time": row.average_time, "wrong_count": row.wrong_count} for row in results]
+    results_dict = {}
+    for row in results:
+        if row.question_type not in results_dict:
+            results_dict[row.question_type] = []
+        results_dict[row.question_type].append({
+            "question_subtype": row.name_kor, 
+            "average_time": row.average_time, 
+            "wrong_count": row.wrong_count
+        })
 
-    return jsonify({"results": results}), 200
+    return jsonify(results_dict), 200
 
 
 @api.route('/performance/question-level', methods=['GET'])

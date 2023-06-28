@@ -70,39 +70,23 @@ function createBarChart(elementId, label, labels, data) {
     });
 }
 
-function createBarChartDualAxis(elementId, labels, data1, data2, label1, label2) {
+// 스택드 바 차트를 만드는 함수
+function createStackedBarChart(elementId, labels, datasets) {
     const ctx = document.getElementById(elementId).getContext('2d');
     new Chart(ctx, {
         type: 'bar',
         data: {
             labels: labels,
-            datasets: [{
-                label: label1,
-                data: data1,
-                backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                borderColor: 'rgba(255, 99, 132, 1)',
-                borderWidth: 1,
-                yAxisID: 'y1'
-            },
-            {
-                label: label2,
-                data: data2,
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1,
-                yAxisID: 'y2'
-            }]
+            datasets: datasets
         },
         options: {
             responsive: true,
             scales: {
-                y1: {
-                    type: 'linear',
-                    position: 'left',
+                x: {
+                    stacked: true,
                 },
-                y2: {
-                    type: 'linear',
-                    position: 'right',
+                y: {
+                    stacked: true,
                     beginAtZero: true
                 }
             }
@@ -110,88 +94,122 @@ function createBarChartDualAxis(elementId, labels, data1, data2, label1, label2)
     });
 }
 
-// 세부 유형별 틀린 문제와 평균 풀이 시간
-fetchWithToken('/api/performance/question-subtype')
-    .then(response => response.json())
-    .then(data => {
-        const labels = data.results.map(result => result.question_subtype);
-        const wrongCountData = data.results.map(result => result.wrong_count);
-        const averageTimeData = data.results.map(result => result.average_time);
+window.onload = function() {
+    // 주 유형별 세부 유형의 틀린 문제 수와 평균 풀이 시간
+    fetchWithToken('/api/performance/question-subtype')
+        .then(response => response.json())
+        .then(data => {
+            const typeLabels = Object.keys(data);  // 주 유형 이름
+            
+            // 틀린 문제 수 그래프 데이터
+            let wrongCountDatasets = [];
+            // 평균 풀이 시간 그래프 데이터
+            let avgTimeDatasets = [];
+            
+            typeLabels.forEach((typeLabel, index) => {
+                let bgColor = 'rgba(' + (index * 50 % 256) + ', ' + ((index + 100) * 50 % 256) + ', ' + ((index + 200) * 50 % 256) + ', 0.2)';
+                let brColor = 'rgba(' + (index * 50 % 256) + ', ' + ((index + 100) * 50 % 256) + ', ' + ((index + 200) * 50 % 256) + ', 1)';
+                
+                let wrongCounts = [];
+                let avgTimes = [];
+                data[typeLabel].forEach(subTypeData => {
+                    wrongCounts.push(subTypeData.wrong_count);
+                    avgTimes.push(subTypeData.average_time);
+                });
+                
+                wrongCountDatasets.push({
+                    label: typeLabel,
+                    data: wrongCounts,
+                    backgroundColor: bgColor,
+                    borderColor: brColor,
+                    borderWidth: 1
+                });
+                
+                avgTimeDatasets.push({
+                    label: typeLabel,
+                    data: avgTimes,
+                    backgroundColor: bgColor,
+                    borderColor: brColor,
+                    borderWidth: 1
+                });
+            });
 
-        createBarChartDualAxis('canvas-performance-by-subtype', labels, wrongCountData, averageTimeData, '틀린 문제 수', '평균 풀이 시간 (초)');
-    })
-    .catch(err => console.error(err));
+            createStackedBarChart('canvas-wrong-question-by-type-subtype', typeLabels, wrongCountDatasets);
+            createStackedBarChart('canvas-avg-time-by-type-subtype', typeLabels, avgTimeDatasets);
+        })
+        .catch(err => console.error(err));
 
-// 정확도 백분율로 계산
-fetchWithToken('/api/performance/question-type')
-    .then(response => response.json())
-    .then(data => {
-        const labels = data.results.map(result => result.question_type);
-        const accuracies = data.results.map(result => parseFloat(result.accuracy) * 100); // 여기서 정확도를 백분율로 변환
-        createLineChart('canvas-accuracy-by-type', '문제 유형별 정확도 (%)', labels, accuracies); // y축 레이블에 % 추가
-    })
-    .catch(err => console.error(err));
-
-// 문제 유형별 소요 시간
-fetchWithToken('/api/performance/time-spent')
-    .then(response => response.json())
-    .then(data => {
-        const labels = data.results.map(result => result.question_type);
-        const times = data.results.map(result => parseFloat(result.average_time));
-        createBarChart('canvas-time-by-type', '문제 유형별 소요 시간 (초)', labels, times); // y축 레이블에 초 추가
-    })
-    .catch(err => console.error(err));
-
-// 난이도별 성적
-fetchWithToken('/api/performance/question-level')
-    .then(response => response.json())
-    .then(data => {
-        const labels = data.results.map(result => `Level ${result.question_level}`);
-        const accuracies = data.results.map(result => parseFloat(result.accuracy) * 100); // 정확도를 백분율로 변환
-        createBarChart('canvas-weak-areas', '문제 난이도별 성적 (%)', labels, accuracies); // y축 레이블에 % 추가
-    })
-    .catch(err => console.error(err));
-
-// 테스트별 진행상황 및 성과
-fetchWithToken('/api/growth')
-    .then(response => response.json())
-    .then(data => {
-        const labels = data.results.map(result => new Date(result.created_at).toLocaleDateString());
-        const accuracies = data.results.map(result => parseFloat(result.accuracy) * 100); // 정확도를 백분율로 변환
-        createLineChart('canvas-progress-by-test', '모의고사별 성적 (%)', labels, accuracies); // y축 레이블에 % 추가
-    })
-    .catch(err => console.error(err));
-
-// 테스트별 진행상황 및 성과
-fetchWithToken('/api/performance/daily')
-    .then(response => response.json())
-    .then(data => {
-        // 히트맵 데이터를 생성합니다.
-        const heatmapData = data.results.reduce((acc, cur) => {
-            acc[new Date(cur.date).getTime()/1000] = cur.test_count;
-            return acc;
-        }, {});
-
-        // 히트맵을 생성하고 HTML 요소에 연결합니다.
-        let cal = new CalHeatMap();
-        cal.init({
-            itemSelector: "#heatmap",
-            data: heatmapData,
-            start: new Date(data.results[0].date),
-            id: "graph_a",
-            domain : "month",
-            subDomain : "day",
-            range : 12,
-            tooltip: true
-        });
-        // '이전' 버튼 클릭시 이전 달로 이동
-        document.querySelector('#minDate-previous').addEventListener('click', function() {
-            cal.previous(1);  // 이전 달로 이동
-        });
-
-        // '다음' 버튼 클릭시 다음 달로 이동
-        document.querySelector('#minDate-next').addEventListener('click', function() {
-            cal.next(1);  // 다음 달로 이동
-        });
-    })
-    .catch(err => console.error(err));
+    // 정확도 백분율로 계산
+    fetchWithToken('/api/performance/question-type')
+        .then(response => response.json())
+        .then(data => {
+            const labels = data.results.map(result => result.question_type);
+            const accuracies = data.results.map(result => parseFloat(result.accuracy) * 100); // 여기서 정확도를 백분율로 변환
+            createLineChart('canvas-accuracy-by-type', '문제 유형별 정확도 (%)', labels, accuracies); // y축 레이블에 % 추가
+        })
+        .catch(err => console.error(err));
+    
+    // 문제 유형별 소요 시간
+    fetchWithToken('/api/performance/time-spent')
+        .then(response => response.json())
+        .then(data => {
+            const labels = data.results.map(result => result.question_type);
+            const times = data.results.map(result => parseFloat(result.average_time));
+            createBarChart('canvas-time-by-type', '문제 유형별 소요 시간 (초)', labels, times); // y축 레이블에 초 추가
+        })
+        .catch(err => console.error(err));
+    
+    // 난이도별 성적
+    fetchWithToken('/api/performance/question-level')
+        .then(response => response.json())
+        .then(data => {
+            const labels = data.results.map(result => `Level ${result.question_level}`);
+            const accuracies = data.results.map(result => parseFloat(result.accuracy) * 100); // 정확도를 백분율로 변환
+            createBarChart('canvas-weak-areas', '문제 난이도별 성적 (%)', labels, accuracies); // y축 레이블에 % 추가
+        })
+        .catch(err => console.error(err));
+    
+    // 테스트별 진행상황 및 성과
+    fetchWithToken('/api/growth')
+        .then(response => response.json())
+        .then(data => {
+            const labels = data.results.map(result => new Date(result.created_at).toLocaleDateString());
+            const accuracies = data.results.map(result => parseFloat(result.accuracy) * 100); // 정확도를 백분율로 변환
+            createLineChart('canvas-progress-by-test', '모의고사별 성적 (%)', labels, accuracies); // y축 레이블에 % 추가
+        })
+        .catch(err => console.error(err));
+    
+    // 테스트별 진행상황 및 성과
+    fetchWithToken('/api/performance/daily')
+        .then(response => response.json())
+        .then(data => {
+            // 히트맵 데이터를 생성합니다.
+            const heatmapData = data.results.reduce((acc, cur) => {
+                acc[new Date(cur.date).getTime()/1000] = cur.test_count;
+                return acc;
+            }, {});
+    
+            // 히트맵을 생성하고 HTML 요소에 연결합니다.
+            let cal = new CalHeatMap();
+            cal.init({
+                itemSelector: "#heatmap",
+                data: heatmapData,
+                start: new Date(data.results[0].date),
+                id: "graph_a",
+                domain : "month",
+                subDomain : "day",
+                range : 12,
+                tooltip: true
+            });
+            // '이전' 버튼 클릭시 이전 달로 이동
+            document.querySelector('#minDate-previous').addEventListener('click', function() {
+                cal.previous(1);  // 이전 달로 이동
+            });
+    
+            // '다음' 버튼 클릭시 다음 달로 이동
+            document.querySelector('#minDate-next').addEventListener('click', function() {
+                cal.next(1);  // 다음 달로 이동
+            });
+        })
+        .catch(err => console.error(err));
+}
