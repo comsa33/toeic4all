@@ -505,7 +505,7 @@ def get_growth():
     ).group_by(
         UserTestDetail.test_id
     ).order_by(
-        UserTestDetail.created_at
+        db.func.max(UserTestDetail.created_at)
     ).limit(per_page).offset((page - 1) * per_page).all()  # Use 'limit' and 'offset' for paging
 
     # 쿼리 결과를 사전으로 변환
