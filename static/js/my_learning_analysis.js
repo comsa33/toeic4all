@@ -133,37 +133,37 @@ window.onload = function() {
         .then(response => response.json())
         .then(data => {
             const typeLabels = Object.keys(data);  // 주 유형 이름
-            
+
             // 틀린 문제 수 그래프 데이터
             let wrongCountDatasets = [];
             // 평균 풀이 시간 그래프 데이터
             let avgTimeDatasets = [];
-            
+
             typeLabels.forEach((typeLabel, index) => {
                 let bgColor = 'rgba(' + (index * 50 % 256) + ', ' + ((index + 100) * 50 % 256) + ', ' + ((index + 200) * 50 % 256) + ', 0.2)';
                 let brColor = 'rgba(' + (index * 50 % 256) + ', ' + ((index + 100) * 50 % 256) + ', ' + ((index + 200) * 50 % 256) + ', 1)';
                 
-                let wrongCounts = [];
-                let avgTimes = [];
                 data[typeLabel].forEach(subTypeData => {
-                    wrongCounts.push(subTypeData.wrong_count);
-                    avgTimes.push(subTypeData.average_time);
-                });
-                
-                wrongCountDatasets.push({
-                    label: typeLabel,
-                    data: wrongCounts,
-                    backgroundColor: bgColor,
-                    borderColor: brColor,
-                    borderWidth: 1
-                });
-                
-                avgTimeDatasets.push({
-                    label: typeLabel,
-                    data: avgTimes,
-                    backgroundColor: bgColor,
-                    borderColor: brColor,
-                    borderWidth: 1
+                    let datasetIndex = wrongCountDatasets.findIndex(dataset => dataset.label === subTypeData.question_subtype);
+                    if (datasetIndex === -1) {
+                        wrongCountDatasets.push({
+                            label: subTypeData.question_subtype,
+                            data: Array(index).fill(0).concat([subTypeData.wrong_count]),
+                            backgroundColor: bgColor,
+                            borderColor: brColor,
+                            borderWidth: 1
+                        });
+                        avgTimeDatasets.push({
+                            label: subTypeData.question_subtype,
+                            data: Array(index).fill(0).concat([subTypeData.average_time]),
+                            backgroundColor: bgColor,
+                            borderColor: brColor,
+                            borderWidth: 1
+                        });
+                    } else {
+                        wrongCountDatasets[datasetIndex].data.push(subTypeData.wrong_count);
+                        avgTimeDatasets[datasetIndex].data.push(subTypeData.average_time);
+                    }
                 });
             });
 
