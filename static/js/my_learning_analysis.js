@@ -131,6 +131,7 @@ function createStackedBarChart(elementId, labels, datasets, yAxisUnit, stepSize)
             responsive: true,
             indexAxis: 'y',
             plugins: {
+                barPercentage: 0.5,
                 legend: {
                     display: false
                 },
@@ -153,6 +154,9 @@ function createStackedBarChart(elementId, labels, datasets, yAxisUnit, stepSize)
             scales: {
                 x: {
                     stacked: true,
+                    grid: {
+                        display: false
+                    }
                 },
                 y: {
                     stacked: true,
@@ -160,6 +164,9 @@ function createStackedBarChart(elementId, labels, datasets, yAxisUnit, stepSize)
                     title: {
                         display: true,
                         text: yAxisUnit
+                    },
+                    grid: {
+                        display: false
                     },
                     ticks: {
                         stepSize: stepSize
