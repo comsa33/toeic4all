@@ -210,7 +210,7 @@ function createMainTypeDonutChart(elementId, label, data) {
                             if (label) {
                                 label += ': ';
                             }
-                            label += context.raw + '(초)';
+                            label += context.raw.toFixed(2) + '(초)';
                             return label;
                         }
                     }
@@ -254,7 +254,7 @@ function createDonutChart(elementId, label, selectedType) {
                             if (label) {
                                 label += ': ';
                             }
-                            label += context.raw + '(초)';
+                            label += context.raw.toFixed(2) + '(초)';
                             return label;
                         }
                     }
