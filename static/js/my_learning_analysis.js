@@ -174,6 +174,42 @@ function createStackedBarChart(elementId, labels, datasets, yAxisUnit, stepSize)
     });
 }
 
+function createMainTypeDonutChart(elementId, label, data) {
+    const ctx = document.getElementById(elementId).getContext('2d');
+    
+    new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: data.map(d => d.question_type),
+            datasets: [{
+                label: label,
+                data: data.map(d => d.average_time),
+                backgroundColor: data.map((_, i) => colorScale(i % 20))  // D3 색상 스케일을 사용
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: true
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            let label = context.label || '';
+                            if (label) {
+                                label += ': ';
+                            }
+                            label += context.parsed.y + '(초)';
+                            return label;
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
 function createDonutChart(elementId, label, selectedType) {
     const subtypeData = questionTypeData[selectedType];
     
@@ -280,19 +316,13 @@ window.onload = function() {
         })
         .catch(err => console.error(err));
     
-    // 문제 유형별 소요 시간
+    // 주 유형별 평균 소요시간 차트 생성
     fetchWithToken('/api/performance/time-spent')
-        .then(response => response.json())
-        .then(data => {
-            // 데이터를 도넛 차트에 사용할 형태로 변환
-            const transformedData = data.results.map(result => ({
-                question_subtype: result.question_type,
-                average_time: parseFloat(result.average_time)
-            }));
-            // 도넛 차트 생성
-            createDonutChart('canvas-time-by-type', '문제 유형별 소요 시간 (초)', transformedData);
-        })
-        .catch(err => console.error(err));
+    .then(response => response.json())
+    .then(data => {
+        createMainTypeDonutChart('canvas-time-by-type', '문제 유형별 소요 시간 (초)', data.results);
+    })
+    .catch(err => console.error(err));
     
     // 난이도별 성적
     fetchWithToken('/api/performance/question-level')
