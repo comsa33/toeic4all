@@ -482,7 +482,7 @@ def get_performance_time_spent():
 
 
 # 기본 페이지 크기를 정의합니다.
-DEFAULT_PAGE_SIZE = 10
+DEFAULT_PAGE_SIZE = 15
 
 
 @api.route('/growth', methods=['GET'])
