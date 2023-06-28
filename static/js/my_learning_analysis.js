@@ -1,3 +1,5 @@
+let questionTypeData;  // 주 유형 데이터를 저장하는 전역 변수
+
 function isTokenExpired(token) {
     if (!token) {
         return true;
@@ -198,7 +200,6 @@ function createDonutChart(elementId, label, selectedType) {
 
 window.onload = function() {
     const colorScale = d3.scale.category20();
-    let questionTypeData;  // 주 유형 데이터를 저장하는 전역 변수
 
     fetchWithToken('/api/performance/question-subtype')
         .then(response => response.json())
