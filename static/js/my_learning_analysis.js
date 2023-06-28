@@ -69,6 +69,23 @@ function createLineChart(elementId, label, labels, data) {
         },
         options: {
             responsive: false,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            let label = context.label || '';
+                            if (label) {
+                                label += ': ';
+                            }
+                            label += context.parsed.r.toFixed(2) + '점(100점 만점)';
+                            return label;
+                        }
+                    }
+                }
+            },
             scales: {
                 y: {
                     beginAtZero: true,
