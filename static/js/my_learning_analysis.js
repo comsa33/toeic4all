@@ -44,7 +44,12 @@ function fetchWithToken(url, options = {}) {
 }
 
 function createLineChart(elementId, label, labels, data) {
-    const ctx = document.getElementById(elementId).getContext('2d');
+    const canvas = document.getElementById(elementId);
+    
+    // 컨테이너의 너비에 따라 캔버스의 너비 설정
+    canvas.style.width = `${labels.length * 60}px`; // 60px per label, adjust as needed
+
+    const ctx = canvas.getContext('2d');
 
     if (myLineChart) {
         myLineChart.destroy();
