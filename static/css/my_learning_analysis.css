@@ -90,6 +90,7 @@ body {
   overflow-x: auto;
   overflow-y: hidden;
   white-space: nowrap;
+  width: 150vw;
 }
 
 .div-analysis-card {
