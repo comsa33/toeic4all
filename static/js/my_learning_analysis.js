@@ -71,7 +71,7 @@ function createBarChart(elementId, label, labels, data) {
 }
 
 // 스택드 바 차트를 만드는 함수
-function createStackedBarChart(elementId, labels, datasets) {
+function createStackedBarChart(elementId, labels, datasets, yAxisUnit, stepSize) {
     const ctx = document.getElementById(elementId).getContext('2d');
     new Chart(ctx, {
         type: 'bar',
@@ -82,6 +82,9 @@ function createStackedBarChart(elementId, labels, datasets) {
         options: {
             responsive: true,
             plugins: {
+                legend: {
+                    display: false
+                },
                 tooltip: {
                     callbacks: {
                         title: function(context) {
@@ -104,43 +107,37 @@ function createStackedBarChart(elementId, labels, datasets) {
                 },
                 y: {
                     stacked: true,
-                    beginAtZero: true
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: yAxisUnit
+                    },
+                    ticks: {
+                        stepSize: stepSize
+                    }
                 }
             }
         }
     });
 }
 
-// 색상을 변화시키는 함수
-function shadeColor(color, percent) {
-    const f = parseInt(color.slice(1), 16),
-        t = percent < 0 ? 0 : 255,
-        p = percent < 0 ? percent * -1 : percent,
-        R = f >> 16,
-        G = (f >> 8) & 0x00FF,
-        B = f & 0x0000FF;
-    return "#" + ((0x1000000 + (Math.round((t - R) * p) + R) * 0x10000 + (Math.round((t - G) * p) + G) * 0x100 + (Math.round((t - B) * p) + B)).toString(16).slice(1));
-}
-
 window.onload = function() {
-    // 주 유형 별 대표 색상
     const typeColors = ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF'];
-    // 색상 변화를 위한 계수
     const colorChangeFactor = 50;
-
+    
     fetchWithToken('/api/performance/question-subtype')
         .then(response => response.json())
         .then(data => {
             const typeLabels = Object.keys(data);  // 주 유형 이름
-
+    
             // 틀린 문제 수 그래프 데이터
             let wrongCountDatasets = [];
             // 평균 풀이 시간 그래프 데이터
             let avgTimeDatasets = [];
-
+    
             typeLabels.forEach((typeLabel, index) => {
                 const baseColor = typeColors[index % typeColors.length];
-
+                
                 data[typeLabel].forEach((subTypeData, subTypeIndex) => {
                     let color = shadeColor(baseColor, colorChangeFactor * subTypeIndex);
                     
@@ -167,10 +164,10 @@ window.onload = function() {
                 });
             });
     
-            createStackedBarChart('canvas-wrong-question-by-type-subtype', typeLabels, wrongCountDatasets);
-            createStackedBarChart('canvas-avg-time-by-type-subtype', typeLabels, avgTimeDatasets);
+            createStackedBarChart('canvas-wrong-question-by-type-subtype', typeLabels, wrongCountDatasets, '(틀린개수)', 1);
+            createStackedBarChart('canvas-avg-time-by-type-subtype', typeLabels, avgTimeDatasets, '(초)', 0.1);
         })
-        .catch(err => console.error(err));    
+        .catch(err => console.error(err));
 
     // 정확도 백분율로 계산
     fetchWithToken('/api/performance/question-type')
