@@ -121,20 +121,8 @@ function createStackedBarChart(elementId, labels, datasets, yAxisUnit, stepSize)
     });
 }
 
-// 색상을 변화시키는 함수
-function shadeColor(color, percent) {
-    const f = parseInt(color.slice(1), 16),
-        t = percent < 0 ? 0 : 255,
-        p = percent < 0 ? percent * -1 : percent,
-        R = f >> 16,
-        G = (f >> 8) & 0x00FF,
-        B = f & 0x0000FF;
-    return "#" + ((0x1000000 + (Math.round((t - R) * p) + R) * 0x10000 + (Math.round((t - G) * p) + G) * 0x100 + (Math.round((t - B) * p) + B)).toString(16).slice(1));
-}
-
 window.onload = function() {
-    const typeColors = ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF'];
-    const colorChangeFactor = 50;
+    const typeColors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b'];
     
     fetchWithToken('/api/performance/question-subtype')
         .then(response => response.json())
@@ -147,25 +135,28 @@ window.onload = function() {
             let avgTimeDatasets = [];
     
             typeLabels.forEach((typeLabel, index) => {
-                const baseColor = typeColors[index % typeColors.length];
+                let typeColor = typeColors[index % typeColors.length];
+            
+                // 주유형별로 대표 색상 선택
+                let bgColor = typeColor;
+                let brColor = typeColor;
                 
-                data[typeLabel].forEach((subTypeData, subTypeIndex) => {
-                    let color = shadeColor(baseColor, colorChangeFactor * subTypeIndex);
-                    
+                data[typeLabel].forEach(subTypeData => {
                     let datasetIndex = wrongCountDatasets.findIndex(dataset => dataset.label === subTypeData.question_subtype);
                     if (datasetIndex === -1) {
                         wrongCountDatasets.push({
                             label: subTypeData.question_subtype,
                             data: Array(index).fill(0).concat([subTypeData.wrong_count]),
-                            backgroundColor: color,
-                            borderColor: color,
+                            backgroundColor: bgColor,
+                            borderColor: brColor,
                             borderWidth: 1
                         });
+                        
                         avgTimeDatasets.push({
                             label: subTypeData.question_subtype,
                             data: Array(index).fill(0).concat([subTypeData.average_time]),
-                            backgroundColor: color,
-                            borderColor: color,
+                            backgroundColor: bgColor,
+                            borderColor: brColor,
                             borderWidth: 1
                         });
                     } else {
