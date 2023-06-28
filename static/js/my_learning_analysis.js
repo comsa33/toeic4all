@@ -107,7 +107,7 @@ function createRadarChart(elementId, label, labels, data) {
                 r: {
                     beginAtZero: true,
                     ticks: {
-                        // 백분율로 표시
+                        stepSize: 20,  // 20% 간격으로 표시
                         callback: function(value) {
                             return value + '%';
                         }
