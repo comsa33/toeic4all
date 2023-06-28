@@ -254,7 +254,7 @@ function createDonutChart(elementId, label, selectedType) {
                             if (label) {
                                 label += ': ';
                             }
-                            label += context.parsed.y + '(초)';
+                            label += context.parsed + '(초)';
                             return label;
                         }
                     }
