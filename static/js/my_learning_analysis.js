@@ -47,7 +47,7 @@ function createLineChart(elementId, label, labels, data) {
     const canvas = document.getElementById(elementId);
 
     // 라벨의 갯수에 따라 컨테이너의 너비 설정
-    canvas.style.width = `${labels.length * 100}px`; // 60px per label, adjust as needed
+    canvas.style.width = `${labels.length * 80}px`; // 60px per label, adjust as needed
 
     const ctx = canvas.getContext('2d');
 
@@ -133,7 +133,6 @@ function createStackedBarChart(elementId, labels, datasets, yAxisUnit, stepSize)
             responsive: true,
             indexAxis: 'y',
             plugins: {
-                barPercentage: 0.5,
                 legend: {
                     display: false
                 },
@@ -286,7 +285,7 @@ function loadData(page) {
         .catch(err => console.error(err));
 }
 
-const graphContainer = document.getElementById('div-progress-by-test');
+const graphContainer = document.getElementById('canvas-container-progress');
 
 graphContainer.onscroll = function() {
     if ((this.scrollWidth - this.scrollLeft) <= (this.clientWidth + 200)) {
