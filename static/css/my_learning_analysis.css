@@ -89,8 +89,10 @@ body {
 #div-progress-by-test {
   overflow-x: auto;
   overflow-y: hidden;
+}
+
+#canvas-container {
   white-space: nowrap;
-  width: 150vw;
 }
 
 .div-analysis-card {
