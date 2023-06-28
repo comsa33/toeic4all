@@ -45,7 +45,7 @@ function fetchWithToken(url, options = {}) {
 
 function createLineChart(elementId, label, labels, data) {
     const canvas = document.getElementById(elementId);
-    const container = document.getElementById('canvas-container');
+    const container = document.getElementById('canvas-container-progress');
 
     // 라벨의 갯수에 따라 컨테이너의 너비 설정
     container.style.width = `${labels.length * 60}px`; // 60px per label, adjust as needed

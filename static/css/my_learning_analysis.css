@@ -91,7 +91,7 @@ body {
   overflow-y: hidden;
 }
 
-#canvas-container {
+#canvas-container-progress, #canvas-container-heatmap {
   white-space: nowrap;
 }
 
