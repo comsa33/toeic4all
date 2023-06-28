@@ -169,18 +169,64 @@ function createStackedBarChart(elementId, labels, datasets, yAxisUnit, stepSize)
     });
 }
 
+function createDonutChart(elementId, label, selectedType) {
+    const subtypeData = questionTypeData[selectedType];
+
+    const ctx = document.getElementById(elementId).getContext('2d');
+    new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: subtypeData.map(d => d.question_subtype),
+            datasets: [{
+                label: label,
+                data: subtypeData.map(d => d.average_time),
+                backgroundColor: subtypeData.map((_, i) => i % 2 ? 'rgba(255, 99, 132, 0.2)' : 'rgba(54, 162, 235, 0.2)'),
+                borderColor: subtypeData.map((_, i) => i % 2 ? 'rgba(255, 99, 132, 1)' : 'rgba(54, 162, 235, 1)'),
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: true
+                }
+            }
+        }
+    });
+}
+
 window.onload = function() {
     const colorScale = d3.scale.category20();
-    
+    let questionTypeData;  // 주 유형 데이터를 저장하는 전역 변수
+
     fetchWithToken('/api/performance/question-subtype')
         .then(response => response.json())
         .then(data => {
+            questionTypeData = data;  // 전역 변수에 데이터 저장
+
             const typeLabels = Object.keys(data);  // 주 유형 이름
-    
+
+            // 주 유형 선택 박스의 옵션을 생성합니다.
+            const select = document.getElementById('question-type-selector');
+            for (const questionType of typeLabels) {
+                const option = document.createElement('option');
+                option.value = questionType;
+                option.text = questionType;
+                select.appendChild(option);
+            }
+
+            // 주 유형 선택 박스의 선택이 변경될 때 도넛 차트를 갱신합니다.
+            select.addEventListener('change', function() {
+                const selectedType = this.value;
+                createDonutChart('canvas-avg-time-by-subtype', '세부 유형별 평균 걸린 시간', selectedType);
+            });
+
+            // 처음에는 첫 번째 주 유형의 데이터로 도넛 차트를 생성합니다.
+            createDonutChart('canvas-avg-time-by-subtype', '세부 유형별 평균 걸린 시간', select.value);
+
             // 틀린 문제 수 그래프 데이터
             let wrongCountDatasets = [];
-            // 평균 풀이 시간 그래프 데이터
-            let avgTimeDatasets = [];
     
             typeLabels.forEach((typeLabel, index) => {
                 data[typeLabel].forEach((subTypeData, subTypeIndex) => {
@@ -195,22 +241,13 @@ window.onload = function() {
                             borderColor: color,
                             borderWidth: 1
                         });
-                        avgTimeDatasets.push({
-                            label: subTypeData.question_subtype,
-                            data: Array(index).fill(0).concat([subTypeData.average_time]),
-                            backgroundColor: color,
-                            borderColor: color,
-                            borderWidth: 1
-                        });
                     } else {
                         wrongCountDatasets[datasetIndex].data.push(subTypeData.wrong_count);
-                        avgTimeDatasets[datasetIndex].data.push(subTypeData.average_time);
                     }
                 });
             });
     
             createStackedBarChart('canvas-wrong-question-by-type-subtype', typeLabels, wrongCountDatasets, '(틀린개수)', 1);
-            createStackedBarChart('canvas-avg-time-by-type-subtype', typeLabels, avgTimeDatasets, '(초)', 0.1);
         })
         .catch(err => console.error(err));
 
