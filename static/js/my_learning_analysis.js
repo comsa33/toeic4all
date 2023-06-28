@@ -70,6 +70,54 @@ function createBarChart(elementId, label, labels, data) {
     });
 }
 
+function createRadarChart(elementId, label, labels, data) {
+    const ctx = document.getElementById(elementId).getContext('2d');
+    new Chart(ctx, {
+        type: 'radar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: label,
+                data: data,
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            let label = context.label || '';
+                            if (label) {
+                                label += ': ';
+                            }
+                            label += context.parsed.r + '%';  // 단위를 백분율로 표시
+                            return label;
+                        }
+                    }
+                }
+            },
+            scales: {
+                r: {
+                    beginAtZero: true,
+                    ticks: {
+                        // 백분율로 표시
+                        callback: function(value) {
+                            return value + '%';
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
 // 스택드 바 차트를 만드는 함수
 function createStackedBarChart(elementId, labels, datasets, yAxisUnit, stepSize) {
     const ctx = document.getElementById(elementId).getContext('2d');
@@ -171,8 +219,8 @@ window.onload = function() {
         .then(response => response.json())
         .then(data => {
             const labels = data.results.map(result => result.question_type);
-            const accuracies = data.results.map(result => parseFloat(result.accuracy) * 100); // 여기서 정확도를 백분율로 변환
-            createLineChart('canvas-accuracy-by-type', '문제 유형별 정확도 (%)', labels, accuracies); // y축 레이블에 % 추가
+            const accuracies = data.results.map(result => parseFloat(result.accuracy) * 100); // 정확도를 백분율로 변환
+            createRadarChart('canvas-accuracy-by-type', '문제 유형별 정확도 (%)', labels, accuracies); // 레이다 차트로 변경
         })
         .catch(err => console.error(err));
     
