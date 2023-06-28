@@ -65,10 +65,6 @@ body {
       margin: 0 0 0 0;
   }
   
-  .content {
-    display: block;
-  }
-  
   .lnb {
       height: auto;
       padding-top: 0;
@@ -88,19 +84,6 @@ body {
       flex: 1; /* 항목들의 너비를 균등하게 */
       text-align: center;
   }
-}
-
-.content {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  grid-gap: 1rem;
-  grid-auto-rows: min-content;
-}
-
-#div-daily-activity,
-#div-progress-by-test,
-#div-wrong-question-by-type-subtype {
-  grid-column: span 2;
 }
 
 .div-analysis-card {
