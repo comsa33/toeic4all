@@ -86,12 +86,12 @@ body {
   }
 }
 
-#div-progress-by-test, #heatmap {
+#div-progress-by-test {
   overflow-x: auto;
   overflow-y: hidden;
 }
 
-#canvas-container-progress, #canvas-container-heatmap {
+#canvas-container-progress {
   white-space: nowrap;
 }
 
