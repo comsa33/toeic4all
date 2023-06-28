@@ -70,6 +70,58 @@ function createBarChart(elementId, label, labels, data) {
     });
 }
 
+function createBarChartDualAxis(elementId, labels, data1, data2, label1, label2) {
+    const ctx = document.getElementById(elementId).getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: label1,
+                data: data1,
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 1,
+                yAxisID: 'y1'
+            },
+            {
+                label: label2,
+                data: data2,
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1,
+                yAxisID: 'y2'
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y1: {
+                    type: 'linear',
+                    position: 'left',
+                },
+                y2: {
+                    type: 'linear',
+                    position: 'right',
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+}
+
+// 세부 유형별 틀린 문제와 평균 풀이 시간
+fetchWithToken('/api/performance/question-subtype')
+    .then(response => response.json())
+    .then(data => {
+        const labels = data.results.map(result => result.question_subtype);
+        const wrongCountData = data.results.map(result => result.wrong_count);
+        const averageTimeData = data.results.map(result => result.average_time);
+
+        createBarChartDualAxis('canvas-performance-by-subtype', labels, wrongCountData, averageTimeData, '틀린 문제 수', '평균 풀이 시간 (초)');
+    })
+    .catch(err => console.error(err));
+
 // 정확도 백분율로 계산
 fetchWithToken('/api/performance/question-type')
     .then(response => response.json())

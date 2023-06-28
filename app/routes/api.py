@@ -392,6 +392,34 @@ def get_performance_question_type():
     return jsonify({"results": results}), 200
 
 
+@api.route('/performance/question-subtype', methods=['GET'])
+@jwt_required()
+def get_performance_question_subtype():
+    username = get_jwt_identity()
+
+    # 세부 유형에 따른 틀린 문제의 개수와 문제 풀이에 걸린 평균 시간을 동시에 계산합니다.
+    results = db.session.query(
+        GeneratedQuestionSubType.name_kor,
+        db.func.count(db.case((UserTestQuestionsDetail.is_correct == False, UserTestQuestionsDetail.id), else_=None)).label('wrong_count'),
+        db.func.avg(UserTestQuestionsDetail.time_record_per_question).label('average_time')
+    ).join(
+        UserTestDetail, UserTestDetail.id == UserTestQuestionsDetail.test_id
+    ).join(
+        GeneratedQuestion, GeneratedQuestion.id == UserTestQuestionsDetail.question_id
+    ).join(
+        GeneratedQuestionSubType, GeneratedQuestionSubType.id == GeneratedQuestion.question_sub_type_id
+    ).filter(
+        UserTestDetail.username == username
+    ).group_by(
+        GeneratedQuestionSubType.name_kor
+    ).all()
+
+    # 쿼리 결과를 사전으로 변환
+    results = [{"question_subtype": row.name_kor, "average_time": row.average_time, "wrong_count": row.wrong_count} for row in results]
+
+    return jsonify({"results": results}), 200
+
+
 @api.route('/performance/question-level', methods=['GET'])
 @jwt_required()
 def get_performance_question_level():
