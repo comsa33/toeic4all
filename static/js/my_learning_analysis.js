@@ -148,7 +148,12 @@ function createRadarChart(elementId, label, labels, data) {
 
 // 스택드 바 차트를 만드는 함수
 function createStackedBarChart(elementId, labels, datasets, yAxisUnit, stepSize) {
-    const ctx = document.getElementById(elementId).getContext('2d');
+    const canvas = document.getElementById(elementId);
+
+    // 라벨의 갯수에 따라 컨테이너의 너비 설정
+    canvas.style.height = '300px'; // set height
+
+    const ctx = canvas.getContext('2d');
     new Chart(ctx, {
         type: 'bar',
         data: {
@@ -194,6 +199,11 @@ function createStackedBarChart(elementId, labels, datasets, yAxisUnit, stepSize)
                     stacked: true,
                     grid: {
                         display: false
+                    },
+                    ticks: {
+                        font: {
+                            size: 10
+                        }
                     }
                 }
             }
@@ -379,7 +389,7 @@ window.onload = function() {
                             backgroundColor: color,
                             borderColor: color,
                             borderWidth: 1,
-                            barThickness: 10,
+                            barThickness: 5,
                         });
                     } else {
                         wrongCountDatasets[datasetIndex].data.push(subTypeData.wrong_count);
