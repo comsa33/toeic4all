@@ -65,7 +65,10 @@ function createLineChart(elementId, label, labels, data) {
                 borderColor: 'rgba(75, 192, 192, 1)',
                 tension: 0.1
             }]
-        }
+        },
+        options: {
+            responsive: false, // prevent the chart from resizing itself
+        },
     });
 }
 
@@ -153,9 +156,6 @@ function createStackedBarChart(elementId, labels, datasets, yAxisUnit, stepSize)
             scales: {
                 x: {
                     stacked: true,
-                    grid: {
-                        display: false
-                    },
                     beginAtZero: true,
                     title: {
                         display: true,
@@ -337,7 +337,7 @@ window.onload = function() {
                             backgroundColor: color,
                             borderColor: color,
                             borderWidth: 1,
-                            barThickness: 20,
+                            barThickness: 10,
                         });
                     } else {
                         wrongCountDatasets[datasetIndex].data.push(subTypeData.wrong_count);
