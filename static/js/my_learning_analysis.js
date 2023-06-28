@@ -1,7 +1,7 @@
 const colorScale = d3.scale.category20();
 
 let questionTypeData;  // 주 유형 데이터를 저장하는 전역 변수
-let myDonutChart;  // 도넛 차트를 참조하는 전역 변수
+let myDonutCharts = {};
 
 function isTokenExpired(token) {
     if (!token) {
@@ -177,15 +177,15 @@ function createStackedBarChart(elementId, labels, datasets, yAxisUnit, stepSize)
 function createDonutChart(elementId, label, selectedType) {
     const subtypeData = questionTypeData[selectedType];
     
-    // 기존에 존재하는 차트를 제거
-    if (myDonutChart) {
-        myDonutChart.destroy();
+    // 해당 elementId에 대한 이전 차트가 있으면 제거
+    if (myDonutCharts[elementId]) {
+        myDonutCharts[elementId].destroy();
     }
 
     const ctx = document.getElementById(elementId).getContext('2d');
     
     // 새로운 차트를 생성하고 전역 변수에 참조를 저장
-    myDonutChart = new Chart(ctx, {
+    myDonutCharts[elementId] = new Chart(ctx, {
         type: 'doughnut',
         data: {
             labels: subtypeData.map(d => d.question_subtype),
