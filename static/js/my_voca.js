@@ -68,7 +68,7 @@ function fetchVocabs(page) {
                 if (vocab.wrong_count > 0) {
                     tr.className = 'wrong-answer';  // Add 'wrong-answer' class if the user has answered this word incorrectly before
                 }
-                tr.innerHTML = `<td>${vocab.word}</td><td>${vocab.explanation}</td><td><button class="vocab-question-button" onclick="showQuestion(${vocab.word_id})">관련 문제</button></td>`;
+                tr.innerHTML = `<td>${vocab.word}</td><td class="vocab-explanation">${vocab.explanation}</td><td><button class="vocab-question-button" onclick="showQuestion(${vocab.word_id})">관련 문제</button></td>`;
                 tbody.appendChild(tr);
             });
             table.appendChild(tbody);
