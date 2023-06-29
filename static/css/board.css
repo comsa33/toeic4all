@@ -58,19 +58,18 @@ h2, h3, h4 {
 
 .h1-on-img {
     text-align: left !important;
-    padding: 50px 0px 0px 0px;
+    padding: 35px 0px 0px 0px;
     margin-bottom: 0 !important;
     font-weight: bold;
     font-size: 2em;
-    color: #2b2b2b;
+    color: #ffffff;
 }
 
 .p-on-img {
-    padding-top: 20px;
     text-align: left;
     font-size: 1.2em;
     font-weight: 200;
-    color: rgb(22, 22, 22);
+    color: white;
 }
 
 input {

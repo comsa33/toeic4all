@@ -41,18 +41,19 @@ body {
 
 .h1-on-img {
     text-align: left !important;
-    padding: 35px 0px 0px 0px;
+    padding: 50px 0px 0px 0px;
     margin-bottom: 0 !important;
     font-weight: bold;
     font-size: 2em;
-    color: #ffffff;
+    color: #3b3b3b;
 }
 
 .p-on-img {
+    padding-top: 20px;
     text-align: left;
     font-size: 1.2em;
     font-weight: 200;
-    color: white;
+    color: rgb(34, 34, 34);
 }
 
 #voca-test-container {
