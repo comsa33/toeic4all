@@ -659,19 +659,12 @@ def get_vocabularies():
     return {'vocabularies': data}, 200
 
 
-@api.route('/vocabularies/<ids>', methods=['GET'])
-def get_vocabularies_by_ids(ids):
-    ids = [int(id) for id in ids.split(",")]
-    vocabularies = GeneratedVocabulary.query.filter(GeneratedVocabulary.id.in_(ids)).all()
-
-    data = [{'id': vocab.id, 'word': vocab.word, 'explanation': vocab.explanation, 'question_id': vocab.question_id} for vocab in vocabularies]
-    return {'vocabularies': data}, 200
-
-
 @api.route('/user_vocabularies', methods=['GET'])
 @jwt_required()
 def get_user_vocabularies():
     username = get_jwt_identity()
+    page = request.args.get('page', 1, type=int)
+    per_page = 10
 
     results = db.session.query(
         UserVocabulary.word_id, UserVocabulary.wrong_count,
@@ -680,10 +673,27 @@ def get_user_vocabularies():
         GeneratedVocabulary, UserVocabulary.word_id == GeneratedVocabulary.id
     ).filter(
         UserVocabulary.username == username
-    ).all()
+    ).paginate(page=page, per_page=per_page, error_out=False)
 
-    data = [{'word_id': row.word_id, 'wrong_count': row.wrong_count, 'word': row.word, 'explanation': row.explanation, 'question_id': row.question_id} for row in results]
-    return {'user_vocabularies': data}, 200
+    question_ids = [row.question_id for row in results.items]
+    questions_info = fetch_questions_by_ids(question_ids)
+
+    data = [
+        {
+            'word_id': row.word_id,
+            'wrong_count': row.wrong_count,
+            'word': row.word,
+            'explanation': row.explanation,
+            'question_id': row.question_id,
+            'question_info': next((question for question in questions_info if question["QuestionId"] == row.question_id), None)
+        } for row in results.items
+    ]
+
+    return {
+        'user_vocabularies': data, 
+        'total_pages': results.pages, 
+        'current_page': page
+    }, 200
 
 
 @api.route('/user_vocabularies', methods=['POST'])
