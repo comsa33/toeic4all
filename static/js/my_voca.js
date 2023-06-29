@@ -39,10 +39,31 @@ let pagination = document.getElementById('pagination');
 let questionSection = document.getElementById('question-section');
 let vocabularies;
 
+const toggleButton = document.createElement('input');
+toggleButton.type = 'checkbox';
+toggleButton.id = 'toggle-wrong-only';
+toggleButton.onchange = toggleWrongOnly;
+const toggleLabel = document.createElement('label');
+toggleLabel.htmlFor = 'toggle-wrong-only';
+toggleLabel.textContent = '틀린 단어만 보기';
+vocabSection.before(toggleButton, toggleLabel);
+
+function toggleWrongOnly() {
+    const table = document.querySelector('.table');
+    if (toggleButton.checked) {
+        table.classList.add('wrong-only');
+    } else {
+        table.classList.remove('wrong-only');
+    }
+}
+
 function fetchVocabs(page) {
     // Remove all current vocabs and pagination
     while (vocabSection.firstChild) {
-        vocabSection.removeChild(vocabSection.firstChild);
+        const child = vocabSection.firstChild;
+        if (child !== toggleButton && child !== toggleLabel) {
+            vocabSection.removeChild(child);
+        }
     }
     while (pagination.firstChild) {
         pagination.removeChild(pagination.firstChild);

@@ -108,6 +108,14 @@
   font-weight: bold;
 }
 
+.table tr {
+  display: table-row;
+}
+
+.table.wrong-only tr:not(.wrong-answer) {
+  display: none;
+}
+
 .button-column {
   width: 25%;
 }
