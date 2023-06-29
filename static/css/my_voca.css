@@ -101,6 +101,10 @@
   font-weight: bold;
 }
 
+.wrong-answer {
+  background-color: rgba(255, 0, 0, 0.1);
+}
+
 #my-vocab-area {
   padding-top: 20px;
 }
