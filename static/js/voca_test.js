@@ -33,6 +33,7 @@ function fetchWithToken(url, options = {}) {
 // 페이지 초기화
 let vocabularies = [];
 let currentVocabulary = 0;
+let answerChecked = false;
 
 // 페이지 번호 업데이트
 let page = 1;
@@ -83,7 +84,11 @@ function displayVocabulary() {
     let nextElement = document.createElement('button');
     nextElement.textContent = "다음 단어";
     nextElement.addEventListener('click', function() {
-        nextVocabulary();
+        if (answerChecked) {
+            nextVocabulary();
+        } else {
+            alert("답을 체크해주세요.");
+        }
     });
     vocaContainer.appendChild(nextElement);
 }
@@ -112,6 +117,7 @@ function checkAnswer(answer) {
             wrong_count: correct ? 0 : 1
         })
     });
+    answerChecked = true;
 }
 
 function nextVocabulary() {
@@ -122,6 +128,7 @@ function nextVocabulary() {
         page += 1;
         loadVocabularies();
     }
+    answerChecked = false;
 }
 
 loadVocabularies();
