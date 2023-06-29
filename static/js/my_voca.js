@@ -34,7 +34,10 @@ document.addEventListener('DOMContentLoaded', function() {
     fetchVocabs(1);
 }, false);
 
-let vocabularies;  // Global variable to store vocabularies for current page
+let vocabSection = document.getElementById('vocab-section');
+let pagination = document.getElementById('pagination');
+let questionSection = document.getElementById('question-section');
+let vocabularies;
 
 function fetchVocabs(page) {
     // Remove all current vocabs and pagination
