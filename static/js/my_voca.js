@@ -65,7 +65,7 @@ function fetchVocabs(page) {
             const tbody = document.createElement('tbody');
             vocabularies.forEach(vocab => {
                 const tr = document.createElement('tr');
-                tr.innerHTML = `<td>${vocab.word}</td><td>${vocab.explanation}</td><td><button onclick="showQuestion(${vocab.word_id})">관련 문제보기</button></td>`;
+                tr.innerHTML = `<td>${vocab.word}</td><td>${vocab.explanation}</td><td><button class="vocab-question-button" onclick="showQuestion(${vocab.word_id})">관련 문제</button></td>`;
                 tbody.appendChild(tr);
             });
             table.appendChild(tbody);

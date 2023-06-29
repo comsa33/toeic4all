@@ -84,9 +84,20 @@
         flex: 1; /* 항목들의 너비를 균등하게 */
         text-align: center;
     }
-  }
+}
 
-  .report-btn {
+.table {
+  font-size: 0.8em;
+  font-weight: bold;
+}
+
+.voca-question-button {
+  border: 1px solid darkgray;
+  font-size: .8em;
+  padding: 5px;
+}
+
+.report-btn {
     position: absolute;
     bottom: 10px;
     left: 10px;
