@@ -122,6 +122,9 @@ function showQuestion(wordId) {
     `;
     questionSection.appendChild(questionDiv);
 
+    // scroll into view
+    questionSection.scrollIntoView({behavior: "smooth"});
+
     // Create choices list
     let choicesOl = document.getElementById("choices-" + question.QuestionId);
     let choices = question.Choices || [];
