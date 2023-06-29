@@ -53,3 +53,8 @@ def rank():
 @main_bp.route('/voca-test')
 def voca_test():
     return render_template('voca_test.html')
+
+
+@main_bp.route('/myvoca')
+def my_voca():
+    return render_template('my_voca.html')

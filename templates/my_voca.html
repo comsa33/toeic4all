@@ -2,7 +2,7 @@
 
 {% block additional_css %}
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/my_page.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/my_voca.css') }}">
 {% endblock %}
 
 {% block content %}
@@ -20,12 +20,11 @@
         </div>
     </div>
     <div class="col-12 col-md-9 order-md-2">
-        <!-- 문제가 보여질 부분 -->
-        <div id="question-area" class="row"></div>
+       
     </div>
 </div>
 {% endblock %}
 
 {% block additional_script %}
-    <script src="{{ url_for('static', filename='js/my_page.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/my_voca.js') }}"></script>
 {% endblock %}

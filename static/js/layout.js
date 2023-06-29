@@ -34,6 +34,7 @@ function updateUI(isLoggedIn, username) {
                 <li><a href="/user-detail">내 정보</a></li>
                 <li><a href="/mypage">찜한 문제</a></li>
                 <li><a href="/mynote">내 오답노트</a></li>
+                <li><a href="/myvoca">단어장</a></li>
                 <li><a href="/my-learning-analysis">내 학습 분석</a></li>
             </ul>
         `;
@@ -43,6 +44,7 @@ function updateUI(isLoggedIn, username) {
                 <li><a href="/user-detail">내 정보</a></li>
                 <li><a href="/mypage">찜한 문제</a></li>
                 <li><a href="/mynote">내 오답노트</a></li>
+                <li><a href="/myvoca">단어장</a></li>
                 <li><a href="/my-learning-analysis">내 학습 분석</a></li>
             </ul>
         `;
@@ -100,15 +102,3 @@ document.addEventListener('click', function(event) {
         sideNav.classList.remove('visible');
     }
 });
-
-// window.onscroll = function() {fadeGradient()};
-
-// function fadeGradient() {
-//     var scrollHeight = document.body.scrollHeight;
-//     var scrollPosition = window.innerHeight + window.scrollY;
-//     if ((scrollHeight - scrollPosition) / scrollHeight <= 0.1) {
-//         document.body.style.background = "none";
-//     } else {
-//         document.body.style.background = "linear-gradient(to top, white 20%, transparent 90%)";
-//     }
-// }
