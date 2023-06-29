@@ -69,7 +69,7 @@ function displayVocabulary() {
     answers.forEach(answer => {
         let answerElement = document.createElement('button');
         answerElement.textContent = answer;
-        answerElement.classList.add('answer-button');  // 클래스 추가
+        answerElement.classList.add('answer-button');
         answerElement.addEventListener('click', function() {
             checkAnswer(answer);
             this.disabled = true;
@@ -77,16 +77,17 @@ function displayVocabulary() {
         vocaQuestionContainer.appendChild(answerElement);
     });
 
-    // 컨테이너를 vocaContainer에 추가
-    vocaContainer.appendChild(vocaQuestionContainer);
-
     let passElement = document.createElement('button');
     passElement.textContent = "모르겠음";
+    passElement.classList.add('answer-button');
     passElement.addEventListener('click', function() {
         checkAnswer(null);
         this.disabled = true;
     });
-    vocaContainer.appendChild(passElement);
+    vocaQuestionContainer.appendChild(passElement);
+
+    // 컨테이너를 vocaContainer에 추가
+    vocaContainer.appendChild(vocaQuestionContainer);
 
     let nextElement = document.createElement('button');
     nextElement.textContent = "다음 단어";
