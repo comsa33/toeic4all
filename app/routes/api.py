@@ -10,7 +10,7 @@ from sqlalchemy import func, desc, Date, Integer
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
 from app.models import GeneratedQuestionType, GeneratedQuestionSubType, GeneratedQuestion, GeneratedAnswer, GeneratedVocabulary
-from app.models import QuestionReport, MyQuestions, UserTestDetail, UserTestQuestionsDetail
+from app.models import QuestionReport, MyQuestions, UserTestDetail, UserTestQuestionsDetail, UserVocabulary
 from app import db
 
 
@@ -365,6 +365,7 @@ def get_wrong_questions_for_test(test_id):
     return jsonify(questions), 200
 
 
+# 사용자 분석 API
 @api.route('/performance/question-type', methods=['GET'])
 @jwt_required()
 def get_performance_question_type():
@@ -535,6 +536,7 @@ def get_daily_performance():
     return jsonify({"results": results}), 200
 
 
+# 랭킹 API
 @api.route('/ranking', defaults={'question_type': None}, methods=['GET'])
 @api.route('/ranking/<int:question_type>', methods=['GET'])
 def get_user_ranking(question_type):
@@ -585,6 +587,7 @@ def get_user_ranking(question_type):
     return jsonify(ranking)
 
 
+# TOEIC 시험 일정을 크롤링합니다.
 @api.route('/toeic-info', methods=['GET'])
 def get_toeic_info():
     url = "https://exam.toeic.co.kr/receipt/examSchList.php"
@@ -634,3 +637,72 @@ def get_toeic_info():
                 return jsonify({'error': 'Failed to normalize TOEIC schedule information', 'details': str(e)}), 500
 
     return jsonify({"results": results}), 200
+
+
+# 어휘 테스트 관련 API
+@api.route('/vocabularies', methods=['GET'])
+def get_vocabularies():
+    page = request.args.get('page', 1, type=int)
+    vocabularies = GeneratedVocabulary.query.paginate(page, 5, False).items
+
+    data = []
+    for vocab in vocabularies:
+        wrong_answers = GeneratedVocabulary.query.filter(GeneratedVocabulary.id != vocab.id).order_by(func.random()).limit(3).all()
+        data.append({
+            'id': vocab.id,
+            'word': vocab.word,
+            'explanation': vocab.explanation,
+            'question_id': vocab.question_id,
+            'wrong_explanations': [wrong.explanation for wrong in wrong_answers]
+        })
+
+    return {'vocabularies': data}, 200
+
+
+@api.route('/vocabularies/<ids>', methods=['GET'])
+def get_vocabularies_by_ids(ids):
+    ids = [int(id) for id in ids.split(",")]
+    vocabularies = GeneratedVocabulary.query.filter(GeneratedVocabulary.id.in_(ids)).all()
+
+    data = [{'id': vocab.id, 'word': vocab.word, 'explanation': vocab.explanation, 'question_id': vocab.question_id} for vocab in vocabularies]
+    return {'vocabularies': data}, 200
+
+
+@api.route('/user_vocabularies', methods=['GET'])
+@jwt_required()
+def get_user_vocabularies():
+    username = get_jwt_identity()
+
+    results = db.session.query(
+        UserVocabulary.word_id, UserVocabulary.wrong_count,
+        GeneratedVocabulary.word, GeneratedVocabulary.explanation, GeneratedVocabulary.question_id
+    ).join(
+        GeneratedVocabulary, UserVocabulary.word_id == GeneratedVocabulary.id
+    ).filter(
+        UserVocabulary.username == username
+    ).all()
+
+    data = [{'word_id': row.word_id, 'wrong_count': row.wrong_count, 'word': row.word, 'explanation': row.explanation, 'question_id': row.question_id} for row in results]
+    return {'user_vocabularies': data}, 200
+
+
+@api.route('/user_vocabularies', methods=['POST'])
+@jwt_required()
+def add_to_user_vocabularies():
+    username = get_jwt_identity()
+    data = request.get_json()
+
+    word_id = data.get('word_id')
+    wrong_count = data.get('wrong_count')
+
+    user_vocabulary = UserVocabulary.query.filter_by(username=username, word_id=word_id).first()
+
+    if user_vocabulary:
+        user_vocabulary.wrong_count = wrong_count
+    else:
+        user_vocabulary = UserVocabulary(username=username, word_id=word_id, wrong_count=wrong_count)
+        db.session.add(user_vocabulary)
+
+    db.session.commit()
+
+    return {'message': 'User vocabulary updated successfully.'}, 200

@@ -48,3 +48,8 @@ def my_learning_analysis():
 @main_bp.route('/rank')
 def rank():
     return render_template('rank.html')
+
+
+@main_bp.route('/voca-test')
+def voca_test():
+    return render_template('voca_test.html')
