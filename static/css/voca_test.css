@@ -44,15 +44,15 @@ body {
     padding: 35px 0px 0px 0px;
     margin-bottom: 0 !important;
     font-weight: bold;
-    font-size: 1.7em;
-    color: #000000;
+    font-size: 2em;
+    color: #ffffff;
 }
 
 .p-on-img {
     text-align: left;
     font-size: 1.2em;
     font-weight: 200;
-    color: #555555;
+    color: white;
 }
 
 #voca-test-container {
@@ -89,6 +89,13 @@ body {
     padding-left: 20px;
     border-radius: 10px;
     border: 1px solid darkgray;
+}
+
+#voca-test-info {
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 #voca-test-info-text{
