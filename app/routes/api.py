@@ -643,7 +643,7 @@ def get_toeic_info():
 @api.route('/vocabularies', methods=['GET'])
 def get_vocabularies():
     page = request.args.get('page', 1, type=int)
-    vocabularies = GeneratedVocabulary.query.paginate(page=page, per_page=5, error_out=False).items
+    vocabularies = GeneratedVocabulary.query.order_by(func.random()).paginate(page=page, per_page=5, error_out=False).items
 
     data = []
     for vocab in vocabularies:
@@ -698,7 +698,7 @@ def add_to_user_vocabularies():
     user_vocabulary = UserVocabulary.query.filter_by(username=username, word_id=word_id).first()
 
     if user_vocabulary:
-        user_vocabulary.wrong_count = wrong_count
+        user_vocabulary.wrong_count += wrong_count
     else:
         user_vocabulary = UserVocabulary(username=username, word_id=word_id, wrong_count=wrong_count)
         db.session.add(user_vocabulary)

@@ -34,11 +34,14 @@ function fetchWithToken(url, options = {}) {
 let vocabularies = [];
 let currentVocabulary = 0;
 
+// 페이지 번호 업데이트
+let page = 1;
 function loadVocabularies() {
-    fetchWithToken('/api/vocabularies')
+    fetchWithToken(`/api/vocabularies?page=${page}`)
         .then(response => response.json())
         .then(data => {
             vocabularies = data.vocabularies;
+            currentVocabulary = 0;
             displayVocabulary();
         });
 }
@@ -116,6 +119,7 @@ function nextVocabulary() {
         currentVocabulary += 1;
         displayVocabulary();
     } else {
+        page += 1;
         loadVocabularies();
     }
 }
