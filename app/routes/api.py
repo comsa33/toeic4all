@@ -665,15 +665,21 @@ def get_user_vocabularies():
     username = get_jwt_identity()
     page = request.args.get('page', 1, type=int)
     per_page = 10
+    only_wrong = request.args.get('only_wrong', 'false') == 'true'
 
-    results = db.session.query(
+    query = db.session.query(
         UserVocabulary.word_id, UserVocabulary.wrong_count,
         GeneratedVocabulary.word, GeneratedVocabulary.explanation, GeneratedVocabulary.question_id
     ).join(
         GeneratedVocabulary, UserVocabulary.word_id == GeneratedVocabulary.id
     ).filter(
         UserVocabulary.username == username
-    ).paginate(page=page, per_page=per_page, error_out=False)
+    )
+
+    if only_wrong:
+        query = query.filter(UserVocabulary.wrong_count > 0)
+
+    results = query.paginate(page=page, per_page=per_page, error_out=False)
 
     question_ids = [row.question_id for row in results.items]
     questions_info = fetch_questions_by_ids(question_ids)

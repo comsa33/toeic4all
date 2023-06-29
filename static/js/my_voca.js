@@ -39,38 +39,24 @@ let pagination = document.getElementById('pagination');
 let questionSection = document.getElementById('question-section');
 let vocabularies;
 
-const toggleButton = document.createElement('input');
-toggleButton.type = 'checkbox';
-toggleButton.id = 'toggle-wrong-only';
-toggleButton.onchange = toggleWrongOnly;
-const toggleLabel = document.createElement('label');
-toggleLabel.htmlFor = 'toggle-wrong-only';
-toggleLabel.textContent = '틀린 단어만 보기';
-vocabSection.before(toggleButton, toggleLabel);
+let wrongOnly = false;
 
 function toggleWrongOnly() {
-    const table = document.querySelector('.table');
-    if (toggleButton.checked) {
-        table.classList.add('wrong-only');
-    } else {
-        table.classList.remove('wrong-only');
-    }
+    wrongOnly = !wrongOnly;
+    fetchVocabs(1);
 }
 
 function fetchVocabs(page) {
     // Remove all current vocabs and pagination
     while (vocabSection.firstChild) {
-        const child = vocabSection.firstChild;
-        if (child !== toggleButton && child !== toggleLabel) {
-            vocabSection.removeChild(child);
-        }
+        vocabSection.removeChild(vocabSection.firstChild);
     }
     while (pagination.firstChild) {
         pagination.removeChild(pagination.firstChild);
     }
 
     // Fetch and show vocabs and pagination of the specific page
-    fetchWithToken(`/api/user_vocabularies?page=${page}`)
+    fetchWithToken(`/api/user_vocabularies?page=${page}&only_wrong=${wrongOnly}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
