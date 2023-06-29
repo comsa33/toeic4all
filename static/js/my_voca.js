@@ -98,7 +98,7 @@ function showQuestion(wordId) {
     let questionDiv = document.createElement('div');
     let vocabText = `<p style="margin-bottom: 0;">    · ${vocab.word} : ${vocab.explanation}</p>`;
     questionDiv.id = 'question-' + question.QuestionId;
-    questionDiv.className = 'col-12 col-md-6';
+    questionDiv.className = 'col';
     questionDiv.innerHTML = `
         <div class="question-container">
             <p class="p-question-text"><strong>${question.QuestionText}</strong></p>
