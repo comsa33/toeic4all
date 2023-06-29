@@ -54,9 +54,13 @@ function displayVocabulary() {
     // 초기화
     vocaContainer.innerHTML = '';
 
+    // 단어와 선택지를 묶는 컨테이너 생성
+    let vocaQuestionContainer = document.createElement('div');
+    vocaQuestionContainer.className = 'voca-container';
+
     let wordElement = document.createElement('h2');
     wordElement.textContent = vocabulary.word;
-    vocaContainer.appendChild(wordElement);
+    vocaQuestionContainer.appendChild(wordElement);
 
     // 임의의 순서로 답안 배치
     let answers = [...vocabulary.wrong_explanations, vocabulary.explanation];
@@ -70,8 +74,11 @@ function displayVocabulary() {
             checkAnswer(answer);
             this.disabled = true;
         });
-        vocaContainer.appendChild(answerElement);
+        vocaQuestionContainer.appendChild(answerElement);
     });
+
+    // 컨테이너를 vocaContainer에 추가
+    vocaContainer.appendChild(vocaQuestionContainer);
 
     let passElement = document.createElement('button');
     passElement.textContent = "모르겠음";
