@@ -643,7 +643,7 @@ def get_toeic_info():
 @api.route('/vocabularies', methods=['GET'])
 def get_vocabularies():
     page = request.args.get('page', 1, type=int)
-    vocabularies = GeneratedVocabulary.query.paginate(page, 5, False).items
+    vocabularies = GeneratedVocabulary.query.paginate(page=page, per_page=5, error_out=False).items
 
     data = []
     for vocab in vocabularies:
