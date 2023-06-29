@@ -91,6 +91,13 @@ body {
     border: 1px solid darkgray;
 }
 
+#voca-test-info-text{
+    text-align: center;
+    font-size: .8em;
+    font-weight: 400;
+    color: #fb4a4a;
+}
+
 #voca-test-container > button {
     align-self: center;
     background-color: #4f4f4f;
