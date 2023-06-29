@@ -61,6 +61,7 @@ function displayVocabulary() {
     answers.forEach(answer => {
         let answerElement = document.createElement('button');
         answerElement.textContent = answer;
+        answerElement.classList.add('answer-button');  // 클래스 추가
         answerElement.addEventListener('click', function() {
             checkAnswer(answer);
             this.disabled = true;
@@ -90,7 +91,7 @@ function checkAnswer(answer) {
     messageElement.textContent = correct ? "정답입니다" : "오답입니다";
     document.getElementById('voca-test-container').appendChild(messageElement);
 
-    let answerElements = document.querySelectorAll('#voca-test-container button:not(:last-child)');
+    let answerElements = document.querySelectorAll('.answer-button');  // 클래스를 기반으로 선택
     answerElements.forEach(answerElement => {
         if (answerElement.textContent === vocabularies[currentVocabulary].explanation) {
             answerElement.style.color = 'green';
