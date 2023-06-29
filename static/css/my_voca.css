@@ -86,12 +86,26 @@
     }
 }
 
+.page-link {
+  font-size: .8em;
+  font-weight: 300;
+  width: 25px;
+  height: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .table {
   font-size: 0.8em;
   font-weight: bold;
 }
 
-.voca-question-button {
+#my-vocab-area {
+  padding-top: 20px;
+}
+
+.vocab-question-button {
   border: 1px solid darkgray;
   font-size: .8em;
   padding: 5px;
