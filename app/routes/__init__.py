@@ -1,4 +1,6 @@
-from flask import Blueprint, render_template
+from os import path
+
+from flask import Blueprint, render_template, send_from_directory
 from datetime import datetime
 
 
@@ -13,6 +15,11 @@ def inject_current_year():
 @main_bp.route('/')
 def main_page():
     return render_template('main_page.html')
+
+
+@main_bp.route('/robots.txt')
+def static_from_root():
+    return send_from_directory(path.join(main_bp.root_path, 'static'), 'robots.txt')
 
 
 @main_bp.route('/part5/test')
