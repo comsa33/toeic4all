@@ -1,6 +1,5 @@
-from os import path
-
-from flask import Blueprint, render_template, send_from_directory
+from flask import Blueprint, render_template, send_from_directory, request
+from flask import current_app as app
 from datetime import datetime
 
 
@@ -19,7 +18,7 @@ def main_page():
 
 @main_bp.route('/robots.txt')
 def static_from_root():
-    return send_from_directory(path.join(main_bp.root_path, 'static'), 'robots.txt')
+    return send_from_directory(app.static_folder, request.path[1:])
 
 
 @main_bp.route('/part5/test')
