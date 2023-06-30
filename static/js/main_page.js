@@ -24,7 +24,8 @@ window.onload = function() {
         } else {
             const now = new Date();
             const nextExam = new Date(apiData.results[0].toeic_test_datetime + 'Z');  // append 'Z' to indicate UTC
-            const diff = Math.max((nextExam - now) / 1000, 0);  // remaining time in seconds
+            nextExam.setHours(nextExam.getHours() + 9);  // add 9 hours to change UTC to KST
+            const diff = Math.max((nextExam - (now)) / 1000, 0);  // remaining time in seconds
             
             if (diff === 0) {
                 apiData = null;  // reset apiData so that the next API call will be made
