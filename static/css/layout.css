@@ -235,7 +235,18 @@ body #hamburger-btn {
     flex-direction: column;
 }
 
-footer.text-center {
+.footer-container {
+    display: flex;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    gap: 20px;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer-text-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
