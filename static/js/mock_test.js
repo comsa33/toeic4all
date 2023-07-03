@@ -247,6 +247,7 @@ document.getElementById("generate-mocktest-btn").addEventListener("click", funct
                     <div class="question-container">
                         <div id="question-timer-container">
                             <p id="timer-${i}" class="question-timer">00:00</p>
+                            <p id="recommended-time-${i}" class="recommended-time">(권장시간: ${data[i].RecommendedTime}초)</p>
                         </div>
                         <p class="p-question-text"><strong><span class="question-number">${i+1}</span>. ${data[i].QuestionText}</strong></p>
                         <ol id="choices-${data[i].QuestionId}" class="choice-box" type="A"></ol>

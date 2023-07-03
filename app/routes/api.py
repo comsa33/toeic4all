@@ -37,6 +37,15 @@ def get_question_types():
 
 
 def create_formatted_question(question):
+    # 레벨에 따른 권장 시간 매핑
+    recommended_times = {
+        1: 10,
+        2: 15,
+        3: 20,
+        4: 25,
+        5: 30
+    }
+
     answers = GeneratedAnswer.query.filter(GeneratedAnswer.question_id == question.id).all()
     vocabularies = GeneratedVocabulary.query.filter(GeneratedVocabulary.question_id == question.id).all()
     question_type = GeneratedQuestionType.query.get(question.question_type_id)
@@ -50,6 +59,7 @@ def create_formatted_question(question):
         'QuestionSubTypeId': question_sub_type.id,
         'QuestionSubType': question_sub_type.name_kor,
         'QuestionLevel': question.question_level,
+        'RecommendedTime': recommended_times.get(question.question_level, 0),
         'Translation': question.translation,
         'Explanation': question.explanation,
         'Vocabulary': [{'Word': v.word, 'Explanation': v.explanation} for v in vocabularies],
