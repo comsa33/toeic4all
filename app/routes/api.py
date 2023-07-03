@@ -86,6 +86,7 @@ def get_questions():
     remaining_questions = num_questions % len(question_types)
 
     result = []
+    used_questions = set()  # 이 집합에 이미 사용된 문제의 ID를 저장합니다.
     for question_type in question_types:
         questions_query = GeneratedQuestion.query.filter_by(question_type_id=question_type.id)
         if level:
@@ -93,6 +94,7 @@ def get_questions():
         questions = questions_query.order_by(func.random()).limit(questions_per_type).all()
 
         for question in questions:
+            used_questions.add(question.id)  # 문제 ID를 사용된 문제 ID 집합에 추가합니다.
             formatted_question = create_formatted_question(question)
             result.append(formatted_question)
 
@@ -105,9 +107,10 @@ def get_questions():
             question_query = GeneratedQuestion.query.filter_by(question_type_id=question_type.id)
             if level:
                 question_query = question_query.filter(GeneratedQuestion.question_level == level)
-            question = question_query.order_by(func.random()).first()
+            question = question_query.filter(GeneratedQuestion.id.notin_(used_questions)).order_by(func.random()).first()
             if question is None:
                 continue
+            used_questions.add(question.id)  # 문제 ID를 사용된 문제 ID 집합에 추가합니다.
             formatted_question = create_formatted_question(question)
             result.append(formatted_question)
             remaining_questions -= 1
