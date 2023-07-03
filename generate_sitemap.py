@@ -22,7 +22,7 @@ sitemap_template = """<?xml version="1.0" encoding="UTF-8"?>
 url_template = """
 <url>
   <loc>{loc}</loc>
-  <lastmod>{lastmod}</lastmod>
+  <lastmod>{lastmod}Z</lastmod>
   <changefreq>{changefreq}</changefreq>
   <priority>{priority}</priority>
 </url>
@@ -34,7 +34,7 @@ urls = []
 for route in routes:
     url = url_template.format(
         loc="https://toeic4all.com" + route,
-        lastmod=datetime.datetime.now().isoformat(),
+        lastmod=datetime.datetime.utcnow().replace(microsecond=0).isoformat(),
         changefreq="weekly",
         priority=0.8
     )
