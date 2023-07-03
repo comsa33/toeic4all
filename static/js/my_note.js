@@ -64,42 +64,69 @@ document.getElementById('back-to-tests').addEventListener('click', function() {
 });
 
 window.onload = function() {
-    fetchWithToken('/api/my-note/tests')
-    .then(response => response.json())
-    .then(data => {
-        let myTestsArea = document.getElementById('my-tests');
-        for (let i = 0; i < data.tests.length; i++) {
-            let utcDate = new Date(data.tests[i].created_at);
-            let koreanDate = new Date(utcDate.getTime() + (9 * 60 * 60 * 1000)); // Adding 9 hours to UTC time
-            let testDiv = document.createElement('div');
-            let durationSeconds = data.tests[i].time_record;
-            let minutes = Math.floor(durationSeconds / 60);
-            let seconds = durationSeconds % 60;
-            let testNoDatePart = data.tests[i].test_id.substring(0, 14);
+    let page = 1;  // Keep track of the current page
+    let inProgress = false;  // To prevent multiple simultaneous requests
 
-            testDiv.id = 'test-' + data.tests[i].id;
-            testDiv.className = 'col-12 col-md-6';
-            testDiv.innerHTML = `
-            <div class="test-container">
-            <div>
-                <div class="test-content">
-                    <i class="fas fa-file-alt"></i>
-                    <p style="padding-bottom: 5px;"><strong>${testNoDatePart}</strong></p>
-                    <p>${data.tests[i].test_type} · ${data.tests[i].test_level}</p>
-                    <p>오답 ${data.tests[i].wrong_count}/${data.tests[i].question_count} (${((data.tests[i].wrong_count / data.tests[i].question_count) * 100).toFixed(2)}%)</p>
-                    <p>${minutes}:${seconds} 소요 · ${timeSince(koreanDate)}</p>
-                </div>
-            </div>
-            `;
-            myTestsArea.appendChild(testDiv);
-
-            // Add click event listener
-            testDiv.querySelector('.test-container').addEventListener('click', () => {
-                loadWrongQuestions(data.tests[i].id, testNoDatePart);
-                loadTestGraph(data.tests[i].id); // 추가된 함수 호출
+    function loadTests() {
+        if (!inProgress) {
+            inProgress = true;
+            fetchWithToken('/api/my-note/tests?page=' + page)
+            .then(response => response.json())
+            .then(data => {
+                if (data.tests.length > 0) {
+                    displayTests(data.tests);
+                    page++;  // Increment the page number for the next request
+                }
+                inProgress = false;
             });
         }
-    });
+    }
+
+    // Listen for scroll events and load new data when necessary
+    window.onscroll = function() {
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 200) {
+            loadTests();
+        }
+    }
+
+    loadTests();  // Load the first page of tests
+}
+
+// This function contains the code that was previously inside your fetch.then() block
+function displayTests(tests) {
+    let myTestsArea = document.getElementById('my-tests');
+
+    for (let i = 0; i < tests.length; i++) {
+        let utcDate = new Date(tests[i].created_at);
+        let koreanDate = new Date(utcDate.getTime() + (9 * 60 * 60 * 1000)); // Adding 9 hours to UTC time
+        let testDiv = document.createElement('div');
+        let durationSeconds = tests[i].time_record;
+        let minutes = Math.floor(durationSeconds / 60);
+        let seconds = durationSeconds % 60;
+        let testNoDatePart = tests[i].test_id.substring(0, 14);
+    
+        testDiv.id = 'test-' + tests[i].id;
+        testDiv.className = 'col-12 col-md-6';
+        testDiv.innerHTML = `
+        <div class="test-container">
+        <div>
+            <div class="test-content">
+                <i class="fas fa-file-alt"></i>
+                <p style="padding-bottom: 5px;"><strong>${testNoDatePart}</strong></p>
+                <p>${tests[i].test_type} · ${tests[i].test_level}</p>
+                <p>오답 ${tests[i].wrong_count}/${tests[i].question_count} (${((tests[i].wrong_count / tests[i].question_count) * 100).toFixed(2)}%)</p>
+                <p>${minutes}:${seconds} 소요 · ${timeSince(koreanDate)}</p>
+            </div>
+        </div>
+        `;
+        myTestsArea.appendChild(testDiv);
+    
+        // Add click event listener
+        testDiv.querySelector('.test-container').addEventListener('click', () => {
+            loadWrongQuestions(tests[i].id, testNoDatePart);
+            loadTestGraph(tests[i].id); // 추가된 함수 호출
+        });
+    }
 }
 
 function loadTestGraph(testId) {

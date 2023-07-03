@@ -346,13 +346,14 @@ def serialize_user_test_detail(test):
 @jwt_required()
 def get_user_tests():
     username = get_jwt_identity()
+    page = request.args.get('page', default=1, type=int)
 
     tests = db.session.query(UserTestDetail)\
         .filter(UserTestDetail.username == username)\
         .order_by(desc(UserTestDetail.created_at))\
-        .all()
+        .paginate(page, per_page=6)
 
-    return jsonify({"tests": [serialize_user_test_detail(test) for test in tests]}), 200
+    return jsonify({"tests": [serialize_user_test_detail(test) for test in tests.items]}), 200
 
 
 @api.route('/my-note/tests/<int:test_id>/wrong-questions', methods=['GET'])
