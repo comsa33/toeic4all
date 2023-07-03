@@ -238,12 +238,12 @@ body #hamburger-btn {
 .footer-container {
     display: flex;
     position: absolute;
-    bottom: 0;
     width: 100%;
     gap: 20px;
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    padding: 20px;
 }
 
 .footer-text-container {
