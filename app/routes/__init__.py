@@ -21,6 +21,11 @@ def static_from_root():
     return send_from_directory(app.static_folder, request.path[1:])
 
 
+@main_bp.route('/sitemap.xml')
+def serve_sitemap():
+    return send_from_directory(app.static_folder, 'sitemap.xml')
+
+
 @main_bp.route('/part5/test')
 def mock_test():
     return render_template('mock_test.html')
