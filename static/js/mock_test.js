@@ -668,7 +668,6 @@ window.addEventListener('load', function() {
             })
             .then(json => console.log(json))
             .catch(error => console.log('Error:', error));
-            }
         })
         .catch(error => console.log('Error:', error));
                 
