@@ -539,16 +539,39 @@ window.addEventListener('load', function() {
         let correctCount = 0;
         let totalQuestions = document.getElementsByClassName('question-container').length;
         let notAnsweredCount = 0;
-        
+        let notViewedCount = 0;
+
         for (let i = 0; i < totalQuestions; i++) {
             let questionId = document.getElementsByClassName('col-12 col-md-6')[i].id.split('-')[1];
             if (!document.querySelector(`input[name="choice-${questionId}"]:checked`)) {
                 notAnsweredCount++;
+                // 시간이 기록되지 않았다면, 사용자가 문제를 아예 확인하지 않은 것으로 판단합니다.
+                if (!timerPerQuestion[i]) {
+                    notViewedCount++;
+                }
             }
         }
         
-        if (notAnsweredCount > 0) {
-            if (!confirm(`아직 ${notAnsweredCount}개의 문제를 풀지 않았습니다. 채점하시겠습니까?`)) {
+        // 확인하지 않은 문제에 대한 경고 메시지를 생성합니다.
+        let warningMessage = '';
+        let needToConfirm = false;
+        
+        if (notViewedCount > 0) {
+            warningMessage += `아직 ${notViewedCount}개의 문제를 아예 확인하지 않았습니다. `;
+            warningMessage += `확인하지 않은 문제는 채점되지 않으며, 데이터가 저장되지 않아 추후 분석이나 오답노트에서 확인하실 수 없습니다. `;
+            needToConfirm = true;
+        }
+        // 선택하지 않은 문제에 대한 경고 메시지를 생성합니다.
+        if (notAnsweredCount > notViewedCount) {
+            warningMessage += `답을 선택하지 않은 문제가 ${notAnsweredCount - notViewedCount}개 있습니다. `;
+            warningMessage += `답을 선택하지 않은 문제는 틀린 것으로 간주되어 채점됩니다. `;
+            needToConfirm = true;
+        }
+        
+        if (needToConfirm) {
+            warningMessage += `그래도 채점하시겠습니까?`;
+        
+            if (!confirm(warningMessage)) {
                 return;  // 채점하지 않고 종료합니다.
             }
         }
@@ -566,7 +589,7 @@ window.addEventListener('load', function() {
             test_id: testId,
             test_type: testType,
             test_level: testLevel,
-            question_count: totalQuestions,
+            question_count: totalQuestions - notViewedCount,
             wrong_count: wrongCount,
             time_record: timeRecord
         };
@@ -589,6 +612,8 @@ window.addEventListener('load', function() {
             let testId = json.test_detail_id;
             
             // 문제를 채점하고 결과를 저장합니다.
+            let questionDetailsData = [];
+
             for (let i = 0; i < totalQuestions; i++) {
                 let questionId = document.getElementsByClassName('col-12 col-md-6')[i].id.split('-')[1];
                 let correctAnswer = document.getElementById('result-' + questionId).textContent;
@@ -616,29 +641,33 @@ window.addEventListener('load', function() {
                     additionalInfoDiv.style.display = 'block';
                 }
 
-                // 문제별 세부 정보를 API에 저장합니다.
-                let questionDetailData = {
-                    test_id: testId,
-                    question_id: questionId,
-                    is_correct: isCorrect,
-                    time_record_per_question: timerPerQuestion[i]
-                };
+                // 문제를 풀지 않았다면 API 요청에 포함하지 않습니다.
+                if (timeTaken) {
+                    questionDetailsData.push({
+                        test_id: testId,
+                        question_id: questionId,
+                        is_correct: isCorrect,
+                        time_record_per_question: timeTaken
+                    });
+                }
+            }
 
-                fetchWithToken('/api/test-question-detail', {
-                    method: 'POST',
-                    body: JSON.stringify(questionDetailData),
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
-                .then(json => console.log(json))
-                .catch(error => console.log('Error:', error));
+            // 모든 문제 세부 정보를 한 번의 요청으로 API에 보냅니다.
+            fetchWithToken('/api/test-question-detail', {
+                method: 'POST',
+                body: JSON.stringify({question_details: questionDetailsData}),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(json => console.log(json))
+            .catch(error => console.log('Error:', error));
             }
         })
         .catch(error => console.log('Error:', error));
