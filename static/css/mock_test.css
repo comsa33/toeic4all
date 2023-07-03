@@ -371,6 +371,7 @@
 }
 
 .question-timer {
+    margin-bottom: 0;
     font-size: 0.7em;
     font-weight: 300;
     text-align: left;
@@ -378,15 +379,14 @@
 }
 
 .recommended-time {
+    margin-bottom: 0;
     font-size: 0.65em;
     font-weight: 200;
-    text-align: right;
+    text-align: left;
     color: rgb(253, 130, 130);
 }
 
 #question-timer-container {
-    display: flex;
-    justify-content: space-between;
     top: 20px;
     left: 20px;
 }
