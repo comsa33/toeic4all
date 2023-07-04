@@ -85,7 +85,7 @@ $(document).ready(function() {
                             // Change the background color of the email input field to highlight it
                             $('#email').css('background-color', '#ffcccc');
                             // Add a button to send the verification email
-                            $('#email').after('<button id="email-verification-button" class="btn btn-info">인증 이메일 보내기</button>');
+                            $('#email').after('<a id="email-verification-link" href="#">내 이메일 인증하기</a>');
                         }
                     });
                 }
@@ -124,7 +124,7 @@ $(document).ready(function() {
                 'toeic_goal': $('#toeic-goal').val()
             };
             $.ajax({
-                url: `user/${username}`,
+                url: `/user/${username}`,
                 type: 'PUT',
                 contentType: 'application/json',
                 data: JSON.stringify(postData),
@@ -142,7 +142,7 @@ $(document).ready(function() {
     });
 });
 
-$(document).on('click', '#email-verification-button', function() {
+$(document).on('click', '#email-verification-link', function() {
     // Send the verification email
     $.ajax({
         url: '/user/email-verification',
