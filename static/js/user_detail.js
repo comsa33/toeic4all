@@ -69,7 +69,7 @@ $(document).ready(function() {
                     username = data.username;
                     getUserDetail(username);
                     // username is global variable, it will be available inside the function below
-                    $.get(`api/user-detail/${username}`, function(data) {
+                    $.get(`user/${username}`, function(data) {
                         $('#email').val(data.email || '');
                         $('#phone').val(data.phone || '');
                         $('#job').val(data.job || '');
@@ -79,6 +79,14 @@ $(document).ready(function() {
                         $('#toeic-goal').val(data.toeic_goal || '');
                         // Make form fields disabled on page load
                         $('#edit-form input, #edit-form select').prop('disabled', true);
+
+                        // Check if email is confirmed
+                        if (!data.is_email_confirmed) {
+                            // Change the background color of the email input field to highlight it
+                            $('#email').css('background-color', '#ffcccc');
+                            // Add a button to send the verification email
+                            $('#email').after('<button id="email-verification-button" class="btn btn-info">인증 이메일 보내기</button>');
+                        }
                     });
                 }
             },
@@ -116,8 +124,8 @@ $(document).ready(function() {
                 'toeic_goal': $('#toeic-goal').val()
             };
             $.ajax({
-                url: `api/user-detail/${username}`,
-                type: 'POST',
+                url: `user/${username}`,
+                type: 'PUT',
                 contentType: 'application/json',
                 data: JSON.stringify(postData),
                 success: function(data) {
@@ -130,6 +138,23 @@ $(document).ready(function() {
                     }
                 }
             });
+        }
+    });
+});
+
+$(document).on('click', '#email-verification-button', function() {
+    // Send the verification email
+    $.ajax({
+        url: '/user/email-verification',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({'email': $('#email').val()}),
+        success: function(data) {
+            if (data.success) {
+                alert('인증 이메일이 발송되었습니다. 이메일을 확인해 주세요.');
+            } else {
+                alert('이메일 발송에 실패했습니다. 다시 시도해 주세요.');
+            }
         }
     });
 });
