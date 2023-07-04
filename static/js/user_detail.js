@@ -61,6 +61,8 @@ async function getUserStatus() {
             $('#toeic-score').val(userData.toeic_score || '');
             $('#toeic-target-score').val(userData.toeic_target_score || '');
             $('#toeic-goal').val(userData.toeic_goal || '');
+            $('#toeic-study-period').val(userData.toeic_study_period || '');
+            $('#toeic-study-method').val(userData.toeic_study_method || '');
             // Make form fields disabled on page load
             $('#edit-form input, #edit-form select').prop('disabled', true);
 
@@ -106,7 +108,9 @@ $(document).ready(function() {
                 'toeic_experience': $('#toeic-experience').val() === "true",
                 'toeic_score': $('#toeic-score').val(),
                 'toeic_target_score': $('#toeic-target-score').val(),
-                'toeic_goal': $('#toeic-goal').val()
+                'toeic_goal': $('#toeic-goal').val(),
+                'toeic_study_period': $('#toeic-study-period').val(),
+                'toeic_study_method': $('#toeic-study-method').val(),
             };
     
             fetchWithToken(`/user/${username}`, {

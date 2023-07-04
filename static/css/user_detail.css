@@ -1,7 +1,7 @@
 :root {
     --primary-color: #f87272;
     --secondary-color: #14171a;
-    --placeholder-color: #657786;
+    --placeholder-color: #b4b4b4;
     --disabled-color: #ffd5d5;
     --hover-color: #df3e3e;
     --background-color: #f5f8fa;
@@ -33,6 +33,11 @@ body {
     margin-bottom: 1.5rem;
 }
 
+.form-group label {
+    font-size: .85em;
+    text-align: left;
+}
+
 .form-control {
     border: 1px solid var(--secondary-color);
     color: var(--secondary-color);
@@ -50,6 +55,7 @@ body {
 }
 
 .form-control::placeholder {
+    font-size: .8em;
     color: var(--placeholder-color);
 }
 
