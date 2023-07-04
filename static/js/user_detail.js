@@ -12,20 +12,24 @@ function isTokenExpired(token) {
     return false;
 }
 
-function makeRequest(method, url, headers = {}, callback, errorCallback) {
-    var xhr = new XMLHttpRequest();
-    xhr.open(method, url);
-    Object.keys(headers).forEach(function(key) {
-        xhr.setRequestHeader(key, headers[key]);
-    });
-    xhr.onload = function() {
-        if (xhr.status === 200) {
-            callback(JSON.parse(xhr.responseText));
-        } else if (errorCallback) {
-            errorCallback();
+function fetchWithToken(url, options = {}) {
+    const jwtToken = localStorage.getItem('access_token');
+    if (jwtToken) {
+        if (isTokenExpired(jwtToken)) {
+            localStorage.removeItem('access_token');
+            alert('세션이 만료되었습니다. 다시 로그인해 주세요.');
+            window.location.href = "/user/login";
+            return;
         }
-    };
-    xhr.send();
+
+        let headers = options.headers || {};
+        headers['Authorization'] = `Bearer ${jwtToken}`;
+        return fetch(url, {...options, headers});
+    } else {
+        alert('세션이 만료되었습니다. 다시 로그인해 주세요.');
+        window.location.href = "/user/login";
+        return;
+    }
 }
 
 function formatDate(dateString) {
@@ -34,69 +38,50 @@ function formatDate(dateString) {
     return date.toLocaleDateString('ko-KR', options);
 }
 
-function getUserDetail(username) {
-    makeRequest(
-        'GET',
-        'https://toeic4all.com/user/' + username,
-        {},
-        function(data) {
-            $('.container p').first().text('사용자 이름: ' + data.username);
-            $('.container p').eq(1).text('가입 날짜: ' + formatDate(data.registered_on));
-        },
-        function() {
-            console.log('Failed to fetch user details');
+async function getUserStatus() {
+    try {
+        const response = await fetchWithToken('https://toeic4all.com/user/status');
+        const data = await response.json();
+
+        if (data.status == 'logged_in') {
+            console.log('Logged in');
+            username = data.username;
+
+            const userResponse = await fetchWithToken(`user/${username}`);
+            const userData = await userResponse.json();
+
+            // Display user detail
+            $('.container p').first().text('사용자 이름: ' + userData.username);
+            $('.container p').eq(1).text('가입 날짜: ' + formatDate(userData.registered_on));
+        
+            $('#email').val(userData.email || '');
+            $('#phone').val(userData.phone || '');
+            $('#job').val(userData.job || '');
+            $('#toeic-experience').val(String(userData.toeic_experience) || '');
+            $('#toeic-score').val(userData.toeic_score || '');
+            $('#toeic-target-score').val(userData.toeic_target_score || '');
+            $('#toeic-goal').val(userData.toeic_goal || '');
+            // Make form fields disabled on page load
+            $('#edit-form input, #edit-form select').prop('disabled', true);
+
+            // Check if email is confirmed
+            if (!userData.is_email_confirmed) {
+                // Change the background color of the email input field to highlight it
+                $('#email').css('background-color', '#ffcccc');
+                // Add a button to send the verification email
+                $('#email').after('<a id="email-verification-link" href="#">내 이메일 인증하기</a>');
+            }
+        } else {
+            console.log('Not logged in');
         }
-    );
+    } catch (error) {
+        console.log('Error: ', error);
+    }
 }
 
 $(document).ready(function() {
-    var token = localStorage.getItem('access_token');
-    if (token) {
-        if (isTokenExpired(token)) {
-            localStorage.removeItem('access_token');
-            alert('세션이 만료되었습니다. 다시 로그인해 주세요.');
-            window.location.href = "/user/login";
-            return;
-        }
-        makeRequest(
-            'GET',
-            'https://toeic4all.com/user/status',
-            { 'Authorization': `Bearer ${token}` },
-            function(data) {
-                console.log(data);
-                if (data.status == 'logged_in') {
-                    console.log('Logged in');
-                    username = data.username;
-                    getUserDetail(username);
-                    // username is global variable, it will be available inside the function below
-                    $.get(`user/${username}`, function(data) {
-                        $('#email').val(data.email || '');
-                        $('#phone').val(data.phone || '');
-                        $('#job').val(data.job || '');
-                        $('#toeic-experience').val(String(data.toeic_experience) || '');
-                        $('#toeic-score').val(data.toeic_score || '');
-                        $('#toeic-target-score').val(data.toeic_target_score || '');
-                        $('#toeic-goal').val(data.toeic_goal || '');
-                        // Make form fields disabled on page load
-                        $('#edit-form input, #edit-form select').prop('disabled', true);
-
-                        // Check if email is confirmed
-                        if (!data.is_email_confirmed) {
-                            // Change the background color of the email input field to highlight it
-                            $('#email').css('background-color', '#ffcccc');
-                            // Add a button to send the verification email
-                            $('#email').after('<a id="email-verification-link" href="#">내 이메일 인증하기</a>');
-                        }
-                    });
-                }
-            },
-            function() {
-                console.log('Not logged in');
-            }
-        );
-    } else {
-        console.log('Not logged in');
-    }
+    
+    getUserStatus();
     
     $('#edit-button').click(function() {
         // 사용자가 '수정' 버튼을 누르면 입력 필드가 편집 가능하게 바뀝니다.
@@ -123,23 +108,32 @@ $(document).ready(function() {
                 'toeic_target_score': $('#toeic-target-score').val(),
                 'toeic_goal': $('#toeic-goal').val()
             };
-            $.ajax({
-                url: `/user/${username}`,
-                type: 'PUT',
-                contentType: 'application/json',
-                data: JSON.stringify(postData),
-                success: function(data) {
-                    console.log(data);
-                    if (data.success) {
-                        alert('성공적으로 저장되었습니다!');
-                        window.location.href = "https://toeic4all.com/user-detail";
-                    } else {
-                        alert('오류가 발생했습니다. 다시 시도해주세요.');
-                    }
+    
+            fetchWithToken(`/user/${username}`, {
+                method: 'PUT',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(postData)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
                 }
+                return response.json();
+            })
+            .then(data => {
+                console.log(data);
+                if (data.success) {
+                    alert('성공적으로 저장되었습니다!');
+                    window.location.href = "https://toeic4all.com/user-detail";
+                } else {
+                    alert('오류가 발생했습니다. 다시 시도해주세요.');
+                }
+            })
+            .catch(error => {
+                console.error('There has been a problem with your fetch operation:', error);
             });
         }
-    });
+    });    
 });
 
 $(document).on('click', '#email-verification-link', function() {
