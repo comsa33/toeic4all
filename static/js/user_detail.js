@@ -86,8 +86,7 @@ $(document).ready(function() {
     getUserStatus();
     
     $('#edit-button').click(function() {
-        // 사용자가 '수정' 버튼을 누르면 입력 필드가 편집 가능하게 바뀝니다.
-        $('#edit-form input, #edit-form select').prop('disabled', false);
+        $('#edit-form input, #edit-form select, #save-button').prop('disabled', false);
     });
 
     $('#toeic-experience').on('change', function() {
