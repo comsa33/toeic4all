@@ -51,8 +51,8 @@ async function getUserStatus() {
             const userData = await userResponse.json();
 
             // Display user detail
-            $('.container p').first().text('사용자 이름: ' + userData.username);
-            $('.container p').eq(1).text('가입 날짜: ' + formatDate(userData.registered_on));
+            $('#username-text').text(userData.username);
+            $('#registered-date-text').text(formatDate(userData.registered_on));
         
             $('#email').val(userData.email || '');
             $('#phone').val(userData.phone || '');
@@ -106,8 +106,8 @@ $(document).ready(function() {
                 'phone': $('#phone').val(),
                 'job': $('#job').val(),
                 'toeic_experience': $('#toeic-experience').val() === "true",
-                'toeic_score': $('#toeic-score').val(),
-                'toeic_target_score': $('#toeic-target-score').val(),
+                'toeic_score': Number($('#toeic-score').val()),
+                'toeic_target_score': Number($('#toeic-target-score').val()),
                 'toeic_goal': $('#toeic-goal').val(),
                 'toeic_study_period': $('#toeic-study-period').val(),
                 'toeic_study_method': $('#toeic-study-method').val(),

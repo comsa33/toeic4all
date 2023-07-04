@@ -24,8 +24,22 @@
         <div class="container">
             <div class="col-md-12">
                 <hr>
-                <p>사용자 이름: {{ username }}</p>
-                <p>가입한 날짜: {{ join_date }}</p>
+                <div class="row">
+                    <div class="col-12 col-md-4" style="justify-content: flex-start;">
+                        <label id="username-label" style="font-size: .85em; text-align: left;">사용자 이름</label>
+                    </div>
+                    <div class="col-12 col-md-8">
+                        <p id="username-text" aria-labelledby="username-label" style="font-weight: bold; font-size: 1.1em; text-align: left;"></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-md-4" style="justify-content: flex-start;">
+                        <label id="registered-date-label" style="font-size: .85em; text-align: left;">가입 날짜</label>
+                    </div>
+                    <div class="col-12 col-md-8">
+                        <p id="registered-date-text" aria-labelledby="registered-date-label" style="font-size: .9em; text-align: left;"></p>
+                    </div>
+                </div>
                 <button id="edit-button" class="btn btn-primary">내 추가정보 수정</button>
                 <hr>
                 <form id="edit-form" style="display: block;">
