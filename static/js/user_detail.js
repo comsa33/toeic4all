@@ -116,7 +116,7 @@ $(document).ready(function() {
             })
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('Network response was not ok');
+                    throw response;
                 }
                 return response.json();
             })
@@ -129,8 +129,9 @@ $(document).ready(function() {
                     alert('오류가 발생했습니다. 다시 시도해주세요.');
                 }
             })
-            .catch(error => {
-                console.error('There has been a problem with your fetch operation:', error);
+            .catch(response => {
+                // Try to extract the error message from the server and display it
+                response.json().then(data => alert(data.message));
             });
         }
     });    
