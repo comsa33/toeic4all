@@ -2,7 +2,7 @@
     --primary-color: #f87272;
     --secondary-color: #14171a;
     --placeholder-color: #b4b4b4;
-    --disabled-color: #ffd5d5;
+    --disabled-color: #dfdddd;
     --hover-color: #df3e3e;
     --background-color: #f5f8fa;
     --box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -76,6 +76,11 @@ body {
 
 .btn-primary:hover, .btn-success:hover {
     background-color: var(--hover-color);
+    box-shadow: var(--box-shadow);
+}
+
+.btn-success.disabled, .btn-success:disabled {
+    background-color: var(--disabled-color);
     box-shadow: var(--box-shadow);
 }
 
