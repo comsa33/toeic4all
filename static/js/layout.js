@@ -23,13 +23,13 @@ function makeRequest(method, url, headers = {}, callback, errorCallback) {
     xhr.send();
 }
 
-function updateUI(isLoggedIn, username) {
+function updateUI(isLoggedIn, username, profile_picture) {
     $('#nav-logout, #mobile-nav-logout').toggle(isLoggedIn);
     $('#nav-login, #mobile-nav-login').toggle(!isLoggedIn);
 
     if (isLoggedIn) {
         const userPCMenuHtml = `
-            <a href="/user-detail">${username} 님</a>
+            <a href="/user-detail"><img src="${profile_picture}" width="20" height="20" class="profile-img">${username} 님</a>
             <ul id="nav-user-dropdown">
                 <li><a href="/user-detail">내 정보</a></li>
                 <li><a href="/mypage">찜한 문제</a></li>
@@ -39,7 +39,7 @@ function updateUI(isLoggedIn, username) {
             </ul>
         `;
         const userMobileMenuHtml = `
-            <a href="/user-detail">${username} 님</a>
+            <a href="/user-detail"><img src="${profile_picture}" width="20" height="20" class="profile-img">${username} 님</a>
             <ul id="mobile-user-dropdown">
                 <li><a href="/user-detail">내 정보</a></li>
                 <li><a href="/mypage">찜한 문제</a></li>
@@ -56,6 +56,7 @@ function updateUI(isLoggedIn, username) {
     }
 }
 
+
 $(document).ready(function() {
     var token = localStorage.getItem('access_token');
     if (token) {
@@ -67,7 +68,7 @@ $(document).ready(function() {
                 console.log(data);
                 if (data.status == 'logged_in') {
                     console.log('Logged in');
-                    updateUI(true, data.username);
+                    updateUI(true, data.username, data.profile_picture);
                 }
             },
             function() {

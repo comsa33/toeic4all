@@ -235,6 +235,10 @@ body #hamburger-btn {
     flex-direction: column;
 }
 
+.profile-img {
+    border-radius: 50%;
+}
+
 .footer-container {
     display: flex;
     position: absolute;
