@@ -166,7 +166,6 @@ $(document).on('click', '#email-verification-link', function() {
     });
 });
 
-
 $('#profile-image-change-text').click(function() {
     // 모달을 표시합니다.
     $('#image-modal').css('display', 'block');
@@ -182,30 +181,32 @@ $('#profile-image-change-text').click(function() {
             .attr('width', '50')
             .attr('height', '50')
             .css('cursor', 'pointer')
-            .appendTo(imageContainer)
-            .click(async function() {
-                // 이미지를 클릭했을 때, 프로필 이미지를 변경하고 모달을 닫습니다.
-                $('#profile-image').attr('src', $(this).attr('src'));
-                $('#image-modal').css('display', 'none');
+            .appendTo(imageContainer);
+            
+        imageContainer.click(async function() {
+            // 이미지를 클릭했을 때, 프로필 이미지를 변경하고 모달을 닫습니다.
+            const clickedImage = $(this).find('img');
+            $('#profile-image').attr('src', clickedImage.attr('src'));
+            $('#image-modal').css('display', 'none');
                     
-                // 변경된 이미지 정보를 서버에 업데이트합니다.
-                const imageName = 'profile' + i + '.png';
-                const response = await fetchWithToken('/user/set_profile_image', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ image_name: imageName })
-                });
-
-                const data = await response.json();
-                if (data.status === 'success') {
-                    console.log('Profile image updated successfully');
-                    window.location.reload();
-                } else {
-                    console.error('Error updating profile image:', data.message);
-                }
+            // 변경된 이미지 정보를 서버에 업데이트합니다.
+            const imageName = 'profile' + i + '.png';
+            const response = await fetchWithToken('/user/set_profile_image', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ image_name: imageName })
             });
+
+            const data = await response.json();
+            if (data.status === 'success') {
+                console.log('Profile image updated successfully');
+                window.location.reload();
+            } else {
+                console.error('Error updating profile image:', data.message);
+            }
+        });
             
         $('#image-grid').append(imageContainer);
     }
