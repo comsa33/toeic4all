@@ -57,7 +57,7 @@ async function getUserStatus() {
             $('#registered-date-text').text("모두의 토익에 함께한지 " + getDaysSinceJoined(userData.registered_on) + "일이 되었어요!");
             
             // Profile image - use user-selected image if it exists, otherwise use default
-            const profilePicture = userData.profile_picture ? userData.profile_picture : "./static/images/profile1.png";
+            const profilePicture = userData.profile_picture ? userData.profile_picture : "/static/images/profile1.png";
             $('#profile-image').attr("src", profilePicture);
             $('#email').val(userData.email || '');
             $('#phone').val(userData.phone || '');
@@ -173,7 +173,7 @@ $('#change-image-button').click(function() {
     // 각 이미지를 모달 안의 이미지 그리드에 추가합니다.
     for (let i = 1; i <= 42; i++) {
         const image = $('<img>')
-            .attr('src', './static/images/profile' + i + '.png')
+            .attr('src', '/static/images/profile' + i + '.png')
             .attr('width', '50')
             .attr('height', '50')
             .css('cursor', 'pointer')
