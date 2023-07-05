@@ -110,11 +110,13 @@ function getQuestions(page = 1) {
                 let id = question.id;
                 let contentWithBreaks = question.content.replace(/(?:\r\n|\r|\n)/g, '<br>');
                 const div = document.createElement('div');
-                
+                const profilePicture = question.profile_picture || '/static/images/profile1.png';
+
                 div.className = 'question';
                 div.innerHTML = `
                     <div class="question-header">
                         <div class="author-date-container">
+                            <img src="${profilePicture}" width="20" height="20" class="profile-img">
                             <div class="question-author">${question.username}</div>
                             <span class="separator">·</span>
                             <div class="question-date">${timeSince(new Date(question.created_at))}</div>
@@ -172,12 +174,16 @@ function getQuestion(id, answerPage = 1) {
             document.getElementById('new-question-form').style.display = 'none';
             const board = document.getElementById('board');
             board.className = 'detail-view';
+
+            const profilePicture = data.profile_picture || '/static/images/profile1.png';
+
             let contentWithBreaks = data.content.replace(/(?:\r\n|\r|\n)/g, '<br>');
             board.innerHTML = `
                 <button type="button" id="button-get-questions" class="button-text" onclick="getQuestions()">﹤전체목록보기</button>
                 <div class="question-box">
                     <div class="question-header">
                         <div class="author-date-container">
+                            <img src="${profilePicture}" width="20" height="20" class="profile-img">
                             <div class="question-author">${data.username}</div>
                             <span class="separator">·</span>
                             <div class="question-date">${timeSince(new Date(data.created_at))}</div>
@@ -226,12 +232,16 @@ function getQuestion(id, answerPage = 1) {
                         answerSection.innerHTML = '';
                         response.answers.forEach(answer => {
                             let answerContentWithBreaks = answer.content.replace(/(?:\r\n|\r|\n)/g, '<br>');
+
+                            const profilePicture = answer.profile_picture || '/static/images/profile1.png';
+
                             const div = document.createElement('div');
                             div.className = 'answer separate-answer';
                             div.innerHTML = `
                                 <div class="answer-content">
                                     <div class="answer-header">
                                         <div class="author-date-container">
+                                            <img src="${profilePicture}" width="20" height="20" class="profile-img">
                                             <div class="answer-author">${answer.username}</div>
                                             <span class="separator">·</span>
                                             <div class="answer-date">${timeSince(new Date(answer.created_at))}</div>
