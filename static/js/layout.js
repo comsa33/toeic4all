@@ -28,6 +28,8 @@ function updateUI(isLoggedIn, username, profile_picture) {
     $('#nav-login, #mobile-nav-login').toggle(!isLoggedIn);
 
     if (isLoggedIn) {
+        profile_picture = profile_picture || './static/images/profile1.png';  // 프로필 사진이 없으면 기본 이미지를 사용합니다.
+
         const userPCMenuHtml = `
             <a href="/user-detail"><img src="${profile_picture}" width="20" height="20" class="profile-img">${username} 님</a>
             <ul id="nav-user-dropdown">
