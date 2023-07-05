@@ -76,7 +76,7 @@ async function getUserStatus() {
                 // Change the background color of the email input field to highlight it
                 $('#email').css('background-color', '#ffcccc');
                 // Add a button to send the verification email
-                $('#email').after('<a id="email-verification-link" href="#">내 이메일 인증하기</a>');
+                $('#email').after('<a class="col-12 col-md-12" id="email-verification-link" href="#">내 이메일 인증하기</a>');
             }
         } else {
             console.log('Not logged in');
