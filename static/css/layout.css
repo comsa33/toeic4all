@@ -200,7 +200,6 @@ body #hamburger-btn {
     #mobile-nav {
         display: flex;
         box-sizing: unset;
-        width: 100%;
     }
     #mobile-nav-user {
         gap:15px;
