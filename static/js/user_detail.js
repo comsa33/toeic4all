@@ -195,6 +195,7 @@ $('#change-image-button').click(function() {
                 const data = await response.json();
                 if (data.status === 'success') {
                     console.log('Profile image updated successfully');
+                    window.location.reload();
                 } else {
                     console.error('Error updating profile image:', data.message);
                 }
