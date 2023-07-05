@@ -1,6 +1,6 @@
 let currentQuestionId = null;
 let username = null;
-const apiEndpoint = "/api/board/";
+const apiEndpoint = "/user/board/";
 
 function getUsername() {
     return new Promise((resolve, reject) => {
@@ -115,7 +115,7 @@ function getQuestions(page = 1) {
                 div.innerHTML = `
                     <div class="question-header">
                         <div class="author-date-container">
-                            <div class="question-author">${question.author}</div>
+                            <div class="question-author">${question.username}</div>
                             <span class="separator">·</span>
                             <div class="question-date">${timeSince(new Date(question.created_at))}</div>
                         </div>
@@ -178,7 +178,7 @@ function getQuestion(id, answerPage = 1) {
                 <div class="question-box">
                     <div class="question-header">
                         <div class="author-date-container">
-                            <div class="question-author">${data.author}</div>
+                            <div class="question-author">${data.username}</div>
                             <span class="separator">·</span>
                             <div class="question-date">${timeSince(new Date(data.created_at))}</div>
                         </div>
@@ -193,7 +193,7 @@ function getQuestion(id, answerPage = 1) {
                             </button>
                         </div>
                     </div>
-                    ${username === data.author ? `
+                    ${username === data.username ? `
                     <button type="button" class="edit" onclick="editQuestion(${id})">수정</button>
                     <button type="button" class="delete" onclick="deleteQuestion(${id})">삭제</button>
                     ` : ''}
@@ -232,7 +232,7 @@ function getQuestion(id, answerPage = 1) {
                                 <div class="answer-content">
                                     <div class="answer-header">
                                         <div class="author-date-container">
-                                            <div class="answer-author">${answer.author}</div>
+                                            <div class="answer-author">${answer.username}</div>
                                             <span class="separator">·</span>
                                             <div class="answer-date">${timeSince(new Date(answer.created_at))}</div>
                                         </div>
@@ -244,7 +244,7 @@ function getQuestion(id, answerPage = 1) {
                                             </button>
                                         </div>
                                     </div>
-                                    ${username === answer.author ? `
+                                    ${username === answer.username ? `
                                     <div class="button-container">
                                         <button type="button" class="edit" onclick="editAnswer(${answer.id})">수정</button>
                                         <button type="button" class="delete" onclick="deleteAnswer(${answer.id})">삭제</button>
@@ -304,7 +304,7 @@ function createQuestion() {
         body: JSON.stringify({
             title: title,
             content: content,
-            author: username
+            username: username
         })
     })
     .then(response => {
