@@ -167,7 +167,7 @@ $('#change-image-button').click(function() {
     $('#image-grid').empty();
     
     // 각 이미지를 모달 안의 이미지 그리드에 추가합니다.
-    for (let i = 1; i <= 50; i++) {
+    for (let i = 1; i <= 42; i++) {
         const image = $('<img>')
             .attr('src', './static/images/profile' + i + '.png')
             .attr('width', '50')
