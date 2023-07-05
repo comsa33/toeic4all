@@ -156,8 +156,12 @@ $(document).on('click', '#email-verification-link', function() {
             if (data.success) {
                 alert('인증 이메일이 발송되었습니다. 이메일을 확인해 주세요.');
             } else {
-                alert('이메일 발송에 실패했습니다. 다시 시도해 주세요.');
+                alert(data.message);
             }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            var response = JSON.parse(jqXHR.responseText);
+            alert(response.message);
         }
     });
 });

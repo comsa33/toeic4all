@@ -84,6 +84,12 @@ body {
     box-shadow: var(--box-shadow);
 }
 
+#email-verification-link {
+    display: flex;
+    justify-content: flex-end;
+    font-size: .8em;
+}
+
 /* 데스크톱 버전 스타일 */
 .lnb {
     padding-top: 40px;
