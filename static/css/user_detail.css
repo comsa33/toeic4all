@@ -155,16 +155,12 @@ body {
 }
 
 /* 프로필 사진 관련 */
-.profile-image-row .col-12.col-md-4 {
-    justify-content: flex-start;
-}
-
 .profile-image-container {
     display: flex;
     align-items: center;
-    position: relative;  /* Add this */
-    width: 70px;  /* Add this, change size as you want */
-    height: 70px;  /* Add this, change size as you want */
+    position: relative;
+    width: 70px;
+    height: 70px;
     cursor: pointer;
 }
 
@@ -177,10 +173,18 @@ body {
 .change-text-container {
     position: absolute;
     bottom: 0;
-    width: 100%;
-    background: rgba(0, 0, 0, 0.5);  /* Change alpha as you want */
-    color: white;  /* Change this as you want */
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: rgb(0 0 0 / 31%);
+    color: white;
     text-align: center;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    font-size: .8em;
+    font-weight: 500;
+    padding-bottom: 10px;
 }
 
 

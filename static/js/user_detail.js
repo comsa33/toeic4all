@@ -167,7 +167,7 @@ $(document).on('click', '#email-verification-link', function() {
 });
 
 
-$('#profile-image').click(function() {
+$('#profile-image-change-text').click(function() {
     // 모달을 표시합니다.
     $('#image-modal').css('display', 'block');
     
