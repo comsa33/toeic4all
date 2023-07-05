@@ -176,16 +176,18 @@ $('#profile-image-change-text').click(function() {
     
     // 각 이미지를 모달 안의 이미지 그리드에 추가합니다.
     for (let i = 1; i <= 42; i++) {
+        const imageContainer = $('<div>').addClass('image-container');
         const image = $('<img>')
             .attr('src', '/static/images/profile' + i + '.png')
             .attr('width', '50')
             .attr('height', '50')
             .css('cursor', 'pointer')
+            .appendTo(imageContainer)
             .click(async function() {
                 // 이미지를 클릭했을 때, 프로필 이미지를 변경하고 모달을 닫습니다.
                 $('#profile-image').attr('src', $(this).attr('src'));
                 $('#image-modal').css('display', 'none');
-                
+                    
                 // 변경된 이미지 정보를 서버에 업데이트합니다.
                 const imageName = 'profile' + i + '.png';
                 const response = await fetchWithToken('/user/set_profile_image', {
@@ -204,8 +206,8 @@ $('#profile-image-change-text').click(function() {
                     console.error('Error updating profile image:', data.message);
                 }
             });
-        
-        $('#image-grid').append(image);
+            
+        $('#image-grid').append(imageContainer);
     }
 });
 
