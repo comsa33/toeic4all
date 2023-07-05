@@ -25,38 +25,29 @@
             <div class="col-md-12">
                 <hr>
                 <!-- 프로필 이미지를 보여주는 부분 -->
-                <div class="row">
-                    <div class="col-12 col-md-4" style="justify-content: flex-start;">
-                        <label id="profile-image-label" style="font-size: .85em; text-align: left;">프로필 이미지</label>
-                    </div>
-                    <div class="col-12 col-md-8" style="display: flex; align-items: center;">
-                        <img id="profile-image" src="./static/images/profile1.png" width="50" height="50" style="border-radius: 50%;">
-                        <button id="change-image-button" class="btn btn-primary" style="margin-left: 1em;">프로필 이미지 변경</button>
+                <div class="row profile-image-row">
+                    <div class="col-12 col-md-8 profile-image-container">
+                        <img id="profile-image" src="./static/images/profile1.png" class="profile-image">
+                        <button id="change-image-button" class="btn btn-primary change-image-button">프로필 이미지 변경</button>
                     </div>
                 </div>
 
                 <!-- 프로필 이미지를 선택하는 모달 -->
-                <div id="image-modal" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: white; padding: 1em; border-radius: .25em; z-index: 1003;">
-                    <h2>프로필 이미지 선택</h2>
-                    <div id="image-grid" style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 1em;">
+                <div id="image-modal" class="image-modal">
+                    <h5>프로필 이미지 선택</h5>
+                    <div id="image-grid" class="image-grid">
                         <!-- JavaScript로 이미지를 채웁니다. -->
                     </div>
-                    <button id="close-modal-button" class="btn btn-primary" style="margin-top: 1em;">닫기</button>
+                    <button id="close-modal-button" class="btn btn-primary close-modal-button">닫기</button>
                 </div>
 
                 <div class="row">
-                    <div class="col-12 col-md-4" style="justify-content: flex-start;">
-                        <label id="username-label" style="font-size: .85em; text-align: left;">사용자 이름</label>
-                    </div>
                     <div class="col-12 col-md-8">
                         <p id="username-text" aria-labelledby="username-label" style="font-weight: bold; font-size: 1.1em; text-align: left;"></p>
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="col-12 col-md-4" style="justify-content: flex-start;">
-                        <label id="registered-date-label" style="font-size: .85em; text-align: left;">가입 날짜</label>
-                    </div>
                     <div class="col-12 col-md-8">
                         <p id="registered-date-text" aria-labelledby="registered-date-label" style="font-size: .9em; text-align: left;"></p>
                     </div>

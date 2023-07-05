@@ -32,10 +32,12 @@ function fetchWithToken(url, options = {}) {
     }
 }
 
-function formatDate(dateString) {
-    var options = { year: 'numeric', month: 'long', day: 'numeric' };
-    var date = new Date(dateString);
-    return date.toLocaleDateString('ko-KR', options);
+function getDaysSinceJoined(dateString) {
+    var joinedDate = new Date(dateString);
+    var currentDate = new Date();
+    var timeDiff = Math.abs(currentDate.getTime() - joinedDate.getTime());
+    var daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+    return daysDiff;
 }
 
 async function getUserStatus() {
@@ -52,7 +54,7 @@ async function getUserStatus() {
 
             // Display user detail
             $('#username-text').text(userData.username);
-            $('#registered-date-text').text(formatDate(userData.registered_on));
+            $('#registered-date-text').text("모두의 토익에 함께한지 " + getDaysSinceJoined(userData.registered_on) + "일이 되었어요!");
         
             $('#email').val(userData.email || '');
             $('#phone').val(userData.phone || '');
