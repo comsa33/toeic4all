@@ -159,25 +159,30 @@ body {
     justify-content: flex-start;
 }
 
-#profile-image-label {
-    font-size: .85em;
-    text-align: left;
-}
-
 .profile-image-container {
     display: flex;
     align-items: center;
+    position: relative;  /* Add this */
+    width: 70px;  /* Add this, change size as you want */
+    height: 70px;  /* Add this, change size as you want */
+    cursor: pointer;
 }
 
 .profile-image {
-    width: 50px;
-    height: 50px;
+    width: 100%;
+    height: 100%;
     border-radius: 50%;
 }
 
-.change-image-button {
-    margin-left: 1em;
+.change-text-container {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.5);  /* Change alpha as you want */
+    color: white;  /* Change this as you want */
+    text-align: center;
 }
+
 
 .image-modal {
     display: none;

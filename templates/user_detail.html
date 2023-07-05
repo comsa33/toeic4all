@@ -23,43 +23,54 @@
     <div class="col-12 col-md-9 order-md-2">
         <div class="container">
             <div class="col-md-12">
+
                 <hr>
-                <!-- 프로필 이미지를 보여주는 부분 -->
-                <div class="row profile-image-row">
-                    <div class="col-12 col-md-8 profile-image-container">
-                        <img id="profile-image" src="/static/images/profile1.png" class="profile-image">
-                        <button id="change-image-button" class="btn btn-primary change-image-button">아바타 변경</button>
+
+                <div class="row user-info-top">
+                    <div class="col-12 col-md-3">
+                        <!-- 프로필 이미지를 보여주는 부분 -->
+                        <div class="row profile-image-row">
+                            <div class="col-12 col-md-8 profile-image-container">
+                                <img id="profile-image" src="/static/images/profile1.png" class="profile-image">
+                                <div class="change-text-container">
+                                    변경
+                                </div>
+                            </div>
+                        </div>
+        
+                        <!-- 프로필 이미지를 선택하는 모달 -->
+                        <div id="image-modal" class="image-modal">
+                            <h5>아바타 선택</h5>
+                            <hr>
+                            <div id="image-grid" class="image-grid">
+                                <!-- JavaScript로 이미지를 채웁니다. -->
+                            </div>
+                            <hr>
+                            <button id="close-modal-button" class="btn btn-primary close-modal-button">닫기</button>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-9">
+                        <div class="row">
+                            <div class="col-12 col-md-8">
+                                <p id="username-text" aria-labelledby="username-label" style="font-weight: bold; font-size: 1.1em; text-align: left;"></p>
+                            </div>
+                        </div>
+        
+                        <div class="row">
+                            <div class="col-12 col-md-8">
+                                <p id="registered-date-text" aria-labelledby="registered-date-label" style="font-size: .85em; font-weight: 200; text-align: left;"></p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-
-                <!-- 프로필 이미지를 선택하는 모달 -->
-                <div id="image-modal" class="image-modal">
-                    <h5>아바타 선택</h5>
-                    <hr>
-                    <div id="image-grid" class="image-grid">
-                        <!-- JavaScript로 이미지를 채웁니다. -->
-                    </div>
-                    <hr>
-                    <button id="close-modal-button" class="btn btn-primary close-modal-button">닫기</button>
-                </div>
-
-                <div class="row">
-                    <div class="col-12 col-md-8">
-                        <p id="username-text" aria-labelledby="username-label" style="font-weight: bold; font-size: 1.1em; text-align: left;"></p>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-12 col-md-8">
-                        <p id="registered-date-text" aria-labelledby="registered-date-label" style="font-size: .85em; font-weight: 200; text-align: left;"></p>
-                    </div>
-                </div>
-
+                
                 <div style="display: flex; justify-content: flex-end;">
                     <button id="edit-button" class="btn btn-primary">내 추가정보 수정</button>
                 </div>
 
                 <hr>
+
                 <form id="edit-form" style="display: block;">
                     <div class="form-group row">
                         <label for="email" class="col-12 col-md-4">이메일</label>
