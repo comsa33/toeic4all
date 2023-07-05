@@ -116,7 +116,7 @@ function getQuestions(page = 1) {
                 div.innerHTML = `
                     <div class="question-header">
                         <div class="author-date-container">
-                            <img src="${profilePicture}" width="20" height="20" class="profile-img">
+                            <img src="${profilePicture}" width="20" height="20" class="profile-img" style="margin-right: 10px;">
                             <div class="question-author">${question.username}</div>
                             <span class="separator">·</span>
                             <div class="question-date">${timeSince(new Date(question.created_at))}</div>
@@ -183,7 +183,7 @@ function getQuestion(id, answerPage = 1) {
                 <div class="question-box">
                     <div class="question-header">
                         <div class="author-date-container">
-                            <img src="${profilePicture}" width="20" height="20" class="profile-img">
+                            <img src="${profilePicture}" width="20" height="20" class="profile-img" style="margin-right: 10px;">
                             <div class="question-author">${data.username}</div>
                             <span class="separator">·</span>
                             <div class="question-date">${timeSince(new Date(data.created_at))}</div>
@@ -241,7 +241,7 @@ function getQuestion(id, answerPage = 1) {
                                 <div class="answer-content">
                                     <div class="answer-header">
                                         <div class="author-date-container">
-                                            <img src="${profilePicture}" width="20" height="20" class="profile-img">
+                                            <img src="${profilePicture}" width="20" height="20" class="profile-img" style="margin-right: 10px;">
                                             <div class="answer-author">${answer.username}</div>
                                             <span class="separator">·</span>
                                             <div class="answer-date">${timeSince(new Date(answer.created_at))}</div>

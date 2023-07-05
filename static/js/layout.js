@@ -31,7 +31,7 @@ function updateUI(isLoggedIn, username, profile_picture) {
         profile_picture = profile_picture || '/static/images/profile1.png';  // 프로필 사진이 없으면 기본 이미지를 사용합니다.
 
         const userPCMenuHtml = `
-            <a href="/user-detail"><img src="${profile_picture}" width="20" height="20" class="profile-img"> ${username} 님</a>
+            <a href="/user-detail"><img src="${profile_picture}" width="20" height="20" class="profile-img" style="margin-right: 10px;">${username} 님</a>
             <ul id="nav-user-dropdown">
                 <li><a href="/user-detail">내 정보</a></li>
                 <li><a href="/mypage">찜한 문제</a></li>
@@ -41,7 +41,7 @@ function updateUI(isLoggedIn, username, profile_picture) {
             </ul>
         `;
         const userMobileMenuHtml = `
-            <a href="/user-detail"><img src="${profile_picture}" width="20" height="20" class="profile-img"> ${username} 님</a>
+            <a href="/user-detail"><img src="${profile_picture}" width="20" height="20" class="profile-img" style="margin-right: 10px;">${username} 님</a>
             <ul id="mobile-user-dropdown">
                 <li><a href="/user-detail">내 정보</a></li>
                 <li><a href="/mypage">찜한 문제</a></li>
