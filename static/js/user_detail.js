@@ -156,3 +156,38 @@ $(document).on('click', '#email-verification-link', function() {
         }
     });
 });
+
+
+// 이미지 변경 버튼을 눌렀을 때
+$('#change-image-button').click(function() {
+    // 모달을 표시합니다.
+    $('#image-modal').css('display', 'block');
+    
+    // 모달 안의 이미지 그리드를 초기화합니다.
+    $('#image-grid').empty();
+    
+    // 각 이미지를 모달 안의 이미지 그리드에 추가합니다.
+    for (let i = 1; i <= 50; i++) {
+        const image = $('<img>')
+            .attr('src', './static/images/profile' + i + '.png')
+            .attr('width', '50')
+            .attr('height', '50')
+            .css('cursor', 'pointer')
+            .click(function() {
+                // 이미지를 클릭했을 때, 프로필 이미지를 변경하고 모달을 닫습니다.
+                $('#profile-image').attr('src', $(this).attr('src'));
+                $('#image-modal').css('display', 'none');
+                
+                // 변경된 이미지 정보를 서버에 업데이트하는 코드를 여기에 추가하면 됩니다.
+                // ...
+            });
+        
+        $('#image-grid').append(image);
+    }
+});
+
+// 모달의 닫기 버튼을 눌렀을 때
+$('#close-modal-button').click(function() {
+    // 모달을 닫습니다.
+    $('#image-modal').css('display', 'none');
+});
