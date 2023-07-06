@@ -111,7 +111,7 @@ function getQuestions(page = 1) {
 
             data.questions.forEach(question => {
                 let id = question.id;
-                let contentWithBreaks = question.content.replace(/(?:\r\n|\r|\n)/g, '<br>');
+                let contentWithBreaks = question.content;
                 const div = document.createElement('div');
                 const profilePicture = question.profile_picture || '/static/images/profile1.png';
 
@@ -126,7 +126,7 @@ function getQuestions(page = 1) {
                         </div>
                         <div>
                             <p class="question-title">${question.title}</p>
-                            <div class="questions-contents">${contentWithBreaks}<span class="read-more">...더보기</span></div>
+                            <div class="questions-contents">${contentWithBreaks}</div>
                         </div>
                         <div class="like-container">
                             <div id="like-count-question-${id}">${question.likes}</div>
@@ -186,7 +186,7 @@ function getQuestion(id, answerPage = 1) {
 
             const profilePicture = data.profile_picture || '/static/images/profile1.png';
 
-            let contentWithBreaks = data.content.replace(/(?:\r\n|\r|\n)/g, '<br>');
+            let contentWithBreaks = question.content;
             board.innerHTML = `
                 <button type="button" id="button-get-questions" class="button-text" onclick="getQuestions()">﹤전체목록보기</button>
                 <div class="question-box">
@@ -199,7 +199,7 @@ function getQuestion(id, answerPage = 1) {
                         </div>
                         <div>
                             <p class="question-title">${data.title}</p>
-                            <p class="question-contents">${contentWithBreaks}</p>
+                            <div class="questions-contents">${contentWithBreaks}</div>
                         </div>
                         <div class="like-container">
                             <div id="like-count-question-${id}">${data.likes}</div>
