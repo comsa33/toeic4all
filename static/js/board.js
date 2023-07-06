@@ -130,9 +130,9 @@ function getQuestions(page = 1) {
                             <button id="like-button-question-${id}" class="${question.hasLiked ? 'liked' : ''} like-button">
                                 <i class="fas fa-thumbs-up"></i>
                             </button>
+                            <div class="answers-text">· 답변 (${question.answerCount})</div>
                         </div>
                     </div>
-                    <div class="answers-text">답변 (${question.answerCount})</div>
                     `;
                 
                 div.addEventListener('click', function() {
