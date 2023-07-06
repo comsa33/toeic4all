@@ -443,12 +443,6 @@ function updateQuestion(id) {
     });
 }
 
-// Quill 인스턴스를 생성합니다.
-const editQuestionContent = document.getElementById('edit-question-content');
-var editQuestionQuill = new Quill(editQuestionContent, {
-    theme: 'snow'  // 이 테마는 기본적인 툴바를 제공합니다.
-});
-
 function editQuestion(id) {
     fetch(apiEndpoint + 'board_questions/' + id)
         .then(response => response.json())
@@ -491,6 +485,12 @@ function editQuestion(id) {
                     editQuestionQuill.setContents([]);
                 }
             }
+
+            // Quill 인스턴스를 생성합니다.
+            const editQuestionContent = document.getElementById('edit-question-content');
+            var editQuestionQuill = new Quill(editQuestionContent, {
+                theme: 'snow'  // 이 테마는 기본적인 툴바를 제공합니다.
+            });
 
             // Quill 인스턴스에 기존 게시글 내용 설정
             editQuestionQuill.clipboard.dangerouslyPasteHTML(data.content);
