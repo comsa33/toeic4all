@@ -243,7 +243,7 @@ button:disabled {
 }
 
 #create-answer-button {
-    width: 50px;
+    width: 62px;
     height: 50px;
     border-radius: 0px;
     box-shadow: none;
@@ -264,7 +264,8 @@ button:disabled {
     height: 50px !important;
     background-color: #00000015;
     flex-grow: 1;
-    padding-left: 20px;
+    padding-left: 15px;
+    margin-left: 15px;
     font-size: 1.1em;
 }
 

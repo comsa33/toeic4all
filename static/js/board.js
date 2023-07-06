@@ -273,7 +273,7 @@ function getQuestion(id, answerPage = 1) {
             answersTitle.textContent = `게시물 답변 (${data.answerCount})`;
 
             const userProfilePictureContent = document.getElementById('user-profile-picture');
-            userProfilePictureContent.innerHTML = `<img src="${profilePicture}" width="50" height="50" class="profile-img">`;
+            userProfilePictureContent.innerHTML = `<img src="${profilePicture}" width="35" height="35" class="profile-img" style="margin-left: 5px;">`;
             fetchWithToken(`${apiEndpoint}board_questions/${id}/answers?page=${currentAnswerPage}&per_page=${answersPerPage}`)
                 .then(response => response.json())
                 .then(response => {
