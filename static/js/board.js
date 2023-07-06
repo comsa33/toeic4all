@@ -111,7 +111,7 @@ function getQuestions(page = 1) {
 
             data.questions.forEach(question => {
                 let id = question.id;
-                let contentWithBreaks = question.content;
+                const safeHTML = DOMPurify.sanitize(question.content);
                 const div = document.createElement('div');
                 const profilePicture = question.profile_picture || '/static/images/profile1.png';
 
@@ -126,7 +126,7 @@ function getQuestions(page = 1) {
                         </div>
                         <div>
                             <p class="question-title">${question.title}</p>
-                            <div class="questions-contents">${contentWithBreaks}</div>
+                            <div class="questions-contents">${safeHTML}</div>
                         </div>
                         <div class="like-container">
                             <div id="like-count-question-${id}">${question.likes}</div>
@@ -186,7 +186,7 @@ function getQuestion(id, answerPage = 1) {
 
             const profilePicture = data.profile_picture || '/static/images/profile1.png';
 
-            let contentWithBreaks = data.content;
+            const safeHTML = DOMPurify.sanitize(data.content);
             board.innerHTML = `
                 <button type="button" id="button-get-questions" class="button-text" onclick="getQuestions()">﹤전체목록보기</button>
                 <div class="question-box">
@@ -199,7 +199,7 @@ function getQuestion(id, answerPage = 1) {
                         </div>
                         <div>
                             <p class="question-title">${data.title}</p>
-                            <div class="question-contents">${contentWithBreaks}</div>
+                            <div class="question-contents">${safeHTML}</div>
                         </div>
                         <div class="like-container">
                             <div id="like-count-question-${id}">${data.likes}</div>
