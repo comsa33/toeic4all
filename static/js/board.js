@@ -19,7 +19,7 @@ var toolbarOptions = [
 ];
 
 var quill_options = {
-    modules: toolbarOptions,
+    modules: { toolbar: toolbarOptions },
     theme: 'snow'
   };
 var quill = new Quill('#new-question-content', quill_options);
