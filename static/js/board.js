@@ -493,17 +493,7 @@ function editQuestion(id) {
             }
 
             // Quill 인스턴스에 기존 게시글 내용 설정
-            var decodedContent = decodeHTML(data.content);
-
-            var parsedData = null;
-            try {
-                parsedData = JSON.parse(decodedContent);
-            } catch (error) {
-                console.error('JSON parsing failed:', error);
-            }
-            if (parsedData) {
-                editQuestionQuill.setContents(parsedData);
-            }
+            editQuestionQuill.clipboard.dangerouslyPasteHTML(data.content);
         });
 }
 
