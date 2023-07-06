@@ -610,11 +610,3 @@ function toggleLike(type, id) {
             }
         });
 }
-
-let quillEdit;
-
-window.onload = function() {
-  quillEdit = new Quill('#edit-question-content', {
-    theme: 'snow'
-  });
-};
