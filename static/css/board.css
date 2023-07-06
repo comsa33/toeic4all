@@ -275,12 +275,12 @@ button:disabled {
     background-color: #00000015;
 }
 
-#edit-question-title {
-    margin-bottom: 10px;
-}
-
 #new-question-content {
     height: 150px;
+}
+
+#edit-question-title {
+    margin-bottom: 10px;
 }
 
 #edit-question-content {

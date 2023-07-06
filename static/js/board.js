@@ -1,6 +1,9 @@
 let currentQuestionId = null;
 let username = null;
 const apiEndpoint = "/user/board/";
+var quill = new Quill('#new-question-content', {
+    theme: 'snow'  // 이 테마는 기본적인 툴바를 제공합니다.
+});
 
 function getUsername() {
     return new Promise((resolve, reject) => {
@@ -299,7 +302,8 @@ function getQuestion(id, answerPage = 1) {
 
 function createQuestion() {
     const title = document.getElementById('new-question-title').value;
-    const content = document.getElementById('new-question-content').value;
+    // const content = document.getElementById('new-question-content').value;
+    const content = quill.root.innerHTML; // 에디터의 내용을 가져옵니다.
 
     if (!username) {
         alert('글을 작성하려면 로그인이 필요합니다!');
@@ -337,7 +341,8 @@ function createQuestion() {
     });
 
     document.getElementById('new-question-title').value = "";
-    document.getElementById('new-question-content').value = "";
+    // document.getElementById('new-question-content').value = "";
+    quill.setContents([]); // 에디터의 내용을 초기화합니다.
 }
 
 function updateQuestion(id) {
