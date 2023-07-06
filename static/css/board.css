@@ -487,4 +487,5 @@ button:disabled {
     height: 30px;
     justify-content: center;
     align-items: center;
+    z-index: 1000;
 }

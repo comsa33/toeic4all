@@ -453,7 +453,7 @@ function editQuestion(id) {
             const editQuestionTitle = document.getElementById('edit-question-title');
             const myModal = document.getElementById('myModal');
             const editQuestionSubmit = document.getElementById('edit-question-submit');
-            const spans = document.getElementsByClassName("close");
+            const spans = document.getElementsByClassName("close-icon");
 
             if (editQuestionTitle) {
                 editQuestionTitle.value = data.title;
