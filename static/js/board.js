@@ -441,7 +441,6 @@ function updateQuestion(id) {
     });
 }
 
-
 function editQuestion(id) {
     fetch(apiEndpoint + 'board_questions/' + id)
         .then(response => response.json())
@@ -454,11 +453,6 @@ function editQuestion(id) {
             if (editQuestionTitle) {
                 editQuestionTitle.value = data.title;
             }
-            
-            if (quillEdit) {
-                quillEdit.clipboard.dangerouslyPasteHTML(data.content);
-            }
-            
             if (myModal) {
                 myModal.style.display = "block";
             }
@@ -468,7 +462,7 @@ function editQuestion(id) {
                     if (myModal) {
                         myModal.style.display = "none";
                         editQuestionTitle.value = "";
-                        quillEdit.root.innerHTML = "";
+                        editQuestionQuill.setContents([]);
                     }
                 };
             }
@@ -478,7 +472,7 @@ function editQuestion(id) {
                     if (myModal) {
                         myModal.style.display = "none";
                         editQuestionTitle.value = "";
-                        quillEdit.root.innerHTML = "";
+                        editQuestionQuill.setContents([]);
                     }
                 }
             }
@@ -486,9 +480,14 @@ function editQuestion(id) {
                 if (myModal && event.target == myModal) {
                     myModal.style.display = "none";
                     editQuestionTitle.value = "";
-                    quillEdit.root.innerHTML = "";
+                    editQuestionQuill.setContents([]);
                 }
             }
+
+            // Quill 인스턴스에 기존 게시글 내용 설정
+            const editQuestionContent = document.getElementById('edit-question-content');
+            var editQuestionQuill = new Quill(editQuestionContent, options);
+            editQuestionQuill.setContents(JSON.parse(data.content));
         });
 }
 
