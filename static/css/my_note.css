@@ -241,6 +241,7 @@ body {
 
 #my-tests {
     display: grid;
+    padding-left: 25px;
     grid-template-columns: repeat(1, 1fr);
     grid-gap: 10px;
     align-content: center;
