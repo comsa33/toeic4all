@@ -416,7 +416,7 @@ const createAnswer = (questionId) => {
 
 function updateQuestion(id) {
     const title = document.getElementById('edit-question-title').value;
-    const content = quillEdit.root.innerHTML;
+    const content = editQuestionQuill.root.innerHTML;  // 'quillEdit'를 'editQuestionQuill'로 수정했습니다.
 
     if (!title || !content) {
         alert('모든 필드를 채워주세요!');
@@ -442,6 +442,9 @@ function updateQuestion(id) {
         }
     });
 }
+
+// 전역 변수로 Quill 인스턴스를 선언합니다.
+var editQuestionQuill = null;
 
 function editQuestion(id) {
     fetch(apiEndpoint + 'board_questions/' + id)
@@ -486,11 +489,13 @@ function editQuestion(id) {
                 }
             }
 
-            // Quill 인스턴스를 생성합니다.
-            const editQuestionContent = document.getElementById('edit-question-content');
-            var editQuestionQuill = new Quill(editQuestionContent, {
-                theme: 'snow'  // 이 테마는 기본적인 툴바를 제공합니다.
-            });
+            // Quill 인스턴스가 아직 생성되지 않았다면 새로 생성합니다.
+            if (!editQuestionQuill) {
+                const editQuestionContent = document.getElementById('edit-question-content');
+                editQuestionQuill = new Quill(editQuestionContent, {
+                    theme: 'snow'  // 이 테마는 기본적인 툴바를 제공합니다.
+                });
+            }
 
             // Quill 인스턴스에 기존 게시글 내용 설정
             editQuestionQuill.clipboard.dangerouslyPasteHTML(data.content);
