@@ -86,6 +86,12 @@ function timeSince(date) {
     return Math.floor(seconds) + " 초 전";
 }
 
+function decodeHTML(html) {
+    var txt = document.createElement("textarea");
+    txt.innerHTML = html;
+    return txt.value;
+}
+
 let currentPage = 1;  // 현재 페이지를 저장하는 전역 변수
 const perPage = 10;  // 한 페이지에 보여줄 게시글의 수
 
@@ -111,7 +117,8 @@ function getQuestions(page = 1) {
 
             data.questions.forEach(question => {
                 let id = question.id;
-                const safeHTML = DOMPurify.sanitize(question.content);
+                let originalHTML = decodeHTML(question.content);
+                const safeHTML = DOMPurify.sanitize(originalHTML);
                 const div = document.createElement('div');
                 const profilePicture = question.profile_picture || '/static/images/profile1.png';
 
@@ -186,7 +193,8 @@ function getQuestion(id, answerPage = 1) {
 
             const profilePicture = data.profile_picture || '/static/images/profile1.png';
 
-            const safeHTML = DOMPurify.sanitize(data.content);
+            let originalHTML = decodeHTML(question.content);
+            const safeHTML = DOMPurify.sanitize(originalHTML);
             board.innerHTML = `
                 <button type="button" id="button-get-questions" class="button-text" onclick="getQuestions()">﹤전체목록보기</button>
                 <div class="question-box">
