@@ -540,17 +540,17 @@ document.addEventListener('DOMContentLoaded', function() {
         createAnswerButton.addEventListener('click', () => createAnswer(currentQuestionId));
     }
 
-    // New code to auto-resize textarea elements
-    const autoResizeTextareas = ['new-question-content', 'edit-question-content', 'new-answer'];
-    autoResizeTextareas.forEach(id => {
-        const textarea = document.getElementById(id);
-        if (textarea) {
-            textarea.addEventListener('input', function() {
-                this.style.height = 'auto';
-                this.style.height = this.scrollHeight + 'px';
-            }, false);
-        }
-    });
+    // // New code to auto-resize textarea elements
+    // const autoResizeTextareas = ['new-question-content', 'edit-question-content', 'new-answer'];
+    // autoResizeTextareas.forEach(id => {
+    //     const textarea = document.getElementById(id);
+    //     if (textarea) {
+    //         textarea.addEventListener('input', function() {
+    //             this.style.height = 'auto';
+    //             this.style.height = this.scrollHeight + 'px';
+    //         }, false);
+    //     }
+    // });
 });
 
 document.getElementById('toggle-guidelines-button').addEventListener('click', function() {
