@@ -199,7 +199,7 @@ function getQuestion(id, answerPage = 1) {
                         </div>
                         <div>
                             <p class="question-title">${data.title}</p>
-                            <div class="questions-contents">${contentWithBreaks}</div>
+                            <div class="question-contents">${contentWithBreaks}</div>
                         </div>
                         <div class="like-container">
                             <div id="like-count-question-${id}">${data.likes}</div>
