@@ -193,7 +193,7 @@ function getQuestion(id, answerPage = 1) {
 
             const profilePicture = data.profile_picture || '/static/images/profile1.png';
 
-            let originalHTML = decodeHTML(question.content);
+            let originalHTML = decodeHTML(data.content);
             const safeHTML = DOMPurify.sanitize(originalHTML);
             board.innerHTML = `
                 <button type="button" id="button-get-questions" class="button-text" onclick="getQuestions()">﹤전체목록보기</button>
