@@ -353,35 +353,6 @@ function createQuestion() {
     quill.setContents([]); // 에디터의 내용을 초기화합니다.
 }
 
-function updateQuestion(id) {
-    const title = document.getElementById('edit-question-title').value;
-    const content = document.getElementById('edit-question-content').value;
-
-    if (!title || !content) {
-        alert('모든 필드를 채워주세요!');
-        return;
-    }
-
-    fetchWithToken(apiEndpoint + 'board_questions/' + id, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            title: title,
-            content: content
-        })
-    })
-    .then(response => {
-        if (response.ok) {
-            getQuestion(id, currentAnswerPage)
-            document.getElementById('myModal').style.display = "none";
-        } else {
-            alert('질문 수정 실패!');
-        }
-    });
-}
-
 function deleteQuestion(id) {
     fetchWithToken(apiEndpoint + 'board_questions/' + id, {
         method: 'DELETE'
@@ -441,12 +412,41 @@ const createAnswer = (questionId) => {
     document.getElementById('new-answer').value = "";
 }
 
+function updateQuestion(id) {
+    const title = document.getElementById('edit-question-title').value;
+    const content = quillEdit.root.innerHTML;
+
+    if (!title || !content) {
+        alert('모든 필드를 채워주세요!');
+        return;
+    }
+
+    fetchWithToken(apiEndpoint + 'board_questions/' + id, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            title: title,
+            content: content
+        })
+    })
+    .then(response => {
+        if (response.ok) {
+            getQuestion(id, currentAnswerPage)
+            document.getElementById('myModal').style.display = "none";
+        } else {
+            alert('질문 수정 실패!');
+        }
+    });
+}
+
+
 function editQuestion(id) {
     fetch(apiEndpoint + 'board_questions/' + id)
         .then(response => response.json())
         .then(data => {
             const editQuestionTitle = document.getElementById('edit-question-title');
-            const editQuestionContent = document.getElementById('edit-question-content');
             const myModal = document.getElementById('myModal');
             const editQuestionSubmit = document.getElementById('edit-question-submit');
             const spans = document.getElementsByClassName("close");
@@ -454,9 +454,11 @@ function editQuestion(id) {
             if (editQuestionTitle) {
                 editQuestionTitle.value = data.title;
             }
-            if (editQuestionContent) {
-                editQuestionContent.value = data.content;
+            
+            if (quillEdit) {
+                quillEdit.clipboard.dangerouslyPasteHTML(data.content);
             }
+            
             if (myModal) {
                 myModal.style.display = "block";
             }
@@ -466,7 +468,7 @@ function editQuestion(id) {
                     if (myModal) {
                         myModal.style.display = "none";
                         editQuestionTitle.value = "";
-                        editQuestionContent.value = "";
+                        quillEdit.root.innerHTML = "";
                     }
                 };
             }
@@ -476,7 +478,7 @@ function editQuestion(id) {
                     if (myModal) {
                         myModal.style.display = "none";
                         editQuestionTitle.value = "";
-                        editQuestionContent.value = "";
+                        quillEdit.root.innerHTML = "";
                     }
                 }
             }
@@ -484,7 +486,7 @@ function editQuestion(id) {
                 if (myModal && event.target == myModal) {
                     myModal.style.display = "none";
                     editQuestionTitle.value = "";
-                    editQuestionContent.value = "";
+                    quillEdit.root.innerHTML = "";
                 }
             }
         });
@@ -598,3 +600,11 @@ function toggleLike(type, id) {
             }
         });
 }
+
+let quillEdit;
+
+window.onload = function() {
+  quillEdit = new Quill('#edit-question-content', {
+    theme: 'snow'
+  });
+};
