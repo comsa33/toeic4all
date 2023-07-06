@@ -118,7 +118,7 @@ button:disabled {
     margin-left: auto;
 }
 
-.button-text {
+.answers-text {
     font-weight: bold;
     background-color: transparent;
     border: none;
@@ -130,11 +130,24 @@ button:disabled {
     margin-bottom: 20px;
 }
 
-.button-text:hover {
+.question {
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.question:hover {
+    background: rgba(255, 255, 255, 0.1); /* 투명한 흰색 배경 */
+}
+
+.question:active {
+    background: rgba(255, 255, 255, 0.3); /* 클릭 시에 더 진한 투명한 흰색 배경 */
+}
+
+.answers-text:hover {
     color: var(--hover-color);
 }
 
-.button-text:active {
+.answers-text:active {
     color: var(--hover-color);
 }
 
@@ -184,7 +197,12 @@ button:disabled {
 }
 
 .question-contents {
-    font-size: 0.9em;
+    font-size: 0.85em;
+    color: rgb(55, 55, 55);
+}
+
+.questions-contents {
+    font-size: 0.85em;
     color: rgb(55, 55, 55);
     display: -webkit-box;
     -webkit-line-clamp: 2;

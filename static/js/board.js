@@ -123,7 +123,7 @@ function getQuestions(page = 1) {
                         </div>
                         <div>
                             <p class="question-title">${question.title}</p>
-                            <div class="question-contents">${contentWithBreaks}<span class="read-more">...더보기</span></div>
+                            <div class="questions-contents">${contentWithBreaks}<span class="read-more">...더보기</span></div>
                         </div>
                         <div class="like-container">
                             <div id="like-count-question-${id}">${question.likes}</div>
