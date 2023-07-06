@@ -2,14 +2,10 @@ let currentQuestionId = null;
 let username = null;
 const apiEndpoint = "/user/board/";
 
-// Quill 설정을 위한 옵션 객체를 별도로 선언합니다.
-var options = {
-    theme: 'snow'  // 이 테마는 기본적인 툴바를 제공합니다.
-};
+var quill = new Quill('#new-question-content', {
+    theme: 'snow'
+});
 
-// 새 질문을 작성할 때 사용할 Quill 인스턴스를 생성합니다.
-var quill = new Quill('#new-question-content', options);
-var options = quill.options;
 
 function getUsername() {
     return new Promise((resolve, reject) => {
@@ -447,6 +443,12 @@ function updateQuestion(id) {
     });
 }
 
+// Quill 인스턴스를 생성합니다.
+const editQuestionContent = document.getElementById('edit-question-content');
+var editQuestionQuill = new Quill(editQuestionContent, {
+    theme: 'snow'  // 이 테마는 기본적인 툴바를 제공합니다.
+});
+
 function editQuestion(id) {
     fetch(apiEndpoint + 'board_questions/' + id)
         .then(response => response.json())
@@ -491,9 +493,15 @@ function editQuestion(id) {
             }
 
             // Quill 인스턴스에 기존 게시글 내용 설정
-            const editQuestionContent = document.getElementById('edit-question-content');
-            var editQuestionQuill = new Quill(editQuestionContent, options);
-            editQuestionQuill.setContents(JSON.parse(data.content));
+            var parsedData = null;
+            try {
+                parsedData = JSON.parse(data.content);
+            } catch (error) {
+                console.error('JSON parsing failed:', error);
+            }
+            if (parsedData) {
+                editQuestionQuill.setContents(parsedData);
+            }
         });
 }
 
