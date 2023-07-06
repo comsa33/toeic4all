@@ -498,7 +498,7 @@ function editQuestion(id) {
             }
 
             // Quill 인스턴스에 기존 게시글 내용 설정
-            editQuestionQuill.clipboard.dangerouslyPasteHTML(data.content);
+            editQuestionQuill.clipboard.dangerouslyPasteHTML(decodeHTML(data.content));
         });
 }
 
