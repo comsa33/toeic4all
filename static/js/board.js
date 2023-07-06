@@ -2,9 +2,28 @@ let currentQuestionId = null;
 let username = null;
 const apiEndpoint = "/user/board/";
 
-var quill = new Quill('#new-question-content', {
+var toolbarOptions = [
+    ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+    ['blockquote', 'code-block'],
+    [{'header': 1}, {'header': 2}],                   // custom button values
+    [{'list': 'ordered'}, {'list': 'bullet'}],
+    [{'script': 'sub'}, {'script': 'super'}],         // superscript/subscript
+    [{'indent': '-1'}, {'indent': '+1'}],             // outdent/indent
+    [{'direction': 'rtl'}],                           // text direction
+    [{'size': ['small', false, 'large', 'huge']}],    // custom dropdown
+    [{'header': [1, 2, 3, 4, 5, 6, false]}],
+    [{'color': []}, {'background': []}],              // dropdown with defaults from theme
+    [{'font': []}],
+    [{'align': []}],                                  // text align
+    ['clean']                                         // remove formatting button
+];
+
+var quill_options = {
+    modules: toolbarOptions,
     theme: 'snow'
-});
+  };
+var quill = new Quill('#new-question-content', quill_options);
+  
 
 
 function getUsername() {
@@ -492,9 +511,7 @@ function editQuestion(id) {
             // Quill 인스턴스가 아직 생성되지 않았다면 새로 생성합니다.
             if (!editQuestionQuill) {
                 const editQuestionContent = document.getElementById('edit-question-content');
-                editQuestionQuill = new Quill(editQuestionContent, {
-                    theme: 'snow'  // 이 테마는 기본적인 툴바를 제공합니다.
-                });
+                editQuestionQuill = new Quill(editQuestionContent, quill_options);
             }
 
             // Quill 인스턴스에 기존 게시글 내용 설정
