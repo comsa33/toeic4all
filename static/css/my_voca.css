@@ -91,6 +91,11 @@
     }
 }
 
+.custom-control-label {
+  margin-right: 15px;
+  margin-bottom: 10px;
+}
+
 .page-link {
   font-size: .8em;
   font-weight: 300;
@@ -104,6 +109,7 @@
 #vocab-table-info-text {
   font-size: 0.7em;
   font-weight: 400;
+  margin-left: 20px;
   margin-bottom: 10px;
   color: rgb(228, 68, 68)
 }
