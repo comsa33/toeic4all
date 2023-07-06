@@ -126,6 +126,7 @@ button:disabled {
 }
 
 .button-text {
+    font-size: 1.2em;
     font-weight: bold;
     background-color: transparent;
     border: none;
@@ -242,8 +243,8 @@ button:disabled {
 }
 
 #create-answer-button {
-    width: 3.9em;
-    height: 3.75em;
+    width: 50px;
+    height: 50px;
     border-radius: 0px;
     box-shadow: none;
 }
@@ -259,10 +260,12 @@ button:disabled {
 }
 
 #new-answer {
+    border-radius: 0;
     height: 50px !important;
     background-color: #00000015;
     flex-grow: 1;
-    padding: 10px;
+    padding-left: 20px;
+    font-size: 1.1em;
 }
 
 #new-question-title {

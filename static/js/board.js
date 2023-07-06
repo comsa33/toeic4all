@@ -19,8 +19,22 @@ var quill_options = {
     theme: 'snow'
   };
 var quill = new Quill('#new-question-content', quill_options);
-  
 
+let userProfilePicture = null;
+
+var token = localStorage.getItem('access_token');
+$(document).ready(function() {
+    if (token) {
+        makeRequest(
+            'GET',
+            'https://toeic4all.com/user/status',
+            { 'Authorization': `Bearer ${token}` },
+            function(data) {
+                userProfilePicture = data.profile_picture;
+            }
+        );
+    }
+});
 
 function getUsername() {
     return new Promise((resolve, reject) => {
@@ -258,6 +272,8 @@ function getQuestion(id, answerPage = 1) {
             const answersTitle = document.querySelector("#answers-section h4");
             answersTitle.textContent = `게시물 답변 (${data.answerCount})`;
 
+            const userProfilePictureContent = document.getElementById('user-profile-picture');
+            userProfilePictureContent.innerHTML = `<img src="${profilePicture}" width="50" height="50" class="profile-img">`;
             fetchWithToken(`${apiEndpoint}board_questions/${id}/answers?page=${currentAnswerPage}&per_page=${answersPerPage}`)
                 .then(response => response.json())
                 .then(response => {

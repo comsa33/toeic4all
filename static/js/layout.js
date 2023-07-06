@@ -58,7 +58,6 @@ function updateUI(isLoggedIn, username, profile_picture) {
     }
 }
 
-
 $(document).ready(function() {
     var token = localStorage.getItem('access_token');
     if (token) {
