@@ -1,9 +1,15 @@
 let currentQuestionId = null;
 let username = null;
 const apiEndpoint = "/user/board/";
-var quill = new Quill('#new-question-content', {
+
+// Quill 설정을 위한 옵션 객체를 별도로 선언합니다.
+var options = {
     theme: 'snow'  // 이 테마는 기본적인 툴바를 제공합니다.
-});
+};
+
+// 새 질문을 작성할 때 사용할 Quill 인스턴스를 생성합니다.
+var quill = new Quill('#new-question-content', options);
+var options = quill.options;
 
 function getUsername() {
     return new Promise((resolve, reject) => {
