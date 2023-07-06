@@ -186,7 +186,7 @@ function getQuestion(id, answerPage = 1) {
 
             const profilePicture = data.profile_picture || '/static/images/profile1.png';
 
-            let contentWithBreaks = question.content;
+            let contentWithBreaks = data.content;
             board.innerHTML = `
                 <button type="button" id="button-get-questions" class="button-text" onclick="getQuestions()">﹤전체목록보기</button>
                 <div class="question-box">
