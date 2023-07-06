@@ -83,7 +83,7 @@ input {
 
 textarea {
     border: none;
-    padding: 10px 80px 30px 10px;
+    padding: 10px;
     outline: none;
     resize: none;
     width: 100%;
@@ -119,7 +119,7 @@ button:disabled {
 }
 
 .answers-text {
-    font-size: .8em;
+    font-size: .9em;
     font-weight: 400;
     color: gray;
     margin-bottom: 0;
@@ -196,6 +196,7 @@ button:disabled {
 
 .question-title {
     font-weight: bold;
+    font-size: .9em;
 }
 
 .question-date, .answer-date {
@@ -212,7 +213,7 @@ button:disabled {
     font-size: 0.85em;
     color: rgb(55, 55, 55);
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;  
     overflow: hidden;
     text-overflow: ellipsis;
@@ -236,6 +237,10 @@ button:disabled {
     text-align: center;
 }
 
+#create-question-button {
+    width: 100%;
+}
+
 #create-answer-button {
     width: 3.9em;
     height: 3.75em;
@@ -257,6 +262,7 @@ button:disabled {
     height: 50px !important;
     background-color: #00000015;
     flex-grow: 1;
+    padding: 10px;
 }
 
 #new-question-title {
@@ -287,9 +293,6 @@ button:disabled {
 }
 
 #edit-question-form {
-    border: 1.5px solid #888;
-    padding: 20px;
-    border-radius: 10px;
     position: relative;
 }
 
@@ -299,9 +302,8 @@ button:disabled {
 }
 
 #edit-question-submit {
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
+    width: 100%;
+    margin-top: 10px;
 }
 
 #community-guidelines-section {
@@ -395,8 +397,7 @@ button:disabled {
 }
 
 .edit:hover, .delete:hover {
-    color: #1a91da;
-    font-weight: bold;
+    color: var(--hover-color);
 }
 
 .board-wrapper {
@@ -429,6 +430,8 @@ button:disabled {
     align-items: center;
     padding-top: 10px;
     padding-bottom: 10px;
+    font-size: .9em;
+    font-weight: 300;
 }
 
 .author-date-container {
@@ -459,7 +462,7 @@ button:disabled {
 .modal-content {
     background-color: #fefefe;
     margin: auto;
-    padding: 20px;
+    padding: 15px;
     border: 1px solid #888;
     width: 80%;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
