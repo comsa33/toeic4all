@@ -119,6 +119,13 @@ button:disabled {
 }
 
 .answers-text {
+    font-size: .8em;
+    font-weight: 400;
+    color: gray;
+    margin-bottom: 0;
+}
+
+.button-text {
     font-weight: bold;
     background-color: transparent;
     border: none;
@@ -130,25 +137,25 @@ button:disabled {
     margin-bottom: 20px;
 }
 
+.button-text:hover {
+    color: var(--hover-color);
+}
+
+.button-text:active {
+    color: var(--hover-color);
+}
+
 .question {
     cursor: pointer;
     transition: background 0.3s;
 }
 
 .question:hover {
-    background: rgba(255, 255, 255, 0.1); /* 투명한 흰색 배경 */
+    background: rgba(128, 128, 128, 0.1); /* 투명한 흰색 배경 */
 }
 
 .question:active {
-    background: rgba(255, 255, 255, 0.3); /* 클릭 시에 더 진한 투명한 흰색 배경 */
-}
-
-.answers-text:hover {
-    color: var(--hover-color);
-}
-
-.answers-text:active {
-    color: var(--hover-color);
+    background: rgba(128, 128, 128, 0.3); /* 클릭 시에 더 진한 투명한 흰색 배경 */
 }
 
 #button-get-questions {
@@ -410,9 +417,18 @@ button:disabled {
     box-shadow: none;
 }
 
+.liked:hover, .like-button:hover {
+    font-size: 0.8em;
+    color: rgb(255, 89, 89);
+    background-color: transparent;
+    box-shadow: none;
+}
+
 .like-container {
     display: flex;
     align-items: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .author-date-container {
