@@ -123,7 +123,7 @@ function getQuestions(page = 1) {
                         </div>
                         <div>
                             <p class="question-title">${question.title}</p>
-                            <p class="question-contents">${contentWithBreaks}</p>
+                            <div class="question-contents">${contentWithBreaks}<span class="read-more">...더보기</span></div>
                         </div>
                         <div class="like-container">
                             <div id="like-count-question-${id}">${question.likes}</div>
@@ -132,12 +132,18 @@ function getQuestions(page = 1) {
                             </button>
                         </div>
                     </div>
-                    <button type="button" class="button-text" onclick="getQuestion(${question.id}, 1)">답변확인 (${question.answerCount})</button>
-                `;
+                    <div class="answers-text">답변 (${question.answerCount})</div>
+                    `;
+                
+                div.addEventListener('click', function() {
+                    getQuestion(question.id, 1);
+                });
+
                 board.appendChild(div);
             
                 // 좋아요 버튼을 찾아 이벤트 리스너를 설정합니다.  
-                document.getElementById(`like-button-question-${id}`).addEventListener('click', function() {
+                document.getElementById(`like-button-question-${id}`).addEventListener('click', function(event) {
+                    event.stopPropagation();  // 부모 요소인 div의 클릭 이벤트가 실행되지 않도록 막습니다.
                     toggleLike('board_questions', id);
                 });
             });
