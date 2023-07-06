@@ -447,7 +447,7 @@ button:disabled {
 .modal {
     display: none; 
     position: fixed;
-    top: 50%;
+    top: 35%;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 1; 
@@ -464,7 +464,7 @@ button:disabled {
     margin: auto;
     padding: 15px;
     border: 1px solid #888;
-    width: 80%;
+    width: 100%;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
     -webkit-animation-name: animatetop;
     -webkit-animation-duration: 0.4s;
@@ -475,4 +475,16 @@ button:disabled {
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 2;
+}
+
+.close-icon {
+    display: flex;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    justify-content: center;
+    align-items: center;
 }
