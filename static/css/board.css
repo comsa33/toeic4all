@@ -279,6 +279,7 @@ button:disabled {
 }
 
 #new-question-content {
+    font-size: 1.2em;
     height: 150px;
 }
 
@@ -287,6 +288,7 @@ button:disabled {
 }
 
 #edit-question-content {
+    font-size: 1.2em;
     height: 270px;
 }
 
