@@ -165,9 +165,9 @@ body #hamburger-btn {
     position: fixed;
     top: 0px;
     left: 0;
-    width: 60%;
+    width: 75%;
     height: 100vh;
-    background-color: #ff9797de;
+    background-color: #ff9797;
     padding: 1rem;
     box-sizing: border-box;
     transform: translateX(-100%);
@@ -264,4 +264,14 @@ body #hamburger-btn {
 footer a:hover {
     transition: color 0.3s ease;
     color: #ff6347;
+}
+
+#hr-bar {
+    border-top: 1px solid #ffffff98;
+    margin-bottom: 30px;
+}
+
+#mobile-nav-links-left li i {
+    font-size: 0.8em;
+    color: rgb(255, 199, 199);
 }
