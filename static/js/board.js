@@ -8,6 +8,7 @@ var toolbarOptions = [
     [{'color': []}, {'background': []}],              // dropdown with defaults from theme
     [{'list': 'ordered'}, {'list': 'bullet'}],
     ['blockquote', 'code-block'],
+    ['link'],
     ['clean']                                         // remove formatting button
 ];
 
