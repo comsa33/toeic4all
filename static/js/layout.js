@@ -125,12 +125,13 @@ function scrollFunction() {
     let hamburgerIcon = hamburgerBtn.querySelector('i'); // 햄버거 아이콘 참조 추가
 
     if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
-        navbar.style.height = "12px";
+        navbar.style.height = "10px";
         navbar.style.backgroundColor = '#d2d2d2';
         title.style.fontSize = "10px";
         title.style.fontWeight = "300";
         title.style.color = '#333'; // 폰트 색상을 다크 그레이로 변경
         hamburgerIcon.style.fontSize = "12px"; // 햄버거 아이콘 크기 조정
+        hamburgerIcon.style.color = '#333'; // 햄버거 아이콘 색상 조정
     } else {
         navbar.style.height = "50px";
         navbar.style.backgroundColor = '#f87272';
@@ -138,5 +139,6 @@ function scrollFunction() {
         title.style.fontWeight = "500";
         title.style.color = '#fff'; // 폰트 색상을 원래대로(흰색) 변경
         hamburgerIcon.style.fontSize = "1.5rem"; // 햄버거 아이콘 원래 크기로 복구
+        hamburgerIcon.style.color = '#fff'; // 햄버거 아이콘 원래 색상으로 복구
     }
 }
