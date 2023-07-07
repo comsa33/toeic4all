@@ -91,7 +91,6 @@
     height: 20vh;
     min-height: 200px;
     overflow: hidden;
-    margin-top: 70px;
 }
 
 .blur-bg-image {
@@ -182,6 +181,10 @@
 }
 
 @media (max-width: 600px) {
+    .my-img-container {
+        margin-top: 70px;
+    }
+
     .flex-container {
       flex-direction: column;
       gap: 0;

@@ -24,7 +24,6 @@ h1.display-4 {
     height: 20vh;
     min-height: 450px;
     overflow: hidden;
-    margin-top: 70px;
 }
 
 .blur-bg-image {
@@ -143,4 +142,10 @@ h1.display-4 {
 
 .btn-primary:hover {
     background-color: #d74444;
+}
+
+@media (max-width: 600px) {
+    .my-img-container {
+        margin-top: 70px;
+    }
 }
