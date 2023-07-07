@@ -123,12 +123,12 @@ function scrollFunction() {
     let title = document.getElementById("mobile-title");
     if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
         navbar.style.height = "15px"; // 원하는 최소 높이
-        navbar.style.backgroundColor = 'rgba(248, 114, 114, 0.5)'; // 배경색을 점점 연해짐
-        title.style.fontSize = "0.5rem"; // 원하는 최소 폰트 사이즈
+        navbar.style.backgroundColor = 'hsl(3, 100%, 80%)'; // 더 연한 색상
+        title.style.fontSize = "8px"; // 'px' 단위를 사용하여 더 작은 폰트 사이즈를 설정
         title.style.fontWeight = "300";
     } else {
         navbar.style.height = "70px"; // 원래 높이
-        navbar.style.backgroundColor = 'rgba(248, 114, 114, 1)'; // 원래 배경색
+        navbar.style.backgroundColor = 'hsl(3, 100%, 60%)'; // 원래 색상
         title.style.fontSize = "1.5rem"; // 원래 폰트 사이즈
         title.style.fontWeight = "500";
     }
