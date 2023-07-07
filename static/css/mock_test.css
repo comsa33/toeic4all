@@ -86,6 +86,7 @@
     height: 20vh;
     min-height: 200px;
     overflow: hidden;
+    margin-top: 70px;
 }
 
 .blur-bg-image {
