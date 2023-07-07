@@ -289,6 +289,11 @@
     }
 }
 
+.nav-button {
+    display: flex;
+    justify-content: center;
+}
+
 #prev-next-button {
     text-align: center;
     gap: 40px;
