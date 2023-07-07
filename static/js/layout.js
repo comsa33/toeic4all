@@ -128,7 +128,7 @@ function scrollFunction() {
         title.style.fontWeight = "300";
     } else {
         navbar.style.height = "50px"; // 원래 높이
-        navbar.style.backgroundColor = 'hsl(3, 100%, 60%)'; // 원래 색상
+        navbar.style.backgroundColor = '#f87272'; // 원래 색상
         title.style.fontSize = "1.5rem"; // 원래 폰트 사이즈
         title.style.fontWeight = "500";
     }
