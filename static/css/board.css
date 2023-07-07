@@ -121,22 +121,18 @@ button:disabled {
     margin-left: auto;
 }
 
-.likes-text {
+.likes-text, .answers-text {
+    display: flex;
     font-size: 1em;
     font-weight: 300;
     margin-bottom: 0;
     gap: 5px;
-}
-
-.answers-text {
-    font-size: 1em;
-    font-weight: 300;
-    margin-bottom: 0;
-    gap: 5px;
+    align-items: center;
 }
 
 #comment-icon {
     color: rgb(173, 173, 173);
+    padding: 10px;
 }
 
 .button-text {
