@@ -127,9 +127,9 @@ function scrollFunction() {
     if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
         navbar.style.height = "15px";
         navbar.style.backgroundColor = '#c2c2c2';
-        title.style.fontSize = "8px";
+        title.style.fontSize = "10px";
         title.style.fontWeight = "300";
-        hamburgerIcon.style.fontSize = "15px"; // 햄버거 아이콘 크기 조정
+        hamburgerIcon.style.fontSize = "12px"; // 햄버거 아이콘 크기 조정
     } else {
         navbar.style.height = "50px";
         navbar.style.backgroundColor = '#f87272';
