@@ -289,15 +289,21 @@
     }
 }
 
-.nav-button {
-    display: flex;
-    justify-content: center;
-}
-
 #prev-next-button {
     text-align: center;
     justify-content: center;
     padding-top: 15px;
+    gap: 20px;
+}
+
+.nav-button-prev {
+    display: flex;
+    justify-content: right;
+}
+
+.nav-button-next {
+    display: flex;
+    justify-content: left;
 }
 
 #prev-question-btn, #next-question-btn {
