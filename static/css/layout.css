@@ -139,7 +139,6 @@ nav ul .active a {
 .content {
     display: block;
     background-color: #fff;
-    margin-top: 70px;
 }
 
 #nav-user {
@@ -221,6 +220,9 @@ body #hamburger-btn {
 }
 
 @media (max-width: 600px) {
+    .content {
+        margin-top: 70px;
+    }
     #desktop-nav {
         display: none;
     }
