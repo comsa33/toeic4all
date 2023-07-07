@@ -312,5 +312,5 @@ footer a:hover {
 }
 
 #mobile-nav, #mobile-title, #hamburger-btn i {
-    transition: all 0.3s ease-in-out;
+    transition: all 0.2s ease-out;
 }
