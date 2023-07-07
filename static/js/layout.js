@@ -121,15 +121,20 @@ window.onscroll = function() {scrollFunction()};
 function scrollFunction() {
     let navbar = document.getElementById("mobile-nav");
     let title = document.getElementById("mobile-title");
+    let hamburgerBtn = document.getElementById("hamburger-btn"); // 햄버거 버튼 참조 추가
+    let hamburgerIcon = hamburgerBtn.querySelector('i'); // 햄버거 아이콘 참조 추가
+
     if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
-        navbar.style.height = "15px"; // 원하는 최소 높이
-        navbar.style.backgroundColor = '#c2c2c2'; // 더 연한 색상
-        title.style.fontSize = "8px"; // 'px' 단위를 사용하여 더 작은 폰트 사이즈를 설정
+        navbar.style.height = "15px";
+        navbar.style.backgroundColor = '#c2c2c2';
+        title.style.fontSize = "8px";
         title.style.fontWeight = "300";
+        hamburgerIcon.style.fontSize = "15px"; // 햄버거 아이콘 크기 조정
     } else {
-        navbar.style.height = "50px"; // 원래 높이
-        navbar.style.backgroundColor = '#f87272'; // 원래 색상
-        title.style.fontSize = "1.5rem"; // 원래 폰트 사이즈
+        navbar.style.height = "50px";
+        navbar.style.backgroundColor = '#f87272';
+        title.style.fontSize = "1.5rem";
         title.style.fontWeight = "500";
+        hamburgerIcon.style.fontSize = "1.5rem"; // 햄버거 아이콘 원래 크기로 복구
     }
 }
