@@ -54,7 +54,7 @@ body {
 #mobile-title a {
     font-weight: bold; /* 타이틀을 두껍게 만듦 */
     color: white; /* 텍스트 색상을 흰색으로 변경 */
-    font-size: 1.5rem !important;
+    font-size: 1.5rem;
 }
 
 #nav-user-dropdown{
