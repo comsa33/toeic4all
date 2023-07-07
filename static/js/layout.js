@@ -123,7 +123,7 @@ function scrollFunction() {
     let title = document.getElementById("mobile-title");
     if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
         navbar.style.height = "15px"; // 원하는 최소 높이
-        navbar.style.backgroundColor = 'hsl(3, 100%, 80%)'; // 더 연한 색상
+        navbar.style.backgroundColor = '#c2c2c2'; // 더 연한 색상
         title.style.fontSize = "8px"; // 'px' 단위를 사용하여 더 작은 폰트 사이즈를 설정
         title.style.fontWeight = "300";
     } else {
