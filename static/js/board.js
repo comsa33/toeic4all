@@ -219,142 +219,140 @@ function getQuestions(page = 1) {
 let currentAnswerPage = 1;
 const answersPerPage = 10;
 
-function getQuestion(question, answerPage = 1) {
-    const id = question.id;
-    document.getElementById('new-question-form').style.display = 'none';
-    const board = document.getElementById('board');
-    board.className = 'detail-view';
-
-    const profilePicture = question.profile_picture || '/static/images/profile1.png';
-
-    let originalHTML = decodeHTML(question.content);
-    const safeHTML = DOMPurify.sanitize(originalHTML);
-    board.innerHTML = `
-        <button type="button" id="button-get-questions" class="button-text" onclick="getQuestions()">﹤전체목록보기</button>
-        <div class="question-box">
-            <div class="question-header">
-                <div class="author-date-container">
-                    <img src="${profilePicture}" width="20" height="20" class="profile-img" style="margin-right: 10px;">
-                    <div class="question-author">${question.username}</div>
-                    <span class="separator">·</span>
-                    <div class="question-date">${timeSince(new Date(question.created_at))}</div>
-                </div>
-                <div>
-                    <p class="question-title">${question.title}</p>
-                    <div class="question-contents">${safeHTML}</div>
-                </div>
-                <div class="like-container">
-                    <div class="likes-text">
-                        <div id="like-icon">
-                            <button id="like-button-question-${id}" class="${question.hasLiked ? 'liked' : ''} like-button">
-                                <i class="fas fa-thumbs-up"></i>
-                            </button>
-                        </div>
-                        <div id="like-count-question-${id}">${question.likes}</div>
-                    </div>
-                    <div class="answers-text">
-                        <div id="comment-icon"><i class="fas fa-comment"></i></div>
-                        <div id="comment-count">${question.answerCount}</div>
-                    </div>
-                </div>
-            </div>
-            ${username === question.username ? `
-            <button type="button" class="edit" onclick="editQuestion(${id})">수정</button>
-            <button type="button" class="delete" onclick="deleteQuestion(${id})">삭제</button>
-            ` : ''}
-        </div>
-        <button type="button" id="button-get-questions" class="button-text" onclick="getQuestions()">﹤전체목록보기</button>
-    `;
-
-    document.getElementById(`like-button-question-${id}`).addEventListener('click', function() {
-        toggleLike('board_questions', id);
-    });
-
-    // Hide pagination
-    const pagination = document.getElementById('pagination');
-    if (pagination) {
-        pagination.style.display = 'none';
-    }
-
-    currentQuestionId = id;
-    currentAnswerPage = answerPage;
-    document.getElementById('answers-section').style.display = 'block';
-    
-    // Add answer count to the title
-    const answersTitle = document.querySelector("#answers-section h4");
-    answersTitle.textContent = `게시물 답변 (${question.answerCount})`;
-
-    const userProfilePictureContent = document.getElementById('user-profile-picture');
-    userProfilePictureContent.innerHTML = `<img src="${profilePicture}" width="35" height="35" class="profile-img" style="margin-left: 5px;">`;
-    fetchWithToken(`${apiEndpoint}board_questions/${id}/answers?page=${currentAnswerPage}&per_page=${answersPerPage}`)
+function getQuestion(id, answerPage = 1) {
+    fetchWithToken(apiEndpoint + 'board_questions/' + id)
         .then(response => response.json())
-        .then(response => {
-            const answerSection = document.getElementById('answers');
-            if (answerSection) {
-                answerSection.innerHTML = '';
-                response.answers.forEach(answer => {
-                    let answerContentWithBreaks = answer.content.replace(/(?:\r\n|\r|\n)/g, '<br>');
+        .then(data => {
+            document.getElementById('new-question-form').style.display = 'none';
+            const board = document.getElementById('board');
+            board.className = 'detail-view';
 
-                    const profilePicture = answer.profile_picture || '/static/images/profile1.png';
+            const profilePicture = data.profile_picture || '/static/images/profile1.png';
 
-                    const div = document.createElement('div');
-                    div.className = 'answer separate-answer';
-                    div.innerHTML = `
-                        <div class="answer-content">
-                            <div class="answer-header">
-                                <div class="author-date-container">
-                                    <img src="${profilePicture}" width="20" height="20" class="profile-img" style="margin-right: 10px;">
-                                    <div class="answer-author">${answer.username}</div>
-                                    <span class="separator">·</span>
-                                    <div class="answer-date">${timeSince(new Date(answer.created_at))}</div>
+            let originalHTML = decodeHTML(data.content);
+            const safeHTML = DOMPurify.sanitize(originalHTML);
+            board.innerHTML = `
+                <button type="button" id="button-get-questions" class="button-text" onclick="getQuestions()">﹤전체목록보기</button>
+                <div class="question-box">
+                    <div class="question-header">
+                        <div class="author-date-container">
+                            <img src="${profilePicture}" width="20" height="20" class="profile-img" style="margin-right: 10px;">
+                            <div class="question-author">${data.username}</div>
+                            <span class="separator">·</span>
+                            <div class="question-date">${timeSince(new Date(data.created_at))}</div>
+                        </div>
+                        <div>
+                            <p class="question-title">${data.title}</p>
+                            <div class="question-contents">${safeHTML}</div>
+                        </div>
+                        <div class="like-container">
+                            <div class="likes-text">
+                                <div id="like-icon">
+                                    <button id="like-button-question-${id}" class="${data.hasLiked ? 'liked' : ''} like-button">
+                                        <i class="fas fa-thumbs-up"></i>
+                                    </button>
                                 </div>
-                                <p class="answer-text">${answerContentWithBreaks}</p>
-                                <div class="like-container">
-                                    <div class="likes-text">
-                                        <div id="like-icon">
-                                            <button id="like-button-answer-${answer.id}" class="${answer.hasLiked ? 'liked' : ''} like-button">
-                                                <i class="fas fa-thumbs-up"></i>
-                                            </button>
+                                <div id="like-count-question-${id}">${data.likes}</div>
+                            </div>
+                        </div>
+                    </div>
+                    ${username === data.username ? `
+                    <button type="button" class="edit" onclick="editQuestion(${id})">수정</button>
+                    <button type="button" class="delete" onclick="deleteQuestion(${id})">삭제</button>
+                    ` : ''}
+                </div>
+            `;
+
+        document.getElementById(`like-button-question-${id}`).addEventListener('click', function() {
+            toggleLike('board_questions', id);
+        });
+
+        // Hide pagination
+        const pagination = document.getElementById('pagination');
+        if (pagination) {
+            pagination.style.display = 'none';
+        }
+
+        currentQuestionId = id;
+        currentAnswerPage = answerPage;
+        document.getElementById('answers-section').style.display = 'block';
+        
+        // Add answer count to the title
+        const answersTitle = document.querySelector("#answers-section h4");
+        answersTitle.textContent = `게시물 답변 (${data.answerCount})`;
+
+        const userProfilePictureContent = document.getElementById('user-profile-picture');
+        userProfilePictureContent.innerHTML = `<img src="${profilePicture}" width="35" height="35" class="profile-img" style="margin-left: 5px;">`;
+        fetchWithToken(`${apiEndpoint}board_questions/${id}/answers?page=${currentAnswerPage}&per_page=${answersPerPage}`)
+            .then(response => response.json())
+            .then(response => {
+                const answerSection = document.getElementById('answers');
+                if (answerSection) {
+                    answerSection.innerHTML = '';
+                    response.answers.forEach(answer => {
+                        let answerContentWithBreaks = answer.content.replace(/(?:\r\n|\r|\n)/g, '<br>');
+
+                        const profilePicture = answer.profile_picture || '/static/images/profile1.png';
+
+                        const div = document.createElement('div');
+                        div.className = 'answer separate-answer';
+                        div.innerHTML = `
+                            <div class="answer-content">
+                                <div class="answer-header">
+                                    <div class="author-date-container">
+                                        <img src="${profilePicture}" width="20" height="20" class="profile-img" style="margin-right: 10px;">
+                                        <div class="answer-author">${answer.username}</div>
+                                        <span class="separator">·</span>
+                                        <div class="answer-date">${timeSince(new Date(answer.created_at))}</div>
+                                    </div>
+                                    <p class="answer-text">${answerContentWithBreaks}</p>
+                                    <div class="like-container">
+                                        <div class="likes-text">
+                                            <div id="like-icon">
+                                                <button id="like-button-answer-${answer.id}" class="${answer.hasLiked ? 'liked' : ''} like-button">
+                                                    <i class="fas fa-thumbs-up"></i>
+                                                </button>
+                                            </div>
+                                            <div id="like-count-answer-${answer.id}">${answer.likes}</div>
                                         </div>
-                                        <div id="like-count-answer-${answer.id}">${answer.likes}</div>
                                     </div>
                                 </div>
+                                ${username === answer.username ? `
+                                <div class="button-container">
+                                    <button type="button" class="edit" onclick="editAnswer(${answer.id})">수정</button>
+                                    <button type="button" class="delete" onclick="deleteAnswer(${answer.id})">삭제</button>
+                                </div>
+                                ` : ''}
                             </div>
-                            ${username === answer.username ? `
-                            <div class="button-container">
-                                <button type="button" class="edit" onclick="editAnswer(${answer.id})">수정</button>
-                                <button type="button" class="delete" onclick="deleteAnswer(${answer.id})">삭제</button>
-                            </div>
-                            ` : ''}
-                        </div>
-                    `;
-                    answerSection.appendChild(div);
-                
-                    document.getElementById(`like-button-answer-${answer.id}`).addEventListener('click', function() {
-                        toggleLike('board_answers', answer.id);
+                        `;
+                        answerSection.appendChild(div);
+                    
+                        document.getElementById(`like-button-answer-${answer.id}`).addEventListener('click', function() {
+                            toggleLike('board_answers', answer.id);
+                        });
                     });
-                });
 
-                // Pagination
-                const startPage = Math.floor((currentAnswerPage - 1) / 10) * 10 + 1;
-                let endPage = startPage + 9;
-                const totalPage = Math.ceil(response.total / answersPerPage);
+                    // Pagination
+                    const startPage = Math.floor((currentAnswerPage - 1) / 10) * 10 + 1;
+                    let endPage = startPage + 9;
+                    const totalPage = Math.ceil(response.total / answersPerPage);
 
-                if (endPage > totalPage) {
-                    endPage = totalPage;
+                    if (endPage > totalPage) {
+                        endPage = totalPage;
+                    }
+
+                    const answersPagination = document.getElementById('answers-pagination');
+                    answersPagination.innerHTML = `
+                        ${startPage > 1 ? `<button onclick="getQuestion(${id}, ${startPage - 1})">Prev</button>` : ''}
+                        ${Array.from({length: endPage - startPage + 1}, (_, i) => startPage + i).map(page =>
+                            `<button ${page === currentAnswerPage ? 'class="active"' : ''} onclick="getQuestion(${id}, ${page})">${page}</button>`
+                        ).join('')}
+                        ${endPage < totalPage ? `<button onclick="getQuestion(${id}, ${endPage + 1})">Next</button>` : ''}
+                    `;
                 }
-
-                const answersPagination = document.getElementById('answers-pagination');
-                answersPagination.innerHTML = `
-                    ${startPage > 1 ? `<button onclick="getQuestion(${id}, ${startPage - 1})">Prev</button>` : ''}
-                    ${Array.from({length: endPage - startPage + 1}, (_, i) => startPage + i).map(page =>
-                        `<button ${page === currentAnswerPage ? 'class="active"' : ''} onclick="getQuestion(${id}, ${page})">${page}</button>`
-                    ).join('')}
-                    ${endPage < totalPage ? `<button onclick="getQuestion(${id}, ${endPage + 1})">Next</button>` : ''}
-                `;
             }
-        }
-    );
+        );
+    });
 }
 
 function createQuestion() {
