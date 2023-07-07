@@ -355,7 +355,7 @@ function getQuestion(question, answerPage = 1) {
         }
     );
     setTimeout(function() {
-        document.getElementById('question-box').scrollIntoView({behavior: 'smooth'});
+        document.querySelector('question-box').scrollIntoView({behavior: 'smooth'});
     }, 0);
 }
 
