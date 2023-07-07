@@ -127,7 +127,7 @@ function scrollFunction() {
         title.style.fontSize = "8px"; // 'px' 단위를 사용하여 더 작은 폰트 사이즈를 설정
         title.style.fontWeight = "300";
     } else {
-        navbar.style.height = "70px"; // 원래 높이
+        navbar.style.height = "50px"; // 원래 높이
         navbar.style.backgroundColor = 'hsl(3, 100%, 60%)'; // 원래 색상
         title.style.fontSize = "1.5rem"; // 원래 폰트 사이즈
         title.style.fontWeight = "500";
