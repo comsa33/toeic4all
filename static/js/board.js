@@ -164,11 +164,13 @@ function getQuestions(page = 1) {
                             <div class="questions-contents">${safeHTML}</div>
                         </div>
                         <div class="like-container">
-                            <div id="like-count-question-${id}">${question.likes}</div>
                             <button id="like-button-question-${id}" class="${question.hasLiked ? 'liked' : ''} like-button">
                                 <i class="fas fa-thumbs-up"></i>
                             </button>
-                            <div class="answers-text">· 답변 (${question.answerCount})</div>
+                            <div id="like-count-question-${id}">${question.likes}</div>
+                            <div class="answers-text">
+                                <i class="fas fa-comment"></i>${question.answerCount}
+                            </div>
                         </div>
                     </div>
                     `;
