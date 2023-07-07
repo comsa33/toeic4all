@@ -223,7 +223,6 @@ function getQuestion(question, answerPage = 1) {
     document.getElementById('new-question-form').style.display = 'none';
     const board = document.getElementById('board');
     board.className = 'detail-view';
-    document.getElementById('detail-view').scrollIntoView({behavior: 'smooth'});
 
     const profilePicture = question.profile_picture || '/static/images/profile1.png';
 
@@ -355,6 +354,7 @@ function getQuestion(question, answerPage = 1) {
             }
         }
     );
+    document.getElementById('detail-view').scrollIntoView({behavior: 'smooth'});
 }
 
 function createQuestion() {
