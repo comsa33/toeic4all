@@ -43,8 +43,9 @@ body {
 }
 
 #mobile-nav-header {
-    flex-grow: .7; /* 네비게이션 바의 가용 공간을 채우도록 함 */
-    text-align: center; /* 타이틀을 가운데에 배치 */
+    flex-grow: .85;
+    text-align: center;
+    padding-left: 35px;
 }
 
 #mobile-title a {

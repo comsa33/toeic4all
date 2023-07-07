@@ -211,13 +211,18 @@ button:disabled {
 }
 
 .questions-contents {
+    background-color: white;
     font-size: 0.85em;
     color: rgb(55, 55, 55);
     display: -webkit-box;
     -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;  
+    -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
+    margin-left: -20px;
+    margin-right: -20px;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 .answer-text {
@@ -271,6 +276,8 @@ button:disabled {
 
 #new-question-title {
     border-bottom: 1px solid #ccc;
+    font-size: 1.2em;
+    font-weight: 400;
 }
 
 #new-question-form {
@@ -295,20 +302,28 @@ button:disabled {
 #new-question-form .submit {
     right: 20px;
     bottom: 20px;
+    font-size: 1.2em;
+    font-weight: 200;
 }
 
 #edit-question-form {
     position: relative;
+    margin-top: 30px;
 }
 
 #edit-question-form input {
     border-bottom: 1px solid #ccc;
     margin-bottom: 10px;
+    font-size: 1.2em;
+    font-weight: 400;
 }
 
 #edit-question-submit {
-    width: 100%;
-    margin-top: 10px;
+    width: 90%;
+    font-size: 1.2em;
+    font-weight: 200;
+    margin-top: 20px;
+    margin-left: 20px;
 }
 
 #community-guidelines-section {
@@ -465,7 +480,6 @@ button:disabled {
 }
 
 .modal-content {
-    top: 40%;
     background-color: #fefefe;
     margin: auto;
     padding: 15px;
@@ -477,7 +491,7 @@ button:disabled {
     animation-name: animatetop;
     animation-duration: 0.4s;
     position: fixed;
-    top: 50%;
+    top: 40%;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 2;
