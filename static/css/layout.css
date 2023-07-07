@@ -20,6 +20,7 @@ body {
     text-transform: uppercase !important;
     color: white; /* 흰색으로 설정 */
     transition: color 0.3s ease; /* 색상 변화에 애니메이션 적용 */
+    margin-top: 70px;
 }
 
 #nav-title:hover {
@@ -221,6 +222,11 @@ body #hamburger-btn {
     #mobile-nav {
         display: flex;
         box-sizing: unset;
+        position: fixed;
+        width: 100%;
+        z-index: 1005;
+        margin-top: -70px;
+        justify-content: center;
     }
     #mobile-nav-user {
         gap:15px;
