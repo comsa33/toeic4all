@@ -116,7 +116,7 @@ $(document).ready(function() {
     });
 });
 
-window.onscroll = function() {scrollFunction()};
+window.addEventListener('scroll', scrollFunction);
 
 function scrollFunction() {
     let navbar = document.getElementById("mobile-nav");

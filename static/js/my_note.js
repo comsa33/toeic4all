@@ -83,11 +83,11 @@ window.onload = function() {
     }
 
     // Listen for scroll events and load new data when necessary
-    window.onscroll = function() {
+    window.addEventListener('scroll', function() {
         if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 200) {
             loadTests();
         }
-    }
+    });
 
     loadTests();  // Load the first page of tests
 }
