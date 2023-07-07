@@ -138,6 +138,9 @@ h1.display-4 {
 .btn-primary {
     background-color: #fa7272;
     border: none;
+    border-radius: 25px;
+    font-size: 1.2em;
+    font-weight: 200;
 }
 
 .btn-primary:hover {
