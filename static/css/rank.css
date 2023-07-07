@@ -58,9 +58,12 @@ body {
 #rank-container {
     max-width: 800px;
     margin: auto;
+    margin-bottom: 40px;
 }
 
 #question-type-selection {
+    width: 300px;
+    font-size: 1.2em;
     border-radius: 15px;
     height: 30px;
     display: flex;
