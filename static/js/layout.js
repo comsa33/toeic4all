@@ -127,12 +127,12 @@ function scrollFunction() {
 
     if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
         navbar.style.height = "10px";
-        navbar.style.backgroundColor = '#d2d2d2';
+        navbar.style.backgroundColor = '#eae8e8';
         title.style.fontSize = "10px";
         title.style.fontWeight = "300";
-        titleLink.style.color = '#333'; // 폰트 색상을 다크 그레이로 변경
+        titleLink.style.color = '#bdb9b9'; // 폰트 색상을 다크 그레이로 변경
         hamburgerIcon.style.fontSize = "12px"; // 햄버거 아이콘 크기 조정
-        hamburgerIcon.style.color = '#333'; // 햄버거 아이콘 색상 조정
+        hamburgerIcon.style.color = '#bdb9b9'; // 햄버거 아이콘 색상 조정
     } else {
         navbar.style.height = "50px";
         navbar.style.backgroundColor = '#f87272';
