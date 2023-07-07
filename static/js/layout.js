@@ -104,3 +104,7 @@ document.addEventListener('click', function(event) {
         sideNav.classList.remove('visible');
     }
 });
+
+document.getElementById('close-modal-button').addEventListener('click', function() {
+    sideNav.classList.remove('visible');
+});
