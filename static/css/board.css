@@ -121,11 +121,22 @@ button:disabled {
     margin-left: auto;
 }
 
-.answers-text {
-    font-size: .9em;
-    font-weight: 400;
-    color: gray;
+.likes-text {
+    font-size: 1em;
+    font-weight: 300;
     margin-bottom: 0;
+    gap: 5px;
+}
+
+.answers-text {
+    font-size: 1em;
+    font-weight: 300;
+    margin-bottom: 0;
+    gap: 5px;
+}
+
+#comment-icon {
+    color: rgb(173, 173, 173);
 }
 
 .button-text {
@@ -476,6 +487,7 @@ button:disabled {
     padding-bottom: 10px;
     font-size: .9em;
     font-weight: 300;
+    gap: 20px;
 }
 
 .author-date-container {

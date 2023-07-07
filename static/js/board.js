@@ -164,12 +164,17 @@ function getQuestions(page = 1) {
                             <div class="questions-contents">${safeHTML}</div>
                         </div>
                         <div class="like-container">
-                            <button id="like-button-question-${id}" class="${question.hasLiked ? 'liked' : ''} like-button">
-                                <i class="fas fa-thumbs-up"></i>
-                            </button>
-                            <div id="like-count-question-${id}">${question.likes}</div>
+                            <div class="likes-text">
+                                <div id="like-icon">
+                                    <button id="like-button-question-${id}" class="${question.hasLiked ? 'liked' : ''} like-button">
+                                        <i class="fas fa-thumbs-up"></i>
+                                    </button>
+                                </div>
+                                <div id="like-count-question-${id}">${question.likes}</div>
+                            </div>
                             <div class="answers-text">
-                                <i class="fas fa-comment"></i>${question.answerCount}
+                                <div id="comment-icon"><i class="fas fa-comment"></i></div>
+                                <div id="comment-count">${question.answerCount}</div>
                             </div>
                         </div>
                     </div>
@@ -240,10 +245,14 @@ function getQuestion(id, answerPage = 1) {
                             <div class="question-contents">${safeHTML}</div>
                         </div>
                         <div class="like-container">
-                            <div id="like-count-question-${id}">${data.likes}</div>
-                            <button id="like-button-question-${id}" class="${data.hasLiked ? 'liked' : ''} like-button">
-                                <i class="fas fa-thumbs-up"></i>
-                            </button>
+                            <div class="likes-text">
+                                <div id="like-icon">
+                                    <button id="like-button-question-${id}" class="${data.hasLiked ? 'liked' : ''} like-button">
+                                        <i class="fas fa-thumbs-up"></i>
+                                    </button>
+                                </div>
+                                <div id="like-count-question-${id}">${data.likes}</div>
+                            </div>
                         </div>
                     </div>
                     ${username === data.username ? `
