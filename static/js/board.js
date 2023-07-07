@@ -261,6 +261,7 @@ function getQuestion(id, answerPage = 1) {
                     <button type="button" class="delete" onclick="deleteQuestion(${id})">삭제</button>
                     ` : ''}
                 </div>
+                <button type="button" id="button-get-questions" class="button-text" onclick="getQuestions()">﹤전체목록보기</button>
             `;
 
         document.getElementById(`like-button-question-${id}`).addEventListener('click', function() {
