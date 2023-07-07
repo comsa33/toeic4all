@@ -310,3 +310,7 @@ footer a:hover {
     font-size: 0.8em;
     color: rgb(255, 199, 199);
 }
+
+#mobile-nav, #mobile-title, #hamburger-btn i {
+    transition: all 0.5s ease-in-out;
+}
