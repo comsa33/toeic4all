@@ -183,6 +183,9 @@ body #hamburger-btn {
     position: absolute;
     top: 10%;
     gap: 20px;
+    width: 250px;
+    border-top: 1px solid #ffffff98;
+    padding-top: 30px;
 }
 
 #mobile-nav-links-right {
@@ -264,11 +267,6 @@ body #hamburger-btn {
 footer a:hover {
     transition: color 0.3s ease;
     color: #ff6347;
-}
-
-#hr-bar {
-    border-top: 1px solid #ffffff98;
-    margin-bottom: 30px;
 }
 
 #mobile-nav-links-left li i {
