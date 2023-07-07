@@ -56,16 +56,16 @@
         <div id="side-nav" class="hidden"> <!-- 사이드 네비게이션 바, 처음에는 숨겨져 있음 -->
             <ul id="mobile-nav-links-left">
                 <li class="{{ 'active' if request.endpoint.endswith('mock_test') }}"><a href="{{ url_for('main.mock_test') }}">
-                    <i class="fas fa-pencil-alt"></i>모의고사</a>
+                    <i class="fas fa-pencil-alt"></i>&nbsp;모의고사</a>
                 </li>
                 <li class="{{ 'active' if request.endpoint.endswith('voca_test') }}"><a href="{{ url_for('main.voca_test') }}">
-                    <i class="fas fa-check-double"></i>단어퀴즈</a>
+                    <i class="fas fa-check-double"></i>&nbsp;단어퀴즈</a>
                 </li>
                 <li class="{{ 'active' if request.endpoint.endswith('board_page') }}"><a href="{{ url_for('main.board_page') }}">
-                    <i class="fas fa-comments"></i>Q&A 게시판</a>
+                    <i class="fas fa-comments"></i>&nbsp;Q&A 게시판</a>
                 </li>
                 <li class="{{ 'active' if request.endpoint.endswith('rank') }}"><a href="{{ url_for('main.rank') }}">
-                    <i class="fas fa-trophy"></i>순위</a>
+                    <i class="fas fa-trophy"></i>&nbsp;순위</a>
                 </li>
             </ul>
             <div class="hr-bar"></div>
