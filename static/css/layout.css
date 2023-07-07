@@ -183,9 +183,6 @@ body #hamburger-btn {
     position: absolute;
     top: 10%;
     gap: 30px;
-    width: 250px;
-    border-top: 1px solid #ffffff98;
-    padding-top: 30px;
 }
 
 #mobile-nav-links-right {
@@ -195,6 +192,9 @@ body #hamburger-btn {
     position: absolute;
     bottom: 15%;
     gap: 10px;
+    width: 250px;
+    border-top: 1px solid #ffffff98;
+    padding-top: 30px;
 }
 
 @media (max-width: 600px) {
