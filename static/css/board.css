@@ -292,7 +292,8 @@ button:disabled {
 
 #new-question-content {
     font-size: 1.2em;
-    height: 150px;
+    border: none;
+    border-bottom: 1px solid #cccccc;
 }
 
 #edit-question-title {
@@ -387,7 +388,7 @@ button:disabled {
     border-bottom: 1px solid #e8e8e8;
 }
 
-.question-header{
+.detail-view .question-box .question-header{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -398,7 +399,7 @@ button:disabled {
     line-height: 1.6;
 }
 
-.answer-header{
+.question-header, .answer-header{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -525,4 +526,13 @@ button:disabled {
     justify-content: center;
     align-items: center;
     z-index: 1000;
+}
+
+.ql-toolbar.ql-snow {
+    border: none;
+}
+
+.ql-snow.ql-toolbar button, .ql-snow .ql-toolbar button {
+    border-radius: 0;
+    box-shadow: none;
 }
