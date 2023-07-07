@@ -63,6 +63,7 @@ body {
   #side-btn-my-learning-analysis a {
     color: #333333;
     border-bottom: 3px solid #fa7878;
+    font-weight: 600;
   }
 
   .col-12 {
