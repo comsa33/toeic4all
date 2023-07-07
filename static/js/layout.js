@@ -1,11 +1,30 @@
 const hamburgerBtn = document.getElementById('hamburger-btn');
 const sideNav = document.getElementById('side-nav');
+const closeSidebarButton = document.getElementById('close-sidebar-button');
 
 function toggleNav() {
-    sideNav.classList.toggle('visible');
+    if (sideNav.classList.contains('hidden')) {
+        sideNav.classList.remove('hidden');
+        sideNav.classList.add('visible');
+    } else {
+        sideNav.classList.remove('visible');
+        sideNav.classList.add('hidden');
+    }
 }
 
 hamburgerBtn.addEventListener('click', toggleNav);
+closeSidebarButton.addEventListener('click', toggleNav);
+
+document.addEventListener('click', function(event) {
+    var isClickInside = sideNav.contains(event.target);
+    var isHamburgerClicked = hamburgerBtn.contains(event.target);
+    var isCloseButtonClicked = closeSidebarButton.contains(event.target);
+
+    if (!isClickInside && !isHamburgerClicked && !isCloseButtonClicked) {
+        sideNav.classList.remove('visible');
+        sideNav.classList.add('hidden');
+    }
+});
 
 function makeRequest(method, url, headers = {}, callback, errorCallback) {
     var xhr = new XMLHttpRequest();
@@ -95,16 +114,4 @@ $(document).ready(function() {
         // Mouse leave
         $('#nav-user-dropdown').hide();
     });
-});
-
-document.addEventListener('click', function(event) {
-    var isClickInside = sideNav.contains(event.target);
-    var isHamburgerClicked = hamburgerBtn.contains(event.target);
-    if (!isClickInside && !isHamburgerClicked) {
-        sideNav.classList.remove('visible');
-    }
-});
-
-document.getElementById('close-sidebar-button').addEventListener('click', function() {
-    sideNav.classList.remove('visible');
 });
