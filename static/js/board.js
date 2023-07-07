@@ -354,9 +354,6 @@ function getQuestion(question, answerPage = 1) {
             }
         }
     );
-    setTimeout(function() {
-        document.querySelector('question-box').scrollIntoView({behavior: 'smooth'});
-    }, 0);
 }
 
 function createQuestion() {
