@@ -463,7 +463,7 @@ const createAnswer = (questionId) => {
 
 function updateQuestion(id) {
     const title = document.getElementById('edit-question-title').value;
-    const content = editQuestionQuill.root.innerHTML;  // 'quillEdit'를 'editQuestionQuill'로 수정했습니다.
+    const content = editQuestionQuill.root.innerHTML; 
 
     if (!title || !content) {
         alert('모든 필드를 채워주세요!');
@@ -480,9 +480,10 @@ function updateQuestion(id) {
             content: content
         })
     })
-    .then(response => {
-        if (response.ok) {
-            getQuestion(id, currentAnswerPage)
+    .then(response => response.json())
+    .then(data => {
+        if (data && data.id) {
+            getQuestion(data.id, currentAnswerPage)
             document.getElementById('myModal').style.display = "none";
         } else {
             alert('질문 수정 실패!');
