@@ -129,7 +129,6 @@ function scrollFunction() {
         navbar.style.height = "10px";
         navbar.style.backgroundColor = '#eae8e8';
         title.style.fontSize = "10px";
-        title.style.fontWeight = "300";
         titleLink.style.color = '#bdb9b9'; // 폰트 색상을 다크 그레이로 변경
         hamburgerIcon.style.fontSize = "12px"; // 햄버거 아이콘 크기 조정
         hamburgerIcon.style.color = '#bdb9b9'; // 햄버거 아이콘 색상 조정
@@ -137,7 +136,6 @@ function scrollFunction() {
         navbar.style.height = "50px";
         navbar.style.backgroundColor = '#f87272';
         title.style.fontSize = "1.5rem";
-        title.style.fontWeight = "500";
         titleLink.style.color = '#fff'; // 폰트 색상을 원래대로(흰색) 변경
         hamburgerIcon.style.fontSize = "1.5rem"; // 햄버거 아이콘 원래 크기로 복구
         hamburgerIcon.style.color = '#fff'; // 햄버거 아이콘 원래 색상으로 복구
