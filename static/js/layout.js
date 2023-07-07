@@ -105,6 +105,6 @@ document.addEventListener('click', function(event) {
     }
 });
 
-document.getElementById('close-modal-button').addEventListener('click', function() {
+document.getElementById('close-sidebar-button').addEventListener('click', function() {
     sideNav.classList.remove('visible');
 });
