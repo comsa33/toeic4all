@@ -27,6 +27,12 @@ body {
     animation: beat 0.5s infinite; /* beat 애니메이션을 0.5초 간격으로 무한 반복 */
 }
 
+#mobile-title {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: white;
+}
+
 #nav-title a:hover, #mobile-title a:hover {
     color: white; /* hover시에도 텍스트 색상을 흰색으로 유지 */
     text-decoration: none; /* 밑줄 제거 */
@@ -34,7 +40,7 @@ body {
 
 #desktop-nav, #mobile-nav {
     background-color: #f87272;
-    color: #fff;
+    color: #ffffff;
     display: flex;
     height: 50px;
     justify-content: space-evenly;
