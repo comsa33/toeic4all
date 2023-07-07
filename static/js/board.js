@@ -306,10 +306,14 @@ function getQuestion(id, answerPage = 1) {
                                         </div>
                                         <p class="answer-text">${answerContentWithBreaks}</p>
                                         <div class="like-container">
-                                            <div id="like-count-answer-${answer.id}">${answer.likes}</div>
-                                            <button id="like-button-answer-${answer.id}" class="${answer.hasLiked ? 'liked' : ''} like-button">
-                                                <i class="fas fa-thumbs-up"></i>
-                                            </button>
+                                            <div class="likes-text">
+                                                <div id="like-icon">
+                                                    <button id="like-button-answer-${answer.id}" class="${answer.hasLiked ? 'liked' : ''} like-button">
+                                                        <i class="fas fa-thumbs-up"></i>
+                                                    </button>
+                                                </div>
+                                                <div id="like-count-answer-${answer.id}">${answer.likes}</div>
+                                            </div>
                                         </div>
                                     </div>
                                     ${username === answer.username ? `
