@@ -74,6 +74,14 @@ body {
     box-shadow: var(--box-shadow);
 }
 
+.btn-success {
+    border-radius: 25px;
+    width: 100%;
+    font-size: 1.2em;
+    font-weight: 200;
+    margin-top: 20px;
+}
+
 .btn-primary:hover, .btn-success:hover {
     background-color: var(--hover-color);
     box-shadow: var(--box-shadow);
