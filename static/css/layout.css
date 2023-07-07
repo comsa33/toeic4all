@@ -45,7 +45,6 @@ body {
 #mobile-nav-header {
     flex-grow: .85;
     text-align: center;
-    padding-left: 35px;
 }
 
 #mobile-nav, #mobile-title {
