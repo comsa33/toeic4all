@@ -15,8 +15,11 @@ body {
 }
 
 .container {
+    background-color: white;
     max-width: 500px;
     margin: 0 auto;
+    margin-top: -30px;
+    padding-bottom: 20px;
 }
 
 h2, h3, h4 {
@@ -152,11 +155,11 @@ button:disabled {
 }
 
 .question:hover {
-    background: rgba(128, 128, 128, 0.1); /* 투명한 흰색 배경 */
+    box-shadow: 0px 4px 20px 0px #8a8a8a2b;
 }
 
 .question:active {
-    background: rgba(128, 128, 128, 0.3); /* 클릭 시에 더 진한 투명한 흰색 배경 */
+    box-shadow: 0px 4px 20px 0px #8a8a8a34;
 }
 
 #button-get-questions {
@@ -213,6 +216,7 @@ button:disabled {
 .questions-contents {
     background-color: white;
     font-size: 0.85em;
+    line-height: 1.6;
     color: rgb(55, 55, 55);
     display: -webkit-box;
     -webkit-line-clamp: 3;
@@ -304,6 +308,7 @@ button:disabled {
     bottom: 20px;
     font-size: 1.2em;
     font-weight: 200;
+    margin-top: 5px;
 }
 
 #edit-question-form {
@@ -377,8 +382,8 @@ button:disabled {
 
 .question, .answer {
     padding: 20px 20px 0px 20px;
-    background-color: transparent;
-    border-bottom: 10px solid #ffffff;
+    background-color: white;
+    border-bottom: 1px solid #e8e8e8;
 }
 
 .question-header, .answer-header{

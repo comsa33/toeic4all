@@ -3,9 +3,6 @@ let username = null;
 const apiEndpoint = "/user/board/";
 
 var toolbarOptions = [
-    [{'font': []}],
-    [{'header': [1, 2, 3, 4, 5, 6, false]}],
-    [{'header': 1}, {'header': 2}],                   // custom button values
     ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
     [{'align': []}],                                  // text align
     [{'color': []}, {'background': []}],              // dropdown with defaults from theme
