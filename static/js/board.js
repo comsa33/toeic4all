@@ -401,21 +401,30 @@ function createQuestion() {
 }
 
 function deleteQuestion(id) {
-    fetchWithToken(apiEndpoint + 'board_questions/' + id, {
-        method: 'DELETE'
-    })
-    .then(response => {
-        if (!response.ok) {
-            return response.json().then(err => {throw err;});
-        }
-        return response;
-    })
-    .then(response => {
-        getQuestions();
-    })
-    .catch(error => {
-        alert(error.error);
-    });
+    // 'confirm' 함수로 사용자에게 확인 메시지를 표시합니다.
+    var confirmation = confirm("정말로 이 게시물을 삭제하시겠습니까?");
+
+    // 'confirm' 함수의 결과를 확인하여 삭제 작업을 계속할지 결정합니다.
+    if (confirmation) {
+        fetchWithToken(apiEndpoint + 'board_questions/' + id, {
+            method: 'DELETE'
+        })
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(err => {throw err;});
+            }
+            return response;
+        })
+        .then(response => {
+            getQuestions();
+        })
+        .catch(error => {
+            alert(error.error);
+        });
+    } else {
+        // '취소' 버튼이 클릭되면, 아무런 동작을 수행하지 않습니다.
+        return;
+    }
 }
 
 const createAnswer = (questionId) => {
