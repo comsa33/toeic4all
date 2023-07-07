@@ -115,3 +115,17 @@ $(document).ready(function() {
         $('#nav-user-dropdown').hide();
     });
 });
+
+window.onscroll = function() {scrollFunction()};
+
+function scrollFunction() {
+    let navbar = document.getElementById("mobile-nav");
+    let title = document.getElementById("mobile-title");
+    if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
+        navbar.style.height = "25px"; // 원하는 최소 높이
+        title.style.fontSize = "0.75rem"; // 원하는 최소 폰트 사이즈
+    } else {
+        navbar.style.height = "50px"; // 원래 높이
+        title.style.fontSize = "1.5rem"; // 원래 폰트 사이즈
+    }
+}
