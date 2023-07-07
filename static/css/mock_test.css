@@ -1,3 +1,8 @@
+.content {
+    display: contents;
+    margin-top: 0;
+}
+
 #button-container {
     display: flex;
     justify-content: center; /* 요소들 사이에 균일한 공간을 만듭니다 */

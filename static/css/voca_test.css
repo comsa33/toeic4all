@@ -14,6 +14,11 @@ body {
     font-family: 'Pretendard', sans-serif;
 }
 
+.content {
+    display: contents;
+    margin-top: 0;
+}
+
 .my-img-container {
     position: relative;
     max-width: 100%;
