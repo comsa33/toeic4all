@@ -182,7 +182,7 @@ function getQuestions(page = 1) {
                     `;
                 
                 div.addEventListener('click', function() {
-                    getQuestion(question, 1);
+                    getQuestion(question.id, 1);
                 });
 
                 board.appendChild(div);
