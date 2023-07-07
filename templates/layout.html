@@ -54,6 +54,7 @@
             <i class="fas fa-bars"></i> <!-- Font Awesome의 햄버거 버튼 아이콘 -->
         </div>
         <div id="side-nav" class="hidden"> <!-- 사이드 네비게이션 바, 처음에는 숨겨져 있음 -->
+            <i id="close-modal-button" class="fas fa-times close-icon"></i>
             <ul id="mobile-nav-links-left">
                 <li class="{{ 'active' if request.endpoint.endswith('mock_test') }}"><a href="{{ url_for('main.mock_test') }}">
                     <i class="fas fa-pencil-alt"></i>&nbsp;&nbsp;모의고사</a>
