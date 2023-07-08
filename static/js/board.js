@@ -279,7 +279,7 @@ function getQuestion(id, answerPage = 1) {
         document.getElementById('answers-section').style.display = 'block';
         
         // Add answer count to the title
-        const answersTitle = document.querySelector("#answers-section h4");
+        const answersTitle = document.querySelector("#answers-section h5");
         answersTitle.textContent = `게시물 답변 (${data.answerCount})`;
 
         const userProfilePictureContent = document.getElementById('user-profile-picture');
