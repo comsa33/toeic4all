@@ -288,6 +288,7 @@ footer a:hover {
     color: white;
     text-align: center;
     padding-top: 15px;
+    text-decoration: none;
 }
 
 #mobile-navbar-bottom .nav-item p {
