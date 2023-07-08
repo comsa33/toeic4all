@@ -243,7 +243,6 @@ nav ul .active a {
     #nav-logout {
         font-size: .9em;
     }
-    /* 화면이 600px 이하일 때에만 하단 네비게이션 바가 보이도록 처리 */
     #mobile-navbar-bottom {
         display: flex;
     }
@@ -258,6 +257,9 @@ nav ul .active a {
         box-sizing: unset;
     }
     #nav-user .dropdown-content {
+        display: none;
+    }
+    #mobile-navbar-bottom {
         display: none;
     }
 }
