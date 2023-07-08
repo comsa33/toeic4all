@@ -50,9 +50,6 @@
         <div id="mobile-nav-header">
             <div id="mobile-title"><a href="{{ url_for('main.main_page') }}">모두의 토익</a></div>  <!-- 새로운 타이틀 요소를 추가함 -->
         </div>
-        <div id="hamburger-btn">
-            <i class="fas fa-bars"></i> <!-- Font Awesome의 햄버거 버튼 아이콘 -->
-        </div>
         <div id="side-nav" class="hidden"> <!-- 사이드 네비게이션 바, 처음에는 숨겨져 있음 -->
             <i id="close-sidebar-button" class="fas fa-times close-icon"></i>
             <ul id="mobile-nav-links-left">
@@ -80,6 +77,25 @@
     <div class="content">
         {% block content %}
         {% endblock %}
+    </div>
+
+    <!-- 하단 모바일 네비게이션 바 -->
+    <div id="mobile-navbar-bottom">
+        <div class="nav-item">
+            <i class="fas fa-bars"></i> <!-- 햄버거 버튼 아이콘 -->
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-book-open"></i> <!-- 모의고사 아이콘 -->
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-question-circle"></i> <!-- 단어퀴즈 아이콘 -->
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-eraser"></i> <!-- 오답노트 아이콘 -->
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-user"></i> <!-- 내 정보 아이콘 -->
+        </div>
     </div>
     
     <!-- Footer -->
