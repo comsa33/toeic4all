@@ -312,6 +312,7 @@ button:disabled {
 }
 
 #new-question-content {
+    width: 100%;
     font-size: 1.2em;
     border: none;
     border-bottom: 1px solid #cccccc;
@@ -322,6 +323,7 @@ button:disabled {
 }
 
 #edit-question-content {
+    border: none;
     font-size: 1.2em;
     height: 270px;
 }
