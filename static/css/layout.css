@@ -283,6 +283,10 @@ footer a:hover {
     text-align: center;
 }
 
+#mobile-navbar-bottom .nav-item p {
+    font-size: 0.85em;
+}
+
 @media (max-width: 600px) {
     .content {
         margin-top: 70px;
