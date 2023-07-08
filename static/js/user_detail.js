@@ -169,7 +169,6 @@ $(document).on('click', '#email-verification-link', function() {
 $('#profile-image-change-text').click(function() {
     // 모달을 표시합니다.
     $('#modal-background').css('display', 'block');
-    $('#image-modal').addClass('active'); // 추가된 코드
     
     // 모달 안의 이미지 그리드를 초기화합니다.
     $('#image-grid').empty();
@@ -211,19 +210,28 @@ $('#profile-image-change-text').click(function() {
             
         $('#image-grid').append(imageContainer);
     }
+
+    // 애니메이션을 시작합니다.
+    setTimeout(function() {
+        $('#image-modal').addClass('active');
+    }, 50); // 50밀리초의 딜레이를 줍니다. 이는 CSS 애니메이션이 제대로 작동하기 위한 임시 조치입니다.
+});
+
+// 모달의 닫기 버튼을 눌렀을 때
+$('#close-modal-button').click(function() {
+    // 애니메이션을 종료하고 모달을 닫습니다.
+    $('#image-modal').removeClass('active');
+    setTimeout(function() {
+        $('#modal-background').css('display', 'none');
+    }, 500); // 애니메이션이 끝나는 시간과 일치해야 합니다.
 });
 
 $('#modal-background').click(function(e) {
     // 클릭된 요소가 #modal-background인 경우에만 모달을 닫습니다.
     if (e.target.id === 'modal-background') {
-        $('#modal-background').css('display', 'none');
         $('#image-modal').removeClass('active');
+        setTimeout(function() {
+            $('#modal-background').css('display', 'none');
+        }, 500); // 애니메이션이 끝나는 시간과 일치해야 합니다.
     }
-});
-
-// 모달의 닫기 버튼을 눌렀을 때
-$('#close-modal-button').click(function() {
-    // 모달을 닫습니다.
-    $('#modal-background').css('display', 'none');
-    $('#image-modal').removeClass('active'); // 추가된 코드
 });
