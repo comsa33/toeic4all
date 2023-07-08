@@ -509,7 +509,7 @@ function editQuestion(id) {
             const editQuestionTitle = document.getElementById('edit-question-title');
             const myModal = document.getElementById('myModal');
             const editQuestionSubmit = document.getElementById('edit-question-submit');
-            const spans = document.getElementsByClassName("close-icon");
+            const closeModalIcon = document.getElementById("close-modal-icon");
 
             if (editQuestionTitle) {
                 editQuestionTitle.value = data.title;
@@ -528,9 +528,8 @@ function editQuestion(id) {
                 };
             }
 
-            if (spans && spans.length > 0) {
-                var span = spans[0];
-                span.onclick = function(event) {  // 'event' 인자 추가
+            if (closeModalIcon) {
+                closeModalIcon.onclick = function(event) {  // 'event' 인자 추가
                     event.stopPropagation();  // 이벤트 버블링 중지
                     if (myModal) {
                         myModal.style.display = "none";
