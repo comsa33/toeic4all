@@ -291,5 +291,11 @@ body {
         top: 75%;
         max-height: 50%;
         width: 100%;
+        transform: translateY(100%); /* 화면 아래로 이동. 초기 위치 설정 */
+        transition: transform 0.5s ease-in-out; /* 0.5초 동안 애니메이션 적용. 위로 올라오거나 아래로 내려가는 속도를 설정 */
+    }
+
+    .image-modal.active { /* 추가된 코드 */
+        transform: translateY(0); /* 원래 위치로 돌아옴. 모달이 활성화되면 위로 슬라이드 */
     }
 }
