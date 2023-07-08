@@ -213,57 +213,6 @@ nav ul .active a {
     padding-top: 30px;
 }
 
-@media (max-width: 600px) {
-    .content {
-        margin-top: 70px;
-    }
-    #desktop-nav {
-        display: none;
-    }
-    #mobile-nav {
-        display: flex;
-        box-sizing: unset;
-        position: fixed;
-        width: 100%;
-        z-index: 1005;
-        margin-top: -70px;
-        justify-content: center;
-    }
-    #mobile-nav-user {
-        gap:15px;
-    }
-    #mobile-user-dropdown {
-        padding: 0;
-        font-size: .9em;
-    }
-    #mobile-user-dropdown li {
-        margin-top: 20px;
-        margin-bottom: 20px;
-    }
-    #nav-logout {
-        font-size: .9em;
-    }
-    #mobile-navbar-bottom {
-        display: flex;
-    }
-}
-
-@media (min-width: 601px) {
-    #mobile-nav {
-        display: none;
-    }
-    #desktop-nav {
-        display: flex;
-        box-sizing: unset;
-    }
-    #nav-user .dropdown-content {
-        display: none;
-    }
-    #mobile-navbar-bottom {
-        display: none;
-    }
-}
-
 #side-nav.visible {
     transform: translateX(0);
     visibility: visible;
@@ -316,7 +265,6 @@ footer a:hover {
 }
 
 #mobile-navbar-bottom {
-    display: none; /* 기본적으로 숨김 처리 */
     position: fixed; /* 하단에 고정 */
     bottom: 0;
     left: 0;
@@ -332,4 +280,55 @@ footer a:hover {
 #mobile-navbar-bottom .nav-item, #mobile-navbar-bottom .nav-item a {
     color: white;
     text-align: center;
+}
+
+@media (max-width: 600px) {
+    .content {
+        margin-top: 70px;
+    }
+    #desktop-nav {
+        display: none;
+    }
+    #mobile-nav {
+        display: flex;
+        box-sizing: unset;
+        position: fixed;
+        width: 100%;
+        z-index: 1005;
+        margin-top: -70px;
+        justify-content: center;
+    }
+    #mobile-nav-user {
+        gap:15px;
+    }
+    #mobile-user-dropdown {
+        padding: 0;
+        font-size: .9em;
+    }
+    #mobile-user-dropdown li {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+    #nav-logout {
+        font-size: .9em;
+    }
+    #mobile-navbar-bottom {
+        display: flex;
+    }
+}
+
+@media (min-width: 601px) {
+    #mobile-nav {
+        display: none;
+    }
+    #desktop-nav {
+        display: flex;
+        box-sizing: unset;
+    }
+    #nav-user .dropdown-content {
+        display: none;
+    }
+    #mobile-navbar-bottom {
+        display: none;
+    }
 }
