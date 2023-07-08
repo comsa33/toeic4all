@@ -167,7 +167,7 @@ body {
     padding-bottom: 10px;
 }
 
-.modal-background {
+#modal-background {
     display: none;
     position: fixed;
     top: 0;
