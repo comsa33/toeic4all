@@ -288,7 +288,8 @@ body {
     }
 
     .image-modal {
-        top: 75%;
+        top: 51%;
+        left: 0;
         max-height: 50%;
         width: 100%;
         transform: translateY(100%); /* 화면 아래로 이동. 초기 위치 설정 */

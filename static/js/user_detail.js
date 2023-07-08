@@ -213,6 +213,14 @@ $('#profile-image-change-text').click(function() {
     }
 });
 
+$('#modal-background').click(function(e) {
+    // 클릭된 요소가 #modal-background인 경우에만 모달을 닫습니다.
+    if (e.target.id === 'modal-background') {
+        $('#modal-background').css('display', 'none');
+        $('#image-modal').removeClass('active');
+    }
+});
+
 // 모달의 닫기 버튼을 눌렀을 때
 $('#close-modal-button').click(function() {
     // 모달을 닫습니다.
