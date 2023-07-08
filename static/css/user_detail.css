@@ -177,6 +177,12 @@ body {
         flex: 1; /* 항목들의 너비를 균등하게 */
         text-align: center;
     }
+
+    .image-modal {
+        top: 60%;
+        max-height: 40%; /* 모바일 화면에서는 전체 높이의 40%로 제한 */
+        width: 100%;
+    }
 }
 
 /* 프로필 사진 관련 */
@@ -222,7 +228,9 @@ body {
     padding: 1em;
     border-radius: .25em;
     z-index: 1003;
-    box-shadow: 0 0 10px rgba(0,0,0,0.2); 
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    overflow-y: auto; /* 스크롤 가능하게 함 */
+    max-height: 60%; /* 전체 높이의 60%로 제한 */
 }
 
 .image-grid {
