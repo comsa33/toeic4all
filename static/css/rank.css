@@ -46,18 +46,19 @@ body {
 
 .h1-on-img {
     text-align: left !important;
-    padding: 35px 0px 0px 0px;
+    padding: 55px 0px 0px 0px;
     margin-bottom: 0 !important;
     font-weight: bold;
-    font-size: 1.7em;
-    color: #d6ffe4;
+    font-size: 2em;
+    color: #f65555;
 }
 
 .p-on-img {
+    padding-top: 20px;
     text-align: left;
     font-size: 1.2em;
     font-weight: 200;
-    color: #04511d;
+    color: #a43737;
 }
 
 #rank-container {

@@ -39,6 +39,7 @@ h2, h3, h4 {
     font-size: 0.83em;
 }
 
+
 .my-img-container {
     position: relative;
     max-width: 100%;
@@ -66,18 +67,19 @@ h2, h3, h4 {
 
 .h1-on-img {
     text-align: left !important;
-    padding: 35px 0px 0px 0px;
+    padding: 55px 0px 0px 0px;
     margin-bottom: 0 !important;
     font-weight: bold;
     font-size: 2em;
-    color: #ffffff;
+    color: #f65555;
 }
 
 .p-on-img {
+    padding-top: 20px;
     text-align: left;
     font-size: 1.2em;
     font-weight: 200;
-    color: white;
+    color: #a43737;
 }
 
 input {
@@ -545,6 +547,7 @@ button:disabled {
     justify-content: center;
     align-items: center;
     z-index: 1000;
+    color: black;
 }
 
 .ql-toolbar.ql-snow {
