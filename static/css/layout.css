@@ -327,7 +327,7 @@ footer a:hover {
     z-index: 1010;
 }
 
-#mobile-navbar-bottom .nav-item {
+#mobile-navbar-bottom .nav-item, #mobile-navbar-bottom .nav-item a {
     color: white;
     text-align: center;
 }
