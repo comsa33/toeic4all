@@ -109,7 +109,7 @@ input::placeholder, textarea::placeholder {
 }
 
 button {
-    border-radius: 20px;
+    border-radius: 25px;
     border: none;
     padding: 10px;
     background-color: var(--primary-color);
@@ -340,7 +340,6 @@ button:disabled {
 
 #edit-question-form {
     position: relative;
-    margin-top: 30px;
 }
 
 #edit-question-form input {
@@ -525,7 +524,7 @@ button:disabled {
 .modal-content {
     background-color: #fefefe;
     margin: auto;
-    padding: 15px;
+    padding: 10px;
     border: 1px solid #888;
     width: 100%;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
@@ -540,7 +539,7 @@ button:disabled {
     z-index: 2;
 }
 
-.close-icon {
+/* .close-icon {
     display: flex;
     position: absolute;
     top: 10px;
@@ -552,6 +551,12 @@ button:disabled {
     align-items: center;
     z-index: 1000;
     color: black;
+} */
+
+
+#modal-close-text {
+    font-size: .8em;
+    color: rgb(255, 255, 255);
 }
 
 .ql-toolbar.ql-snow {

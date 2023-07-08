@@ -527,16 +527,16 @@ function editQuestion(id) {
                     }
                 };
             }
-            if (spans && spans.length > 0) {
-                var span = spans[0];
-                span.onclick = function() {
-                    if (myModal) {
-                        myModal.style.display = "none";
-                        editQuestionTitle.value = "";
-                        editQuestionQuill.setContents([]);
-                    }
-                }
-            }
+            // if (spans && spans.length > 0) {
+            //     var span = spans[0];
+            //     span.onclick = function() {
+            //         if (myModal) {
+            //             myModal.style.display = "none";
+            //             editQuestionTitle.value = "";
+            //             editQuestionQuill.setContents([]);
+            //         }
+            //     }
+            // }
             window.onclick = function(event) {
                 if (myModal && event.target == myModal) {
                     myModal.style.display = "none";
