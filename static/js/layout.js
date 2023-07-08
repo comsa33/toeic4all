@@ -137,3 +137,14 @@ function scrollFunction() {
         titleLink.style.color = '#fff'; // 폰트 색상을 원래대로(흰색) 변경
     }
 }
+
+let lastScrollTop = 0;
+window.addEventListener("scroll", function(){  
+   let scrollTop = window.scrollY || document.documentElement.scrollTop; 
+   if (scrollTop > lastScrollTop){
+       document.getElementById("mobile-navbar-bottom").style.bottom = "-50px"; // Scroll down
+   } else {
+      document.getElementById("mobile-navbar-bottom").style.bottom = "0px"; // Scroll up
+   }
+   lastScrollTop = scrollTop;
+});
