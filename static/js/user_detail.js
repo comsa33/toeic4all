@@ -168,7 +168,7 @@ $(document).on('click', '#email-verification-link', function() {
 
 $('#profile-image-change-text').click(function() {
     // 모달을 표시합니다.
-    $('#image-modal').css('display', 'block');
+    $('#modal-background').css('display', 'block');
     
     // 모달 안의 이미지 그리드를 초기화합니다.
     $('#image-grid').empty();
@@ -187,7 +187,7 @@ $('#profile-image-change-text').click(function() {
             // 이미지를 클릭했을 때, 프로필 이미지를 변경하고 모달을 닫습니다.
             const clickedImage = $(this).find('img');
             $('#profile-image').attr('src', clickedImage.attr('src'));
-            $('#image-modal').css('display', 'none');
+            $('#modal-background').css('display', 'none');
                     
             // 변경된 이미지 정보를 서버에 업데이트합니다.
             const imageName = 'profile' + i + '.png';
@@ -215,5 +215,5 @@ $('#profile-image-change-text').click(function() {
 // 모달의 닫기 버튼을 눌렀을 때
 $('#close-modal-button').click(function() {
     // 모달을 닫습니다.
-    $('#image-modal').css('display', 'none');
+    $('#modal-background').css('display', 'none');
 });
