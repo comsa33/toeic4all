@@ -145,7 +145,7 @@ window.addEventListener('scroll', function() {
   
     if (currentScroll > scrollPosition && currentScroll > 100) {
         // 스크롤이 아래로 가고, 적어도 100px 아래로 내려갔을 때
-        document.getElementById("mobile-navbar-bottom").style.bottom = "-50px";
+        document.getElementById("mobile-navbar-bottom").style.bottom = "-70px";
     } else {
         // 스크롤이 위로 올라갔을 때
         document.getElementById("mobile-navbar-bottom").style.bottom = "0";
