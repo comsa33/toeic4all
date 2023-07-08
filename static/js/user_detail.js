@@ -177,12 +177,16 @@ $('#profile-image-change-text').click(function() {
     for (let i = 1; i <= 42; i++) {
         const imageContainer = $('<div>').addClass('image-container');
         const image = $('<img>')
-            .attr('src', '/static/images/profile' + i + '.png')
+            .attr('data-src', '/static/images/profile' + i + '.png') // src를 data-src로 변경합니다.
             .attr('width', '50')
             .attr('height', '50')
             .css('cursor', 'pointer')
             .appendTo(imageContainer);
-            
+        
+        image.error(function() { // 이미지 로드에 실패할 경우 다시 시도합니다.
+            $(this).attr('src', $(this).data('src'));
+        });
+
         imageContainer.click(async function() {
             // 이미지를 클릭했을 때, 프로필 이미지를 변경하고 모달을 닫습니다.
             const clickedImage = $(this).find('img');
@@ -214,6 +218,11 @@ $('#profile-image-change-text').click(function() {
     // 애니메이션을 시작합니다.
     setTimeout(function() {
         $('#image-modal').addClass('active');
+
+        // 모달이 완전히 열린 후에 이미지를 로드합니다.
+        $('#image-grid img').each(function() {
+            $(this).attr('src', $(this).data('src'));
+        });
     }, 50); // 50밀리초의 딜레이를 줍니다. 이는 CSS 애니메이션이 제대로 작동하기 위한 임시 조치입니다.
 });
 
