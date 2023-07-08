@@ -557,6 +557,9 @@ button:disabled {
 #modal-close-text {
     font-size: .8em;
     color: rgb(255, 255, 255);
+    display: flex;
+    justify-content: center;
+    padding-top: 450px;
 }
 
 .ql-toolbar.ql-snow {
