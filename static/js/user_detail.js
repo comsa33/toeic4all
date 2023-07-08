@@ -181,11 +181,10 @@ $('#profile-image-change-text').click(function() {
             .attr('width', '50')
             .attr('height', '50')
             .css('cursor', 'pointer')
+            .on('error', function() { // 이미지 로드에 실패할 경우 다시 시도합니다.
+                $(this).attr('src', $(this).attr('data-src'));
+            })
             .appendTo(imageContainer);
-        
-        image.error(function() { // 이미지 로드에 실패할 경우 다시 시도합니다.
-            $(this).attr('src', $(this).data('src'));
-        });
 
         imageContainer.click(async function() {
             // 이미지를 클릭했을 때, 프로필 이미지를 변경하고 모달을 닫습니다.
