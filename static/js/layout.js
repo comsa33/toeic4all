@@ -154,3 +154,14 @@ window.addEventListener('scroll', function() {
     // 새로운 스크롤 위치를 저장
     scrollPosition = currentScroll;
 });
+
+document.addEventListener("DOMContentLoaded", function() {
+    var currentPath = window.location.pathname;
+    var navItems = document.querySelectorAll(".nav-item a");
+
+    navItems.forEach(function(navItem) {
+        if (navItem.getAttribute("href") === currentPath) {
+            navItem.parentElement.classList.add("active");
+        }
+    });
+});

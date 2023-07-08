@@ -281,10 +281,16 @@ footer a:hover {
 #mobile-navbar-bottom .nav-item, #mobile-navbar-bottom .nav-item a {
     color: white;
     text-align: center;
+    padding-top: 15px;
 }
 
 #mobile-navbar-bottom .nav-item p {
     font-size: 0.85em;
+}
+
+.nav-item.active i,
+.nav-item.active p {
+    color: #FFD700; /* 활성화된 메뉴 아이템의 색상을 골드로 설정 */
 }
 
 @media (max-width: 600px) {
