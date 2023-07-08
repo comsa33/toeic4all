@@ -330,8 +330,10 @@ footer a:hover {
     display: flex; /* 가로로 일렬 배치 */
     justify-content: space-around; /* 아이템들을 공간에 균등하게 배치 */
     align-items: center; /* 아이템들을 세로 방향으로 중앙에 배치 */
+    z-index: 1010;
 }
 
 #mobile-navbar-bottom .nav-item {
+    color: white;
     text-align: center;
 }
