@@ -160,6 +160,12 @@ nav ul .active a {
     align-items: center;
 }
 
+body #hamburger-btn {
+    color: #fff;
+    font-size: 1.5em;
+    display: contents;
+}
+
 #side-nav {
     display: flex;
     flex-direction: column;
