@@ -298,7 +298,6 @@ body {
     z-index: 1100;
     left: 0;
     bottom: 0;
-    top: 20%;
     width: 100%;
     overflow: auto;
     background-color: rgba(0,0,0,0.4);
@@ -307,6 +306,7 @@ body {
 .modal-content {
     position: absolute;
     left: 50%;
+    top: 20%;
     transform: translateX(-50%);
     background-color: #fefefe;
     padding: 20px;
