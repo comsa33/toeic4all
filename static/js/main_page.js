@@ -15,10 +15,12 @@ window.onload = function() {
             fetch('/api/toeic-info')
                 .then(response => response.json())
                 .then(data => {
+                    console.log('API response:', data);  // 이 줄 추가
                     apiData = data;
                     updateCountdown();  // call this function again to update countdown immediately
                 })
                 .catch(error => {
+                    console.log('API error:', error);  // 이 줄 추가
                     countdownElement.innerHTML = '토익 시험 정보를 가져오는 데 실패했습니다.';
                 });
         } else {
@@ -27,6 +29,7 @@ window.onload = function() {
             const nextExam = new Date(apiData.results[0].toeic_test_datetime + 'Z');  // append 'Z' to indicate UTC
             nextExam.setHours(nextExam.getHours() + now.getTimezoneOffset() / 60);  // add timezone offset
             const diff = Math.max((nextExam - (now)) / 1000, 0);  // remaining time in seconds
+            console.log('Time until next exam:', diff);  // 이 줄 추가
             
             if (diff === 0) {
                 apiData = null;  // reset apiData so that the next API call will be made
