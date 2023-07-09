@@ -32,7 +32,7 @@ body {
 .collapsible p {
     transition: max-height 0.2s ease-out;
     overflow: hidden;
-    max-height: 300px; /* Change this value to fit your needs */
+    max-height: 400px;
 }
 
 .collapsed p {
