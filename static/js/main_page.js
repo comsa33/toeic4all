@@ -26,9 +26,9 @@ window.onload = function() {
         } else {
             const now = new Date();
             // change UTC time to local time from Browser
-            const nextExam = new Date(apiData.results[0].toeic_test_datetime + 'Z');  // append 'Z' to indicate UTC
-            nextExam.setHours(nextExam.getHours() + now.getTimezoneOffset() / 60);  // add timezone offset
-            const diff = Math.max((nextExam - (now)) / 1000, 0);  // remaining time in seconds
+            const nextExam = new Date(apiData.results[0].toeic_test_datetime + 'Z');
+            const diff = Math.max((nextExam - now) / 1000, 0);  // remaining time in seconds
+
             console.log('Time until next exam:', diff);  // 이 줄 추가
             
             if (diff === 0) {
