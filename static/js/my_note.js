@@ -58,11 +58,6 @@ function timeSince(date) {
     return Math.floor(seconds) + " 초 전";
 }
 
-document.getElementById('back-to-tests').addEventListener('click', function() {
-    this.style.display = 'none'; // Hide back button
-    window.location.href = "/mynote";
-});
-
 window.onload = function() {
     let page = 1;  // Keep track of the current page
     let inProgress = false;  // To prevent multiple simultaneous requests
