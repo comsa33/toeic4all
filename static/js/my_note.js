@@ -236,6 +236,7 @@ let modal = document.getElementById('myModal');
 $('#myModal').click(function(e) {
     if (e.target.id === 'myModal') {
         $('#modal-content').removeClass('active');
+        document.body.classList.remove('no-scroll');
         setTimeout(function() {
             $('#myModal').css('display', 'none');
         }, 500); // 애니메이션이 끝나는 시간과 일치해야 합니다.
@@ -452,6 +453,7 @@ function loadWrongQuestions(testId, testNo) {
         }
         // Show the modal after loading the data
         modal.style.display = "block";
+        document.body.classList.add('no-scroll');
         // 애니메이션을 시작합니다.
         setTimeout(function() {
             $('#modal-content').addClass('active');
