@@ -236,8 +236,8 @@ body {
 
 #graph-container {
     padding-top: 20px;
-    display: block;
-    width: 65%;
+    display: flex;
+    width: 100%;
     margin: auto;
 }
 
