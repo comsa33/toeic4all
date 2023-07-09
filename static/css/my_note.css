@@ -16,10 +16,6 @@ body {
 
 .no-scroll {
     overflow: hidden;
-    position: fixed; /* 추가 */
-    width: 100%; /* 추가 */
-    height: 100%; /* 추가 */
-    touch-action: none; /* 추가 */
 }
 
 #side-btn-mynote a {
