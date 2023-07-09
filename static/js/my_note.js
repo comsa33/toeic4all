@@ -251,6 +251,9 @@ function loadWrongQuestions(testId, testNo) {
 
         // 문제를 화면에 보여줍니다.
         let questionArea = document.getElementById('question-area');
+        // Clear previous questions
+        questionArea.innerHTML = '';
+
         let mocktestNo = document.getElementById('mocktest-no');
         mocktestNo.innerHTML = `모의고사_${testNo}`;
         for (let i = 0; i < data.length; i++) {
