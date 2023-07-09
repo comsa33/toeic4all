@@ -33,6 +33,14 @@ body {
     padding: 20px;
 }
 
+.collapsible-icon-area {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: transparent;
+    cursor: pointer;
+}
+
 .collapsible p {
     transition: max-height 0.2s ease-out;
     overflow: hidden;
