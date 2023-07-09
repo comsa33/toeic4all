@@ -252,6 +252,7 @@ body {
 #my-tests {
     display: grid;
     padding-left: 25px;
+    margin-bottom: 25px;
     grid-template-columns: repeat(1, 1fr);
     grid-gap: 10px;
     align-content: center;
@@ -260,7 +261,7 @@ body {
 }
 
 .test-container {
-    box-shadow: 0 4px 8px 0 rgb(255 103 103 / 20%), 0 6px 20px 0 rgba(255 158 158 / 15%);
+    box-shadow: 0 6px 20px 0 rgb(149 149 149 / 15%);
     padding: 20px;
     text-align: center;
     cursor: pointer;
