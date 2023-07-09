@@ -426,29 +426,3 @@ function loadWrongQuestions(testId, testNo) {
         })
     .catch(error => alert(error))
 };
-
-window.onload = function() {
-    positionModalCloseText();
-}
-
-window.onresize = function() {
-    positionModalCloseText();
-}
-
-function positionModalCloseText() {
-    var modalContent = document.getElementById('modal-content');
-    var modalCloseText = document.getElementById('modal-close-text');
-
-    var modalContentHeight = modalContent.offsetHeight;
-    var modalCloseTextHeight = modalCloseText.offsetHeight;
-
-    var isMobile = window.innerWidth <= 600;
-
-    if (isMobile) {
-        // 모바일 화면에서는 modal-content가 화면 하단에 위치
-        modalCloseText.style.top = "calc(80% - " + (modalContentHeight / 2 + modalCloseTextHeight + 10) + "px)";
-    } else {
-        // 피씨 화면에서는 modal-content가 중앙에 위치
-        modalCloseText.style.top = "calc(50% - " + (modalContentHeight / 2 + modalCloseTextHeight + 10) + "px)";
-    }
-}
