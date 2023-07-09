@@ -257,19 +257,6 @@ body {
     align-items: center;
 }
 
-#back-to-tests {
-    border: none;
-    width: 90%;
-    margin: auto;
-    margin-bottom: 40px;
-    padding: 10px;
-    background-color: #3ab6ff;
-    border-radius: 25px;
-    color: #ffffff;
-    font-size: 1em;
-    font-weight: bold;
-}
-
 .test-container {
     box-shadow: 0 4px 8px 0 rgb(255 103 103 / 20%), 0 6px 20px 0 rgba(255 158 158 / 15%);
     padding: 20px;

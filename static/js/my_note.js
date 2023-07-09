@@ -137,6 +137,8 @@ function loadTestGraph(testId) {
         });
 }
 
+let myChart; // Chart instance를 저장할 변수를 선언
+
 function createGraph(contextId, title, questionCount) {
     const labels = Object.keys(questionCount);
     const backgroundColors = labels.map((_, index) => {
@@ -157,7 +159,14 @@ function createGraph(contextId, title, questionCount) {
 
     // 가로 바 차트를 생성합니다.
     const ctx = document.getElementById(contextId).getContext('2d');
-    new Chart(ctx, {
+
+    // 기존의 Chart instance가 있으면 삭제
+    if (myChart) {
+        myChart.destroy();
+    }
+
+    // 새로운 Chart instance를 생성
+    myChart = new Chart(ctx, {
         type: 'bar',
         data: {
             labels: ['틀린 문제 수'],
