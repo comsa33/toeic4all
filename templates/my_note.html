@@ -42,15 +42,27 @@
             <h5 id="mocktest-no" style="text-align: center; padding-bottom: 10px;">내가 본 모의고사</h5>
         </div>
         <div id="my-tests"></div>
-        <div id="graph-container" class="row">
-            <div clas="col-12 col-md-6">
-                <canvas id="graph-area"></canvas>
-            </div>
-            <div clas="col-12 col-md-6">
-                <canvas id="detailed-graph-area"></canvas>
+
+        
+        <!-- Here is your modal structure -->
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+
+                <div id="graph-container" class="row">
+                    <div class="col-12 col-md-6">
+                        <canvas id="graph-area"></canvas>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <canvas id="detailed-graph-area"></canvas>
+                    </div>
+                </div>
+                
+                <!-- Moving the question area into the modal -->
+                <div id="question-area" class="row"></div> 
             </div>
         </div>
-        <div id="question-area" class="row"></div>
+        
     </div>
 </div>
 {% endblock %}
