@@ -212,8 +212,7 @@ span.onclick = function() {
 }
 
 $('#myModal').click(function(e) {
-    // 클릭된 요소가 #modal-background인 경우에만 모달을 닫습니다.
-    if (e.target.id === 'modal-background') {
+    if (e.target.id === 'myModal') {
         $('#modal-content').removeClass('active');
         setTimeout(function() {
             $('#myModal').css('display', 'none');
