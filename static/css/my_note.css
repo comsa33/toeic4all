@@ -303,6 +303,11 @@ body {
     background-color: rgba(0,0,0,0.4);
 }
 
+#modal-content-top {
+    position: sticky;
+    top: 0;
+}
+
 .modal-content {
     position: absolute;
     left: 50%;
