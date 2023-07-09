@@ -220,6 +220,18 @@ $('#myModal').click(function(e) {
     }
 });
 
+document.getElementById('modal-content').addEventListener('scroll', function() {
+    var top  = this.scrollTop;
+    var modalContentTop = document.getElementById('modal-content-top');
+    
+    // 스크롤 위치에 따라 배경색 변경
+    if(top > 50){ // 50은 스크롤이 얼마나 이동했는지를 나타내는 값입니다. 이 값은 필요에 따라 조정하십시오.
+      modalContentTop.style.backgroundColor = "#f0ebeb"; // 배경색을 옅은 회색으로 변경
+    }else{
+      modalContentTop.style.backgroundColor = "#ffffff"; // 배경색을 원래대로 변경
+    }
+  });
+  
 function loadWrongQuestions(testId, testNo) {
     fetchWithToken('/api/my-note/tests/' + testId + '/wrong-questions')
     .then(response => response.json())

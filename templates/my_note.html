@@ -42,25 +42,26 @@
         </div>
         <div id="my-tests"></div>
         
-        <!-- Here is your modal structure -->
         <div id="myModal" class="modal">
-            <div class="modal-content" id="modal-content">
-                <div id="modal-content-top">
-                    <p id="mocktest-no" style="text-align: center; padding-bottom: 10px;"></p>
-                    <span class="close">&times;</span>
-                </div>
-
-                <div id="graph-container" class="row">
-                    <div class="col-12 col-md-6">
-                        <canvas id="graph-area"></canvas>
+            <div id="modal-wrapper"> <!-- 추가된 div -->
+                <p id="modal-close-text">[빈 곳을 탭해서 닫기]</p>
+                <div class="modal-content" id="modal-content">
+                    <div id="modal-content-top">
+                        <p id="mocktest-no" style="text-align: center; padding-bottom: 10px;"></p>
                     </div>
-                    <div class="col-12 col-md-6">
-                        <canvas id="detailed-graph-area"></canvas>
+        
+                    <div id="graph-container" class="row">
+                        <div class="col-12 col-md-6">
+                            <canvas id="graph-area"></canvas>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <canvas id="detailed-graph-area"></canvas>
+                        </div>
                     </div>
+        
+                    <!-- Moving the question area into the modal -->
+                    <div id="question-area" class="row"></div>
                 </div>
-
-                <!-- Moving the question area into the modal -->
-                <div id="question-area" class="row"></div> 
             </div>
         </div>
         
