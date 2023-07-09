@@ -27,7 +27,7 @@ window.onload = function() {
             const now = new Date();
             // Adjust UTC time to Korea Time (UTC +9)
             const nextExam = new Date(apiData.results[0].toeic_test_datetime + 'Z');
-            nextExam.setHours(nextExam.getHours() + 9);  // add 9 hours to adjust to Korea Time
+            nextExam.setHours(nextExam.getHours() - 9);  // add 9 hours to adjust to Korea Time
             const diff = Math.max((nextExam - now) / 1000, 0);  // remaining time in seconds
 
             console.log('Time until next exam:', diff);  // 이 줄 추가

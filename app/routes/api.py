@@ -1,10 +1,10 @@
 from random import shuffle
 from collections import defaultdict
+from datetime import datetime, timedelta
 import re
 
 import requests
 from bs4 import BeautifulSoup
-from datetime import datetime
 from flask import Blueprint, jsonify, request
 from sqlalchemy import func, desc, Date, Integer
 from flask_jwt_extended import jwt_required, get_jwt_identity
@@ -613,7 +613,7 @@ def get_user_ranking(question_type):
 def get_toeic_info():
     url = "https://exam.toeic.co.kr/receipt/examSchList.php"
 
-    now = datetime.now()
+    now = datetime.now() + timedelta(hours=9)  # Add 9 hours to current time
 
     try:
         response = requests.get(url)
