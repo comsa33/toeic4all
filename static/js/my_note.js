@@ -109,7 +109,7 @@ function positionModalCloseText() {
 
     if (isMobile) {
         // 모바일 화면에서는 modal-content가 화면 하단에 위치
-        modalCloseText.style.top = "calc(80% - " + (modalContentHeight / 2 + modalCloseTextHeight + 10) + "px)";
+        modalCloseText.style.top = "calc(60% - " + (modalContentHeight / 2 + modalCloseTextHeight + 10) + "px)";
     } else {
         // 피씨 화면에서는 modal-content가 중앙에 위치
         modalCloseText.style.top = "calc(50% - " + (modalContentHeight / 2 + modalCloseTextHeight + 10) + "px)";
