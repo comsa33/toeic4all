@@ -200,17 +200,6 @@ function createGraph(contextId, title, questionCount) {
 // Get the modal
 let modal = document.getElementById('myModal');
 
-// Get the <span> element that closes the modal
-let span = document.getElementsByClassName("close")[0];
-
-// When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-  $('#modal-content').removeClass('active');
-    setTimeout(function() {
-        $('#myModal').css('display', 'none');
-    }, 500); // 애니메이션이 끝나는 시간과 일치해야 합니다.
-}
-
 $('#myModal').click(function(e) {
     if (e.target.id === 'myModal') {
         $('#modal-content').removeClass('active');
