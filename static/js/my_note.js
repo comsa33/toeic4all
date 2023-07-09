@@ -58,6 +58,10 @@ function timeSince(date) {
     return Math.floor(seconds) + " 초 전";
 }
 
+document.querySelector('.collapsible').addEventListener('click', function() {
+    this.classList.toggle('collapsed');
+});
+
 window.onload = function() {
     let page = 1;  // Keep track of the current page
     let inProgress = false;  // To prevent multiple simultaneous requests
