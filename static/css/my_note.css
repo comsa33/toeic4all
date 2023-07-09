@@ -316,6 +316,7 @@ body {
 
 .close {
     display: flex;
+    justify-content: flex-end;
     padding-bottom: 20px;
     color: #aaa;
     float: right;
