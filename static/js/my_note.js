@@ -212,8 +212,6 @@ window.onclick = function(event) {
 }
 
 function loadWrongQuestions(testId, testNo) {
-    document.getElementById('my-tests').style.display = 'none'; // Hide test list
-    document.getElementById('back-to-tests').style.display = 'block'; // Show back button
 
     fetchWithToken('/api/my-note/tests/' + testId + '/wrong-questions')
     .then(response => response.json())
