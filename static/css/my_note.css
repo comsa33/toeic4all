@@ -301,6 +301,8 @@ body {
     width: 100%;
     overflow: auto;
     background-color: rgba(0,0,0,0.4);
+    animation-name: slideup;
+    animation-duration: 0.5s;
 }
 
 .modal-content {
@@ -312,6 +314,27 @@ body {
     padding: 20px;
     border: 1px solid #888;
     overflow: auto;
+    animation-name: slidedown;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes slideup {
+    0% {
+        transform: translateY(100%);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+@keyframes slidedown {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(100%);
+    }
 }
 
 .close {
