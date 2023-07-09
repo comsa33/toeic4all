@@ -137,7 +137,7 @@ function loadTestGraph(testId) {
         });
 }
 
-let myChart; // Chart instance를 저장할 변수를 선언
+let charts = {};  // 생성된 차트 인스턴스를 저장할 객체를 선언
 
 function createGraph(contextId, title, questionCount) {
     const labels = Object.keys(questionCount);
@@ -161,12 +161,12 @@ function createGraph(contextId, title, questionCount) {
     const ctx = document.getElementById(contextId).getContext('2d');
 
     // 기존의 Chart instance가 있으면 삭제
-    if (myChart) {
-        myChart.destroy();
+    if (charts[contextId]) {
+        charts[contextId].destroy();
     }
 
-    // 새로운 Chart instance를 생성
-    myChart = new Chart(ctx, {
+    // 새로운 Chart instance를 생성하고 객체에 저장
+    charts[contextId] = new Chart(ctx, {
         type: 'bar',
         data: {
             labels: ['틀린 문제 수'],
