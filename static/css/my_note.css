@@ -301,8 +301,6 @@ body {
     width: 100%;
     overflow: auto;
     background-color: rgba(0,0,0,0.4);
-    animation-name: slideup;
-    animation-duration: 0.5s;
 }
 
 .modal-content {
@@ -314,27 +312,6 @@ body {
     padding: 20px;
     border: 1px solid #888;
     overflow: auto;
-    animation-name: slidedown;
-    animation-duration: 0.5s;
-    animation-fill-mode: forwards;
-}
-
-@keyframes slideup {
-    0% {
-        transform: translateY(100%);
-    }
-    100% {
-        transform: translateY(0);
-    }
-}
-
-@keyframes slidedown {
-    0% {
-        transform: translateY(0);
-    }
-    100% {
-        transform: translateY(100%);
-    }
 }
 
 .close {
@@ -354,12 +331,21 @@ body {
 @media screen and (max-width: 600px) {
     .modal-content {
         width: 100%;
-        height: 80%; 
+        height: 80%;
+        left: 0;
         margin: auto 0;
+        transform: translateY(100%); /* 화면 아래로 이동. 초기 위치 설정 */
+        transition: transform 0.5s ease-in-out; /* 0.5초 동안 애니메이션 적용. 위로 올라오거나 아래로 내려가는 속도를 설정 */
     }
+
+    .modal-content.active { /* 추가된 코드 */
+        transform: translateY(0); /* 원래 위치로 돌아옴. 모달이 활성화되면 위로 슬라이드 */
+    }
+
     #my-tests {
         grid-template-columns: repeat(2, 1fr);
     }
+
     .test-container {
         max-width: 150px;
         max-height: 150px;

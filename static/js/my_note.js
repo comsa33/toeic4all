@@ -203,24 +203,23 @@ let modal = document.getElementById('myModal');
 // Get the <span> element that closes the modal
 let span = document.getElementsByClassName("close")[0];
 
+// When the user clicks on <span> (x), close the modal
 span.onclick = function() {
-    modal.style.animationName = "slidedown";
-    modal.addEventListener('animationend', function() {
-        modal.style.display = "none";
-        modal.style.animationName = "slideup";  // Reset the animation
-    }, {once: true});
+  $('#modal-content').removeClass('active');
+    setTimeout(function() {
+        $('#myModal').css('display', 'none');
+    }, 500); // 애니메이션이 끝나는 시간과 일치해야 합니다.
 }
 
-window.onclick = function(event) {
-    if (event.target == modal) {
-        modal.style.animationName = "slidedown";
-        modal.addEventListener('animationend', function() {
-            modal.style.display = "none";
-            modal.style.animationName = "slideup";  // Reset the animation
-        }, {once: true});
+$('#modal-background').click(function(e) {
+    // 클릭된 요소가 #modal-background인 경우에만 모달을 닫습니다.
+    if (e.target.id === 'modal-background') {
+        $('#modal-content').removeClass('active');
+        setTimeout(function() {
+            $('#myModal').css('display', 'none');
+        }, 500); // 애니메이션이 끝나는 시간과 일치해야 합니다.
     }
-}
-
+});
 
 function loadWrongQuestions(testId, testNo) {
     fetchWithToken('/api/my-note/tests/' + testId + '/wrong-questions')
@@ -420,6 +419,10 @@ function loadWrongQuestions(testId, testNo) {
         }
         // Show the modal after loading the data
         modal.style.display = "block";
-    })
+        // 애니메이션을 시작합니다.
+        setTimeout(function() {
+            $('#modal-content').addClass('active');
+        }, 50);
+        })
     .catch(error => alert(error))
 };
