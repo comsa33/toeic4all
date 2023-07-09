@@ -211,7 +211,7 @@ span.onclick = function() {
     }, 500); // 애니메이션이 끝나는 시간과 일치해야 합니다.
 }
 
-$('#modal-background').click(function(e) {
+$('#myModal').click(function(e) {
     // 클릭된 요소가 #modal-background인 경우에만 모달을 닫습니다.
     if (e.target.id === 'modal-background') {
         $('#modal-content').removeClass('active');
