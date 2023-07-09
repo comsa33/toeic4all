@@ -461,3 +461,10 @@ function loadWrongQuestions(testId, testNo) {
         })
     .catch(error => alert(error))
 };
+
+document.body.addEventListener('touchmove', function(e) {
+    if (document.body.classList.contains('no-scroll')) {
+      e.preventDefault();
+    }
+  }, { passive: false });
+  
