@@ -59,6 +59,12 @@ function timeSince(date) {
 }
 
 document.querySelector('.collapsible').addEventListener('click', function() {
+    const upIcon = this.querySelector('.fa-chevron-up');
+    const downIcon = this.querySelector('.fa-chevron-down');
+
+    upIcon.style.transform = `rotate(${parseInt(getComputedStyle(upIcon).transform.split(',')[1]) + 180}deg)`;
+    downIcon.style.transform = `rotate(${parseInt(getComputedStyle(downIcon).transform.split(',')[1]) + 180}deg)`;
+
     this.classList.toggle('collapsed');
 });
 

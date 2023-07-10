@@ -38,19 +38,11 @@ body {
 }
   
 .fa-chevron-up {
-    transform: rotate(0deg); /* This is the default rotation */
+    transform: rotate(0deg);
 }
-
-.collapsed .fa-chevron-up {
-    transform: rotate(180deg); /* This will rotate the 'up' icon 180 degrees when 'collapsed' class is present */
-}
-
+  
 .fa-chevron-down {
-    transform: rotate(180deg); /* This is the default rotation */
-}
-
-.collapsed .fa-chevron-down {
-    transform: rotate(0deg); /* This will rotate the 'down' icon 0 degrees when 'collapsed' class is present */
+    transform: rotate(-180deg);
 }
   
 .fas.fa-chevron-down {
