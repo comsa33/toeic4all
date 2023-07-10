@@ -363,22 +363,38 @@ button:disabled {
     background-color: #ffd3d380;
     padding: 20px;
     color: #3f3f3f;
-}
-
-#toggle-guidelines-button {
-    font-weight: bold;
-    border-radius: 0px;
-    display: contents;
-    color: #f0592a;
     cursor: pointer;
 }
 
-#toggle-guidelines-button:hover {
-    background-color: white; 
-    color: #5e5e5e; 
+.fas {
+    transition: transform 0.3s ease-out; /* This will animate any changes to the 'transform' property over 0.3 seconds */
+}
+  
+.fa-chevron-down {
+    transform: rotate(0deg);
+    transition: transform 0.3s ease-in-out;
+}
+
+.collapsible-icon-area {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.collapsible p {
+    transition: max-height 0.2s ease-out;
+    overflow: hidden;
+    max-height: 400px;
+}
+
+.collapsed p {
+    max-height: 20px;
 }
 
 #community-guidelines-content {
+    position: relative;
     margin-top: 15px;
     font-size: 0.8em;
     font-weight: 200;

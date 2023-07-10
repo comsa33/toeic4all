@@ -638,15 +638,17 @@ document.addEventListener('DOMContentLoaded', function() {
     // });
 });
 
-document.getElementById('toggle-guidelines-button').addEventListener('click', function() {
-    var content = document.getElementById('community-guidelines-content');
-    if (content.style.display === 'none') {
-        content.style.display = 'block';
-        this.textContent = '접기';
+document.querySelector('.collapsible').addEventListener('click', function() {
+    const downIcon = this.querySelector('.fa-chevron-down');
+    let currentRotation = parseInt(downIcon.style.transform.replace(/\D/g,'')) || 0;
+    // Check whether the element is collapsed and adjust the rotation accordingly
+    if (this.classList.contains('collapsed')) {
+        currentRotation -= 180;  // If collapsed, rotate in the opposite direction
     } else {
-        content.style.display = 'none';
-        this.textContent = '커뮤니티 이용 가이드라인 보기';
+        currentRotation += 180;  // Otherwise, rotate in the original direction
     }
+    downIcon.style.transform = `rotate(${currentRotation}deg)`;
+    this.classList.toggle('collapsed');
 });
 
 function toggleLike(type, id) {
