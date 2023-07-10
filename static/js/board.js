@@ -638,18 +638,27 @@ document.addEventListener('DOMContentLoaded', function() {
     // });
 });
 
+document.addEventListener('DOMContentLoaded', (event) => {
+    const collapsibleElement = document.querySelector('.collapsible');
+    const downIcon = collapsibleElement.querySelector('.fa-chevron-down');
+
+    // If the element starts in a collapsed state, rotate the icon by 180 degrees
+    if (collapsibleElement.classList.contains('collapsed')) {
+        downIcon.style.transform = `rotate(180deg)`;
+    }
+});
+
 document.querySelector('.collapsible').addEventListener('click', function() {
     const downIcon = this.querySelector('.fa-chevron-down');
     let currentRotation = parseInt(downIcon.style.transform.replace(/\D/g,'')) || 0;
+
     // Check whether the element is collapsed and adjust the rotation accordingly
-    if (!this.classList.contains('collapsed') && currentRotation === 0) {
-        // Special case: if it's the initial collapsed state
-        currentRotation = 180;
-    } else if (this.classList.contains('collapsed')) {
+    if (this.classList.contains('collapsed')) {
         currentRotation -= 180;  // If collapsed, rotate in the opposite direction
     } else {
         currentRotation += 180;  // Otherwise, rotate in the original direction
     }
+
     downIcon.style.transform = `rotate(${currentRotation}deg)`;
     this.classList.toggle('collapsed');
 });
