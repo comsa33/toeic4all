@@ -364,7 +364,7 @@ def get_user_tests():
     pagination = db.session.query(UserTestDetail)\
         .filter(UserTestDetail.username == username)\
         .order_by(desc(UserTestDetail.created_at))\
-        .paginate(page=page, per_page=6, error_out=False)
+        .paginate(page=page, per_page=30, error_out=False)
 
     tests = pagination.items
 
