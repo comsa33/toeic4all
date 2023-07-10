@@ -33,10 +33,22 @@ body {
     padding: 20px;
 }
 
+.fas.fa-chevron-down {
+    display: none;  /* Hide the 'down' icon by default */
+}
+
+.collapsed .fas.fa-chevron-down {
+    display: inline;  /* Show the 'down' icon when 'collapsed' class is present */
+}
+
+.collapsed .fas.fa-chevron-up {
+    display: none;  /* Hide the 'up' icon when 'collapsed' class is present */
+}
+  
 .collapsible-icon-area {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    position: absolute;
+    top: 10px;
+    right: 10px;
     background-color: transparent;
     cursor: pointer;
 }
@@ -52,27 +64,28 @@ body {
 }
 
 .container-info{
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-  padding-left: 20px;
-  padding-right: 20px;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  line-height: 1.7;
-  font-weight: normal;
-  color: black;
-  background-color: #f1f1f1;
-  width: 100%;
-  text-align: justify;
-  cursor: pointer;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    line-height: 1.7;
+    font-weight: normal;
+    color: black;
+    background-color: #f1f1f1;
+    width: 100%;
+    text-align: justify;
+    cursor: pointer;
 }
 
 .p-guide-text{
-  font-size: 0.75em;
-  font-weight: 200;
-  color: gray;
-  margin-bottom: 0;
-  line-height: 1.6;
+    position: relative;
+    font-size: 0.75em;
+    font-weight: 200;
+    color: gray;
+    margin-bottom: 0;
+    line-height: 1.6;
 }
 
 .p-result-text {
