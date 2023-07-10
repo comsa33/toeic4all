@@ -33,6 +33,26 @@ body {
     padding: 20px;
 }
 
+.fas {
+    transition: transform 0.3s ease-out; /* This will animate any changes to the 'transform' property over 0.3 seconds */
+}
+  
+.fa-chevron-up {
+    transform: rotate(0deg); /* This is the default rotation */
+}
+
+.collapsed .fa-chevron-up {
+    transform: rotate(180deg); /* This will rotate the 'up' icon 180 degrees when 'collapsed' class is present */
+}
+
+.fa-chevron-down {
+    transform: rotate(180deg); /* This is the default rotation */
+}
+
+.collapsed .fa-chevron-down {
+    transform: rotate(0deg); /* This will rotate the 'down' icon 0 degrees when 'collapsed' class is present */
+}
+  
 .fas.fa-chevron-down {
     display: none;  /* Hide the 'down' icon by default */
 }
@@ -47,8 +67,8 @@ body {
   
 .collapsible-icon-area {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 30px;
+    right: 30px;
     background-color: transparent;
     cursor: pointer;
 }
@@ -135,6 +155,11 @@ body {
 
 /* 모바일 버전 스타일 */
 @media (max-width: 600px) {
+    .collapsible-icon-area {
+        top: 10px;
+        right: 10px;
+    }
+
     #side-btn-mynote a {
         color: #333333;
         border-bottom: 3px solid #fa7878;
