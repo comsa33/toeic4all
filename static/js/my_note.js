@@ -60,7 +60,8 @@ function timeSince(date) {
 
 document.querySelector('.collapsible').addEventListener('click', function() {
     const downIcon = this.querySelector('.fa-chevron-down');
-    downIcon.style.transform = `rotate(${parseInt(getComputedStyle(downIcon).transform.split(',')[1]) + 180}deg)`;
+    const currentRotation = parseInt(downIcon.style.transform.replace(/\D/g,'')) || 0;
+    downIcon.style.transform = `rotate(${currentRotation + 180}deg)`;
     this.classList.toggle('collapsed');
 });
 
