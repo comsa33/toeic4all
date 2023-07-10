@@ -37,26 +37,11 @@ body {
     transition: transform 0.3s ease-out; /* This will animate any changes to the 'transform' property over 0.3 seconds */
 }
   
-.fa-chevron-up {
-    transform: rotate(0deg);
-}
-  
 .fa-chevron-down {
-    transform: rotate(-180deg);
-}
-  
-.fas.fa-chevron-down {
-    display: none;  /* Hide the 'down' icon by default */
+    transform: rotate(0deg);
+    transition: transform 0.3s ease-in-out;
 }
 
-.collapsed .fas.fa-chevron-down {
-    display: inline;  /* Show the 'down' icon when 'collapsed' class is present */
-}
-
-.collapsed .fas.fa-chevron-up {
-    display: none;  /* Hide the 'up' icon when 'collapsed' class is present */
-}
-  
 .collapsible-icon-area {
     position: absolute;
     top: 30px;
