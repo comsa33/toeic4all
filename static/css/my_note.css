@@ -37,7 +37,7 @@ body {
     transition: transform 0.3s ease-out; /* This will animate any changes to the 'transform' property over 0.3 seconds */
 }
   
-.fa-chevron-down {
+.fa-chevron-up {
     transform: rotate(0deg);
     transition: transform 0.3s ease-in-out;
 }

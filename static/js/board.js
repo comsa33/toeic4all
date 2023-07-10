@@ -640,7 +640,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 document.addEventListener('DOMContentLoaded', (event) => {
     const collapsibleElement = document.querySelector('.collapsible');
-    const downIcon = collapsibleElement.querySelector('.fa-chevron-down');
+    const downIcon = collapsibleElement.querySelector('.fa-chevron-up');
 
     // If the element starts in a collapsed state, rotate the icon by 180 degrees
     if (collapsibleElement.classList.contains('collapsed')) {
@@ -649,7 +649,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 });
 
 document.querySelector('.collapsible').addEventListener('click', function() {
-    const downIcon = this.querySelector('.fa-chevron-down');
+    const downIcon = this.querySelector('.fa-chevron-up');
     let currentRotation = parseInt(downIcon.style.transform.replace(/\D/g,'')) || 0;
 
     // Check whether the element is collapsed and adjust the rotation accordingly
