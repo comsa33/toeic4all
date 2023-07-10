@@ -279,7 +279,7 @@ button:disabled {
     padding: 20px;
     padding-top: 0;
     background-color: #ffffff;
-    border-top: 1px solid #dddddd;
+    margin-bottom: 20px;
     border-bottom: 1px solid #dddddd;
 }
 
@@ -576,7 +576,7 @@ button:disabled {
     top: 40%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 2;
+    z-index: 1300;
 }
 
 .close-icon {
