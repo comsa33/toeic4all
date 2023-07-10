@@ -241,6 +241,7 @@ let modal = document.getElementById('myModal');
 
 $('#myModal').click(function(e) {
     if (e.target.id === 'myModal') {
+        $('#modal-close-text').css('display', 'none');
         $('#modal-content').removeClass('active');
         document.body.classList.remove('no-scroll');
         setTimeout(function() {
