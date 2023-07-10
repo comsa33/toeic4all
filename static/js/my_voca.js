@@ -257,4 +257,19 @@ function showQuestion(wordId) {
             .catch(error => alert(error));
         }
     });
+    document.getElementById('modal-background').style.display = 'block';
+    // 애니메이션을 시작합니다.
+    setTimeout(function() {
+        $('#question-section').addClass('active');
+    }, 50);
 }
+
+$('#modal-background').click(function(e) {
+    // 클릭된 요소가 #modal-background인 경우에만 모달을 닫습니다.
+    if (e.target.id === 'modal-background') {
+        $('#question-section').removeClass('active');
+        setTimeout(function() {
+            $('#modal-background').css('display', 'none');
+        }, 500); // 애니메이션이 끝나는 시간과 일치해야 합니다.
+    }
+});
