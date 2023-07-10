@@ -223,8 +223,8 @@ function getQuestion(id, answerPage = 1) {
     fetchWithToken(apiEndpoint + 'board_questions/' + id)
         .then(response => response.json())
         .then(data => {
-            document.getElementById('new-question-form').style.display = 'none';
-            const board = document.getElementById('board');
+            // document.getElementById('new-question-form').style.display = 'none';
+            const board = document.getElementById('board-detail');
             board.className = 'detail-view';
 
             const profilePicture = data.profile_picture || '/static/images/profile1.png';
@@ -232,7 +232,6 @@ function getQuestion(id, answerPage = 1) {
             let originalHTML = decodeHTML(data.content);
             const safeHTML = DOMPurify.sanitize(originalHTML);
             board.innerHTML = `
-                <button type="button" id="button-get-questions" class="button-text" onclick="getQuestions()">﹤전체목록보기</button>
                 <div class="question-box">
                     <div class="question-header">
                         <div class="author-date-container">
@@ -261,7 +260,6 @@ function getQuestion(id, answerPage = 1) {
                     <button type="button" class="delete" onclick="deleteQuestion(${id})">삭제</button>
                     ` : ''}
                 </div>
-                <button type="button" id="button-get-questions" class="button-text" onclick="getQuestions()">﹤전체목록보기</button>
             `;
 
         document.getElementById(`like-button-question-${id}`).addEventListener('click', function() {
@@ -354,7 +352,22 @@ function getQuestion(id, answerPage = 1) {
             }
         );
     });
+    document.getElementById('modal-background').style.display = 'block';
+    // 애니메이션을 시작합니다.
+    setTimeout(function() {
+        $('#question-modal').addClass('active');
+    }, 50); // 50밀리초의 딜레이를 줍니다. 이는 CSS 애니메이션이 제대로 작동하기 위한 임시 조치입니다.
 }
+
+$('#modal-background').click(function(e) {
+    // 클릭된 요소가 #modal-background인 경우에만 모달을 닫습니다.
+    if (e.target.id === 'modal-background') {
+        $('#image-modal').removeClass('active');
+        setTimeout(function() {
+            $('#modal-background').css('display', 'none');
+        }, 500); // 애니메이션이 끝나는 시간과 일치해야 합니다.
+    }
+});
 
 function createQuestion() {
     const title = document.getElementById('new-question-title').value;

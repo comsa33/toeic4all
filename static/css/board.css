@@ -214,6 +214,31 @@ button:disabled {
     height: 5em;
 }
 
+#modal-background {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.35);
+    z-index: 1099;
+}
+
+.question-modal {
+    position: fixed;
+    top: 10%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 1em;
+    border-radius: 10px;
+    z-index: 1100;
+    box-shadow: 0 -7px 20px rgba(0,0,0,0.2);
+    overflow-y: auto; /* 스크롤 가능하게 함 */
+    max-height: 60%; /* 전체 높이의 60%로 제한 */
+}
+
 .question-title {
     font-weight: bold;
     font-size: .9em;
@@ -588,5 +613,18 @@ button:disabled {
 @media (max-width: 600px) {
     .my-img-container {
         margin-top: 70px;
+    }
+
+    .question-modal {
+        top: 10%;
+        left: 0;
+        max-height: 50%;
+        width: 100%;
+        transform: translateY(100%); /* 화면 아래로 이동. 초기 위치 설정 */
+        transition: transform 0.5s ease-in-out; /* 0.5초 동안 애니메이션 적용. 위로 올라오거나 아래로 내려가는 속도를 설정 */
+    }
+
+    .question-modal.active { /* 추가된 코드 */
+        transform: translateY(0); /* 원래 위치로 돌아옴. 모달이 활성화되면 위로 슬라이드 */
     }
 }

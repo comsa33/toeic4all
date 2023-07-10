@@ -75,56 +75,64 @@
         <div id="board" class="board-wrapper">
             <!-- each question will be added here. -->
         </div>
-
-        <!-- Pagination -->
-        <div id="pagination"></div>
-
-        <!-- section to show and create answers. initially hidden. -->
-        <div id="answers-section" style="display: none;">
-            <h5 id="h4-answer">게시물 답변</h5>
-
-            <!-- answer creation form -->
-            <form id="new-answer-form">
-                <div id="user-profile-picture">
-                    <!-- 사용자 사진 -->
+        <div id="modal-background">
+            <div id="question-modal" class="question-modal">
+                <div id="board-detail">
+                    <!-- each question will be added here. -->
                 </div>
-                <textarea id="new-answer" placeholder="댓글 추가 ..."></textarea>
-                <button type="button" id="create-answer-button" class="submit">
-                    <i class="fas fa-pencil-alt"></i>
-                </button>
-            </form>
-
-            <div id="answers">
-                <!-- answers will be added here. -->
-            </div>
-            <!-- Answer Pagination -->
-            <div id="answers-pagination"></div>
-        </div>
-
-        <!-- Modal -->
-        <div id="myModal" class="modal">
-            <!-- Modal content -->
-            <div class="modal-content">
-                <i class="fas fa-times close-icon" id="close-modal-icon"></i>
-                <form id="edit-question-form" class="no-border">
-                    <div>
-                        <label for="edit-question-title"></label>
-                        <input type="text" id="edit-question-title">
-                    </div>
-                    <div>
-                        <div id="edit-question-content" style="height:220px;"></div>
-                    </div>
-                    <div>
-                        <button type="button" id="edit-question-submit">
-                            수정하기
+    
+                <!-- Pagination -->
+                <div id="pagination"></div>
+    
+                <!-- section to show and create answers. initially hidden. -->
+                <div id="answers-section" style="display: none;">
+                    <h5 id="h4-answer">게시물 답변</h5>
+    
+                    <!-- answer creation form -->
+                    <form id="new-answer-form">
+                        <div id="user-profile-picture">
+                            <!-- 사용자 사진 -->
+                        </div>
+                        <textarea id="new-answer" placeholder="댓글 추가 ..."></textarea>
+                        <button type="button" id="create-answer-button" class="submit">
+                            <i class="fas fa-pencil-alt"></i>
                         </button>
+                    </form>
+    
+                    <div id="answers">
+                        <!-- answers will be added here. -->
                     </div>
-                </form>
-            </div>
-            <div id="modal-close" class="modal-close">
-                <p id="modal-close-text">[빈 곳을 탭해서 닫기]</p>
+                    <!-- Answer Pagination -->
+                    <div id="answers-pagination"></div>
+                </div>
+    
+                <!-- Modal -->
+                <div id="myModal" class="modal">
+                    <!-- Modal content -->
+                    <div class="modal-content">
+                        <i class="fas fa-times close-icon" id="close-modal-icon"></i>
+                        <form id="edit-question-form" class="no-border">
+                            <div>
+                                <label for="edit-question-title"></label>
+                                <input type="text" id="edit-question-title">
+                            </div>
+                            <div>
+                                <div id="edit-question-content" style="height:220px;"></div>
+                            </div>
+                            <div>
+                                <button type="button" id="edit-question-submit">
+                                    수정하기
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <div id="modal-close" class="modal-close">
+                        <p id="modal-close-text">[빈 곳을 탭해서 닫기]</p>
+                    </div>
+                </div>
             </div>
         </div>
+
     </div>
 {% endblock %}
     
