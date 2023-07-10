@@ -60,10 +60,17 @@ function timeSince(date) {
 
 document.querySelector('.collapsible').addEventListener('click', function() {
     const downIcon = this.querySelector('.fa-chevron-down');
-    const currentRotation = parseInt(downIcon.style.transform.replace(/\D/g,'')) || 0;
-    downIcon.style.transform = `rotate(${currentRotation + 180}deg)`;
+    let currentRotation = parseInt(downIcon.style.transform.replace(/\D/g,'')) || 0;
+    // Check whether the element is collapsed and adjust the rotation accordingly
+    if (this.classList.contains('collapsed')) {
+        currentRotation -= 180;  // If collapsed, rotate in the opposite direction
+    } else {
+        currentRotation += 180;  // Otherwise, rotate in the original direction
+    }
+    downIcon.style.transform = `rotate(${currentRotation}deg)`;
     this.classList.toggle('collapsed');
 });
+
 
 window.onload = function() {
     let page = 1;  // Keep track of the current page
