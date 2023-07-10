@@ -227,7 +227,7 @@ button:disabled {
 
 .question-modal {
     position: fixed;
-    top: 10%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: white;
@@ -236,7 +236,7 @@ button:disabled {
     z-index: 1100;
     box-shadow: 0 -7px 20px rgba(0,0,0,0.2);
     overflow-y: auto; /* 스크롤 가능하게 함 */
-    max-height: 60%; /* 전체 높이의 60%로 제한 */
+    max-height: 80%;
 }
 
 .question-title {
@@ -618,7 +618,7 @@ button:disabled {
     .question-modal {
         top: 10%;
         left: 0;
-        max-height: 50%;
+        max-height: 90%;
         width: 100%;
         transform: translateY(100%); /* 화면 아래로 이동. 초기 위치 설정 */
         transition: transform 0.5s ease-in-out; /* 0.5초 동안 애니메이션 적용. 위로 올라오거나 아래로 내려가는 속도를 설정 */
