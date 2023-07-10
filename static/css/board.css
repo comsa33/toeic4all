@@ -421,6 +421,7 @@ button:disabled {
     margin-top: 15px;
     font-size: 0.8em;
     font-weight: 200;
+    padding-right: 20px;
 }
 
 #pagination {
