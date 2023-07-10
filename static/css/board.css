@@ -589,16 +589,8 @@ button:disabled {
     height: 30px;
     justify-content: center;
     align-items: center;
-    z-index: 1050;
+    z-index: 1250;
     color: black;
-}
-
-#modal-close-text {
-    font-size: .8em;
-    color: rgb(255, 255, 255);
-    display: flex;
-    justify-content: center;
-    padding-top: 450px;
 }
 
 .ql-toolbar.ql-snow {
