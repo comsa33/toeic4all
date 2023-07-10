@@ -385,7 +385,7 @@ button:disabled {
 .collapsible p {
     transition: max-height 0.2s ease-out;
     overflow: hidden;
-    max-height: 640px;
+    max-height: 800px;
 }
 
 .collapsed p {
