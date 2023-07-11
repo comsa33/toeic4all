@@ -258,6 +258,8 @@ footer a:hover {
     align-items: center;
     border: 1px solid white;
     border-radius: 50%;
+    width: 30px;
+    height: 30px;
 }
 
 #login-area i {
