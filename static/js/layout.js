@@ -12,9 +12,7 @@ function toggleNav() {
     }
 }
 
-if (mobileUserBtn) {
-    mobileUserBtn.addEventListener('click', toggleNav);
-};
+mobileUserBtn.addEventListener('click', toggleNav);
 closeSidebarButton.addEventListener('click', toggleNav);
 
 document.addEventListener('click', function(event) {
@@ -135,14 +133,14 @@ function scrollFunction() {
         title.style.fontSize = "10px";
         title.style.fontWeight = "500";
         titleLink.style.color = '#bdb9b9'; // 폰트 색상을 다크 그레이로 변경
-        mobileUserIcon.style.fontSize = ".2em";
+        mobileUserIcon.style.scale = "0.5";
     } else {
         navbar.style.height = "50px";
         navbar.style.backgroundColor = '#f87272';
         title.style.fontSize = "1.5rem";
         title.style.fontWeight = "700";
         titleLink.style.color = '#fff'; // 폰트 색상을 원래대로(흰색) 변경
-        mobileUserIcon.style.fontSize = "1em"; // 햄버거 아이콘 원래 크기로 복구
+        mobileUserIcon.style.scale = "1";
     }
 }
 
