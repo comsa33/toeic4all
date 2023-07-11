@@ -41,6 +41,11 @@ let vocabularies;
 
 let wrongOnly = false;
 
+function toggleWrongOnly() {
+    wrongOnly = !wrongOnly;
+    fetchVocabs(1);
+}
+
 function fetchVocabs(page) {
     // Remove all current vocabs and pagination
     while (vocabSection.firstChild) {
