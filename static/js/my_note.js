@@ -475,6 +475,7 @@ function loadWrongQuestions(testId, testNo) {
         }
         // Show the modal after loading the data
         modal.style.display = "block";
+        document.getElementById('modal-close-text').style.display = 'block';
         document.body.classList.add('no-scroll');
         // 애니메이션을 시작합니다.
         setTimeout(function() {

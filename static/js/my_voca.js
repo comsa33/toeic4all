@@ -253,6 +253,7 @@ function showQuestion(wordId) {
         }
     });
     document.getElementById('modal-background').style.display = 'block';
+    document.getElementById('modal-close-text').style.display = 'block';
     // 애니메이션을 시작합니다.
     setTimeout(function() {
         $('#question-section').addClass('active');
