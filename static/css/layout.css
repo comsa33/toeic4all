@@ -314,7 +314,12 @@ footer a:hover {
         font-size: .9em;
     }
     #mobile-user-dropdown li {
+        display: flex;
         margin-top: 30px;
+        align-items: center;
+    }
+    #mobile-user-dropdown li a {
+        font-size: .7em;
     }
     #nav-logout {
         font-size: .8em;
