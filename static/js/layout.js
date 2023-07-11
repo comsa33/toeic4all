@@ -73,7 +73,7 @@ function updateUI(isLoggedIn, username, profile_picture) {
         `;
 
         $('#nav-user').html(userPCMenuHtml).show();
-        $('mobile-user-btn').html(userProfileBtnHtml).show();
+        $('#mobile-user-btn').html(userProfileBtnHtml).show();
         $('#mobile-nav-user').html(userMobileMenuHtml).show();
     } else {
         $('#nav-user, #mobile-nav-user').hide();
