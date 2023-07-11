@@ -1,4 +1,4 @@
-const hamburgerBtn = document.getElementById('hamburger-btn');
+const mobileUserBtn = document.getElementById('mobile-user-btn');
 const sideNav = document.getElementById('side-nav');
 const closeSidebarButton = document.getElementById('close-sidebar-button');
 
@@ -12,15 +12,15 @@ function toggleNav() {
     }
 }
 
-hamburgerBtn.addEventListener('click', toggleNav);
+mobileUserBtn.addEventListener('click', toggleNav);
 closeSidebarButton.addEventListener('click', toggleNav);
 
 document.addEventListener('click', function(event) {
     var isClickInside = sideNav.contains(event.target);
-    var isHamburgerClicked = hamburgerBtn.contains(event.target);
+    var isMobileUserBtnClicked = mobileUserBtn.contains(event.target);
     var isCloseButtonClicked = closeSidebarButton.contains(event.target);
 
-    if (!isClickInside && !isHamburgerClicked && !isCloseButtonClicked) {
+    if (!isClickInside && !isMobileUserBtnClicked && !isCloseButtonClicked) {
         sideNav.classList.remove('visible');
         sideNav.classList.add('hidden');
     }
@@ -68,7 +68,6 @@ function updateUI(isLoggedIn, username, profile_picture) {
                 <li><a href="/my-learning-analysis">내 학습 분석</a></li>
             </ul>
         `;
-
         const userProfileBtnHtml = `
         <a href="/user-detail"><img src="${profile_picture}" width="30" height="30" class="profile-img mobile-user-icon"></a>
         `;
