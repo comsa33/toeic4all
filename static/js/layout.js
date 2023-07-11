@@ -1,4 +1,4 @@
-const mobileUserBtn = document.getElementById('mobile-user-icon');
+const mobileUserBtn = document.getElementById('mobile-user-btn');
 const sideNav = document.getElementById('side-nav');
 const closeSidebarButton = document.getElementById('close-sidebar-button');
 
