@@ -50,29 +50,16 @@
         <div id="mobile-nav-header">
             <div id="mobile-title"><a href="{{ url_for('main.main_page') }}">모두의 토익</a></div>  <!-- 새로운 타이틀 요소를 추가함 -->
         </div>
-        <div id="hamburger-btn">
-            <i class="fas fa-bars"></i> <!-- Font Awesome의 햄버거 버튼 아이콘 -->
+        <div id="mobile-user-btn">
+            <a href="/user/login"> <!-- 내 정보 링크 -->
+                <i class="fas fa-user" id="mobile-user-icon"></i> <!-- 내 정보 아이콘 -->
+            </a>
         </div>
         <div id="side-nav" class="hidden"> <!-- 사이드 네비게이션 바, 처음에는 숨겨져 있음 -->
             <i id="close-sidebar-button" class="fas fa-times close-icon"></i>
-            <ul id="mobile-nav-links-left">
-                <li class="{{ 'active' if request.endpoint.endswith('mock_test') }}"><a href="{{ url_for('main.mock_test') }}">
-                    <i class="fas fa-pencil-alt"></i>&nbsp;&nbsp;모의고사</a>
-                </li>
-                <li class="{{ 'active' if request.endpoint.endswith('voca_test') }}"><a href="{{ url_for('main.voca_test') }}">
-                    <i class="fas fa-check-double"></i>&nbsp;&nbsp;단어퀴즈</a>
-                </li>
-                <li class="{{ 'active' if request.endpoint.endswith('board_page') }}"><a href="{{ url_for('main.board_page') }}">
-                    <i class="fas fa-comments"></i>&nbsp;&nbsp;Q&A 게시판</a>
-                </li>
-                <li class="{{ 'active' if request.endpoint.endswith('rank') }}"><a href="{{ url_for('main.rank') }}">
-                    <i class="fas fa-trophy"></i>&nbsp;&nbsp;순위</a>
-                </li>
-            </ul>
             <ul id="mobile-nav-links-right">
-                <li id="mobile-nav-user"></li>                
-                <li><a href="https://toeic4all.com/user/login" id="nav-login" >로그인</a></li>
                 <li><a href="#" id="nav-logout">로그아웃</a></li> <!-- 로그아웃 링크를 "#"로 변경했습니다. -->
+                <li id="mobile-nav-user"></li>                
             </ul>
         </div>
     </nav>
@@ -84,33 +71,33 @@
 
     <div id="mobile-navbar-bottom">
         <div class="nav-item">
-            <a href="/"> <!-- 메인 홈 링크 -->
-                <i class="fas fa-home"></i> <!-- home 버튼 아이콘 -->
-                <p class="nav-text">메인</p> <!-- 텍스트 추가 -->
+            <a href="/">
+                <i class="fas fa-home"></i>
+                <p class="nav-text">메인</p>
             </a>
         </div>
         <div class="nav-item">
-            <a href="/part5/test"> <!-- 모의고사 링크 -->
-                <i class="fas fa-book-open"></i> <!-- 모의고사 아이콘 -->
-                <p class="nav-text">모의고사</p> <!-- 텍스트 추가 -->
+            <a href="/part5/test">
+                <i class="fas fa-book-open"></i>
+                <p class="nav-text">모의고사</p>
             </a>
         </div>
         <div class="nav-item">
-            <a href="/voca-test"> <!-- 단어퀴즈 링크 -->
-                <i class="fas fa-check-double"></i> <!-- 단어퀴즈 아이콘 -->
-                <p class="nav-text">단어퀴즈</p> <!-- 텍스트 추가 -->
+            <a href="/voca-test">
+                <i class="fas fa-check-double"></i>
+                <p class="nav-text">단어퀴즈</p>
             </a>
         </div>
         <div class="nav-item">
-            <a href="/mynote"> <!-- 오답노트 링크 -->
-                <i class="fas fa-eraser"></i> <!-- 오답노트 아이콘 -->
-                <p class="nav-text">오답노트</p> <!-- 텍스트 추가 -->
+            <a href="/board">
+                <i class="fas fa-comments"></i>
+                <p class="nav-text">커뮤니티</p>
             </a>
         </div>
         <div class="nav-item">
-            <a href="/user-detail"> <!-- 내 정보 링크 -->
-                <i class="fas fa-user"></i> <!-- 내 정보 아이콘 -->
-                <p class="nav-text">내 정보</p> <!-- 텍스트 추가 -->
+            <a href="/rank">
+                <i class="fas fa-trophy"></i>
+                <p class="nav-text">순위</p>
             </a>
         </div>
     </div>    

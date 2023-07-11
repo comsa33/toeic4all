@@ -198,21 +198,12 @@ body #hamburger-btn {
     align-items: center;
 }
 
-#mobile-nav-links-left {
-    display: flex;
-    flex-direction: column;
-    align-items: left;
-    position: absolute;
-    top: 10%;
-    gap: 30px;
-}
-
 #mobile-nav-links-right {
     display: flex;
     flex-direction: column;
     align-items: left;
     position: absolute;
-    bottom: 15%;
+    top: 15%;
     gap: 10px;
     width: 250px;
     border-top: 1px solid #ffffff38;
@@ -259,11 +250,6 @@ body #hamburger-btn {
 footer a:hover {
     transition: color 0.3s ease;
     color: #ff6347;
-}
-
-#mobile-nav-links-left li i {
-    font-size: 0.8em;
-    color: rgb(255, 199, 199);
 }
 
 #mobile-nav, #mobile-title, #hamburger-btn i {

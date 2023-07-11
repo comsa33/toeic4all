@@ -60,7 +60,6 @@ function updateUI(isLoggedIn, username, profile_picture) {
             </ul>
         `;
         const userMobileMenuHtml = `
-            <a href="/user-detail"><img src="${profile_picture}" width="20" height="20" class="profile-img" style="margin-right: 10px;">${username} 님</a>
             <ul id="mobile-user-dropdown">
                 <li><a href="/user-detail">내 정보</a></li>
                 <li><a href="/mypage">찜한 문제</a></li>
@@ -70,7 +69,12 @@ function updateUI(isLoggedIn, username, profile_picture) {
             </ul>
         `;
 
+        const userProfileBtnHtml = `
+        <a href="/user-detail"><img src="${profile_picture}" width="30" height="30" class="profile-img mobile-user-icon"></a>
+        `;
+
         $('#nav-user').html(userPCMenuHtml).show();
+        $('mobile-user-btn').html(userProfileBtnHtml).show();
         $('#mobile-nav-user').html(userMobileMenuHtml).show();
     } else {
         $('#nav-user, #mobile-nav-user').hide();
@@ -122,8 +126,7 @@ function scrollFunction() {
     let navbar = document.getElementById("mobile-nav");
     let title = document.getElementById("mobile-title");
     let titleLink = document.querySelector("#mobile-title a")
-    let hamburgerBtn = document.getElementById("hamburger-btn"); // 햄버거 버튼 참조 추가
-    let hamburgerIcon = hamburgerBtn.querySelector('i'); // 햄버거 아이콘 참조 추가
+    let mobileUserIcon = document.getElementById("mobile-user-icon");
 
     if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
         navbar.style.height = "10px";
@@ -131,16 +134,14 @@ function scrollFunction() {
         title.style.fontSize = "10px";
         title.style.fontWeight = "500";
         titleLink.style.color = '#bdb9b9'; // 폰트 색상을 다크 그레이로 변경
-        hamburgerIcon.style.fontSize = "12px"; // 햄버거 아이콘 크기 조정
-        hamburgerIcon.style.color = '#bdb9b9'; // 햄버거 아이콘 색상 조정
+        mobileUserIcon.style.fontSize = ".2em";
     } else {
         navbar.style.height = "50px";
         navbar.style.backgroundColor = '#f87272';
         title.style.fontSize = "1.5rem";
         title.style.fontWeight = "700";
         titleLink.style.color = '#fff'; // 폰트 색상을 원래대로(흰색) 변경
-        hamburgerIcon.style.fontSize = "1.5rem"; // 햄버거 아이콘 원래 크기로 복구
-        hamburgerIcon.style.color = '#fff'; // 햄버거 아이콘 원래 색상으로 복구
+        mobileUserIcon.style.fontSize = "1em"; // 햄버거 아이콘 원래 크기로 복구
     }
 }
 
