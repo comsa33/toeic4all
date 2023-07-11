@@ -145,19 +145,28 @@ function scrollFunction() {
 }
 
 let scrollPosition = 0;
+let lastScroll = 0;
+let hideTimer = null;
+
+const navbar = document.getElementById("mobile-navbar-bottom");
 
 window.addEventListener('scroll', function() {
     let currentScroll = window.scrollY;
+
+    clearTimeout(hideTimer);
+    hideTimer = setTimeout(function() {
+        navbar.style.bottom = "-70px"; // 2초 동안 아무 스크롤도 없으면 네비게이션 바를 숨깁니다.
+    }, 2000);
   
     if (currentScroll > scrollPosition && currentScroll > 100) {
         // 스크롤이 아래로 가고, 적어도 100px 아래로 내려갔을 때
-        document.getElementById("mobile-navbar-bottom").style.bottom = "-70px";
-    } else {
-        // 스크롤이 위로 올라갔을 때
-        document.getElementById("mobile-navbar-bottom").style.bottom = "0";
+        navbar.style.bottom = "-70px";
+    } else if (currentScroll < scrollPosition && (scrollPosition - currentScroll) > 50) {
+        // 스크롤이 위로 올라가고, 적어도 50px 이상 올라갔을 때
+        navbar.style.bottom = "0px";
     }
-  
-    // 새로운 스크롤 위치를 저장
+
+    lastScroll = scrollPosition;
     scrollPosition = currentScroll;
 });
 
