@@ -332,7 +332,7 @@ footer a:hover {
         margin-top: 30px;
         align-items: center;
     }
-    #mobile-user-dropdown li a {
+    #mobile-user-dropdown li i {
         font-size: .7em;
     }
     #nav-logout {
