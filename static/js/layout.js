@@ -1,4 +1,4 @@
-const mobileUserBtn = document.getElementById('mobile-user-btn');
+const mobileUserBtn = document.getElementById('mobile-user-icon');
 const sideNav = document.getElementById('side-nav');
 const closeSidebarButton = document.getElementById('close-sidebar-button');
 
@@ -12,7 +12,9 @@ function toggleNav() {
     }
 }
 
-mobileUserBtn.addEventListener('click', toggleNav);
+if (mobileUserBtn) {
+    mobileUserBtn.addEventListener('click', toggleNav);
+};
 closeSidebarButton.addEventListener('click', toggleNav);
 
 document.addEventListener('click', function(event) {
@@ -69,7 +71,7 @@ function updateUI(isLoggedIn, username, profile_picture) {
             </ul>
         `;
         const userProfileBtnHtml = `
-        <a href="/user-detail"><img src="${profile_picture}" width="30" height="30" class="profile-img mobile-user-icon"></a>
+        <img src="${profile_picture}" width="30" height="30" class="profile-img mobile-user-icon">
         `;
 
         $('#nav-user').html(userPCMenuHtml).show();
