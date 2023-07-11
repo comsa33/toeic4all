@@ -161,7 +161,7 @@ window.addEventListener('scroll', function() {
     if (currentScroll > scrollPosition && currentScroll > 100) {
         // 스크롤이 아래로 가고, 적어도 100px 아래로 내려갔을 때
         navbar.style.bottom = "-70px";
-    } else if (currentScroll < scrollPosition && (scrollPosition - currentScroll) > 50) {
+    } else if (currentScroll < scrollPosition && (scrollPosition - currentScroll) > 20) {
         // 스크롤이 위로 올라가고, 적어도 50px 이상 올라갔을 때
         navbar.style.bottom = "0px";
     }
