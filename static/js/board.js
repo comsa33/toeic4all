@@ -353,6 +353,7 @@ function getQuestion(id, answerPage = 1) {
         );
     });
     document.getElementById('modal-background').style.display = 'block';
+    document.getElementById('modal-close-text').style.display = 'block';
     // 애니메이션을 시작합니다.
     setTimeout(function() {
         $('#question-modal').addClass('active');
@@ -362,12 +363,41 @@ function getQuestion(id, answerPage = 1) {
 $('#modal-background').click(function(e) {
     // 클릭된 요소가 #modal-background인 경우에만 모달을 닫습니다.
     if (e.target.id === 'modal-background') {
+        $('#modal-close-text').css('display', 'none');
         $('#question-modal').removeClass('active');
         setTimeout(function() {
             $('#modal-background').css('display', 'none');
         }, 500); // 애니메이션이 끝나는 시간과 일치해야 합니다.
     }
 });
+
+window.onresize = function() {
+    positionModalCloseText();
+}
+
+function positionModalCloseText() {
+    var modalContent = document.getElementById('question-modal');
+    var modalCloseText = document.getElementById('modal-close-text');
+
+    // modalContent나 modalCloseText가 null이 아닌지 확인
+    if (!modalContent || !modalCloseText) {
+        console.log('question-modal or modal-close-text not found');
+        return;
+    }
+
+    var modalContentHeight = modalContent.offsetHeight;
+    var modalCloseTextHeight = modalCloseText.offsetHeight;
+
+    var isMobile = window.innerWidth <= 600;
+
+    if (isMobile) {
+        // 모바일 화면에서는 question-modal가 화면 하단에 위치
+        modalCloseText.style.top = "calc(7% - " + (modalContentHeight / 2 + modalCloseTextHeight + 10) + "px)";
+    } else {
+        // 피씨 화면에서는 question-modal가 중앙에 위치
+        modalCloseText.style.top = "calc(7% - " + (modalContentHeight / 2 + modalCloseTextHeight + 10) + "px)";
+    }
+}
 
 function createQuestion() {
     const title = document.getElementById('new-question-title').value;
@@ -627,6 +657,8 @@ function editAnswer(id) {
 document.addEventListener('DOMContentLoaded', function() {
     getUsername();
     getQuestions();
+    positionModalCloseText();
+    
 
     const createQuestionButton = document.getElementById('create-question-button');
     if (createQuestionButton) {
