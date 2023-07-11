@@ -71,7 +71,7 @@ function updateUI(isLoggedIn, username, profile_picture) {
             </ul>
         `;
         const userProfileBtnHtml = `
-        <img src="${profile_picture}" width="30" height="30" class="profile-img mobile-user-icon">
+        <img src="${profile_picture}" width="30" height="30" class="profile-img" id="mobile-user-icon">
         `;
 
         $('#nav-user').html(userPCMenuHtml).show();
