@@ -207,7 +207,8 @@ body #hamburger-btn {
     gap: 10px;
     width: 250px;
     border-top: 1px solid #ffffff38;
-    padding-top: 30px;
+    padding-top: 0;
+    padding-left: 0;
 }
 
 #side-nav.visible {
@@ -305,14 +306,16 @@ footer a:hover {
     }
     #mobile-nav-user {
         gap:15px;
+        border-top: 1px solid #ffffff38;
+        padding-top: 20px;
+        padding-left: 30px;
     }
     #mobile-user-dropdown {
         padding: 0;
         font-size: .9em;
     }
     #mobile-user-dropdown li {
-        margin-top: 20px;
-        margin-bottom: 20px;
+        margin-top: 30px;
     }
     #nav-logout {
         font-size: .9em;
