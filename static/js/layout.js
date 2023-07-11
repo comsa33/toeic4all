@@ -55,17 +55,17 @@ function updateUI(isLoggedIn, username, profile_picture) {
                 <li><a href="/user-detail">내 정보</a></li>
                 <li><a href="/mypage">찜한 문제</a></li>
                 <li><a href="/mynote">내 오답노트</a></li>
-                <li><a href="/myvoca">단어장</a></li>
+                <li><a href="/myvoca">내 단어장</a></li>
                 <li><a href="/my-learning-analysis">내 학습 분석</a></li>
             </ul>
         `;
         const userMobileMenuHtml = `
             <ul id="mobile-user-dropdown">
-                <li><a href="/user-detail">내 정보</a></li>
-                <li><a href="/mypage">찜한 문제</a></li>
-                <li><a href="/mynote">내 오답노트</a></li>
-                <li><a href="/myvoca">단어장</a></li>
-                <li><a href="/my-learning-analysis">내 학습 분석</a></li>
+                <li><i class="fas fa-user"></i> <a href="/user-detail">&nbsp;&nbsp;내 정보</a></li>
+                <li><i class="fas fa-star"></i> <a href="/mypage">&nbsp;&nbsp;찜한 문제</a></li>
+                <li><i class="fas fa-eraser"></i> <a href="/mynote">&nbsp;&nbsp;내 오답노트</a></li>
+                <li><i class="fas fa-language"></i> <a href="/myvoca">&nbsp;&nbsp;내 단어장</a></li>
+                <li><i class="fas fa-chart-line"></i> <a href="/my-learning-analysis">&nbsp;&nbsp;내 학습 분석</a></li>
             </ul>
         `;
         const userProfileBtnHtml = `
@@ -156,7 +156,7 @@ window.addEventListener('scroll', function() {
     clearTimeout(hideTimer);
     hideTimer = setTimeout(function() {
         navbar.style.bottom = "-70px"; // 2초 동안 아무 스크롤도 없으면 네비게이션 바를 숨깁니다.
-    }, 2000);
+    }, 3000);
   
     if (currentScroll > scrollPosition && currentScroll > 100) {
         // 스크롤이 아래로 가고, 적어도 100px 아래로 내려갔을 때
