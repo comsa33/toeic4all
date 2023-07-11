@@ -82,10 +82,32 @@ function fetchVocabs(page) {
             vocabSection.appendChild(table);
 
             // Create and append pagination
-            for (let i = 1; i <= data.total_pages; i++) {
+            let startPage = Math.floor((page - 1) / 10) * 10 + 1;  // Start page number of the current group
+            let endPage = startPage + 10;  // End page number of the current group
+            if (endPage > data.total_pages) {
+                endPage = data.total_pages + 1;  // If the last group has less than 10 pages
+            }
+
+            // Add 'previous group' button if necessary
+            if (startPage > 1) {
+                const li = document.createElement('li');
+                li.className = 'page-item';
+                li.innerHTML = `<a class="page-link" href="#" onclick="fetchVocabs(${startPage - 1})"><i class="fas fa-chevron-left"></i></a>`;
+                pagination.appendChild(li);
+            }
+
+            for (let i = startPage; i < endPage; i++) {
                 const li = document.createElement('li');
                 li.className = 'page-item';
                 li.innerHTML = `<a class="page-link" href="#" onclick="fetchVocabs(${i})">${i}</a>`;
+                pagination.appendChild(li);
+            }
+
+            // Add 'next group' button if necessary
+            if (endPage <= data.total_pages) {
+                const li = document.createElement('li');
+                li.className = 'page-item';
+                li.innerHTML = `<a class="page-link" href="#" onclick="fetchVocabs(${endPage})"><i class="fas fa-chevron-right"></i></a>`;
                 pagination.appendChild(li);
             }
         })
