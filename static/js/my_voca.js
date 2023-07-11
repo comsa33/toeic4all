@@ -41,11 +41,6 @@ let vocabularies;
 
 let wrongOnly = false;
 
-function toggleWrongOnly() {
-    wrongOnly = !wrongOnly;
-    fetchVocabs(1);
-}
-
 function fetchVocabs(page) {
     // Remove all current vocabs and pagination
     while (vocabSection.firstChild) {
@@ -264,6 +259,10 @@ function showQuestion(wordId) {
     }, 50);
 }
 
+window.onload = function() {
+    positionModalCloseText();
+}
+
 window.onresize = function() {
     positionModalCloseText();
 }
@@ -285,10 +284,10 @@ function positionModalCloseText() {
 
     if (isMobile) {
         // 모바일 화면에서는 question-section가 화면 하단에 위치
-        modalCloseText.style.top = "calc(60% - 339px)";
+        modalCloseText.style.top = "calc(60% - " + (modalContentHeight / 2 + modalCloseTextHeight + 10) + "px)";
     } else {
         // 피씨 화면에서는 question-section가 중앙에 위치
-        modalCloseText.style.top = "calc(50% - 194.5px";
+        modalCloseText.style.top = "calc(50% - " + (modalContentHeight / 2 + modalCloseTextHeight + 10) + "px)";
     }
 }
 
