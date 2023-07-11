@@ -178,6 +178,18 @@ body {
     z-index: 1099;
 }
 
+#modal-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#modal-close-text {
+    position: absolute;
+    font-size: .9em;
+    color: #e8e8e8;
+}
+
 .image-modal {
     position: fixed;
     top: 50%;

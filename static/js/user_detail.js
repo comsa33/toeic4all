@@ -89,6 +89,7 @@ async function getUserStatus() {
 $(document).ready(function() {
     
     getUserStatus();
+    positionModalCloseText();
     
     $('#edit-button').click(function() {
         $('#edit-form input, #edit-form select, #save-button').prop('disabled', false);
@@ -243,3 +244,31 @@ $('#modal-background').click(function(e) {
         }, 500); // 애니메이션이 끝나는 시간과 일치해야 합니다.
     }
 });
+
+window.onresize = function() {
+    positionModalCloseText();
+}
+
+function positionModalCloseText() {
+    var modalContent = document.getElementById('image-modal');
+    var modalCloseText = document.getElementById('modal-close-text');
+
+    // modalContent나 modalCloseText가 null이 아닌지 확인
+    if (!modalContent || !modalCloseText) {
+        console.log('image-modal or modal-close-text not found');
+        return;
+    }
+
+    var modalContentHeight = modalContent.offsetHeight;
+    var modalCloseTextHeight = modalCloseText.offsetHeight;
+
+    var isMobile = window.innerWidth <= 600;
+
+    if (isMobile) {
+        // 모바일 화면에서는 question-modal가 화면 하단에 위치
+        modalCloseText.style.top = "calc(50% - " + (modalContentHeight / 2 + modalCloseTextHeight + 10) + "px)";
+    } else {
+        // 피씨 화면에서는 question-modal가 중앙에 위치
+        modalCloseText.style.top = "calc(20% - " + (modalContentHeight / 2 + modalCloseTextHeight + 10) + "px)";
+    }
+}
