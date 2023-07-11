@@ -264,9 +264,38 @@ function showQuestion(wordId) {
     }, 50);
 }
 
+window.onresize = function() {
+    positionModalCloseText();
+}
+
+function positionModalCloseText() {
+    var modalContent = document.getElementById('question-section');
+    var modalCloseText = document.getElementById('modal-close-text');
+
+    // modalContent나 modalCloseText가 null이 아닌지 확인
+    if (!modalContent || !modalCloseText) {
+        console.log('question-section or modal-close-text not found');
+        return;
+    }
+
+    var modalContentHeight = modalContent.offsetHeight;
+    var modalCloseTextHeight = modalCloseText.offsetHeight;
+
+    var isMobile = window.innerWidth <= 600;
+
+    if (isMobile) {
+        // 모바일 화면에서는 question-section가 화면 하단에 위치
+        modalCloseText.style.top = "calc(17% - " + (modalContentHeight / 2 + modalCloseTextHeight + 10) + "px)";
+    } else {
+        // 피씨 화면에서는 question-section가 중앙에 위치
+        modalCloseText.style.top = "calc(17% - " + (modalContentHeight / 2 + modalCloseTextHeight + 10) + "px)";
+    }
+}
+
 $('#modal-background').click(function(e) {
     // 클릭된 요소가 #modal-background인 경우에만 모달을 닫습니다.
     if (e.target.id === 'modal-background') {
+        $('#modal-close-text').css('display', 'none');
         $('#question-section').removeClass('active');
         setTimeout(function() {
             $('#modal-background').css('display', 'none');

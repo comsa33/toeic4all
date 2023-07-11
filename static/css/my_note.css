@@ -14,10 +14,6 @@ body {
     font-family: 'Pretendard', sans-serif;
 }
 
-.no-scroll {
-    overflow: hidden;
-}
-
 #side-btn-mynote a {
     color: rgb(255, 77, 0);
 }
