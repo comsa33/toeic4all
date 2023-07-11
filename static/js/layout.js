@@ -69,7 +69,9 @@ function updateUI(isLoggedIn, username, profile_picture) {
             </ul>
         `;
         const userProfileBtnHtml = `
+        <div id="login-area">
         <img src="${profile_picture}" width="30" height="30" class="profile-img" id="mobile-user-icon">
+        </div>
         `;
 
         $('#nav-user').html(userPCMenuHtml).show();
@@ -134,28 +136,18 @@ function scrollFunction() {
         title.style.fontSize = "10px";
         title.style.fontWeight = "500";
         titleLink.style.color = '#bdb9b9'; // 폰트 색상을 다크 그레이로 변경
-        if (loginArea) {
-            mobileUserIcon.style.color = '#bdb9b9';
-            loginArea.style.scale = '0.5';
-            loginArea.style.border = '1px solid #bdb9b9';
-        }
-        else {
-            mobileUserIcon.style.scale = "0.5";
-        }
+        mobileUserIcon.style.color = '#bdb9b9';
+        loginArea.style.scale = '0.5';
+        loginArea.style.border = '1px solid #bdb9b9';
     } else {
         navbar.style.height = "50px";
         navbar.style.backgroundColor = '#f87272';
         title.style.fontSize = "1.5rem";
         title.style.fontWeight = "700";
         titleLink.style.color = '#fff'; // 폰트 색상을 원래대로(흰색) 변경
-        if (loginArea) {
-            mobileUserIcon.style.color = '#fff';
-            loginArea.style.scale = '1';
-            loginArea.style.border = '1px solid #fff';
-        }
-        else {
-            mobileUserIcon.style.scale = "1";
-        }
+        mobileUserIcon.style.color = '#fff';
+        loginArea.style.scale = '1';
+        loginArea.style.border = '1px solid #fff';
     }
 }
 
