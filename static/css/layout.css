@@ -252,6 +252,18 @@ footer a:hover {
     color: #ff6347;
 }
 
+#login-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid white;
+    border-radius: 50%;
+}
+
+#login-area i {
+    color: #fff;
+}
+
 #mobile-nav, #mobile-title, #hamburger-btn i {
     transition: all 0.2s ease-out;
 }
