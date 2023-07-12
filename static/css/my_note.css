@@ -63,6 +63,7 @@ body {
     padding-left: 20px;
     padding-right: 20px;
     line-height: 1.7;
+    font-size: .9em;
     font-weight: normal;
     background-color: #f1f1f1;
     text-align: justify;
@@ -72,7 +73,6 @@ body {
     margin: 0 auto;
     margin-top: 10px;
     border-radius: 5px;
-    font-size: .9em;
 }
 
 .p-guide-text{
