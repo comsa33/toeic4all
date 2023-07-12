@@ -80,7 +80,7 @@ body {
 #minDate-previous, #minDate-next {
   color: #535353;
   position: absolute;
-  top: 10px;
+  top: 30px;
 }
 
 #minDate-previous {
@@ -95,6 +95,26 @@ body {
   color: #888888;
 }
 
+#div-daily-activity {
+  box-shadow: none;
+  padding: 30px;
+}
+
+#canvas-weak-areas {
+  scale: 0.75;
+}
+
+#question-type-selector {
+  border-radius: 25px;
+  padding: 3px;
+  width: 100%;
+  text-align: center;
+  background-color: #ebe9e9;
+  border: 1px solid lightgray;
+  font-size: .9em;
+  font-weight: 200;
+  margin-bottom: 10px;
+}
 
 /* 모바일 버전 스타일 */
 @media (max-width: 600px) {
@@ -115,7 +135,7 @@ body {
 
   .row {
       width: 100%;
-      margin: 0 0 0 0;
+      margin: 0 10 0 0;
   }
   
   .lnb {
@@ -142,5 +162,11 @@ body {
       flex: 1; /* 항목들의 너비를 균등하게 */
       text-align: center;
       height: 50px;
+  }
+
+  #div-weak-areas, #div-avg-time-by-type-subtype {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #e3e3e3;
   }
 }
