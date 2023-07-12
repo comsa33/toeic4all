@@ -126,52 +126,6 @@ body {
   background-color: #ffffffc6; /* 마우스 호버시 배경색 변경 */
 }
 
-/* 모바일 버전 스타일 */
-@media (max-width: 600px) {
-    .collapsible-icon-area {
-        top: 10px;
-        right: 10px;
-    }
-
-    #side-btn-mynote a {
-        color: #333333;
-        border-bottom: 3px solid #fa7878;
-        font-weight: 600;
-    }
-
-    .col-12 {
-        padding-left: 0;
-        padding-right: 0;
-    }
-    
-    .row {
-        width: 100%;
-        margin: 0 0 0 0;
-    }
-    
-    .lnb {
-        height: auto;
-        padding-top: 0;
-        margin-top: 0;
-    }
-
-    .lnb ul {
-        display: flex; /* 항목들을 가로로 배치 */
-        flex-direction: row; /* 추가된 코드 */
-        justify-content: space-around; /* 추가된 코드 */
-        list-style-type: none;
-        background-color: white;
-        font-weight: 400;
-    }
-
-    .lnb li {
-        border-bottom: none; /* 구분선 제거 */
-        border-right: none; /* 오른쪽 구분선 제거 */
-        flex: 1; /* 항목들의 너비를 균등하게 */
-        text-align: center;
-    }
-}
-
 .report-btn {
     position: absolute;
     bottom: 10px;
@@ -383,6 +337,53 @@ body {
 }
 
 @media screen and (max-width: 600px) {
+    .collapsible-icon-area {
+        top: 10px;
+        right: 10px;
+    }
+
+    #side-btn-mynote a {
+        color: #000000;
+        border-bottom: 3px solid #000000;
+        font-weight: 600;
+    }
+
+    .col-12 {
+        padding-left: 0;
+        padding-right: 0;
+    }
+    
+    .row {
+        width: 100%;
+        margin: 0 0 0 0;
+    }
+    
+    .lnb {
+        height: auto;
+        padding-top: 0;
+        margin-top: 0;
+    }
+
+    .lnb ul {
+        display: flex; /* 항목들을 가로로 배치 */
+        flex-direction: row; /* 추가된 코드 */
+        justify-content: space-around; /* 추가된 코드 */
+        list-style-type: none;
+        background-color: white;
+        font-weight: 400;
+        height: 49px;
+        margin-bottom: 0px;
+        border-bottom: 1px solid darkgray;
+    }
+  
+    .lnb li {
+        border-bottom: none; /* 구분선 제거 */
+        border-right: none; /* 오른쪽 구분선 제거 */
+        flex: 1; /* 항목들의 너비를 균등하게 */
+        text-align: center;
+        height: 50px;
+    }
+
     .container-info {
         margin-top: 0;
     }

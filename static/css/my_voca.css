@@ -246,8 +246,8 @@
 /* 모바일 버전 스타일 */
 @media (max-width: 600px) {
   #side-btn-myvoca a {
-    color: #333333;
-    border-bottom: 3px solid #fa7878;
+    color: #000000;
+    border-bottom: 3px solid #000000;
     font-weight: 600;
   }
   .col-12 {
@@ -267,12 +267,15 @@
   }
 
   .lnb ul {
-      display: flex; /* 항목들을 가로로 배치 */
-      flex-direction: row; /* 추가된 코드 */
-      justify-content: space-around; /* 추가된 코드 */
-      list-style-type: none;
-      background-color: white;
-      font-weight: 400;
+    display: flex; /* 항목들을 가로로 배치 */
+    flex-direction: row; /* 추가된 코드 */
+    justify-content: space-around; /* 추가된 코드 */
+    list-style-type: none;
+    background-color: white;
+    font-weight: 400;
+    height: 49px;
+    margin-bottom: 0px;
+    border-bottom: 1px solid darkgray;
   }
 
   .lnb li {
@@ -280,7 +283,9 @@
       border-right: none; /* 오른쪽 구분선 제거 */
       flex: 1; /* 항목들의 너비를 균등하게 */
       text-align: center;
+      height: 50px;
   }
+
   .modal-content {
     top: 20%;
     left: 0;

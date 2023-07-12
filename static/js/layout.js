@@ -141,7 +141,7 @@ function scrollFunction() {
         loginArea.style.border = '1px solid #bdb9b9';
     } else {
         navbar.style.height = "50px";
-        navbar.style.backgroundColor = '#f87272';
+        navbar.style.backgroundColor = '#000000';
         title.style.fontSize = "1.5rem";
         title.style.fontWeight = "700";
         titleLink.style.color = '#fff'; // 폰트 색상을 원래대로(흰색) 변경
