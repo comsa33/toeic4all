@@ -185,7 +185,7 @@ body #hamburger-btn {
     z-index: 1000;
 }
 
-.close-icon {
+.sidebar-close-icon {
     color: rgb(255, 255, 255);
     display: flex;
     position: absolute;
@@ -206,7 +206,7 @@ body #hamburger-btn {
     top: 4%;
     left: 0;
     gap: 20px;
-    width: 90%;
+    width: 100%;
     padding-top: 0;
     padding-left: 0;
 }
