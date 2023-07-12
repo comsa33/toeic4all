@@ -158,7 +158,8 @@
 }
 
 .report-btn {
-    left: 0;
+    position: fixed;
+    left: 10px;
     background: none;
     border: none;
     color: #e6e5e5;
@@ -172,13 +173,14 @@
 }
 
 .favourite-btn {
-    right: 0;
-    background: none;
-    border: none;
-    color: #e6e5e5;
-    cursor: pointer;
-    transition: color 0.3s;
-    font-size: 1rem;
+  right: 10px;
+  background: none;
+  border: none;
+  color: #e6e5e5;
+  cursor: pointer;
+  transition: color 0.3s;
+  font-size: 1rem;
+  position: fixed;
 }
 
 .favourite-btn:hover {
@@ -292,7 +294,7 @@
   .modal-content {
     top: 20%;
     left: 0;
-    height: 80%;
+    height: 83%;
     max-height: 80%;
     width: 100%;
     transform: translateY(100%);

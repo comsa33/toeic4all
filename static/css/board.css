@@ -693,7 +693,7 @@ button:disabled {
     .question-modal {
         top: 10%;
         left: 0;
-        max-height: 90%;
+        max-height: 93%;
         width: 100%;
         transform: translateY(100%); /* 화면 아래로 이동. 초기 위치 설정 */
         transition: transform 0.5s ease-in-out; /* 0.5초 동안 애니메이션 적용. 위로 올라오거나 아래로 내려가는 속도를 설정 */
