@@ -717,8 +717,8 @@ def get_user_vocabularies():
     ]
 
     return {
-        'user_vocabularies': data, 
-        'total_pages': results.pages, 
+        'user_vocabularies': data,
+        'total_pages': results.pages,
         'current_page': page
     }, 200
 

@@ -128,10 +128,20 @@ function showQuestion(wordId) {
 
     // Create question div
     let questionDiv = document.createElement('div');
-    let vocabText = `<p style="margin-bottom: 0;">    · ${vocab.word} : ${vocab.explanation}</p>`;
+    let vocabList = question.Vocabularies || [];
+    let vocabText = '';
+    for (let j = 0; j < vocabList.length; j++) {
+        vocabText += `<p style="margin-bottom: 0;">    · ${vocabList[j].Word} : ${vocabList[j].Explanation}</p>`;
+    }
     questionDiv.id = 'question-' + question.QuestionId;
     questionDiv.className = 'col';
     questionDiv.innerHTML = `
+        <div class="question-header">
+            <!-- 즐찾 버튼 -->
+            <button class="favourite-btn" data-question-id="${question.QuestionId}" title="내 즐겨찾기에 추가하기"><i class="fas fa-heart"></i></button>
+            <!-- 신고 버튼 -->
+            <button class="report-btn" data-question-id="${question.QuestionId}" title="문제 리포트 하기"><i class="fas fa-exclamation-triangle"></i></button>
+        </div>
         <div class="question-container">
             <p class="p-question-text"><strong>${question.QuestionText}</strong></p>
             <ol id="choices-${question.QuestionId}" class="choice-box" type="A"></ol>
@@ -143,10 +153,6 @@ function showQuestion(wordId) {
                 <p style="margin-bottom: 0;">[어휘]</p>
                 ${vocabText}
             </div>
-            <!-- 즐찾 버튼 -->
-            <button class="favourite-btn" data-question-id="${question.QuestionId}" title="내 즐겨찾기에 추가하기"><i class="fas fa-heart"></i></button>
-            <!-- 신고 버튼 -->
-            <button class="report-btn" data-question-id="${question.QuestionId}" title="문제 리포트 하기"><i class="fas fa-exclamation-triangle"></i></button>
         </div>
     `;
     questionSection.appendChild(questionDiv);
