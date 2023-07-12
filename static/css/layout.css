@@ -342,6 +342,7 @@ footer a:hover {
     #nav-logout {
         font-size: .8em;
         padding-left: 20px;
+        margin-right: 150px;
     }
     #mobile-navbar-bottom {
         display: flex;
