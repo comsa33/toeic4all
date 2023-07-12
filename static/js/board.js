@@ -486,6 +486,7 @@ function deleteQuestion(id) {
         })
         .then(response => {
             getQuestions();
+            location.reload();
         })
         .catch(error => {
             alert(error.error);
