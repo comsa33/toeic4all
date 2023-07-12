@@ -23,7 +23,7 @@
 {% endblock %}
 
 {% block content %}
-    <div class="test-info" data-aos="fade-up" data-aos-duration="1000">
+    <div class="test-info">
         <div class="flex-container">
             <div class="flex-item">
                 <h3>왜 토익 Part 5에 집중해야 하는가?</h3>
@@ -67,7 +67,14 @@
         <div class="form-group">
             <label for="questionCount">문제 수</label>
             <p id="questionCountDescription"></p>
-            <input type="number" id="questionCount" min="1" max="30" value="10" class="form-control">
+            <select id="questionCount" class="form-control">
+                <option value="5">5</option>
+                <option value="10" selected>10</option>
+                <option value="15">15</option>
+                <option value="20">20</option>
+                <option value="25">25</option>
+                <option value="30">30</option>
+            </select>
         </div>
     </div>    
     
