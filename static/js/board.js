@@ -417,7 +417,7 @@ function positionModalCloseText() {
     if (isMobile) {
         // 모바일 화면에서는 question-modal가 화면 하단에 위치
         modalCloseText.style.top = "calc(7% - " + (modalContentHeight / 2 + modalCloseTextHeight + 10) + "px)";
-        boardModalCloseText.style.top = "calc(117% - " + (boardModalContentHeight / 2 + boardModalCloseTextHeight + 10) + "px)";
+        boardModalCloseText.style.top = "calc(78% - " + (boardModalContentHeight / 2 + boardModalCloseTextHeight + 10) + "px)";
     } else {
         // 피씨 화면에서는 question-modal가 중앙에 위치
         modalCloseText.style.top = "calc(7% - " + (modalContentHeight / 2 + modalCloseTextHeight + 10) + "px)";
