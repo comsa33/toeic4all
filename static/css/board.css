@@ -342,6 +342,10 @@ button:disabled {
 
 #open-question-modal {
     background-color: hsl(215, 100%, 54%);
+    width: 90%;
+    margin: 0 auto;
+    margin-top: 30px;
+    margin-bottom: 20px;
 }
 
 #open-question-modal:hover {
@@ -666,7 +670,8 @@ button:disabled {
     }
 
     .board-modal {
-        bottom: 40%;
+        top: 0;
+        bottom: 30%;
         left: 0;
         max-height: 90%;
         width: 100%;

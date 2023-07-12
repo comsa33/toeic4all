@@ -416,11 +416,11 @@ function positionModalCloseText() {
     if (isMobile) {
         // 모바일 화면에서는 question-modal가 화면 하단에 위치
         modalCloseText.style.top = "calc(7% - " + (modalContentHeight / 2 + modalCloseTextHeight + 10) + "px)";
-        boardModalCloseText.style.top = "calc(63% - " + (boardModalContentHeight / 2 + boardModalCloseTextHeight + 10) + "px)";
+        boardModalCloseText.style.top = "calc(73% - " + (boardModalContentHeight / 2 + boardModalCloseTextHeight + 10) + "px)";
     } else {
         // 피씨 화면에서는 question-modal가 중앙에 위치
         modalCloseText.style.top = "calc(7% - " + (modalContentHeight / 2 + modalCloseTextHeight + 10) + "px)";
-        boardModalCloseText.style.top = "calc(7% - " + (boardModalContentHeight / 2 + boardModalCloseTextHeight + 10) + "px)";
+        boardModalCloseText.style.top = "calc(15% - " + (boardModalContentHeight / 2 + boardModalCloseTextHeight + 10) + "px)";
     }
 }
 
