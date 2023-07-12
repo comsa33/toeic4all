@@ -693,6 +693,7 @@ button:disabled {
     .question-modal {
         top: 10%;
         left: 0;
+        height: 93%;
         max-height: 93%;
         width: 100%;
         transform: translateY(100%); /* 화면 아래로 이동. 초기 위치 설정 */
