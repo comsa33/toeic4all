@@ -303,14 +303,14 @@ button:disabled {
     color: rgb(55, 55, 55);
 }
 
-.question-contents {
+.questions-contents {
     position: relative;
-    height: 100px;  /* 내용이 길어질 경우 스크롤 됨 */
+    height: 100px;
     overflow: auto;
-    padding-bottom: 30px;  /* 그라디언트 오버레이와 텍스트가 겹치지 않도록 하기 위함 */
+    padding-bottom: 30px;
 }
 
-.question-contents::after {
+.questions-contents::after {
     content: '';
     position: absolute;
     bottom: 0;
