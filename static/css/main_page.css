@@ -32,7 +32,8 @@ h1.display-4 {
     height: 100%;
     background-size: cover;
     background-position: center;
-    filter: blur(0.5px);
+    filter: blur(2px);
+    border-bottom: 1px solid #ff9d9d;
     z-index: -1;
 }
 
