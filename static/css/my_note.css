@@ -250,15 +250,19 @@ body {
 
 .test-container {
     box-shadow: 0 6px 20px 0 rgb(149 149 149 / 15%);
+    display: flex;
     padding: 20px;
     text-align: center;
     cursor: pointer;
     transition: transform .2s;
-    box-sizing: border-box; 
+    box-sizing: border-box;
     max-width: 170px;
     max-height: 170px;
     min-width: 170px;
     min-height: 170px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
 }
 
 .test-container:hover {
@@ -266,8 +270,7 @@ body {
 }
 
 .test-content {
-    color: #f87171;
-    padding-top: 5px;
+    color: #656565;
 }
 
 .test-container p {
@@ -410,7 +413,8 @@ body {
         max-height: 150px;
         min-width: 150px;
         min-height: 150px;
-        padding-top: 0px;
+        display: flex;
+        align-items: center;
     }
 }
 
