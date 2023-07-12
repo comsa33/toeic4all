@@ -40,10 +40,10 @@ body {
 
 .collapsible-icon-area {
     position: absolute;
-    top: 30px;
-    right: 30px;
-    background-color: transparent;
     cursor: pointer;
+    top: 18px;
+    right: 40px;
+    font-size: .9em;
 }
 
 .collapsible p {
@@ -57,19 +57,21 @@ body {
 }
 
 .container-info{
-    padding-top: 1rem;
-    padding-bottom: 1rem;
+    padding-top: 10px;
+    padding-bottom: 10px;
     padding-left: 20px;
     padding-right: 20px;
-    margin-top: 20px;
-    margin-bottom: 20px;
     line-height: 1.7;
     font-weight: normal;
-    color: black;
     background-color: #f1f1f1;
-    width: 100%;
     text-align: justify;
     cursor: pointer;
+    border: 1px solid #dedede;
+    width: 95%;
+    margin: 0 auto;
+    margin-top: 10px;
+    border-radius: 5px;
+    font-size: .9em;
 }
 
 .p-guide-text{
@@ -341,8 +343,7 @@ body {
 
 @media screen and (max-width: 600px) {
     .collapsible-icon-area {
-        top: 10px;
-        right: 10px;
+        right: 20px;
     }
 
     #side-btn-mynote a {

@@ -444,11 +444,16 @@ button:disabled {
 
 #community-guidelines-section {
     position: relative;
-    border: 1px solid #ffd4d4;
-    background-color: #ffd3d380;
+    border: 1px solid #dedede;
+    background-color: #f1f1f1;
     padding-left: 20px;
     color: #3f3f3f;
     cursor: pointer;
+    width: 95%;
+    margin: 0 auto;
+    margin-top: 10px;
+    border-radius: 5px;
+    font-size: .9em;
 }
 
 .fas {
@@ -462,10 +467,12 @@ button:disabled {
 
 .collapsible-icon-area {
     position: absolute;
-    top: 10px;
+    top: 13px;
     right: 10px;
     background-color: transparent;
     cursor: pointer;
+    font-size: .9em;
+    color: #4e4e4e;
 }
 
 .collapsible p {
