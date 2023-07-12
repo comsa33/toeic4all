@@ -363,6 +363,7 @@ function getQuestion(id, answerPage = 1) {
 $('#open-question-modal').click(function() {
     positionModalCloseText();
     document.getElementById('board-modal-background').style.display = 'block';
+    document.getElementById('board-modal-close-text').style.display = 'block';
     setTimeout(function() {
         $('#board-modal').addClass('active');
     }, 50);
