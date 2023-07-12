@@ -118,10 +118,10 @@ body {
 
 /* 모바일 버전 스타일 */
 @media (max-width: 600px) {
-  .content {
-    margin-top: 25px;
+  #div-daily-activity {
+    margin-top: -70px;
   }
-
+  
   #side-btn-my-learning-analysis a {
     color: #000000;
     border-bottom: 3px solid #000000;
