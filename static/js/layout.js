@@ -137,8 +137,9 @@ function scrollFunction() {
         title.style.fontSize = "10px";
         title.style.fontWeight = "500";
         titleLink.style.color = '#343333';
-        titleLogo.style.width = '10px';
-        titleLogo.style.height = '10px';
+        titleLogo.style.width = '13px';
+        titleLogo.style.height = '13px';
+        titleLogo.style.marginBottom = '1px';
         mobileUserIcon.style.color = '#343333';
         loginArea.style.scale = '0.5';
         loginArea.style.border = '1px solid #bdb9b9';
@@ -150,6 +151,7 @@ function scrollFunction() {
         titleLink.style.color = '#fff';
         titleLogo.style.width = '25px';
         titleLogo.style.height = '25px';
+        titleLogo.style.marginBottom = '5px';
         mobileUserIcon.style.color = '#fff';
         loginArea.style.scale = '1';
         loginArea.style.border = '1px solid #fff';
