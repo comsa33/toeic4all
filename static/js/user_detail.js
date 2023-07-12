@@ -91,8 +91,9 @@ $(document).ready(function() {
     getUserStatus();
     positionModalCloseText();
     
-    $('#edit-button').click(function() {
+    $('#edit-button').click(function(event) {
         $('#edit-form input, #edit-form select, #save-button').prop('disabled', false);
+        event.target.disabled = true;
     });
 
     $('#toeic-experience').on('change', function() {
