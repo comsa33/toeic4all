@@ -360,6 +360,14 @@ function getQuestion(id, answerPage = 1) {
     }, 50); // 50밀리초의 딜레이를 줍니다. 이는 CSS 애니메이션이 제대로 작동하기 위한 임시 조치입니다.
 }
 
+$('#open-question-modal').click(function() {
+    positionModalCloseText();
+    document.getElementById('board-modal-background').style.display = 'block';
+    setTimeout(function() {
+        $('#board-modal').addClass('active');
+    }, 50);
+});
+
 $('#modal-background').click(function(e) {
     // 클릭된 요소가 #modal-background인 경우에만 모달을 닫습니다.
     if (e.target.id === 'modal-background') {
@@ -371,31 +379,48 @@ $('#modal-background').click(function(e) {
     }
 });
 
+$('#board-modal-background').click(function(e) {
+    // 클릭된 요소가 #modal-background인 경우에만 모달을 닫습니다.
+    if (e.target.id === 'board-modal-background') {
+        $('#board-modal-close-text').css('display', 'none');
+        $('#board-modal').removeClass('active');
+        setTimeout(function() {
+            $('#board-modal-background').css('display', 'none');
+        }, 500); // 애니메이션이 끝나는 시간과 일치해야 합니다.
+    }
+});
+
 window.onresize = function() {
     positionModalCloseText();
 }
 
 function positionModalCloseText() {
     var modalContent = document.getElementById('question-modal');
+    var boardModalContent = document.getElementById('board-modal');
     var modalCloseText = document.getElementById('modal-close-text');
+    var boardModalCloseText = document.getElementById('board-modal-close-text');
 
     // modalContent나 modalCloseText가 null이 아닌지 확인
-    if (!modalContent || !modalCloseText) {
-        console.log('question-modal or modal-close-text not found');
+    if (!modalContent || !modalCloseText || !boardModalContent || !boardModalCloseText) {
+        console.log('question-modal or modal-close-text or board-modal or board-modal-close-text is null');
         return;
     }
 
     var modalContentHeight = modalContent.offsetHeight;
+    var boardModalContentHeight = boardModalContent.offsetHeight;
     var modalCloseTextHeight = modalCloseText.offsetHeight;
+    var boardModalCloseTextHeight = boardModalCloseText.offsetHeight;
 
     var isMobile = window.innerWidth <= 600;
 
     if (isMobile) {
         // 모바일 화면에서는 question-modal가 화면 하단에 위치
         modalCloseText.style.top = "calc(7% - " + (modalContentHeight / 2 + modalCloseTextHeight + 10) + "px)";
+        boardModalCloseText.style.top = "calc(63% - " + (boardModalContentHeight / 2 + boardModalCloseTextHeight + 10) + "px)";
     } else {
         // 피씨 화면에서는 question-modal가 중앙에 위치
         modalCloseText.style.top = "calc(7% - " + (modalContentHeight / 2 + modalCloseTextHeight + 10) + "px)";
+        boardModalCloseText.style.top = "calc(7% - " + (boardModalContentHeight / 2 + boardModalCloseTextHeight + 10) + "px)";
     }
 }
 

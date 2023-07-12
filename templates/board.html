@@ -54,23 +54,36 @@
             </p>
         </div>
 
-        <!-- question creation form -->
-        <form id="new-question-form" class="no-border form">
-            <div>
-                <p id="board-info-text">📝 이곳에서 질문을 작성해주세요.</p>
+        <div class="button-group">
+            <button type="button" id="open-question-modal">
+                질문 작성하기
+            </button>
+        </div>
+
+        <div id="board-modal-background">
+            <div id="board-modal-wrapper">
+                <p id="board-modal-close-text">[빈 곳을 탭해서 닫기]</p>
+                <div id="board-modal" class="board-modal">
+                    <!-- question creation form -->
+                    <form id="new-question-form" class="no-border form">
+                        <div>
+                            <p id="board-info-text">📝 이곳에서 질문을 작성해주세요.</p>
+                        </div>
+                        <div class="input-group" id="new-question-title-group">
+                            <input type="text" id="new-question-title" placeholder="제목">
+                        </div>
+                        <div class="input-group" id="new-question-content-group">
+                            <div id="new-question-content" style="height:200px;"></div>
+                        </div>
+                        <div class="button-group">
+                            <button type="button" id="create-question-button" class="submit">
+                                작성하기
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="input-group" id="new-question-title-group">
-                <input type="text" id="new-question-title" placeholder="제목">
-            </div>
-            <div class="input-group" id="new-question-content-group">
-                <div id="new-question-content" style="height:200px;"></div>
-            </div>
-            <div class="button-group">
-                <button type="button" id="create-question-button" class="submit">
-                    작성하기
-                </button>
-            </div>
-        </form>            
+        </div>   
 
         <div id="board" class="board-wrapper">
             <!-- each question will be added here. -->
