@@ -8,7 +8,6 @@
     justify-content: center; /* 요소들 사이에 균일한 공간을 만듭니다 */
     align-items: center; /* 요소들을 컨테이너의 중앙에 배치합니다 */
     gap: 40px;
-    margin-top: 20px;
 }
 
 #generate-mocktest-btn {
@@ -257,7 +256,7 @@
 }
 
 #test-info-msg {
-    padding-bottom: 20px;
+    padding: 15px;
     background-color: #ffffff;
     color: #000000;
     font-weight: 400;
