@@ -78,7 +78,8 @@ body {
     align-items: center;
     width: 350px;
     margin-bottom: 20px;
-    box-shadow: 0 4px 8px 0 rgb(255 103 103 / 20%), 0 6px 20px 0 rgba(255 158 158 / 15%);
+    border-radius: 10px;
+    box-shadow: -2px -2px 8px 2px rgb(114 114 114 / 20%), 4px 4px 20px 2px rgb(212 212 212 / 15%);
 }
 
 .voca-container h2 {
