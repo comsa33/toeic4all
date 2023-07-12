@@ -135,8 +135,8 @@ function scrollFunction() {
         navbar.style.backgroundColor = '#eae8e8';
         title.style.fontSize = "10px";
         title.style.fontWeight = "500";
-        titleLink.style.color = '#bdb9b9'; // 폰트 색상을 다크 그레이로 변경
-        mobileUserIcon.style.color = '#bdb9b9';
+        titleLink.style.color = '#343333'; // 폰트 색상을 다크 그레이로 변경
+        mobileUserIcon.style.color = '#343333';
         loginArea.style.scale = '0.5';
         loginArea.style.border = '1px solid #bdb9b9';
     } else {
