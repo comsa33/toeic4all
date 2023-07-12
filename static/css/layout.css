@@ -196,6 +196,7 @@ body #hamburger-btn {
     height: 20px;
     justify-content: center;
     align-items: center;
+    z-index: 1200;
 }
 
 #mobile-nav-links-right {
