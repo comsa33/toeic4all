@@ -87,7 +87,7 @@ body {
     box-shadow: var(--box-shadow);
 }
 
-.btn-success.disabled, .btn-success:disabled {
+.btn-success.disabled, .btn-success:disabled, #edit-button.disabled, #edit-button:disabled  {
     background-color: var(--disabled-color);
     box-shadow: var(--box-shadow);
 }
