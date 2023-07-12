@@ -303,20 +303,21 @@ button:disabled {
     color: rgb(55, 55, 55);
 }
 
-.questions-contents {
-    background-color: white;
-    font-size: 0.85em;
-    line-height: 1.6;
-    color: rgb(55, 55, 55);
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    margin-left: -20px;
-    margin-right: -20px;
-    padding-left: 20px;
-    padding-right: 20px;
+.question-contents {
+    position: relative;
+    height: 100px;  /* 내용이 길어질 경우 스크롤 됨 */
+    overflow: auto;
+    padding-bottom: 30px;  /* 그라디언트 오버레이와 텍스트가 겹치지 않도록 하기 위함 */
+}
+
+.question-contents::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 30px;
+    background: linear-gradient(to top, white, transparent);
 }
 
 .answer-text {
