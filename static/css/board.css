@@ -678,7 +678,7 @@ button:disabled {
 
     .board-modal {
         top: 0;
-        bottom: 30%;
+        bottom: 25%;
         left: 0;
         max-height: 90%;
         width: 100%;
