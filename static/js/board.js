@@ -459,6 +459,7 @@ function createQuestion() {
     })
     .then(data => {
         getQuestions();
+        location.reload();
     })
     .catch(error => {
         alert(error.error);
