@@ -318,6 +318,7 @@ button:disabled {
     right: 0;
     height: 30px;
     background: linear-gradient(to top, white, transparent);
+    pointer-events: none;
 }
 
 .answer-text {
