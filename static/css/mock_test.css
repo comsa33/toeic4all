@@ -232,7 +232,8 @@
     width: 100%;
     height: auto;
     padding: 20px;
-    box-shadow: 0 4px 8px 0 rgb(255 103 103 / 20%), 0 6px 20px 0 rgba(255 158 158 / 15%);
+    border-radius: 10px;
+    box-shadow: -2px -2px 8px 2px rgb(114 114 114 / 20%), 4px 4px 20px 2px rgb(212 212 212 / 15%);
 }
 
 .p-question-text {
@@ -331,17 +332,15 @@
 }
 
 #prev-question-btn, #next-question-btn {
-    color: #f09d9b;
-    display: inline-block;
-    background: transparent;  /* 버튼 배경을 투명하게 */
-    border: none;  /* 버튼 테두리 제거 */
+    color: #ffffff;
+    background: #7a7a7a;
+    border: none;
     font-size: 0.85em;
     font-weight: bold;
-    box-shadow: 0 4px 8px 0 rgb(255 103 103 / 20%), 0 6px 20px 0 rgba(255 158 158 / 15%);
 }
 
 #prev-question-btn:hover, #next-question-btn:hover {
-    color: #f74741;
+    scale: 1.05;
 }
 
 #col-12 col-md-6 {
