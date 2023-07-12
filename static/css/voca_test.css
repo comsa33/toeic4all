@@ -130,8 +130,23 @@ body {
 
 #voca-test-container h3 {
     text-align: center;
-    font-size: 0.9em;
+    font-size: 1.3em;
     font-weight: bold;
+    position: absolute;
+    top: 70%;
+    text-shadow: 1px 1px 3px #8e8e8e;
+    animation: pop-in 0.6s ease-out both;
+}
+
+@keyframes pop-in {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
 @media (max-width: 600px) {

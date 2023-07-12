@@ -104,7 +104,7 @@ function displayVocabulary() {
 function checkAnswer(answer) {
     let correct = (answer === vocabularies[currentVocabulary].explanation);
     let messageElement = document.createElement('h3');
-    messageElement.textContent = correct ? "정답입니다" : "오답입니다";
+    messageElement.innerHTML = correct ? "<i class='fas fa-check' style='color:green;'></i>&nbsp;&nbsp;정답입니다" : "<i class='fas fa-times' style='color:red;'></i>&nbsp;&nbsp;오답입니다";
     document.getElementById('voca-test-container').appendChild(messageElement);
 
     let answerElements = document.querySelectorAll('.answer-button');  // 클래스를 기반으로 선택
