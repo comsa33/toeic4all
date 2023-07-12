@@ -99,6 +99,11 @@ function fetchVocabs(page) {
             for (let i = startPage; i < endPage; i++) {
                 const li = document.createElement('li');
                 li.className = 'page-item';
+            
+                if(i === page) {
+                    li.classList.add('active'); // Add 'active' class to the current page
+                }
+            
                 li.innerHTML = `<a class="page-link" href="#" onclick="fetchVocabs(${i})">${i}</a>`;
                 pagination.appendChild(li);
             }
