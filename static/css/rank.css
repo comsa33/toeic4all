@@ -69,16 +69,16 @@ body {
 
 #question-type-selection {
     width: 300px;
-    font-size: 1.2em;
     border-radius: 15px;
     height: 30px;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding-left: 10px;
-    border: 1px solid #51c19d;
-    background-color: #c6ffed;
-    color: #2e6150;
+    border: 1px solid #d3d3d3;
+    background-color: #f3f3f3;
+    color: #515151;
+    font-size: 1em;
+    text-align: center;
 }
 
 .rank-selection-container, .rank-table-container {
