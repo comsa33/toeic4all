@@ -67,6 +67,7 @@ body {
     padding: 10px;
     margin-top: 20px;
     margin-bottom: 20px;
+    position: relative;
 }
 
 .div-analysis-card h5 {
@@ -77,18 +78,30 @@ body {
 }
 
 #minDate-previous, #minDate-next {
-  color: #709c1a;
-  margin-bottom: 20px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.1);
+  color: #535353;
+  position: absolute;
+  top: 10px;
+}
+
+#minDate-previous {
+  right: 50px;
+}
+
+#minDate-next {
+  right: 20px;
 }
 
 #minDate-previous :hover, #minDate-next :hover {
-  color: #afcc74;
+  color: #888888;
 }
 
 
 /* 모바일 버전 스타일 */
 @media (max-width: 600px) {
+  .content {
+    margin-top: 25px;
+  }
+
   #side-btn-my-learning-analysis a {
     color: #000000;
     border-bottom: 3px solid #000000;

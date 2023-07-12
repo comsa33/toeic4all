@@ -87,6 +87,11 @@ function createLineChart(elementId, label, labels, data) {
                 }
             },
             scales: {
+                x: {
+                    grid: {
+                        display: false
+                    },
+                },
                 y: {
                     beginAtZero: true,
                     ticks: {

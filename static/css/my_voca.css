@@ -132,7 +132,8 @@
 }
 
 .button-column {
-  width: 25%;
+  width: 100px;
+  text-align: right;
 }
 
 .vocab-explanation {
@@ -149,9 +150,11 @@
 }
 
 .vocab-question-button {
-  border: 1px solid darkgray;
+  border: 1px solid #e4e4e4;
   font-size: .8em;
   padding: 5px;
+  width: 100%;
+  border-radius: 5px;
 }
 
 .report-btn {
