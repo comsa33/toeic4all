@@ -138,7 +138,7 @@ function showQuestion(wordId) {
     questionDiv.innerHTML = `
         <div class="question-header">
             <!-- 즐찾 버튼 -->
-            <button class="favourite-btn" data-question-id="${question.QuestionId}" title="내 즐겨찾기에 추가하기"><i class="fas fa-heart"></i></button>
+            <button class="favourite-btn" data-question-id="${question.QuestionId}" title="내 즐겨찾기에 추가하기"><i class="fas fa-bookmark"></i></button>
             <!-- 신고 버튼 -->
             <button class="report-btn" data-question-id="${question.QuestionId}" title="문제 리포트 하기"><i class="fas fa-exclamation-triangle"></i></button>
         </div>
