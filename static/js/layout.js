@@ -127,6 +127,7 @@ function scrollFunction() {
     let navbar = document.getElementById("mobile-nav");
     let title = document.getElementById("mobile-title");
     let titleLink = document.querySelector("#mobile-title a")
+    let titleLogo = document.querySelector("#mobile-title a img")
     let mobileUserIcon = document.getElementById("mobile-user-icon");
     let loginArea = document.getElementById("login-area");
 
@@ -135,7 +136,9 @@ function scrollFunction() {
         navbar.style.backgroundColor = '#eae8e8';
         title.style.fontSize = "10px";
         title.style.fontWeight = "500";
-        titleLink.style.color = '#343333'; // 폰트 색상을 다크 그레이로 변경
+        titleLink.style.color = '#343333';
+        titleLogo.style.width = '10px';
+        titleLogo.style.height = '10px';
         mobileUserIcon.style.color = '#343333';
         loginArea.style.scale = '0.5';
         loginArea.style.border = '1px solid #bdb9b9';
@@ -144,7 +147,9 @@ function scrollFunction() {
         navbar.style.backgroundColor = '#343333';
         title.style.fontSize = "1.5rem";
         title.style.fontWeight = "700";
-        titleLink.style.color = '#fff'; // 폰트 색상을 원래대로(흰색) 변경
+        titleLink.style.color = '#fff';
+        titleLogo.style.width = '25px';
+        titleLogo.style.height = '25px';
         mobileUserIcon.style.color = '#fff';
         loginArea.style.scale = '1';
         loginArea.style.border = '1px solid #fff';
