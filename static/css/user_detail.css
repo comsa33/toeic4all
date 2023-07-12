@@ -214,8 +214,8 @@ body {
     padding-top: 10px;
     display: flex;
     margin-left: -1em;
+    margin-right: -1em;
     margin-bottom: 20px;
-    width: 110%;
     height: 50px;
     justify-content: center;
     transition: background-color 0.5s;
