@@ -134,6 +134,10 @@ body {
     background-color: #ffffffc6; /* 마우스 호버시 배경색 변경 */
 }
 
+.user-info-top {
+    margin-top: 10px;
+}
+
 /* 프로필 사진 관련 */
 .profile-image-container {
     display: flex;
