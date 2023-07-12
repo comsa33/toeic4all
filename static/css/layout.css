@@ -39,7 +39,7 @@ body {
 }
 
 #desktop-nav, #mobile-nav {
-    background-color: #f87272;
+    background-color: #343333;
     color: #ffffff;
     display: flex;
     height: 50px;
@@ -110,7 +110,7 @@ nav ul li a:hover {
 }
 
 nav ul .active a {
-    color: #535353;
+    color: #ff4b4b;
     font-weight: bold;
     text-decoration: none;
 }
