@@ -154,59 +154,18 @@ Map<String, dynamic> _$$Part7AnswerResponseModelImplToJson(
       'data': instance.data,
     };
 
-_$Part7SetTypeDetailsImpl _$$Part7SetTypeDetailsImplFromJson(
+_$SetTypeInfoModelImpl _$$SetTypeInfoModelImplFromJson(
         Map<String, dynamic> json) =>
-    _$Part7SetTypeDetailsImpl(
+    _$SetTypeInfoModelImpl(
       description: json['description'] as String,
       requiredPassages: (json['required_passages'] as num).toInt(),
     );
 
-Map<String, dynamic> _$$Part7SetTypeDetailsImplToJson(
-        _$Part7SetTypeDetailsImpl instance) =>
+Map<String, dynamic> _$$SetTypeInfoModelImplToJson(
+        _$SetTypeInfoModelImpl instance) =>
     <String, dynamic>{
       'description': instance.description,
       'required_passages': instance.requiredPassages,
-    };
-
-_$Part7SetTypesDataImpl _$$Part7SetTypesDataImplFromJson(
-        Map<String, dynamic> json) =>
-    _$Part7SetTypesDataImpl(
-      single: json['Single'] == null
-          ? null
-          : Part7SetTypeDetails.fromJson(
-              json['Single'] as Map<String, dynamic>),
-      double: json['Double'] == null
-          ? null
-          : Part7SetTypeDetails.fromJson(
-              json['Double'] as Map<String, dynamic>),
-      triple: json['Triple'] == null
-          ? null
-          : Part7SetTypeDetails.fromJson(
-              json['Triple'] as Map<String, dynamic>),
-    );
-
-Map<String, dynamic> _$$Part7SetTypesDataImplToJson(
-        _$Part7SetTypesDataImpl instance) =>
-    <String, dynamic>{
-      'Single': instance.single,
-      'Double': instance.double,
-      'Triple': instance.triple,
-    };
-
-_$Part7SetTypesResponseModelImpl _$$Part7SetTypesResponseModelImplFromJson(
-        Map<String, dynamic> json) =>
-    _$Part7SetTypesResponseModelImpl(
-      success: json['success'] as bool,
-      message: json['message'] as String,
-      data: Part7SetTypesData.fromJson(json['data'] as Map<String, dynamic>),
-    );
-
-Map<String, dynamic> _$$Part7SetTypesResponseModelImplToJson(
-        _$Part7SetTypesResponseModelImpl instance) =>
-    <String, dynamic>{
-      'success': instance.success,
-      'message': instance.message,
-      'data': instance.data,
     };
 
 _$Part7PassageCombinationsResponseModelImpl

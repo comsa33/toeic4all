@@ -1816,31 +1816,31 @@ abstract class _Part7AnswerResponseModel implements Part7AnswerResponseModel {
       get copyWith => throw _privateConstructorUsedError;
 }
 
-Part7SetTypeDetails _$Part7SetTypeDetailsFromJson(Map<String, dynamic> json) {
-  return _Part7SetTypeDetails.fromJson(json);
+SetTypeInfoModel _$SetTypeInfoModelFromJson(Map<String, dynamic> json) {
+  return _SetTypeInfoModel.fromJson(json);
 }
 
 /// @nodoc
-mixin _$Part7SetTypeDetails {
+mixin _$SetTypeInfoModel {
   String get description => throw _privateConstructorUsedError;
   @JsonKey(name: 'required_passages')
   int get requiredPassages => throw _privateConstructorUsedError;
 
-  /// Serializes this Part7SetTypeDetails to a JSON map.
+  /// Serializes this SetTypeInfoModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
-  /// Create a copy of Part7SetTypeDetails
+  /// Create a copy of SetTypeInfoModel
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $Part7SetTypeDetailsCopyWith<Part7SetTypeDetails> get copyWith =>
+  $SetTypeInfoModelCopyWith<SetTypeInfoModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $Part7SetTypeDetailsCopyWith<$Res> {
-  factory $Part7SetTypeDetailsCopyWith(
-          Part7SetTypeDetails value, $Res Function(Part7SetTypeDetails) then) =
-      _$Part7SetTypeDetailsCopyWithImpl<$Res, Part7SetTypeDetails>;
+abstract class $SetTypeInfoModelCopyWith<$Res> {
+  factory $SetTypeInfoModelCopyWith(
+          SetTypeInfoModel value, $Res Function(SetTypeInfoModel) then) =
+      _$SetTypeInfoModelCopyWithImpl<$Res, SetTypeInfoModel>;
   @useResult
   $Res call(
       {String description,
@@ -1848,16 +1848,16 @@ abstract class $Part7SetTypeDetailsCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$Part7SetTypeDetailsCopyWithImpl<$Res, $Val extends Part7SetTypeDetails>
-    implements $Part7SetTypeDetailsCopyWith<$Res> {
-  _$Part7SetTypeDetailsCopyWithImpl(this._value, this._then);
+class _$SetTypeInfoModelCopyWithImpl<$Res, $Val extends SetTypeInfoModel>
+    implements $SetTypeInfoModelCopyWith<$Res> {
+  _$SetTypeInfoModelCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of Part7SetTypeDetails
+  /// Create a copy of SetTypeInfoModel
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -1879,11 +1879,11 @@ class _$Part7SetTypeDetailsCopyWithImpl<$Res, $Val extends Part7SetTypeDetails>
 }
 
 /// @nodoc
-abstract class _$$Part7SetTypeDetailsImplCopyWith<$Res>
-    implements $Part7SetTypeDetailsCopyWith<$Res> {
-  factory _$$Part7SetTypeDetailsImplCopyWith(_$Part7SetTypeDetailsImpl value,
-          $Res Function(_$Part7SetTypeDetailsImpl) then) =
-      __$$Part7SetTypeDetailsImplCopyWithImpl<$Res>;
+abstract class _$$SetTypeInfoModelImplCopyWith<$Res>
+    implements $SetTypeInfoModelCopyWith<$Res> {
+  factory _$$SetTypeInfoModelImplCopyWith(_$SetTypeInfoModelImpl value,
+          $Res Function(_$SetTypeInfoModelImpl) then) =
+      __$$SetTypeInfoModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -1892,14 +1892,14 @@ abstract class _$$Part7SetTypeDetailsImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$Part7SetTypeDetailsImplCopyWithImpl<$Res>
-    extends _$Part7SetTypeDetailsCopyWithImpl<$Res, _$Part7SetTypeDetailsImpl>
-    implements _$$Part7SetTypeDetailsImplCopyWith<$Res> {
-  __$$Part7SetTypeDetailsImplCopyWithImpl(_$Part7SetTypeDetailsImpl _value,
-      $Res Function(_$Part7SetTypeDetailsImpl) _then)
+class __$$SetTypeInfoModelImplCopyWithImpl<$Res>
+    extends _$SetTypeInfoModelCopyWithImpl<$Res, _$SetTypeInfoModelImpl>
+    implements _$$SetTypeInfoModelImplCopyWith<$Res> {
+  __$$SetTypeInfoModelImplCopyWithImpl(_$SetTypeInfoModelImpl _value,
+      $Res Function(_$SetTypeInfoModelImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of Part7SetTypeDetails
+  /// Create a copy of SetTypeInfoModel
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -1907,7 +1907,7 @@ class __$$Part7SetTypeDetailsImplCopyWithImpl<$Res>
     Object? description = null,
     Object? requiredPassages = null,
   }) {
-    return _then(_$Part7SetTypeDetailsImpl(
+    return _then(_$SetTypeInfoModelImpl(
       description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
@@ -1922,13 +1922,13 @@ class __$$Part7SetTypeDetailsImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$Part7SetTypeDetailsImpl implements _Part7SetTypeDetails {
-  const _$Part7SetTypeDetailsImpl(
+class _$SetTypeInfoModelImpl implements _SetTypeInfoModel {
+  const _$SetTypeInfoModelImpl(
       {required this.description,
       @JsonKey(name: 'required_passages') required this.requiredPassages});
 
-  factory _$Part7SetTypeDetailsImpl.fromJson(Map<String, dynamic> json) =>
-      _$$Part7SetTypeDetailsImplFromJson(json);
+  factory _$SetTypeInfoModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$SetTypeInfoModelImplFromJson(json);
 
   @override
   final String description;
@@ -1938,14 +1938,14 @@ class _$Part7SetTypeDetailsImpl implements _Part7SetTypeDetails {
 
   @override
   String toString() {
-    return 'Part7SetTypeDetails(description: $description, requiredPassages: $requiredPassages)';
+    return 'SetTypeInfoModel(description: $description, requiredPassages: $requiredPassages)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$Part7SetTypeDetailsImpl &&
+            other is _$SetTypeInfoModelImpl &&
             (identical(other.description, description) ||
                 other.description == description) &&
             (identical(other.requiredPassages, requiredPassages) ||
@@ -1956,31 +1956,31 @@ class _$Part7SetTypeDetailsImpl implements _Part7SetTypeDetails {
   @override
   int get hashCode => Object.hash(runtimeType, description, requiredPassages);
 
-  /// Create a copy of Part7SetTypeDetails
+  /// Create a copy of SetTypeInfoModel
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$Part7SetTypeDetailsImplCopyWith<_$Part7SetTypeDetailsImpl> get copyWith =>
-      __$$Part7SetTypeDetailsImplCopyWithImpl<_$Part7SetTypeDetailsImpl>(
+  _$$SetTypeInfoModelImplCopyWith<_$SetTypeInfoModelImpl> get copyWith =>
+      __$$SetTypeInfoModelImplCopyWithImpl<_$SetTypeInfoModelImpl>(
           this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$Part7SetTypeDetailsImplToJson(
+    return _$$SetTypeInfoModelImplToJson(
       this,
     );
   }
 }
 
-abstract class _Part7SetTypeDetails implements Part7SetTypeDetails {
-  const factory _Part7SetTypeDetails(
+abstract class _SetTypeInfoModel implements SetTypeInfoModel {
+  const factory _SetTypeInfoModel(
       {required final String description,
       @JsonKey(name: 'required_passages')
-      required final int requiredPassages}) = _$Part7SetTypeDetailsImpl;
+      required final int requiredPassages}) = _$SetTypeInfoModelImpl;
 
-  factory _Part7SetTypeDetails.fromJson(Map<String, dynamic> json) =
-      _$Part7SetTypeDetailsImpl.fromJson;
+  factory _SetTypeInfoModel.fromJson(Map<String, dynamic> json) =
+      _$SetTypeInfoModelImpl.fromJson;
 
   @override
   String get description;
@@ -1988,284 +1988,19 @@ abstract class _Part7SetTypeDetails implements Part7SetTypeDetails {
   @JsonKey(name: 'required_passages')
   int get requiredPassages;
 
-  /// Create a copy of Part7SetTypeDetails
+  /// Create a copy of SetTypeInfoModel
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$Part7SetTypeDetailsImplCopyWith<_$Part7SetTypeDetailsImpl> get copyWith =>
+  _$$SetTypeInfoModelImplCopyWith<_$SetTypeInfoModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
-}
-
-Part7SetTypesData _$Part7SetTypesDataFromJson(Map<String, dynamic> json) {
-  return _Part7SetTypesData.fromJson(json);
-}
-
-/// @nodoc
-mixin _$Part7SetTypesData {
-  @JsonKey(name: 'Single')
-  Part7SetTypeDetails? get single => throw _privateConstructorUsedError;
-  @JsonKey(name: 'Double')
-  Part7SetTypeDetails? get double => throw _privateConstructorUsedError;
-  @JsonKey(name: 'Triple')
-  Part7SetTypeDetails? get triple => throw _privateConstructorUsedError;
-
-  /// Serializes this Part7SetTypesData to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of Part7SetTypesData
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $Part7SetTypesDataCopyWith<Part7SetTypesData> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $Part7SetTypesDataCopyWith<$Res> {
-  factory $Part7SetTypesDataCopyWith(
-          Part7SetTypesData value, $Res Function(Part7SetTypesData) then) =
-      _$Part7SetTypesDataCopyWithImpl<$Res, Part7SetTypesData>;
-  @useResult
-  $Res call(
-      {@JsonKey(name: 'Single') Part7SetTypeDetails? single,
-      @JsonKey(name: 'Double') Part7SetTypeDetails? double,
-      @JsonKey(name: 'Triple') Part7SetTypeDetails? triple});
-
-  $Part7SetTypeDetailsCopyWith<$Res>? get single;
-  $Part7SetTypeDetailsCopyWith<$Res>? get double;
-  $Part7SetTypeDetailsCopyWith<$Res>? get triple;
-}
-
-/// @nodoc
-class _$Part7SetTypesDataCopyWithImpl<$Res, $Val extends Part7SetTypesData>
-    implements $Part7SetTypesDataCopyWith<$Res> {
-  _$Part7SetTypesDataCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of Part7SetTypesData
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? single = freezed,
-    Object? double = freezed,
-    Object? triple = freezed,
-  }) {
-    return _then(_value.copyWith(
-      single: freezed == single
-          ? _value.single
-          : single // ignore: cast_nullable_to_non_nullable
-              as Part7SetTypeDetails?,
-      double: freezed == double
-          ? _value.double
-          : double // ignore: cast_nullable_to_non_nullable
-              as Part7SetTypeDetails?,
-      triple: freezed == triple
-          ? _value.triple
-          : triple // ignore: cast_nullable_to_non_nullable
-              as Part7SetTypeDetails?,
-    ) as $Val);
-  }
-
-  /// Create a copy of Part7SetTypesData
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $Part7SetTypeDetailsCopyWith<$Res>? get single {
-    if (_value.single == null) {
-      return null;
-    }
-
-    return $Part7SetTypeDetailsCopyWith<$Res>(_value.single!, (value) {
-      return _then(_value.copyWith(single: value) as $Val);
-    });
-  }
-
-  /// Create a copy of Part7SetTypesData
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $Part7SetTypeDetailsCopyWith<$Res>? get double {
-    if (_value.double == null) {
-      return null;
-    }
-
-    return $Part7SetTypeDetailsCopyWith<$Res>(_value.double!, (value) {
-      return _then(_value.copyWith(double: value) as $Val);
-    });
-  }
-
-  /// Create a copy of Part7SetTypesData
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $Part7SetTypeDetailsCopyWith<$Res>? get triple {
-    if (_value.triple == null) {
-      return null;
-    }
-
-    return $Part7SetTypeDetailsCopyWith<$Res>(_value.triple!, (value) {
-      return _then(_value.copyWith(triple: value) as $Val);
-    });
-  }
-}
-
-/// @nodoc
-abstract class _$$Part7SetTypesDataImplCopyWith<$Res>
-    implements $Part7SetTypesDataCopyWith<$Res> {
-  factory _$$Part7SetTypesDataImplCopyWith(_$Part7SetTypesDataImpl value,
-          $Res Function(_$Part7SetTypesDataImpl) then) =
-      __$$Part7SetTypesDataImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {@JsonKey(name: 'Single') Part7SetTypeDetails? single,
-      @JsonKey(name: 'Double') Part7SetTypeDetails? double,
-      @JsonKey(name: 'Triple') Part7SetTypeDetails? triple});
-
-  @override
-  $Part7SetTypeDetailsCopyWith<$Res>? get single;
-  @override
-  $Part7SetTypeDetailsCopyWith<$Res>? get double;
-  @override
-  $Part7SetTypeDetailsCopyWith<$Res>? get triple;
-}
-
-/// @nodoc
-class __$$Part7SetTypesDataImplCopyWithImpl<$Res>
-    extends _$Part7SetTypesDataCopyWithImpl<$Res, _$Part7SetTypesDataImpl>
-    implements _$$Part7SetTypesDataImplCopyWith<$Res> {
-  __$$Part7SetTypesDataImplCopyWithImpl(_$Part7SetTypesDataImpl _value,
-      $Res Function(_$Part7SetTypesDataImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of Part7SetTypesData
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? single = freezed,
-    Object? double = freezed,
-    Object? triple = freezed,
-  }) {
-    return _then(_$Part7SetTypesDataImpl(
-      single: freezed == single
-          ? _value.single
-          : single // ignore: cast_nullable_to_non_nullable
-              as Part7SetTypeDetails?,
-      double: freezed == double
-          ? _value.double
-          : double // ignore: cast_nullable_to_non_nullable
-              as Part7SetTypeDetails?,
-      triple: freezed == triple
-          ? _value.triple
-          : triple // ignore: cast_nullable_to_non_nullable
-              as Part7SetTypeDetails?,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$Part7SetTypesDataImpl implements _Part7SetTypesData {
-  const _$Part7SetTypesDataImpl(
-      {@JsonKey(name: 'Single') this.single,
-      @JsonKey(name: 'Double') this.double,
-      @JsonKey(name: 'Triple') this.triple});
-
-  factory _$Part7SetTypesDataImpl.fromJson(Map<String, dynamic> json) =>
-      _$$Part7SetTypesDataImplFromJson(json);
-
-  @override
-  @JsonKey(name: 'Single')
-  final Part7SetTypeDetails? single;
-  @override
-  @JsonKey(name: 'Double')
-  final Part7SetTypeDetails? double;
-  @override
-  @JsonKey(name: 'Triple')
-  final Part7SetTypeDetails? triple;
-
-  @override
-  String toString() {
-    return 'Part7SetTypesData(single: $single, double: $double, triple: $triple)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$Part7SetTypesDataImpl &&
-            (identical(other.single, single) || other.single == single) &&
-            (identical(other.double, double) || other.double == double) &&
-            (identical(other.triple, triple) || other.triple == triple));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, single, double, triple);
-
-  /// Create a copy of Part7SetTypesData
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$Part7SetTypesDataImplCopyWith<_$Part7SetTypesDataImpl> get copyWith =>
-      __$$Part7SetTypesDataImplCopyWithImpl<_$Part7SetTypesDataImpl>(
-          this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$Part7SetTypesDataImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class _Part7SetTypesData implements Part7SetTypesData {
-  const factory _Part7SetTypesData(
-          {@JsonKey(name: 'Single') final Part7SetTypeDetails? single,
-          @JsonKey(name: 'Double') final Part7SetTypeDetails? double,
-          @JsonKey(name: 'Triple') final Part7SetTypeDetails? triple}) =
-      _$Part7SetTypesDataImpl;
-
-  factory _Part7SetTypesData.fromJson(Map<String, dynamic> json) =
-      _$Part7SetTypesDataImpl.fromJson;
-
-  @override
-  @JsonKey(name: 'Single')
-  Part7SetTypeDetails? get single;
-  @override
-  @JsonKey(name: 'Double')
-  Part7SetTypeDetails? get double;
-  @override
-  @JsonKey(name: 'Triple')
-  Part7SetTypeDetails? get triple;
-
-  /// Create a copy of Part7SetTypesData
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$Part7SetTypesDataImplCopyWith<_$Part7SetTypesDataImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-Part7SetTypesResponseModel _$Part7SetTypesResponseModelFromJson(
-    Map<String, dynamic> json) {
-  return _Part7SetTypesResponseModel.fromJson(json);
 }
 
 /// @nodoc
 mixin _$Part7SetTypesResponseModel {
   bool get success => throw _privateConstructorUsedError;
   String get message => throw _privateConstructorUsedError;
-  Part7SetTypesData get data => throw _privateConstructorUsedError;
-
-  /// Serializes this Part7SetTypesResponseModel to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  Map<String, SetTypeInfoModel> get data => throw _privateConstructorUsedError;
 
   /// Create a copy of Part7SetTypesResponseModel
   /// with the given fields replaced by the non-null parameter values.
@@ -2281,9 +2016,7 @@ abstract class $Part7SetTypesResponseModelCopyWith<$Res> {
       _$Part7SetTypesResponseModelCopyWithImpl<$Res,
           Part7SetTypesResponseModel>;
   @useResult
-  $Res call({bool success, String message, Part7SetTypesData data});
-
-  $Part7SetTypesDataCopyWith<$Res> get data;
+  $Res call({bool success, String message, Map<String, SetTypeInfoModel> data});
 }
 
 /// @nodoc
@@ -2318,18 +2051,8 @@ class _$Part7SetTypesResponseModelCopyWithImpl<$Res,
       data: null == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
-              as Part7SetTypesData,
+              as Map<String, SetTypeInfoModel>,
     ) as $Val);
-  }
-
-  /// Create a copy of Part7SetTypesResponseModel
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $Part7SetTypesDataCopyWith<$Res> get data {
-    return $Part7SetTypesDataCopyWith<$Res>(_value.data, (value) {
-      return _then(_value.copyWith(data: value) as $Val);
-    });
   }
 }
 
@@ -2342,10 +2065,7 @@ abstract class _$$Part7SetTypesResponseModelImplCopyWith<$Res>
       __$$Part7SetTypesResponseModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool success, String message, Part7SetTypesData data});
-
-  @override
-  $Part7SetTypesDataCopyWith<$Res> get data;
+  $Res call({bool success, String message, Map<String, SetTypeInfoModel> data});
 }
 
 /// @nodoc
@@ -2377,29 +2097,33 @@ class __$$Part7SetTypesResponseModelImplCopyWithImpl<$Res>
           : message // ignore: cast_nullable_to_non_nullable
               as String,
       data: null == data
-          ? _value.data
+          ? _value._data
           : data // ignore: cast_nullable_to_non_nullable
-              as Part7SetTypesData,
+              as Map<String, SetTypeInfoModel>,
     ));
   }
 }
 
 /// @nodoc
-@JsonSerializable()
+
 class _$Part7SetTypesResponseModelImpl implements _Part7SetTypesResponseModel {
   const _$Part7SetTypesResponseModelImpl(
-      {required this.success, required this.message, required this.data});
-
-  factory _$Part7SetTypesResponseModelImpl.fromJson(
-          Map<String, dynamic> json) =>
-      _$$Part7SetTypesResponseModelImplFromJson(json);
+      {required this.success,
+      required this.message,
+      required final Map<String, SetTypeInfoModel> data})
+      : _data = data;
 
   @override
   final bool success;
   @override
   final String message;
+  final Map<String, SetTypeInfoModel> _data;
   @override
-  final Part7SetTypesData data;
+  Map<String, SetTypeInfoModel> get data {
+    if (_data is EqualUnmodifiableMapView) return _data;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_data);
+  }
 
   @override
   String toString() {
@@ -2413,12 +2137,12 @@ class _$Part7SetTypesResponseModelImpl implements _Part7SetTypesResponseModel {
             other is _$Part7SetTypesResponseModelImpl &&
             (identical(other.success, success) || other.success == success) &&
             (identical(other.message, message) || other.message == message) &&
-            (identical(other.data, data) || other.data == data));
+            const DeepCollectionEquality().equals(other._data, _data));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, success, message, data);
+  int get hashCode => Object.hash(runtimeType, success, message,
+      const DeepCollectionEquality().hash(_data));
 
   /// Create a copy of Part7SetTypesResponseModel
   /// with the given fields replaced by the non-null parameter values.
@@ -2428,13 +2152,6 @@ class _$Part7SetTypesResponseModelImpl implements _Part7SetTypesResponseModel {
   _$$Part7SetTypesResponseModelImplCopyWith<_$Part7SetTypesResponseModelImpl>
       get copyWith => __$$Part7SetTypesResponseModelImplCopyWithImpl<
           _$Part7SetTypesResponseModelImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$Part7SetTypesResponseModelImplToJson(
-      this,
-    );
-  }
 }
 
 abstract class _Part7SetTypesResponseModel
@@ -2442,18 +2159,15 @@ abstract class _Part7SetTypesResponseModel
   const factory _Part7SetTypesResponseModel(
           {required final bool success,
           required final String message,
-          required final Part7SetTypesData data}) =
+          required final Map<String, SetTypeInfoModel> data}) =
       _$Part7SetTypesResponseModelImpl;
-
-  factory _Part7SetTypesResponseModel.fromJson(Map<String, dynamic> json) =
-      _$Part7SetTypesResponseModelImpl.fromJson;
 
   @override
   bool get success;
   @override
   String get message;
   @override
-  Part7SetTypesData get data;
+  Map<String, SetTypeInfoModel> get data;
 
   /// Create a copy of Part7SetTypesResponseModel
   /// with the given fields replaced by the non-null parameter values.

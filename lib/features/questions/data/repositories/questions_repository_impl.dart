@@ -132,15 +132,7 @@ class QuestionsRepositoryImpl implements QuestionsRepository {
   ) async {
     try {
       final response = await remoteDataSource.getPart6Answer(setId, questionSeq);
-      
-      final entity = Part6Answer(
-        setId: response.data.setId,
-        questionSeq: response.data.questionSeq,
-        answer: response.data.answer,
-        explanation: response.data.explanation,
-      );
-      
-      return Right(entity);
+      return Right(response.data.toEntity());
     } catch (e) {
       return Left(Failure.server(message: 'Failed to get Part 6 answer: ${e.toString()}'));
     }
@@ -210,15 +202,7 @@ class QuestionsRepositoryImpl implements QuestionsRepository {
   ) async {
     try {
       final response = await remoteDataSource.getPart7Answer(setId, questionSeq);
-      
-      final entity = Part7Answer(
-        setId: response.data.setId,
-        questionSeq: response.data.questionSeq,
-        answer: response.data.answer,
-        explanation: response.data.explanation,
-      );
-      
-      return Right(entity);
+      return Right(response.data.toEntity());
     } catch (e) {
       return Left(Failure.server(message: 'Failed to get Part 7 answer: ${e.toString()}'));
     }
@@ -228,7 +212,17 @@ class QuestionsRepositoryImpl implements QuestionsRepository {
   Future<Either<Failure, Map<String, dynamic>>> getPart7SetTypes() async {
     try {
       final response = await remoteDataSource.getPart7SetTypes();
-      return Right(response.data.toJson());
+      // SetTypeInfoModel 객체들을 Map<String, dynamic>으로 변환
+      final Map<String, dynamic> data = {};
+      
+      response.data.forEach((key, setTypeInfo) {
+        data[key] = {
+          'description': setTypeInfo.description,
+          'required_passages': setTypeInfo.requiredPassages,
+        };
+      });
+      
+      return Right(data);
     } catch (e) {
       return Left(Failure.server(message: 'Failed to get Part 7 set types: ${e.toString()}'));
     }

@@ -14,11 +14,18 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
+ApiMetadataResponse _$ApiMetadataResponseFromJson(Map<String, dynamic> json) {
+  return _ApiMetadataResponse.fromJson(json);
+}
+
 /// @nodoc
 mixin _$ApiMetadataResponse {
   bool get success => throw _privateConstructorUsedError;
   String? get message => throw _privateConstructorUsedError;
   List<String> get data => throw _privateConstructorUsedError;
+
+  /// Serializes this ApiMetadataResponse to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
   /// Create a copy of ApiMetadataResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -118,11 +125,14 @@ class __$$ApiMetadataResponseImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$ApiMetadataResponseImpl implements _ApiMetadataResponse {
   const _$ApiMetadataResponseImpl(
       {this.success = true, this.message, required final List<String> data})
       : _data = data;
+
+  factory _$ApiMetadataResponseImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ApiMetadataResponseImplFromJson(json);
 
   @override
   @JsonKey()
@@ -152,6 +162,7 @@ class _$ApiMetadataResponseImpl implements _ApiMetadataResponse {
             const DeepCollectionEquality().equals(other._data, _data));
   }
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, success, message,
       const DeepCollectionEquality().hash(_data));
@@ -164,6 +175,13 @@ class _$ApiMetadataResponseImpl implements _ApiMetadataResponse {
   _$$ApiMetadataResponseImplCopyWith<_$ApiMetadataResponseImpl> get copyWith =>
       __$$ApiMetadataResponseImplCopyWithImpl<_$ApiMetadataResponseImpl>(
           this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ApiMetadataResponseImplToJson(
+      this,
+    );
+  }
 }
 
 abstract class _ApiMetadataResponse implements ApiMetadataResponse {
@@ -171,6 +189,9 @@ abstract class _ApiMetadataResponse implements ApiMetadataResponse {
       {final bool success,
       final String? message,
       required final List<String> data}) = _$ApiMetadataResponseImpl;
+
+  factory _ApiMetadataResponse.fromJson(Map<String, dynamic> json) =
+      _$ApiMetadataResponseImpl.fromJson;
 
   @override
   bool get success;
@@ -187,11 +208,18 @@ abstract class _ApiMetadataResponse implements ApiMetadataResponse {
       throw _privateConstructorUsedError;
 }
 
+ApiSubtypesResponse _$ApiSubtypesResponseFromJson(Map<String, dynamic> json) {
+  return _ApiSubtypesResponse.fromJson(json);
+}
+
 /// @nodoc
 mixin _$ApiSubtypesResponse {
   bool get success => throw _privateConstructorUsedError;
   String? get message => throw _privateConstructorUsedError;
   dynamic get data => throw _privateConstructorUsedError;
+
+  /// Serializes this ApiSubtypesResponse to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
   /// Create a copy of ApiSubtypesResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -291,10 +319,13 @@ class __$$ApiSubtypesResponseImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$ApiSubtypesResponseImpl implements _ApiSubtypesResponse {
   const _$ApiSubtypesResponseImpl(
       {this.success = true, this.message, required this.data});
+
+  factory _$ApiSubtypesResponseImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ApiSubtypesResponseImplFromJson(json);
 
   @override
   @JsonKey()
@@ -319,6 +350,7 @@ class _$ApiSubtypesResponseImpl implements _ApiSubtypesResponse {
             const DeepCollectionEquality().equals(other.data, data));
   }
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, success, message, const DeepCollectionEquality().hash(data));
@@ -331,6 +363,13 @@ class _$ApiSubtypesResponseImpl implements _ApiSubtypesResponse {
   _$$ApiSubtypesResponseImplCopyWith<_$ApiSubtypesResponseImpl> get copyWith =>
       __$$ApiSubtypesResponseImplCopyWithImpl<_$ApiSubtypesResponseImpl>(
           this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ApiSubtypesResponseImplToJson(
+      this,
+    );
+  }
 }
 
 abstract class _ApiSubtypesResponse implements ApiSubtypesResponse {
@@ -338,6 +377,9 @@ abstract class _ApiSubtypesResponse implements ApiSubtypesResponse {
       {final bool success,
       final String? message,
       required final dynamic data}) = _$ApiSubtypesResponseImpl;
+
+  factory _ApiSubtypesResponse.fromJson(Map<String, dynamic> json) =
+      _$ApiSubtypesResponseImpl.fromJson;
 
   @override
   bool get success;
@@ -351,385 +393,6 @@ abstract class _ApiSubtypesResponse implements ApiSubtypesResponse {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ApiSubtypesResponseImplCopyWith<_$ApiSubtypesResponseImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-Part7SetTypesData _$Part7SetTypesDataFromJson(Map<String, dynamic> json) {
-  return _Part7SetTypesData.fromJson(json);
-}
-
-/// @nodoc
-mixin _$Part7SetTypesData {
-  String get description => throw _privateConstructorUsedError;
-  @JsonKey(name: 'required_passages')
-  int get requiredPassages => throw _privateConstructorUsedError;
-
-  /// Serializes this Part7SetTypesData to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of Part7SetTypesData
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $Part7SetTypesDataCopyWith<Part7SetTypesData> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $Part7SetTypesDataCopyWith<$Res> {
-  factory $Part7SetTypesDataCopyWith(
-          Part7SetTypesData value, $Res Function(Part7SetTypesData) then) =
-      _$Part7SetTypesDataCopyWithImpl<$Res, Part7SetTypesData>;
-  @useResult
-  $Res call(
-      {String description,
-      @JsonKey(name: 'required_passages') int requiredPassages});
-}
-
-/// @nodoc
-class _$Part7SetTypesDataCopyWithImpl<$Res, $Val extends Part7SetTypesData>
-    implements $Part7SetTypesDataCopyWith<$Res> {
-  _$Part7SetTypesDataCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of Part7SetTypesData
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? description = null,
-    Object? requiredPassages = null,
-  }) {
-    return _then(_value.copyWith(
-      description: null == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String,
-      requiredPassages: null == requiredPassages
-          ? _value.requiredPassages
-          : requiredPassages // ignore: cast_nullable_to_non_nullable
-              as int,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$Part7SetTypesDataImplCopyWith<$Res>
-    implements $Part7SetTypesDataCopyWith<$Res> {
-  factory _$$Part7SetTypesDataImplCopyWith(_$Part7SetTypesDataImpl value,
-          $Res Function(_$Part7SetTypesDataImpl) then) =
-      __$$Part7SetTypesDataImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {String description,
-      @JsonKey(name: 'required_passages') int requiredPassages});
-}
-
-/// @nodoc
-class __$$Part7SetTypesDataImplCopyWithImpl<$Res>
-    extends _$Part7SetTypesDataCopyWithImpl<$Res, _$Part7SetTypesDataImpl>
-    implements _$$Part7SetTypesDataImplCopyWith<$Res> {
-  __$$Part7SetTypesDataImplCopyWithImpl(_$Part7SetTypesDataImpl _value,
-      $Res Function(_$Part7SetTypesDataImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of Part7SetTypesData
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? description = null,
-    Object? requiredPassages = null,
-  }) {
-    return _then(_$Part7SetTypesDataImpl(
-      description: null == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String,
-      requiredPassages: null == requiredPassages
-          ? _value.requiredPassages
-          : requiredPassages // ignore: cast_nullable_to_non_nullable
-              as int,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$Part7SetTypesDataImpl implements _Part7SetTypesData {
-  const _$Part7SetTypesDataImpl(
-      {required this.description,
-      @JsonKey(name: 'required_passages') required this.requiredPassages});
-
-  factory _$Part7SetTypesDataImpl.fromJson(Map<String, dynamic> json) =>
-      _$$Part7SetTypesDataImplFromJson(json);
-
-  @override
-  final String description;
-  @override
-  @JsonKey(name: 'required_passages')
-  final int requiredPassages;
-
-  @override
-  String toString() {
-    return 'Part7SetTypesData(description: $description, requiredPassages: $requiredPassages)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$Part7SetTypesDataImpl &&
-            (identical(other.description, description) ||
-                other.description == description) &&
-            (identical(other.requiredPassages, requiredPassages) ||
-                other.requiredPassages == requiredPassages));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, description, requiredPassages);
-
-  /// Create a copy of Part7SetTypesData
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$Part7SetTypesDataImplCopyWith<_$Part7SetTypesDataImpl> get copyWith =>
-      __$$Part7SetTypesDataImplCopyWithImpl<_$Part7SetTypesDataImpl>(
-          this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$Part7SetTypesDataImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class _Part7SetTypesData implements Part7SetTypesData {
-  const factory _Part7SetTypesData(
-      {required final String description,
-      @JsonKey(name: 'required_passages')
-      required final int requiredPassages}) = _$Part7SetTypesDataImpl;
-
-  factory _Part7SetTypesData.fromJson(Map<String, dynamic> json) =
-      _$Part7SetTypesDataImpl.fromJson;
-
-  @override
-  String get description;
-  @override
-  @JsonKey(name: 'required_passages')
-  int get requiredPassages;
-
-  /// Create a copy of Part7SetTypesData
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$Part7SetTypesDataImplCopyWith<_$Part7SetTypesDataImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-ApiSetTypesResponse _$ApiSetTypesResponseFromJson(Map<String, dynamic> json) {
-  return _ApiSetTypesResponse.fromJson(json);
-}
-
-/// @nodoc
-mixin _$ApiSetTypesResponse {
-  bool get success => throw _privateConstructorUsedError;
-  String? get message => throw _privateConstructorUsedError;
-  Map<String, Part7SetTypesData> get data => throw _privateConstructorUsedError;
-
-  /// Serializes this ApiSetTypesResponse to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of ApiSetTypesResponse
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $ApiSetTypesResponseCopyWith<ApiSetTypesResponse> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $ApiSetTypesResponseCopyWith<$Res> {
-  factory $ApiSetTypesResponseCopyWith(
-          ApiSetTypesResponse value, $Res Function(ApiSetTypesResponse) then) =
-      _$ApiSetTypesResponseCopyWithImpl<$Res, ApiSetTypesResponse>;
-  @useResult
-  $Res call(
-      {bool success, String? message, Map<String, Part7SetTypesData> data});
-}
-
-/// @nodoc
-class _$ApiSetTypesResponseCopyWithImpl<$Res, $Val extends ApiSetTypesResponse>
-    implements $ApiSetTypesResponseCopyWith<$Res> {
-  _$ApiSetTypesResponseCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of ApiSetTypesResponse
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? success = null,
-    Object? message = freezed,
-    Object? data = null,
-  }) {
-    return _then(_value.copyWith(
-      success: null == success
-          ? _value.success
-          : success // ignore: cast_nullable_to_non_nullable
-              as bool,
-      message: freezed == message
-          ? _value.message
-          : message // ignore: cast_nullable_to_non_nullable
-              as String?,
-      data: null == data
-          ? _value.data
-          : data // ignore: cast_nullable_to_non_nullable
-              as Map<String, Part7SetTypesData>,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$ApiSetTypesResponseImplCopyWith<$Res>
-    implements $ApiSetTypesResponseCopyWith<$Res> {
-  factory _$$ApiSetTypesResponseImplCopyWith(_$ApiSetTypesResponseImpl value,
-          $Res Function(_$ApiSetTypesResponseImpl) then) =
-      __$$ApiSetTypesResponseImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {bool success, String? message, Map<String, Part7SetTypesData> data});
-}
-
-/// @nodoc
-class __$$ApiSetTypesResponseImplCopyWithImpl<$Res>
-    extends _$ApiSetTypesResponseCopyWithImpl<$Res, _$ApiSetTypesResponseImpl>
-    implements _$$ApiSetTypesResponseImplCopyWith<$Res> {
-  __$$ApiSetTypesResponseImplCopyWithImpl(_$ApiSetTypesResponseImpl _value,
-      $Res Function(_$ApiSetTypesResponseImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of ApiSetTypesResponse
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? success = null,
-    Object? message = freezed,
-    Object? data = null,
-  }) {
-    return _then(_$ApiSetTypesResponseImpl(
-      success: null == success
-          ? _value.success
-          : success // ignore: cast_nullable_to_non_nullable
-              as bool,
-      message: freezed == message
-          ? _value.message
-          : message // ignore: cast_nullable_to_non_nullable
-              as String?,
-      data: null == data
-          ? _value._data
-          : data // ignore: cast_nullable_to_non_nullable
-              as Map<String, Part7SetTypesData>,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$ApiSetTypesResponseImpl implements _ApiSetTypesResponse {
-  const _$ApiSetTypesResponseImpl(
-      {this.success = true,
-      this.message,
-      required final Map<String, Part7SetTypesData> data})
-      : _data = data;
-
-  factory _$ApiSetTypesResponseImpl.fromJson(Map<String, dynamic> json) =>
-      _$$ApiSetTypesResponseImplFromJson(json);
-
-  @override
-  @JsonKey()
-  final bool success;
-  @override
-  final String? message;
-  final Map<String, Part7SetTypesData> _data;
-  @override
-  Map<String, Part7SetTypesData> get data {
-    if (_data is EqualUnmodifiableMapView) return _data;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_data);
-  }
-
-  @override
-  String toString() {
-    return 'ApiSetTypesResponse(success: $success, message: $message, data: $data)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$ApiSetTypesResponseImpl &&
-            (identical(other.success, success) || other.success == success) &&
-            (identical(other.message, message) || other.message == message) &&
-            const DeepCollectionEquality().equals(other._data, _data));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, success, message,
-      const DeepCollectionEquality().hash(_data));
-
-  /// Create a copy of ApiSetTypesResponse
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$ApiSetTypesResponseImplCopyWith<_$ApiSetTypesResponseImpl> get copyWith =>
-      __$$ApiSetTypesResponseImplCopyWithImpl<_$ApiSetTypesResponseImpl>(
-          this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$ApiSetTypesResponseImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class _ApiSetTypesResponse implements ApiSetTypesResponse {
-  const factory _ApiSetTypesResponse(
-          {final bool success,
-          final String? message,
-          required final Map<String, Part7SetTypesData> data}) =
-      _$ApiSetTypesResponseImpl;
-
-  factory _ApiSetTypesResponse.fromJson(Map<String, dynamic> json) =
-      _$ApiSetTypesResponseImpl.fromJson;
-
-  @override
-  bool get success;
-  @override
-  String? get message;
-  @override
-  Map<String, Part7SetTypesData> get data;
-
-  /// Create a copy of ApiSetTypesResponse
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ApiSetTypesResponseImplCopyWith<_$ApiSetTypesResponseImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 

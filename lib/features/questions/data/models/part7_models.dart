@@ -178,42 +178,43 @@ class Part7AnswerResponseModel with _$Part7AnswerResponseModel {
       _$Part7AnswerResponseModelFromJson(json);
 }
 
-// Part 7 Set Type Details Model
+// Part 7 Set Type Details Model (백엔드 API의 SetTypeInfo와 일치)
 @freezed
-class Part7SetTypeDetails with _$Part7SetTypeDetails {
-  const factory Part7SetTypeDetails({
+class SetTypeInfoModel with _$SetTypeInfoModel {
+  const factory SetTypeInfoModel({
     required String description,
     @JsonKey(name: 'required_passages') required int requiredPassages,
-  }) = _Part7SetTypeDetails;
+  }) = _SetTypeInfoModel;
 
-  factory Part7SetTypeDetails.fromJson(Map<String, dynamic> json) =>
-      _$Part7SetTypeDetailsFromJson(json);
+  factory SetTypeInfoModel.fromJson(Map<String, dynamic> json) =>
+      _$SetTypeInfoModelFromJson(json);
 }
 
-// Part 7 Set Types Data
-@freezed
-class Part7SetTypesData with _$Part7SetTypesData {
-  const factory Part7SetTypesData({
-    @JsonKey(name: 'Single') Part7SetTypeDetails? single,
-    @JsonKey(name: 'Double') Part7SetTypeDetails? double,
-    @JsonKey(name: 'Triple') Part7SetTypeDetails? triple,
-  }) = _Part7SetTypesData;
-
-  factory Part7SetTypesData.fromJson(Map<String, dynamic> json) =>
-      _$Part7SetTypesDataFromJson(json);
-}
-
-// Part 7 Set Types Response Model
+// Part 7 Set Types Response Model - 직접 Map<String, SetTypeInfoModel> 사용
 @freezed
 class Part7SetTypesResponseModel with _$Part7SetTypesResponseModel {
   const factory Part7SetTypesResponseModel({
     required bool success,
     required String message,
-    required Part7SetTypesData data,
+    required Map<String, SetTypeInfoModel> data,
   }) = _Part7SetTypesResponseModel;
 
-  factory Part7SetTypesResponseModel.fromJson(Map<String, dynamic> json) =>
-      _$Part7SetTypesResponseModelFromJson(json);
+  factory Part7SetTypesResponseModel.fromJson(Map<String, dynamic> json) {
+    final data = json['data'] as Map<String, dynamic>;
+    final convertedData = <String, SetTypeInfoModel>{};
+    
+    data.forEach((key, value) {
+      if (value is Map<String, dynamic>) {
+        convertedData[key] = SetTypeInfoModel.fromJson(value);
+      }
+    });
+    
+    return Part7SetTypesResponseModel(
+      success: json['success'] ?? true,
+      message: json['message'] ?? '',
+      data: convertedData,
+    );
+  }
 }
 
 // Part 7 Passage Combinations Response Model

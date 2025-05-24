@@ -1,4 +1,3 @@
-
 import 'package:dartz/dartz.dart';
 import '../../../../core/errors/failures.dart';
 import '../../../../core/usecases/usecase.dart';
@@ -20,6 +19,7 @@ class GetPart5QuestionsUseCase implements UseCase<Part5QuestionsResponse, GetPar
       category: params.category,
       subtype: params.subtype,
       difficulty: params.difficulty,
+      keyword: params.keyword,
     );
   }
 }
@@ -30,6 +30,7 @@ class GetPart5QuestionsParams {
   final String? category;
   final String? subtype;
   final String? difficulty;
+  final String? keyword;
 
   GetPart5QuestionsParams({
     this.page,
@@ -37,31 +38,25 @@ class GetPart5QuestionsParams {
     this.category,
     this.subtype,
     this.difficulty,
+    this.keyword,
   });
 }
 
-class SubmitPart5AnswerUseCase implements UseCase<Part5Answer, SubmitPart5AnswerParams> {
+class GetPart5AnswerUseCase implements UseCase<Part5Answer, GetPart5AnswerParams> {
   final QuestionsRepository repository;
 
-  SubmitPart5AnswerUseCase(this.repository);
+  GetPart5AnswerUseCase(this.repository);
 
   @override
-  Future<Either<Failure, Part5Answer>> call(SubmitPart5AnswerParams params) async {
-    return await repository.submitPart5Answer(
-      questionId: params.questionId,
-      selectedAnswer: params.answer,
-    );
+  Future<Either<Failure, Part5Answer>> call(GetPart5AnswerParams params) async {
+    return await repository.getPart5Answer(params.questionId);
   }
 }
 
-class SubmitPart5AnswerParams {
+class GetPart5AnswerParams {
   final String questionId;
-  final String answer;
 
-  SubmitPart5AnswerParams({
-    required this.questionId,
-    required this.answer,
-  });
+  GetPart5AnswerParams({required this.questionId});
 }
 
 class GetPart5CategoriesUseCase implements NoParamsUseCase<List<String>> {
@@ -73,6 +68,44 @@ class GetPart5CategoriesUseCase implements NoParamsUseCase<List<String>> {
   Future<Either<Failure, List<String>>> call() async {
     return await repository.getPart5Categories();
   }
+}
+
+class GetPart5SubtypesUseCase implements UseCase<dynamic, GetPart5SubtypesParams> {
+  final QuestionsRepository repository;
+
+  GetPart5SubtypesUseCase(this.repository);
+
+  @override
+  Future<Either<Failure, dynamic>> call(GetPart5SubtypesParams params) async {
+    return await repository.getPart5Subtypes(category: params.category);
+  }
+}
+
+class GetPart5SubtypesParams {
+  final String? category;
+
+  GetPart5SubtypesParams({this.category});
+}
+
+class GetPart5DifficultiesUseCase implements UseCase<List<String>, GetPart5DifficultiesParams> {
+  final QuestionsRepository repository;
+
+  GetPart5DifficultiesUseCase(this.repository);
+
+  @override
+  Future<Either<Failure, List<String>>> call(GetPart5DifficultiesParams params) async {
+    return await repository.getPart5Difficulties(
+      category: params.category,
+      subtype: params.subtype,
+    );
+  }
+}
+
+class GetPart5DifficultiesParams {
+  final String? category;
+  final String? subtype;
+
+  GetPart5DifficultiesParams({this.category, this.subtype});
 }
 
 // Part 6 Use Cases
@@ -106,31 +139,56 @@ class GetPart6SetsParams {
   });
 }
 
-class SubmitPart6AnswerUseCase implements UseCase<Part6Answer, SubmitPart6AnswerParams> {
+class GetPart6AnswerUseCase implements UseCase<Part6Answer, GetPart6AnswerParams> {
   final QuestionsRepository repository;
 
-  SubmitPart6AnswerUseCase(this.repository);
+  GetPart6AnswerUseCase(this.repository);
 
   @override
-  Future<Either<Failure, Part6Answer>> call(SubmitPart6AnswerParams params) async {
-    return await repository.submitPart6Answer(
-      setId: params.setId,
-      questionSeq: params.questionSeq,
-      selectedAnswer: params.answer,
+  Future<Either<Failure, Part6Answer>> call(GetPart6AnswerParams params) async {
+    return await repository.getPart6Answer(
+      params.setId,
+      params.questionSeq,
     );
   }
 }
 
-class SubmitPart6AnswerParams {
+class GetPart6AnswerParams {
   final String setId;
   final int questionSeq;
-  final String answer;
 
-  SubmitPart6AnswerParams({
+  GetPart6AnswerParams({
     required this.setId,
     required this.questionSeq,
-    required this.answer,
   });
+}
+
+class GetPart6PassageTypesUseCase implements NoParamsUseCase<List<String>> {
+  final QuestionsRepository repository;
+
+  GetPart6PassageTypesUseCase(this.repository);
+
+  @override
+  Future<Either<Failure, List<String>>> call() async {
+    return await repository.getPart6PassageTypes();
+  }
+}
+
+class GetPart6DifficultiesUseCase implements UseCase<List<String>, GetPart6DifficultiesParams> {
+  final QuestionsRepository repository;
+
+  GetPart6DifficultiesUseCase(this.repository);
+
+  @override
+  Future<Either<Failure, List<String>>> call(GetPart6DifficultiesParams params) async {
+    return await repository.getPart6Difficulties(passageType: params.passageType);
+  }
+}
+
+class GetPart6DifficultiesParams {
+  final String? passageType;
+
+  GetPart6DifficultiesParams({this.passageType});
 }
 
 // Part 7 Use Cases
@@ -144,7 +202,7 @@ class GetPart7SetsUseCase implements UseCase<Part7SetsResponse, GetPart7SetsPara
     return await repository.getPart7Sets(
       page: params.page ?? 1,
       limit: params.limit ?? 1,
-      setType: params.setType ?? '',
+      setType: params.setType ?? 'Single',
       passageTypes: params.passageTypes,
       difficulty: params.difficulty,
     );
@@ -167,29 +225,88 @@ class GetPart7SetsParams {
   });
 }
 
-class SubmitPart7AnswerUseCase implements UseCase<Part7Answer, SubmitPart7AnswerParams> {
+class GetPart7AnswerUseCase implements UseCase<Part7Answer, GetPart7AnswerParams> {
   final QuestionsRepository repository;
 
-  SubmitPart7AnswerUseCase(this.repository);
+  GetPart7AnswerUseCase(this.repository);
 
   @override
-  Future<Either<Failure, Part7Answer>> call(SubmitPart7AnswerParams params) async {
-    return await repository.submitPart7Answer(
-      setId: params.setId,
-      questionSeq: params.questionSeq,
-      selectedAnswer: params.answer,
+  Future<Either<Failure, Part7Answer>> call(GetPart7AnswerParams params) async {
+    return await repository.getPart7Answer(
+      params.setId,
+      params.questionSeq,
     );
   }
 }
 
-class SubmitPart7AnswerParams {
+class GetPart7AnswerParams {
   final String setId;
   final int questionSeq;
-  final String answer;
 
-  SubmitPart7AnswerParams({
+  GetPart7AnswerParams({
     required this.setId,
     required this.questionSeq,
-    required this.answer,
   });
+}
+
+class GetPart7SetTypesUseCase implements NoParamsUseCase<Map<String, dynamic>> {
+  final QuestionsRepository repository;
+
+  GetPart7SetTypesUseCase(this.repository);
+
+  @override
+  Future<Either<Failure, Map<String, dynamic>>> call() async {
+    return await repository.getPart7SetTypes();
+  }
+}
+
+class GetPart7PassageTypesUseCase implements UseCase<List<String>, GetPart7PassageTypesParams> {
+  final QuestionsRepository repository;
+
+  GetPart7PassageTypesUseCase(this.repository);
+
+  @override
+  Future<Either<Failure, List<String>>> call(GetPart7PassageTypesParams params) async {
+    return await repository.getPart7PassageTypes(setType: params.setType);
+  }
+}
+
+class GetPart7PassageTypesParams {
+  final String? setType;
+
+  GetPart7PassageTypesParams({this.setType});
+}
+
+class GetPart7PassageCombinationsUseCase implements UseCase<List<List<String>>, GetPart7PassageCombinationsParams> {
+  final QuestionsRepository repository;
+
+  GetPart7PassageCombinationsUseCase(this.repository);
+
+  @override
+  Future<Either<Failure, List<List<String>>>> call(GetPart7PassageCombinationsParams params) async {
+    return await repository.getPart7PassageCombinations(setType: params.setType);
+  }
+}
+
+class GetPart7PassageCombinationsParams {
+  final String setType;
+
+  GetPart7PassageCombinationsParams({required this.setType});
+}
+
+class GetPart7DifficultiesUseCase implements UseCase<List<String>, GetPart7DifficultiesParams> {
+  final QuestionsRepository repository;
+
+  GetPart7DifficultiesUseCase(this.repository);
+
+  @override
+  Future<Either<Failure, List<String>>> call(GetPart7DifficultiesParams params) async {
+    return await repository.getPart7Difficulties(setType: params.setType);
+  }
+}
+
+class GetPart7DifficultiesParams {
+  final String? setType;
+
+  GetPart7DifficultiesParams({this.setType});
 }

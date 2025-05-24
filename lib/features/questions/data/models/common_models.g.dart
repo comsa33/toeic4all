@@ -6,33 +6,32 @@ part of 'common_models.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$Part7SetTypesDataImpl _$$Part7SetTypesDataImplFromJson(
+_$ApiMetadataResponseImpl _$$ApiMetadataResponseImplFromJson(
         Map<String, dynamic> json) =>
-    _$Part7SetTypesDataImpl(
-      description: json['description'] as String,
-      requiredPassages: (json['required_passages'] as num).toInt(),
-    );
-
-Map<String, dynamic> _$$Part7SetTypesDataImplToJson(
-        _$Part7SetTypesDataImpl instance) =>
-    <String, dynamic>{
-      'description': instance.description,
-      'required_passages': instance.requiredPassages,
-    };
-
-_$ApiSetTypesResponseImpl _$$ApiSetTypesResponseImplFromJson(
-        Map<String, dynamic> json) =>
-    _$ApiSetTypesResponseImpl(
+    _$ApiMetadataResponseImpl(
       success: json['success'] as bool? ?? true,
       message: json['message'] as String?,
-      data: (json['data'] as Map<String, dynamic>).map(
-        (k, e) =>
-            MapEntry(k, Part7SetTypesData.fromJson(e as Map<String, dynamic>)),
-      ),
+      data: (json['data'] as List<dynamic>).map((e) => e as String).toList(),
     );
 
-Map<String, dynamic> _$$ApiSetTypesResponseImplToJson(
-        _$ApiSetTypesResponseImpl instance) =>
+Map<String, dynamic> _$$ApiMetadataResponseImplToJson(
+        _$ApiMetadataResponseImpl instance) =>
+    <String, dynamic>{
+      'success': instance.success,
+      'message': instance.message,
+      'data': instance.data,
+    };
+
+_$ApiSubtypesResponseImpl _$$ApiSubtypesResponseImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ApiSubtypesResponseImpl(
+      success: json['success'] as bool? ?? true,
+      message: json['message'] as String?,
+      data: json['data'],
+    );
+
+Map<String, dynamic> _$$ApiSubtypesResponseImplToJson(
+        _$ApiSubtypesResponseImpl instance) =>
     <String, dynamic>{
       'success': instance.success,
       'message': instance.message,
