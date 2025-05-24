@@ -91,7 +91,7 @@ class _Part5FilterScreenState extends ConsumerState<Part5FilterScreen> {
                             child: Slider(
                               value: questionCount.toDouble(),
                               min: 5,
-                              max: 50,
+                              max: 30,
                               divisions: 9,
                               label: '$questionCount문제',
                               onChanged: (value) {
