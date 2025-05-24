@@ -79,6 +79,7 @@ class AuthController extends StateNotifier<AuthState> {
     required String username,
     required String password,
   }) async {
+    debugPrint('🔄 로그인 시작: $username');
     state = state.copyWith(isLoading: true, errorMessage: null);
 
     final result = await _loginUseCase(
@@ -87,6 +88,7 @@ class AuthController extends StateNotifier<AuthState> {
 
     result.fold(
       (failure) {
+        debugPrint('❌ 로그인 실패: ${failure.toString()}');
         state = state.copyWith(
           isLoading: false,
           errorMessage: _getErrorMessage(failure),
@@ -94,9 +96,13 @@ class AuthController extends StateNotifier<AuthState> {
         );
       },
       (authResponse) {
-        // 명시적인 디버그 로깅 추가
-        debugPrint('✅ 로그인 성공! 토큰 정보: ${authResponse.accessToken.substring(0, 10)}...');
+        debugPrint('✅ 로그인 성공!');
+        debugPrint('🔑 토큰 정보: ${authResponse.accessToken.substring(0, 20)}...');
         debugPrint('👤 유저 정보: ${authResponse.user.username}, ${authResponse.user.email}, ${authResponse.user.role}');
+        debugPrint('📛 유저 이름: ${authResponse.user.profile.name}');
+        
+        // 상태 업데이트 BEFORE
+        debugPrint('🔄 상태 업데이트 전: isAuthenticated=${state.isAuthenticated}, hasToken=${state.accessToken != null}');
         
         // 상태 업데이트
         state = state.copyWith(
@@ -108,9 +114,10 @@ class AuthController extends StateNotifier<AuthState> {
           errorMessage: null,
         );
         
-        // 상태 업데이트 후 추가 로깅으로 확인
-        debugPrint('🔐 인증 상태 업데이트 완료: isAuthenticated=${state.isAuthenticated}, hasToken=${state.accessToken != null}');
-        debugPrint('📱 로그인 성공 - 이제 앱에서 성공적으로 /questions 화면으로 이동해야 함');
+        // 상태 업데이트 AFTER
+        debugPrint('🔄 상태 업데이트 후: isAuthenticated=${state.isAuthenticated}, hasToken=${state.accessToken != null}');
+        debugPrint('👤 상태의 유저: ${state.user?.username}');
+        debugPrint('🎯 로그인 성공 - /questions로 이동해야 함');
       },
     );
   }

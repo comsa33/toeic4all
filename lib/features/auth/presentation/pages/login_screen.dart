@@ -30,32 +30,53 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   Future<void> _handleLogin() async {
     if (_formKey.currentState?.validate() ?? false) {
-      // 로그인 시도 전에 값을 저장
       final username = _usernameController.text.trim();
       final password = _passwordController.text;
+      
+      debugPrint('🔄 로그인 요청 시작: $username');
       
       try {
         // 로그인 시도
         await ref.read(authControllerProvider.notifier).signInWithUsername(
-              username: username,
-              password: password,
-            );
+          username: username,
+          password: password,
+        );
         
-        // mounted 체크를 먼저 수행하고, 위젯이 여전히 마운트되어 있는지 확인
+        // mounted 체크
         if (!mounted) return;
         
-        // 로그인 완료 후 상태 확인 (mounted 확인 후)
+        // 상태 확인 및 네비게이션
         final authState = ref.read(authControllerProvider);
+        debugPrint('📊 로그인 후 상태 확인: isAuthenticated=${authState.isAuthenticated}, hasToken=${authState.accessToken != null}');
+        
         if (authState.isAuthenticated && authState.accessToken != null) {
-          debugPrint('⚡ 로그인 성공 확인 - 직접 화면 전환');
+          debugPrint('🎯 인증 성공 확인됨 - /questions로 이동');
           
-          // GoRouter를 사용하여 화면 전환 (이중 mounted 확인 제거)
-          debugPrint('🔥 GoRouter로 직접 문제 화면으로 이동');
-          // context.go 대신 pushReplacement 사용하여 이전 화면으로 돌아갈 수 없게 함
+          // 네비게이션 - replace 사용으로 뒤로가기 방지
           context.go('/questions');
+          
+          // 성공 메시지 표시 (선택사항)
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('로그인되었습니다!'),
+              backgroundColor: Colors.green,
+              duration: Duration(seconds: 2),
+            ),
+          );
+        } else {
+          debugPrint('⚠️ 로그인 후에도 인증 상태가 false임');
+          debugPrint('🔍 AuthState 상세: ${authState.toString()}');
         }
       } catch (e) {
-        debugPrint('❌ 로그인 중 오류 발생: $e');
+        debugPrint('❌ 로그인 중 예외 발생: $e');
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('로그인 중 오류가 발생했습니다: $e'),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
       }
     }
   }

@@ -8,13 +8,14 @@ part 'auth_response_model.g.dart';
 @freezed
 class AuthResponseModel with _$AuthResponseModel {
   const factory AuthResponseModel({
-    required String accessToken,
-    required String refreshToken,
+    @JsonKey(name: 'access_token') required String accessToken,
+    @JsonKey(name: 'refresh_token') required String refreshToken,
+    @JsonKey(name: 'token_type') String? tokenType, // 추가
     @JsonKey(name: 'user_id') required String userId,
     required String username,
     required String email,
     required String role,
-    @Default(3600) int expiresIn,
+    @JsonKey(name: 'expires_in') @Default(3600) int expiresIn,
   }) = _AuthResponseModel;
 
   factory AuthResponseModel.fromJson(Map<String, dynamic> json) =>
@@ -23,13 +24,13 @@ class AuthResponseModel with _$AuthResponseModel {
 
 extension AuthResponseModelX on AuthResponseModel {
   AuthResponse toEntity() {
-    // Create a basic User entity from the auth response data
+    // User 생성 시 name 필드에 username 사용
     final user = User(
       id: userId,
       username: username,
       email: email,
       role: role,
-      profile: const UserProfile(name: ''), // Will be filled from user profile endpoint
+      profile: UserProfile(name: username), // username을 name으로 사용
       stats: const UserStats(),
       subscription: const UserSubscription(),
     );
