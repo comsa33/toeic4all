@@ -45,21 +45,40 @@ class Part5QuestionsData with _$Part5QuestionsData {
       _$Part5QuestionsDataFromJson(json);
 }
 
-// Part 5 Questions Response Model
+// Part 5 Questions Response Model - 수정: 필수 필드를 선택적으로 변경하고 기본값 제공
 @freezed
 class Part5QuestionsResponseModel with _$Part5QuestionsResponseModel {
   const factory Part5QuestionsResponseModel({
     @Default(true) bool success,
     String? message,
     required Part5QuestionsData data,
-    required int count,
-    required int total,
-    required int page,
-    required int totalPages,
+    @Default(0) int count,        // 수정: 기본값 제공
+    @Default(0) int total,        // 수정: 기본값 제공
+    @Default(1) int page,         // 수정: 기본값 제공
+    @Default(1) int totalPages,   // 수정: 기본값 제공 (camelCase로 변경)
   }) = _Part5QuestionsResponseModel;
 
-  factory Part5QuestionsResponseModel.fromJson(Map<String, dynamic> json) =>
-      _$Part5QuestionsResponseModelFromJson(json);
+  // 수정: 커스텀 fromJson으로 안전한 파싱
+  factory Part5QuestionsResponseModel.fromJson(Map<String, dynamic> json) {
+    // 안전한 정수 파싱 함수
+    int safeParseInt(dynamic value, int defaultValue) {
+      if (value == null) return defaultValue;
+      if (value is int) return value;
+      if (value is double) return value.toInt();
+      if (value is String) return int.tryParse(value) ?? defaultValue;
+      return defaultValue;
+    }
+
+    return Part5QuestionsResponseModel(
+      success: json['success'] ?? true,
+      message: json['message'],
+      data: Part5QuestionsData.fromJson(json['data'] ?? {'questions': []}),
+      count: safeParseInt(json['count'], (json['data']?['questions'] as List?)?.length ?? 0),
+      total: safeParseInt(json['total'], (json['data']?['questions'] as List?)?.length ?? 0),
+      page: safeParseInt(json['page'], 1),
+      totalPages: safeParseInt(json['total_pages'] ?? json['totalPages'], 1),
+    );
+  }
 }
 
 // Part 5 Answer Model

@@ -12,6 +12,13 @@ import '../../../auth/presentation/providers/auth_providers.dart';
 final questionsApiProvider = Provider<QuestionsRemoteDataSource>((ref) {
   final dio = Dio();
   
+  // 로그 인터셉터 추가
+  dio.interceptors.add(LogInterceptor(
+    requestBody: true,
+    responseBody: true,
+    error: true,
+  ));
+  
   // Add auth interceptor
   dio.interceptors.add(InterceptorsWrapper(
     onRequest: (options, handler) {
@@ -19,7 +26,15 @@ final questionsApiProvider = Provider<QuestionsRemoteDataSource>((ref) {
       if (authState.accessToken != null) {
         options.headers['Authorization'] = 'Bearer ${authState.accessToken}';
       }
+      // 요청 정보 로그
+      print('🔄 API 요청: ${options.method} ${options.uri}');
+      print('📤 파라미터: ${options.queryParameters}');
       handler.next(options);
+    },
+    onError: (error, handler) {
+      print('❌ API 에러: ${error.message}');
+      print('📥 응답: ${error.response?.data}');
+      handler.next(error);
     },
   ));
   

@@ -122,21 +122,40 @@ class Part7SetsData with _$Part7SetsData {
       _$Part7SetsDataFromJson(json);
 }
 
-// Part 7 Sets Response Model
+// Part 7 Sets Response Model - 수정: 안전한 파싱 적용
 @freezed
 class Part7SetsResponseModel with _$Part7SetsResponseModel {
   const factory Part7SetsResponseModel({
-    required bool success,
-    required String message,
+    @Default(true) bool success,
+    String? message,
     required Part7SetsData data,
-    required int count,
-    required int total,
-    required int page,
-    @JsonKey(name: 'total_pages') required int totalPages,
+    @Default(0) int count,        // 수정: 기본값 제공
+    @Default(0) int total,        // 수정: 기본값 제공
+    @Default(1) int page,         // 수정: 기본값 제공
+    @Default(1) int totalPages,   // 수정: 기본값 제공
   }) = _Part7SetsResponseModel;
 
-  factory Part7SetsResponseModel.fromJson(Map<String, dynamic> json) =>
-      _$Part7SetsResponseModelFromJson(json);
+  // 수정: 커스텀 fromJson으로 안전한 파싱
+  factory Part7SetsResponseModel.fromJson(Map<String, dynamic> json) {
+    // 안전한 정수 파싱 함수
+    int safeParseInt(dynamic value, int defaultValue) {
+      if (value == null) return defaultValue;
+      if (value is int) return value;
+      if (value is double) return value.toInt();
+      if (value is String) return int.tryParse(value) ?? defaultValue;
+      return defaultValue;
+    }
+
+    return Part7SetsResponseModel(
+      success: json['success'] ?? true,
+      message: json['message'] ?? '',
+      data: Part7SetsData.fromJson(json['data'] ?? {'sets': []}),
+      count: safeParseInt(json['count'], (json['data']?['sets'] as List?)?.length ?? 0),
+      total: safeParseInt(json['total'], (json['data']?['sets'] as List?)?.length ?? 0),
+      page: safeParseInt(json['page'], 1),
+      totalPages: safeParseInt(json['total_pages'] ?? json['totalPages'], 1),
+    );
+  }
 }
 
 // Part 7 Answer Data
@@ -169,8 +188,8 @@ extension Part7AnswerDataX on Part7AnswerData {
 @freezed
 class Part7AnswerResponseModel with _$Part7AnswerResponseModel {
   const factory Part7AnswerResponseModel({
-    required bool success,
-    required String message,
+    @Default(true) bool success,
+    String? message,
     required Part7AnswerData data,
   }) = _Part7AnswerResponseModel;
 
@@ -194,18 +213,24 @@ class SetTypeInfoModel with _$SetTypeInfoModel {
 @freezed
 class Part7SetTypesResponseModel with _$Part7SetTypesResponseModel {
   const factory Part7SetTypesResponseModel({
-    required bool success,
-    required String message,
-    required Map<String, SetTypeInfoModel> data,
+    @Default(true) bool success,
+    String? message,
+    @Default({}) Map<String, SetTypeInfoModel> data, // 수정: 기본값 제공
   }) = _Part7SetTypesResponseModel;
 
+  // 수정: 더 안전한 fromJson
   factory Part7SetTypesResponseModel.fromJson(Map<String, dynamic> json) {
-    final data = json['data'] as Map<String, dynamic>;
+    final data = json['data'] as Map<String, dynamic>? ?? {};
     final convertedData = <String, SetTypeInfoModel>{};
     
     data.forEach((key, value) {
-      if (value is Map<String, dynamic>) {
-        convertedData[key] = SetTypeInfoModel.fromJson(value);
+      try {
+        if (value is Map<String, dynamic>) {
+          convertedData[key] = SetTypeInfoModel.fromJson(value);
+        }
+      } catch (e) {
+        // 파싱 에러 시 해당 항목 무시
+        print('SetTypeInfoModel 파싱 에러: $key -> $e');
       }
     });
     
@@ -221,9 +246,9 @@ class Part7SetTypesResponseModel with _$Part7SetTypesResponseModel {
 @freezed
 class Part7PassageCombinationsResponseModel with _$Part7PassageCombinationsResponseModel {
   const factory Part7PassageCombinationsResponseModel({
-    required bool success,
-    required String message,
-    required List<List<String>> data,
+    @Default(true) bool success,
+    String? message,
+    @Default([]) List<List<String>> data, // 수정: 기본값 제공
   }) = _Part7PassageCombinationsResponseModel;
 
   factory Part7PassageCombinationsResponseModel.fromJson(Map<String, dynamic> json) =>

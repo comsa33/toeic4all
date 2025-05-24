@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../domain/entities/question_filter.dart';
 import '../providers/questions_providers.dart';
+import '../pages/part5_quiz_screen.dart'; // 추가: Part5QuizScreen import
 import '../../../../shared/widgets/app_button.dart';
 
 class Part5FilterScreen extends ConsumerStatefulWidget {
@@ -224,7 +225,12 @@ class _Part5FilterScreenState extends ConsumerState<Part5FilterScreen> {
                         limit: questionCount,
                       );
                       
-                      context.push('/questions/part5/quiz', extra: filter);
+                      // 수정: Navigator.push 사용 (파트6, 파트7과 동일한 방식)
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => Part5QuizScreen(filter: filter),
+                        ),
+                      );
                     },
                   ),
                 ),

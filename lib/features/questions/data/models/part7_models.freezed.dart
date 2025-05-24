@@ -1087,24 +1087,15 @@ abstract class _Part7SetsData implements Part7SetsData {
       throw _privateConstructorUsedError;
 }
 
-Part7SetsResponseModel _$Part7SetsResponseModelFromJson(
-    Map<String, dynamic> json) {
-  return _Part7SetsResponseModel.fromJson(json);
-}
-
 /// @nodoc
 mixin _$Part7SetsResponseModel {
   bool get success => throw _privateConstructorUsedError;
-  String get message => throw _privateConstructorUsedError;
+  String? get message => throw _privateConstructorUsedError;
   Part7SetsData get data => throw _privateConstructorUsedError;
-  int get count => throw _privateConstructorUsedError;
-  int get total => throw _privateConstructorUsedError;
-  int get page => throw _privateConstructorUsedError;
-  @JsonKey(name: 'total_pages')
+  int get count => throw _privateConstructorUsedError; // 수정: 기본값 제공
+  int get total => throw _privateConstructorUsedError; // 수정: 기본값 제공
+  int get page => throw _privateConstructorUsedError; // 수정: 기본값 제공
   int get totalPages => throw _privateConstructorUsedError;
-
-  /// Serializes this Part7SetsResponseModel to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
   /// Create a copy of Part7SetsResponseModel
   /// with the given fields replaced by the non-null parameter values.
@@ -1121,12 +1112,12 @@ abstract class $Part7SetsResponseModelCopyWith<$Res> {
   @useResult
   $Res call(
       {bool success,
-      String message,
+      String? message,
       Part7SetsData data,
       int count,
       int total,
       int page,
-      @JsonKey(name: 'total_pages') int totalPages});
+      int totalPages});
 
   $Part7SetsDataCopyWith<$Res> get data;
 }
@@ -1148,7 +1139,7 @@ class _$Part7SetsResponseModelCopyWithImpl<$Res,
   @override
   $Res call({
     Object? success = null,
-    Object? message = null,
+    Object? message = freezed,
     Object? data = null,
     Object? count = null,
     Object? total = null,
@@ -1160,10 +1151,10 @@ class _$Part7SetsResponseModelCopyWithImpl<$Res,
           ? _value.success
           : success // ignore: cast_nullable_to_non_nullable
               as bool,
-      message: null == message
+      message: freezed == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       data: null == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
@@ -1209,12 +1200,12 @@ abstract class _$$Part7SetsResponseModelImplCopyWith<$Res>
   @useResult
   $Res call(
       {bool success,
-      String message,
+      String? message,
       Part7SetsData data,
       int count,
       int total,
       int page,
-      @JsonKey(name: 'total_pages') int totalPages});
+      int totalPages});
 
   @override
   $Part7SetsDataCopyWith<$Res> get data;
@@ -1236,7 +1227,7 @@ class __$$Part7SetsResponseModelImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? success = null,
-    Object? message = null,
+    Object? message = freezed,
     Object? data = null,
     Object? count = null,
     Object? total = null,
@@ -1248,10 +1239,10 @@ class __$$Part7SetsResponseModelImplCopyWithImpl<$Res>
           ? _value.success
           : success // ignore: cast_nullable_to_non_nullable
               as bool,
-      message: null == message
+      message: freezed == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       data: null == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
@@ -1277,34 +1268,38 @@ class __$$Part7SetsResponseModelImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
 class _$Part7SetsResponseModelImpl implements _Part7SetsResponseModel {
   const _$Part7SetsResponseModelImpl(
-      {required this.success,
-      required this.message,
+      {this.success = true,
+      this.message,
       required this.data,
-      required this.count,
-      required this.total,
-      required this.page,
-      @JsonKey(name: 'total_pages') required this.totalPages});
-
-  factory _$Part7SetsResponseModelImpl.fromJson(Map<String, dynamic> json) =>
-      _$$Part7SetsResponseModelImplFromJson(json);
+      this.count = 0,
+      this.total = 0,
+      this.page = 1,
+      this.totalPages = 1});
 
   @override
+  @JsonKey()
   final bool success;
   @override
-  final String message;
+  final String? message;
   @override
   final Part7SetsData data;
   @override
+  @JsonKey()
   final int count;
+// 수정: 기본값 제공
   @override
+  @JsonKey()
   final int total;
+// 수정: 기본값 제공
   @override
+  @JsonKey()
   final int page;
+// 수정: 기본값 제공
   @override
-  @JsonKey(name: 'total_pages')
+  @JsonKey()
   final int totalPages;
 
   @override
@@ -1327,7 +1322,6 @@ class _$Part7SetsResponseModelImpl implements _Part7SetsResponseModel {
                 other.totalPages == totalPages));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, success, message, data, count, total, page, totalPages);
@@ -1340,43 +1334,31 @@ class _$Part7SetsResponseModelImpl implements _Part7SetsResponseModel {
   _$$Part7SetsResponseModelImplCopyWith<_$Part7SetsResponseModelImpl>
       get copyWith => __$$Part7SetsResponseModelImplCopyWithImpl<
           _$Part7SetsResponseModelImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$Part7SetsResponseModelImplToJson(
-      this,
-    );
-  }
 }
 
 abstract class _Part7SetsResponseModel implements Part7SetsResponseModel {
   const factory _Part7SetsResponseModel(
-          {required final bool success,
-          required final String message,
-          required final Part7SetsData data,
-          required final int count,
-          required final int total,
-          required final int page,
-          @JsonKey(name: 'total_pages') required final int totalPages}) =
-      _$Part7SetsResponseModelImpl;
-
-  factory _Part7SetsResponseModel.fromJson(Map<String, dynamic> json) =
-      _$Part7SetsResponseModelImpl.fromJson;
+      {final bool success,
+      final String? message,
+      required final Part7SetsData data,
+      final int count,
+      final int total,
+      final int page,
+      final int totalPages}) = _$Part7SetsResponseModelImpl;
 
   @override
   bool get success;
   @override
-  String get message;
+  String? get message;
   @override
   Part7SetsData get data;
   @override
-  int get count;
+  int get count; // 수정: 기본값 제공
   @override
-  int get total;
+  int get total; // 수정: 기본값 제공
   @override
-  int get page;
+  int get page; // 수정: 기본값 제공
   @override
-  @JsonKey(name: 'total_pages')
   int get totalPages;
 
   /// Create a copy of Part7SetsResponseModel
@@ -1618,7 +1600,7 @@ Part7AnswerResponseModel _$Part7AnswerResponseModelFromJson(
 /// @nodoc
 mixin _$Part7AnswerResponseModel {
   bool get success => throw _privateConstructorUsedError;
-  String get message => throw _privateConstructorUsedError;
+  String? get message => throw _privateConstructorUsedError;
   Part7AnswerData get data => throw _privateConstructorUsedError;
 
   /// Serializes this Part7AnswerResponseModel to a JSON map.
@@ -1637,7 +1619,7 @@ abstract class $Part7AnswerResponseModelCopyWith<$Res> {
           $Res Function(Part7AnswerResponseModel) then) =
       _$Part7AnswerResponseModelCopyWithImpl<$Res, Part7AnswerResponseModel>;
   @useResult
-  $Res call({bool success, String message, Part7AnswerData data});
+  $Res call({bool success, String? message, Part7AnswerData data});
 
   $Part7AnswerDataCopyWith<$Res> get data;
 }
@@ -1659,7 +1641,7 @@ class _$Part7AnswerResponseModelCopyWithImpl<$Res,
   @override
   $Res call({
     Object? success = null,
-    Object? message = null,
+    Object? message = freezed,
     Object? data = null,
   }) {
     return _then(_value.copyWith(
@@ -1667,10 +1649,10 @@ class _$Part7AnswerResponseModelCopyWithImpl<$Res,
           ? _value.success
           : success // ignore: cast_nullable_to_non_nullable
               as bool,
-      message: null == message
+      message: freezed == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       data: null == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
@@ -1698,7 +1680,7 @@ abstract class _$$Part7AnswerResponseModelImplCopyWith<$Res>
       __$$Part7AnswerResponseModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool success, String message, Part7AnswerData data});
+  $Res call({bool success, String? message, Part7AnswerData data});
 
   @override
   $Part7AnswerDataCopyWith<$Res> get data;
@@ -1720,7 +1702,7 @@ class __$$Part7AnswerResponseModelImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? success = null,
-    Object? message = null,
+    Object? message = freezed,
     Object? data = null,
   }) {
     return _then(_$Part7AnswerResponseModelImpl(
@@ -1728,10 +1710,10 @@ class __$$Part7AnswerResponseModelImplCopyWithImpl<$Res>
           ? _value.success
           : success // ignore: cast_nullable_to_non_nullable
               as bool,
-      message: null == message
+      message: freezed == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       data: null == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
@@ -1744,15 +1726,16 @@ class __$$Part7AnswerResponseModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$Part7AnswerResponseModelImpl implements _Part7AnswerResponseModel {
   const _$Part7AnswerResponseModelImpl(
-      {required this.success, required this.message, required this.data});
+      {this.success = true, this.message, required this.data});
 
   factory _$Part7AnswerResponseModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$Part7AnswerResponseModelImplFromJson(json);
 
   @override
+  @JsonKey()
   final bool success;
   @override
-  final String message;
+  final String? message;
   @override
   final Part7AnswerData data;
 
@@ -1794,8 +1777,8 @@ class _$Part7AnswerResponseModelImpl implements _Part7AnswerResponseModel {
 
 abstract class _Part7AnswerResponseModel implements Part7AnswerResponseModel {
   const factory _Part7AnswerResponseModel(
-      {required final bool success,
-      required final String message,
+      {final bool success,
+      final String? message,
       required final Part7AnswerData data}) = _$Part7AnswerResponseModelImpl;
 
   factory _Part7AnswerResponseModel.fromJson(Map<String, dynamic> json) =
@@ -1804,7 +1787,7 @@ abstract class _Part7AnswerResponseModel implements Part7AnswerResponseModel {
   @override
   bool get success;
   @override
-  String get message;
+  String? get message;
   @override
   Part7AnswerData get data;
 
@@ -1999,7 +1982,7 @@ abstract class _SetTypeInfoModel implements SetTypeInfoModel {
 /// @nodoc
 mixin _$Part7SetTypesResponseModel {
   bool get success => throw _privateConstructorUsedError;
-  String get message => throw _privateConstructorUsedError;
+  String? get message => throw _privateConstructorUsedError;
   Map<String, SetTypeInfoModel> get data => throw _privateConstructorUsedError;
 
   /// Create a copy of Part7SetTypesResponseModel
@@ -2016,7 +1999,8 @@ abstract class $Part7SetTypesResponseModelCopyWith<$Res> {
       _$Part7SetTypesResponseModelCopyWithImpl<$Res,
           Part7SetTypesResponseModel>;
   @useResult
-  $Res call({bool success, String message, Map<String, SetTypeInfoModel> data});
+  $Res call(
+      {bool success, String? message, Map<String, SetTypeInfoModel> data});
 }
 
 /// @nodoc
@@ -2036,7 +2020,7 @@ class _$Part7SetTypesResponseModelCopyWithImpl<$Res,
   @override
   $Res call({
     Object? success = null,
-    Object? message = null,
+    Object? message = freezed,
     Object? data = null,
   }) {
     return _then(_value.copyWith(
@@ -2044,10 +2028,10 @@ class _$Part7SetTypesResponseModelCopyWithImpl<$Res,
           ? _value.success
           : success // ignore: cast_nullable_to_non_nullable
               as bool,
-      message: null == message
+      message: freezed == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       data: null == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
@@ -2065,7 +2049,8 @@ abstract class _$$Part7SetTypesResponseModelImplCopyWith<$Res>
       __$$Part7SetTypesResponseModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool success, String message, Map<String, SetTypeInfoModel> data});
+  $Res call(
+      {bool success, String? message, Map<String, SetTypeInfoModel> data});
 }
 
 /// @nodoc
@@ -2084,7 +2069,7 @@ class __$$Part7SetTypesResponseModelImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? success = null,
-    Object? message = null,
+    Object? message = freezed,
     Object? data = null,
   }) {
     return _then(_$Part7SetTypesResponseModelImpl(
@@ -2092,10 +2077,10 @@ class __$$Part7SetTypesResponseModelImplCopyWithImpl<$Res>
           ? _value.success
           : success // ignore: cast_nullable_to_non_nullable
               as bool,
-      message: null == message
+      message: freezed == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       data: null == data
           ? _value._data
           : data // ignore: cast_nullable_to_non_nullable
@@ -2108,17 +2093,19 @@ class __$$Part7SetTypesResponseModelImplCopyWithImpl<$Res>
 
 class _$Part7SetTypesResponseModelImpl implements _Part7SetTypesResponseModel {
   const _$Part7SetTypesResponseModelImpl(
-      {required this.success,
-      required this.message,
-      required final Map<String, SetTypeInfoModel> data})
+      {this.success = true,
+      this.message,
+      final Map<String, SetTypeInfoModel> data = const {}})
       : _data = data;
 
   @override
+  @JsonKey()
   final bool success;
   @override
-  final String message;
+  final String? message;
   final Map<String, SetTypeInfoModel> _data;
   @override
+  @JsonKey()
   Map<String, SetTypeInfoModel> get data {
     if (_data is EqualUnmodifiableMapView) return _data;
     // ignore: implicit_dynamic_type
@@ -2157,15 +2144,15 @@ class _$Part7SetTypesResponseModelImpl implements _Part7SetTypesResponseModel {
 abstract class _Part7SetTypesResponseModel
     implements Part7SetTypesResponseModel {
   const factory _Part7SetTypesResponseModel(
-          {required final bool success,
-          required final String message,
-          required final Map<String, SetTypeInfoModel> data}) =
+          {final bool success,
+          final String? message,
+          final Map<String, SetTypeInfoModel> data}) =
       _$Part7SetTypesResponseModelImpl;
 
   @override
   bool get success;
   @override
-  String get message;
+  String? get message;
   @override
   Map<String, SetTypeInfoModel> get data;
 
@@ -2185,7 +2172,7 @@ Part7PassageCombinationsResponseModel
 /// @nodoc
 mixin _$Part7PassageCombinationsResponseModel {
   bool get success => throw _privateConstructorUsedError;
-  String get message => throw _privateConstructorUsedError;
+  String? get message => throw _privateConstructorUsedError;
   List<List<String>> get data => throw _privateConstructorUsedError;
 
   /// Serializes this Part7PassageCombinationsResponseModel to a JSON map.
@@ -2207,7 +2194,7 @@ abstract class $Part7PassageCombinationsResponseModelCopyWith<$Res> {
       _$Part7PassageCombinationsResponseModelCopyWithImpl<$Res,
           Part7PassageCombinationsResponseModel>;
   @useResult
-  $Res call({bool success, String message, List<List<String>> data});
+  $Res call({bool success, String? message, List<List<String>> data});
 }
 
 /// @nodoc
@@ -2227,7 +2214,7 @@ class _$Part7PassageCombinationsResponseModelCopyWithImpl<$Res,
   @override
   $Res call({
     Object? success = null,
-    Object? message = null,
+    Object? message = freezed,
     Object? data = null,
   }) {
     return _then(_value.copyWith(
@@ -2235,10 +2222,10 @@ class _$Part7PassageCombinationsResponseModelCopyWithImpl<$Res,
           ? _value.success
           : success // ignore: cast_nullable_to_non_nullable
               as bool,
-      message: null == message
+      message: freezed == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       data: null == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
@@ -2256,7 +2243,7 @@ abstract class _$$Part7PassageCombinationsResponseModelImplCopyWith<$Res>
       __$$Part7PassageCombinationsResponseModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool success, String message, List<List<String>> data});
+  $Res call({bool success, String? message, List<List<String>> data});
 }
 
 /// @nodoc
@@ -2275,7 +2262,7 @@ class __$$Part7PassageCombinationsResponseModelImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? success = null,
-    Object? message = null,
+    Object? message = freezed,
     Object? data = null,
   }) {
     return _then(_$Part7PassageCombinationsResponseModelImpl(
@@ -2283,10 +2270,10 @@ class __$$Part7PassageCombinationsResponseModelImplCopyWithImpl<$Res>
           ? _value.success
           : success // ignore: cast_nullable_to_non_nullable
               as bool,
-      message: null == message
+      message: freezed == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       data: null == data
           ? _value._data
           : data // ignore: cast_nullable_to_non_nullable
@@ -2300,9 +2287,9 @@ class __$$Part7PassageCombinationsResponseModelImplCopyWithImpl<$Res>
 class _$Part7PassageCombinationsResponseModelImpl
     implements _Part7PassageCombinationsResponseModel {
   const _$Part7PassageCombinationsResponseModelImpl(
-      {required this.success,
-      required this.message,
-      required final List<List<String>> data})
+      {this.success = true,
+      this.message,
+      final List<List<String>> data = const []})
       : _data = data;
 
   factory _$Part7PassageCombinationsResponseModelImpl.fromJson(
@@ -2310,11 +2297,13 @@ class _$Part7PassageCombinationsResponseModelImpl
       _$$Part7PassageCombinationsResponseModelImplFromJson(json);
 
   @override
+  @JsonKey()
   final bool success;
   @override
-  final String message;
+  final String? message;
   final List<List<String>> _data;
   @override
+  @JsonKey()
   List<List<String>> get data {
     if (_data is EqualUnmodifiableListView) return _data;
     // ignore: implicit_dynamic_type
@@ -2362,9 +2351,9 @@ class _$Part7PassageCombinationsResponseModelImpl
 abstract class _Part7PassageCombinationsResponseModel
     implements Part7PassageCombinationsResponseModel {
   const factory _Part7PassageCombinationsResponseModel(
-          {required final bool success,
-          required final String message,
-          required final List<List<String>> data}) =
+          {final bool success,
+          final String? message,
+          final List<List<String>> data}) =
       _$Part7PassageCombinationsResponseModelImpl;
 
   factory _Part7PassageCombinationsResponseModel.fromJson(
@@ -2374,7 +2363,7 @@ abstract class _Part7PassageCombinationsResponseModel
   @override
   bool get success;
   @override
-  String get message;
+  String? get message;
   @override
   List<List<String>> get data;
 

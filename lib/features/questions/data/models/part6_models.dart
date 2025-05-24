@@ -54,21 +54,40 @@ class Part6SetsData with _$Part6SetsData {
       _$Part6SetsDataFromJson(json);
 }
 
-// Part 6 세트 목록 응답 구조
+// Part 6 세트 목록 응답 구조 - 수정: 안전한 파싱 적용
 @freezed
 class Part6SetsResponseModel with _$Part6SetsResponseModel {
   const factory Part6SetsResponseModel({
     @Default(true) bool success,
     String? message,
     required Part6SetsData data,
-    required int count,
-    required int total,
-    required int page,
-    @JsonKey(name: 'total_pages') required int totalPages,
+    @Default(0) int count,        // 수정: 기본값 제공
+    @Default(0) int total,        // 수정: 기본값 제공
+    @Default(1) int page,         // 수정: 기본값 제공
+    @Default(1) int totalPages,   // 수정: 기본값 제공
   }) = _Part6SetsResponseModel;
 
-  factory Part6SetsResponseModel.fromJson(Map<String, dynamic> json) =>
-      _$Part6SetsResponseModelFromJson(json);
+  // 수정: 커스텀 fromJson으로 안전한 파싱
+  factory Part6SetsResponseModel.fromJson(Map<String, dynamic> json) {
+    // 안전한 정수 파싱 함수
+    int safeParseInt(dynamic value, int defaultValue) {
+      if (value == null) return defaultValue;
+      if (value is int) return value;
+      if (value is double) return value.toInt();
+      if (value is String) return int.tryParse(value) ?? defaultValue;
+      return defaultValue;
+    }
+
+    return Part6SetsResponseModel(
+      success: json['success'] ?? true,
+      message: json['message'],
+      data: Part6SetsData.fromJson(json['data'] ?? {'sets': []}),
+      count: safeParseInt(json['count'], (json['data']?['sets'] as List?)?.length ?? 0),
+      total: safeParseInt(json['total'], (json['data']?['sets'] as List?)?.length ?? 0),
+      page: safeParseInt(json['page'], 1),
+      totalPages: safeParseInt(json['total_pages'] ?? json['totalPages'], 1),
+    );
+  }
 }
 
 // Part 6 정답 데이터 구조

@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 import '../../../../core/errors/failures.dart';
 import '../../domain/repositories/questions_repository.dart';
 import '../../domain/entities/question.dart';
@@ -24,6 +25,9 @@ class QuestionsRepositoryImpl implements QuestionsRepository {
     int page = 1,
   }) async {
     try {
+      print('🔄 Part5 Questions 요청 시작');
+      print('📤 파라미터: category=$category, subtype=$subtype, difficulty=$difficulty, limit=$limit, page=$page');
+      
       final response = await remoteDataSource.getPart5Questions(
         category: category,
         subtype: subtype,
@@ -32,6 +36,9 @@ class QuestionsRepositoryImpl implements QuestionsRepository {
         limit: limit,
         page: page,
       );
+      
+      print('✅ Part5 Questions API 응답 성공');
+      print('📥 응답 데이터: success=${response.success}, count=${response.count}, total=${response.total}');
       
       final entity = Part5QuestionsResponse(
         success: response.success,
@@ -42,9 +49,31 @@ class QuestionsRepositoryImpl implements QuestionsRepository {
         questions: response.data.questions.map((q) => q.toEntity()).toList(),
       );
       
+      print('✅ Part5 Questions Entity 변환 성공: ${entity.questions.length}개 문제');
       return Right(entity);
-    } catch (e) {
-      return Left(Failure.server(message: 'Failed to get Part 5 questions: ${e.toString()}'));
+    } catch (e, stackTrace) {
+      print('❌ Part5 Questions 에러 발생');
+      print('🔍 에러 타입: ${e.runtimeType}');
+      print('📝 에러 내용: $e');
+      print('📍 스택 트레이스: $stackTrace');
+      
+      String errorMessage = 'Failed to get Part 5 questions';
+      
+      if (e is DioException) {
+        print('🌐 DioException 상세 정보:');
+        print('   - 응답 코드: ${e.response?.statusCode}');
+        print('   - 응답 데이터: ${e.response?.data}');
+        print('   - 요청 URL: ${e.requestOptions.uri}');
+        
+        errorMessage = 'Network error: ${e.message}';
+        if (e.response?.statusCode != null) {
+          errorMessage += ' (Status: ${e.response!.statusCode})';
+        }
+      } else if (e is FormatException || e.toString().contains('type cast')) {
+        errorMessage = 'Data parsing error: ${e.toString()}';
+      }
+      
+      return Left(Failure.server(message: '$errorMessage: ${e.toString()}'));
     }
   }
 
@@ -54,6 +83,7 @@ class QuestionsRepositoryImpl implements QuestionsRepository {
       final response = await remoteDataSource.getPart5Answer(questionId);
       return Right(response.data.toEntity());
     } catch (e) {
+      print('❌ Part5 Answer 에러: $e');
       return Left(Failure.server(message: 'Failed to get Part 5 answer: ${e.toString()}'));
     }
   }
@@ -64,6 +94,7 @@ class QuestionsRepositoryImpl implements QuestionsRepository {
       final response = await remoteDataSource.getPart5Categories();
       return Right(response.data);
     } catch (e) {
+      print('❌ Part5 Categories 에러: $e');
       return Left(Failure.server(message: 'Failed to get Part 5 categories: ${e.toString()}'));
     }
   }
@@ -74,6 +105,7 @@ class QuestionsRepositoryImpl implements QuestionsRepository {
       final response = await remoteDataSource.getPart5Subtypes(category: category);
       return Right(response.data);
     } catch (e) {
+      print('❌ Part5 Subtypes 에러: $e');
       return Left(Failure.server(message: 'Failed to get Part 5 subtypes: ${e.toString()}'));
     }
   }
@@ -90,6 +122,7 @@ class QuestionsRepositoryImpl implements QuestionsRepository {
       );
       return Right(response.data);
     } catch (e) {
+      print('❌ Part5 Difficulties 에러: $e');
       return Left(Failure.server(message: 'Failed to get Part 5 difficulties: ${e.toString()}'));
     }
   }
@@ -103,12 +136,17 @@ class QuestionsRepositoryImpl implements QuestionsRepository {
     int page = 1,
   }) async {
     try {
+      print('🔄 Part6 Sets 요청 시작');
+      print('📤 파라미터: passageType=$passageType, difficulty=$difficulty, limit=$limit, page=$page');
+      
       final response = await remoteDataSource.getPart6Sets(
         passageType: passageType,
         difficulty: difficulty,
         limit: limit,
         page: page,
       );
+      
+      print('✅ Part6 Sets API 응답 성공');
       
       final entity = Part6SetsResponse(
         success: response.success,
@@ -119,9 +157,22 @@ class QuestionsRepositoryImpl implements QuestionsRepository {
         sets: response.data.sets.map((s) => s.toEntity()).toList(),
       );
       
+      print('✅ Part6 Sets Entity 변환 성공: ${entity.sets.length}개 세트');
       return Right(entity);
-    } catch (e) {
-      return Left(Failure.server(message: 'Failed to get Part 6 sets: ${e.toString()}'));
+    } catch (e, stackTrace) {
+      print('❌ Part6 Sets 에러 발생');
+      print('🔍 에러 타입: ${e.runtimeType}');
+      print('📝 에러 내용: $e');
+      
+      String errorMessage = 'Failed to get Part 6 sets';
+      if (e is DioException) {
+        errorMessage = 'Network error: ${e.message}';
+        if (e.response?.statusCode != null) {
+          errorMessage += ' (Status: ${e.response!.statusCode})';
+        }
+      }
+      
+      return Left(Failure.server(message: '$errorMessage: ${e.toString()}'));
     }
   }
 
@@ -172,6 +223,9 @@ class QuestionsRepositoryImpl implements QuestionsRepository {
     int page = 1,
   }) async {
     try {
+      print('🔄 Part7 Sets 요청 시작');
+      print('📤 파라미터: setType=$setType, passageTypes=$passageTypes, difficulty=$difficulty, limit=$limit, page=$page');
+      
       final response = await remoteDataSource.getPart7Sets(
         setType: setType,
         passageTypes: passageTypes,
@@ -179,6 +233,8 @@ class QuestionsRepositoryImpl implements QuestionsRepository {
         limit: limit,
         page: page,
       );
+      
+      print('✅ Part7 Sets API 응답 성공');
       
       final entity = Part7SetsResponse(
         success: response.success,
@@ -189,9 +245,22 @@ class QuestionsRepositoryImpl implements QuestionsRepository {
         sets: response.data.sets.map((s) => s.toEntity()).toList(),
       );
       
+      print('✅ Part7 Sets Entity 변환 성공: ${entity.sets.length}개 세트');
       return Right(entity);
-    } catch (e) {
-      return Left(Failure.server(message: 'Failed to get Part 7 sets: ${e.toString()}'));
+    } catch (e, stackTrace) {
+      print('❌ Part7 Sets 에러 발생');
+      print('🔍 에러 타입: ${e.runtimeType}');
+      print('📝 에러 내용: $e');
+      
+      String errorMessage = 'Failed to get Part 7 sets';
+      if (e is DioException) {
+        errorMessage = 'Network error: ${e.message}';
+        if (e.response?.statusCode != null) {
+          errorMessage += ' (Status: ${e.response!.statusCode})';
+        }
+      }
+      
+      return Left(Failure.server(message: '$errorMessage: ${e.toString()}'));
     }
   }
 

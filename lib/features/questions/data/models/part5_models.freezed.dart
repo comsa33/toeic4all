@@ -654,23 +654,15 @@ abstract class _Part5QuestionsData implements Part5QuestionsData {
       throw _privateConstructorUsedError;
 }
 
-Part5QuestionsResponseModel _$Part5QuestionsResponseModelFromJson(
-    Map<String, dynamic> json) {
-  return _Part5QuestionsResponseModel.fromJson(json);
-}
-
 /// @nodoc
 mixin _$Part5QuestionsResponseModel {
   bool get success => throw _privateConstructorUsedError;
   String? get message => throw _privateConstructorUsedError;
   Part5QuestionsData get data => throw _privateConstructorUsedError;
-  int get count => throw _privateConstructorUsedError;
-  int get total => throw _privateConstructorUsedError;
-  int get page => throw _privateConstructorUsedError;
+  int get count => throw _privateConstructorUsedError; // 수정: 기본값 제공
+  int get total => throw _privateConstructorUsedError; // 수정: 기본값 제공
+  int get page => throw _privateConstructorUsedError; // 수정: 기본값 제공
   int get totalPages => throw _privateConstructorUsedError;
-
-  /// Serializes this Part5QuestionsResponseModel to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
   /// Create a copy of Part5QuestionsResponseModel
   /// with the given fields replaced by the non-null parameter values.
@@ -845,21 +837,17 @@ class __$$Part5QuestionsResponseModelImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
 class _$Part5QuestionsResponseModelImpl
     implements _Part5QuestionsResponseModel {
   const _$Part5QuestionsResponseModelImpl(
       {this.success = true,
       this.message,
       required this.data,
-      required this.count,
-      required this.total,
-      required this.page,
-      required this.totalPages});
-
-  factory _$Part5QuestionsResponseModelImpl.fromJson(
-          Map<String, dynamic> json) =>
-      _$$Part5QuestionsResponseModelImplFromJson(json);
+      this.count = 0,
+      this.total = 0,
+      this.page = 1,
+      this.totalPages = 1});
 
   @override
   @JsonKey()
@@ -869,12 +857,19 @@ class _$Part5QuestionsResponseModelImpl
   @override
   final Part5QuestionsData data;
   @override
+  @JsonKey()
   final int count;
+// 수정: 기본값 제공
   @override
+  @JsonKey()
   final int total;
+// 수정: 기본값 제공
   @override
+  @JsonKey()
   final int page;
+// 수정: 기본값 제공
   @override
+  @JsonKey()
   final int totalPages;
 
   @override
@@ -897,7 +892,6 @@ class _$Part5QuestionsResponseModelImpl
                 other.totalPages == totalPages));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, success, message, data, count, total, page, totalPages);
@@ -910,13 +904,6 @@ class _$Part5QuestionsResponseModelImpl
   _$$Part5QuestionsResponseModelImplCopyWith<_$Part5QuestionsResponseModelImpl>
       get copyWith => __$$Part5QuestionsResponseModelImplCopyWithImpl<
           _$Part5QuestionsResponseModelImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$Part5QuestionsResponseModelImplToJson(
-      this,
-    );
-  }
 }
 
 abstract class _Part5QuestionsResponseModel
@@ -925,13 +912,10 @@ abstract class _Part5QuestionsResponseModel
       {final bool success,
       final String? message,
       required final Part5QuestionsData data,
-      required final int count,
-      required final int total,
-      required final int page,
-      required final int totalPages}) = _$Part5QuestionsResponseModelImpl;
-
-  factory _Part5QuestionsResponseModel.fromJson(Map<String, dynamic> json) =
-      _$Part5QuestionsResponseModelImpl.fromJson;
+      final int count,
+      final int total,
+      final int page,
+      final int totalPages}) = _$Part5QuestionsResponseModelImpl;
 
   @override
   bool get success;
@@ -940,11 +924,11 @@ abstract class _Part5QuestionsResponseModel
   @override
   Part5QuestionsData get data;
   @override
-  int get count;
+  int get count; // 수정: 기본값 제공
   @override
-  int get total;
+  int get total; // 수정: 기본값 제공
   @override
-  int get page;
+  int get page; // 수정: 기본값 제공
   @override
   int get totalPages;
 

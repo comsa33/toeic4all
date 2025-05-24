@@ -828,24 +828,15 @@ abstract class _Part6SetsData implements Part6SetsData {
       throw _privateConstructorUsedError;
 }
 
-Part6SetsResponseModel _$Part6SetsResponseModelFromJson(
-    Map<String, dynamic> json) {
-  return _Part6SetsResponseModel.fromJson(json);
-}
-
 /// @nodoc
 mixin _$Part6SetsResponseModel {
   bool get success => throw _privateConstructorUsedError;
   String? get message => throw _privateConstructorUsedError;
   Part6SetsData get data => throw _privateConstructorUsedError;
-  int get count => throw _privateConstructorUsedError;
-  int get total => throw _privateConstructorUsedError;
-  int get page => throw _privateConstructorUsedError;
-  @JsonKey(name: 'total_pages')
+  int get count => throw _privateConstructorUsedError; // 수정: 기본값 제공
+  int get total => throw _privateConstructorUsedError; // 수정: 기본값 제공
+  int get page => throw _privateConstructorUsedError; // 수정: 기본값 제공
   int get totalPages => throw _privateConstructorUsedError;
-
-  /// Serializes this Part6SetsResponseModel to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
   /// Create a copy of Part6SetsResponseModel
   /// with the given fields replaced by the non-null parameter values.
@@ -867,7 +858,7 @@ abstract class $Part6SetsResponseModelCopyWith<$Res> {
       int count,
       int total,
       int page,
-      @JsonKey(name: 'total_pages') int totalPages});
+      int totalPages});
 
   $Part6SetsDataCopyWith<$Res> get data;
 }
@@ -955,7 +946,7 @@ abstract class _$$Part6SetsResponseModelImplCopyWith<$Res>
       int count,
       int total,
       int page,
-      @JsonKey(name: 'total_pages') int totalPages});
+      int totalPages});
 
   @override
   $Part6SetsDataCopyWith<$Res> get data;
@@ -1018,19 +1009,16 @@ class __$$Part6SetsResponseModelImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
 class _$Part6SetsResponseModelImpl implements _Part6SetsResponseModel {
   const _$Part6SetsResponseModelImpl(
       {this.success = true,
       this.message,
       required this.data,
-      required this.count,
-      required this.total,
-      required this.page,
-      @JsonKey(name: 'total_pages') required this.totalPages});
-
-  factory _$Part6SetsResponseModelImpl.fromJson(Map<String, dynamic> json) =>
-      _$$Part6SetsResponseModelImplFromJson(json);
+      this.count = 0,
+      this.total = 0,
+      this.page = 1,
+      this.totalPages = 1});
 
   @override
   @JsonKey()
@@ -1040,13 +1028,19 @@ class _$Part6SetsResponseModelImpl implements _Part6SetsResponseModel {
   @override
   final Part6SetsData data;
   @override
+  @JsonKey()
   final int count;
+// 수정: 기본값 제공
   @override
+  @JsonKey()
   final int total;
+// 수정: 기본값 제공
   @override
+  @JsonKey()
   final int page;
+// 수정: 기본값 제공
   @override
-  @JsonKey(name: 'total_pages')
+  @JsonKey()
   final int totalPages;
 
   @override
@@ -1069,7 +1063,6 @@ class _$Part6SetsResponseModelImpl implements _Part6SetsResponseModel {
                 other.totalPages == totalPages));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, success, message, data, count, total, page, totalPages);
@@ -1082,28 +1075,17 @@ class _$Part6SetsResponseModelImpl implements _Part6SetsResponseModel {
   _$$Part6SetsResponseModelImplCopyWith<_$Part6SetsResponseModelImpl>
       get copyWith => __$$Part6SetsResponseModelImplCopyWithImpl<
           _$Part6SetsResponseModelImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$Part6SetsResponseModelImplToJson(
-      this,
-    );
-  }
 }
 
 abstract class _Part6SetsResponseModel implements Part6SetsResponseModel {
   const factory _Part6SetsResponseModel(
-          {final bool success,
-          final String? message,
-          required final Part6SetsData data,
-          required final int count,
-          required final int total,
-          required final int page,
-          @JsonKey(name: 'total_pages') required final int totalPages}) =
-      _$Part6SetsResponseModelImpl;
-
-  factory _Part6SetsResponseModel.fromJson(Map<String, dynamic> json) =
-      _$Part6SetsResponseModelImpl.fromJson;
+      {final bool success,
+      final String? message,
+      required final Part6SetsData data,
+      final int count,
+      final int total,
+      final int page,
+      final int totalPages}) = _$Part6SetsResponseModelImpl;
 
   @override
   bool get success;
@@ -1112,13 +1094,12 @@ abstract class _Part6SetsResponseModel implements Part6SetsResponseModel {
   @override
   Part6SetsData get data;
   @override
-  int get count;
+  int get count; // 수정: 기본값 제공
   @override
-  int get total;
+  int get total; // 수정: 기본값 제공
   @override
-  int get page;
+  int get page; // 수정: 기본값 제공
   @override
-  @JsonKey(name: 'total_pages')
   int get totalPages;
 
   /// Create a copy of Part6SetsResponseModel

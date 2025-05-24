@@ -60,30 +60,6 @@ Map<String, dynamic> _$$Part5QuestionsDataImplToJson(
       'questions': instance.questions,
     };
 
-_$Part5QuestionsResponseModelImpl _$$Part5QuestionsResponseModelImplFromJson(
-        Map<String, dynamic> json) =>
-    _$Part5QuestionsResponseModelImpl(
-      success: json['success'] as bool? ?? true,
-      message: json['message'] as String?,
-      data: Part5QuestionsData.fromJson(json['data'] as Map<String, dynamic>),
-      count: (json['count'] as num).toInt(),
-      total: (json['total'] as num).toInt(),
-      page: (json['page'] as num).toInt(),
-      totalPages: (json['totalPages'] as num).toInt(),
-    );
-
-Map<String, dynamic> _$$Part5QuestionsResponseModelImplToJson(
-        _$Part5QuestionsResponseModelImpl instance) =>
-    <String, dynamic>{
-      'success': instance.success,
-      'message': instance.message,
-      'data': instance.data,
-      'count': instance.count,
-      'total': instance.total,
-      'page': instance.page,
-      'totalPages': instance.totalPages,
-    };
-
 _$Part5AnswerModelImpl _$$Part5AnswerModelImplFromJson(
         Map<String, dynamic> json) =>
     _$Part5AnswerModelImpl(

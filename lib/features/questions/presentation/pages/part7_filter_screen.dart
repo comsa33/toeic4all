@@ -16,7 +16,7 @@ class _Part7FilterScreenState extends ConsumerState<Part7FilterScreen> {
   String? selectedSetType;
   List<String> selectedPassageTypes = [];
   String? selectedDifficulty;
-  int questionCount = 8; // Part 7 typically has 8+ questions
+  int questionCount = 1; // 수정: 기본값을 1로 변경 (백엔드 기본값과 일치)
 
   @override
   Widget build(BuildContext context) {
@@ -114,9 +114,9 @@ class _Part7FilterScreenState extends ConsumerState<Part7FilterScreen> {
                     
                     const SizedBox(height: 24),
                     
-                    // Question Count
+                    // Question Count - 수정: 세트 타입별 제한 적용
                     _FilterSection(
-                      title: '문제 수',
+                      title: '문제 세트 수',
                       child: _buildQuestionCountSlider(),
                     ),
                   ],
@@ -156,6 +156,8 @@ class _Part7FilterScreenState extends ConsumerState<Part7FilterScreen> {
               selectedSetType = selected ? setType : null;
               selectedPassageTypes.clear(); // Reset dependent filters
               selectedDifficulty = null;
+              // 수정: 세트타입 변경시 문제 수도 초기화
+              _resetQuestionCountForSetType();
             });
           },
           selectedColor: Colors.purple.withOpacity(0.2),
@@ -224,7 +226,30 @@ class _Part7FilterScreenState extends ConsumerState<Part7FilterScreen> {
     );
   }
 
+  // 수정: 세트 타입별로 다른 제한 적용
   Widget _buildQuestionCountSlider() {
+    if (selectedSetType == null) {
+      return const Text('세트 유형을 먼저 선택해주세요.');
+    }
+
+    // 세트 타입별 최대 제한 (백엔드 API와 일치)
+    final maxLimits = {
+      'Single': 5,
+      'Double': 2,
+      'Triple': 2,
+    };
+    
+    final maxCount = maxLimits[selectedSetType] ?? 1;
+    
+    // 현재 값이 최대값을 초과하면 조정
+    if (questionCount > maxCount) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        setState(() {
+          questionCount = maxCount;
+        });
+      });
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -232,11 +257,11 @@ class _Part7FilterScreenState extends ConsumerState<Part7FilterScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              '문제 수: $questionCount개',
+              '문제 세트 수: $questionCount개',
               style: Theme.of(context).textTheme.titleMedium,
             ),
             Text(
-              '(권장: 8-15개)',
+              '(${selectedSetType} 최대: ${maxCount}개)',
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),
@@ -246,9 +271,9 @@ class _Part7FilterScreenState extends ConsumerState<Part7FilterScreen> {
         const SizedBox(height: 8),
         Slider(
           value: questionCount.toDouble(),
-          min: 5,
-          max: 30,
-          divisions: 25,
+          min: 1,
+          max: maxCount.toDouble(), // 수정: 세트 타입별 최대값 적용
+          divisions: maxCount - 1, // 수정: divisions 조정
           activeColor: Colors.purple,
           onChanged: (value) {
             setState(() {
@@ -256,8 +281,46 @@ class _Part7FilterScreenState extends ConsumerState<Part7FilterScreen> {
             });
           },
         ),
+        // 추가: 설명 텍스트
+        Padding(
+          padding: const EdgeInsets.only(top: 8),
+          child: Text(
+            _getSetTypeDescription(),
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ),
       ],
     );
+  }
+
+  // 추가: 세트 타입별 설명 반환
+  String _getSetTypeDescription() {
+    switch (selectedSetType) {
+      case 'Single':
+        return 'Single 세트는 1개 지문당 2-4개 문제를 포함합니다.';
+      case 'Double':
+        return 'Double 세트는 2개 지문당 5개 문제를 포함합니다.';
+      case 'Triple':
+        return 'Triple 세트는 3개 지문당 5개 문제를 포함합니다.';
+      default:
+        return '';
+    }
+  }
+
+  // 추가: 세트 타입 변경시 문제 수 초기화
+  void _resetQuestionCountForSetType() {
+    if (selectedSetType != null) {
+      final maxLimits = {
+        'Single': 5,
+        'Double': 2,
+        'Triple': 2,
+      };
+      final maxCount = maxLimits[selectedSetType] ?? 1;
+      questionCount = 1; // 기본값으로 초기화
+    }
   }
 
   bool _canStart() {

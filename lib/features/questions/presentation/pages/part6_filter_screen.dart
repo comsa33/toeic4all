@@ -15,7 +15,7 @@ class Part6FilterScreen extends ConsumerStatefulWidget {
 class _Part6FilterScreenState extends ConsumerState<Part6FilterScreen> {
   String? selectedPassageType;
   String? selectedDifficulty;
-  int questionCount = 6; // Part 6 typically has 6 questions
+  int questionCount = 2; // 수정: 기본값을 2로 변경 (백엔드 기본값과 일치)
 
   @override
   Widget build(BuildContext context) {
@@ -100,9 +100,9 @@ class _Part6FilterScreenState extends ConsumerState<Part6FilterScreen> {
                     
                     const SizedBox(height: 24),
                     
-                    // Question Count
+                    // Question Count - 수정: 백엔드 API limit 범위에 맞게 조정
                     _FilterSection(
-                      title: '문제 수',
+                      title: '문제 세트 수',
                       child: _buildQuestionCountSlider(),
                     ),
                   ],
@@ -179,6 +179,7 @@ class _Part6FilterScreenState extends ConsumerState<Part6FilterScreen> {
     );
   }
 
+  // 수정: 백엔드 API 제한사항에 맞게 1~4 범위로 조정
   Widget _buildQuestionCountSlider() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -187,11 +188,11 @@ class _Part6FilterScreenState extends ConsumerState<Part6FilterScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              '문제 수: $questionCount개',
+              '문제 세트 수: $questionCount개',
               style: Theme.of(context).textTheme.titleMedium,
             ),
             Text(
-              '(권장: 6개)',
+              '(최대: 4개)', // 수정: 권장 개수를 최대 개수로 변경
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),
@@ -201,15 +202,26 @@ class _Part6FilterScreenState extends ConsumerState<Part6FilterScreen> {
         const SizedBox(height: 8),
         Slider(
           value: questionCount.toDouble(),
-          min: 3,
-          max: 20,
-          divisions: 17,
+          min: 1, // 수정: 최소값을 1로 변경
+          max: 4, // 수정: 최대값을 4로 변경 (백엔드 API 제한사항)
+          divisions: 3, // 수정: divisions 조정 (1, 2, 3, 4)
           activeColor: Colors.orange,
           onChanged: (value) {
             setState(() {
               questionCount = value.round();
             });
           },
+        ),
+        // 추가: 설명 텍스트
+        Padding(
+          padding: const EdgeInsets.only(top: 8),
+          child: Text(
+            'Part 6는 한 세트당 4개의 문제를 포함합니다.',
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+            ),
+            textAlign: TextAlign.center,
+          ),
         ),
       ],
     );

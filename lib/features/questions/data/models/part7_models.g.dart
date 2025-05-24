@@ -96,30 +96,6 @@ Map<String, dynamic> _$$Part7SetsDataImplToJson(_$Part7SetsDataImpl instance) =>
       'sets': instance.sets,
     };
 
-_$Part7SetsResponseModelImpl _$$Part7SetsResponseModelImplFromJson(
-        Map<String, dynamic> json) =>
-    _$Part7SetsResponseModelImpl(
-      success: json['success'] as bool,
-      message: json['message'] as String,
-      data: Part7SetsData.fromJson(json['data'] as Map<String, dynamic>),
-      count: (json['count'] as num).toInt(),
-      total: (json['total'] as num).toInt(),
-      page: (json['page'] as num).toInt(),
-      totalPages: (json['total_pages'] as num).toInt(),
-    );
-
-Map<String, dynamic> _$$Part7SetsResponseModelImplToJson(
-        _$Part7SetsResponseModelImpl instance) =>
-    <String, dynamic>{
-      'success': instance.success,
-      'message': instance.message,
-      'data': instance.data,
-      'count': instance.count,
-      'total': instance.total,
-      'page': instance.page,
-      'total_pages': instance.totalPages,
-    };
-
 _$Part7AnswerDataImpl _$$Part7AnswerDataImplFromJson(
         Map<String, dynamic> json) =>
     _$Part7AnswerDataImpl(
@@ -141,8 +117,8 @@ Map<String, dynamic> _$$Part7AnswerDataImplToJson(
 _$Part7AnswerResponseModelImpl _$$Part7AnswerResponseModelImplFromJson(
         Map<String, dynamic> json) =>
     _$Part7AnswerResponseModelImpl(
-      success: json['success'] as bool,
-      message: json['message'] as String,
+      success: json['success'] as bool? ?? true,
+      message: json['message'] as String?,
       data: Part7AnswerData.fromJson(json['data'] as Map<String, dynamic>),
     );
 
@@ -172,11 +148,13 @@ _$Part7PassageCombinationsResponseModelImpl
     _$$Part7PassageCombinationsResponseModelImplFromJson(
             Map<String, dynamic> json) =>
         _$Part7PassageCombinationsResponseModelImpl(
-          success: json['success'] as bool,
-          message: json['message'] as String,
-          data: (json['data'] as List<dynamic>)
-              .map((e) => (e as List<dynamic>).map((e) => e as String).toList())
-              .toList(),
+          success: json['success'] as bool? ?? true,
+          message: json['message'] as String?,
+          data: (json['data'] as List<dynamic>?)
+                  ?.map((e) =>
+                      (e as List<dynamic>).map((e) => e as String).toList())
+                  .toList() ??
+              const [],
         );
 
 Map<String, dynamic> _$$Part7PassageCombinationsResponseModelImplToJson(
