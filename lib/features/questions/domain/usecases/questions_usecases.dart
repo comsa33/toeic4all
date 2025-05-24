@@ -15,8 +15,8 @@ class GetPart5QuestionsUseCase implements UseCase<Part5QuestionsResponse, GetPar
   @override
   Future<Either<Failure, Part5QuestionsResponse>> call(GetPart5QuestionsParams params) async {
     return await repository.getPart5Questions(
-      page: params.page,
-      size: params.size,
+      page: params.page ?? 1,
+      limit: params.limit ?? 10,
       category: params.category,
       subtype: params.subtype,
       difficulty: params.difficulty,
@@ -26,14 +26,14 @@ class GetPart5QuestionsUseCase implements UseCase<Part5QuestionsResponse, GetPar
 
 class GetPart5QuestionsParams {
   final int? page;
-  final int? size;
+  final int? limit;
   final String? category;
   final String? subtype;
   final String? difficulty;
 
   GetPart5QuestionsParams({
     this.page,
-    this.size,
+    this.limit,
     this.category,
     this.subtype,
     this.difficulty,
@@ -49,7 +49,7 @@ class SubmitPart5AnswerUseCase implements UseCase<Part5Answer, SubmitPart5Answer
   Future<Either<Failure, Part5Answer>> call(SubmitPart5AnswerParams params) async {
     return await repository.submitPart5Answer(
       questionId: params.questionId,
-      answer: params.answer,
+      selectedAnswer: params.answer,
     );
   }
 }
@@ -84,8 +84,8 @@ class GetPart6SetsUseCase implements UseCase<Part6SetsResponse, GetPart6SetsPara
   @override
   Future<Either<Failure, Part6SetsResponse>> call(GetPart6SetsParams params) async {
     return await repository.getPart6Sets(
-      page: params.page,
-      size: params.size,
+      page: params.page ?? 1,
+      limit: params.limit ?? 2,
       passageType: params.passageType,
       difficulty: params.difficulty,
     );
@@ -94,13 +94,13 @@ class GetPart6SetsUseCase implements UseCase<Part6SetsResponse, GetPart6SetsPara
 
 class GetPart6SetsParams {
   final int? page;
-  final int? size;
+  final int? limit;
   final String? passageType;
   final String? difficulty;
 
   GetPart6SetsParams({
     this.page,
-    this.size,
+    this.limit,
     this.passageType,
     this.difficulty,
   });
@@ -116,7 +116,7 @@ class SubmitPart6AnswerUseCase implements UseCase<Part6Answer, SubmitPart6Answer
     return await repository.submitPart6Answer(
       setId: params.setId,
       questionSeq: params.questionSeq,
-      answer: params.answer,
+      selectedAnswer: params.answer,
     );
   }
 }
@@ -142,11 +142,10 @@ class GetPart7SetsUseCase implements UseCase<Part7SetsResponse, GetPart7SetsPara
   @override
   Future<Either<Failure, Part7SetsResponse>> call(GetPart7SetsParams params) async {
     return await repository.getPart7Sets(
-      page: params.page,
-      size: params.size,
-      setType: params.setType,
-      passageType: params.passageType,
-      passageCombination: params.passageCombination,
+      page: params.page ?? 1,
+      limit: params.limit ?? 1,
+      setType: params.setType ?? '',
+      passageTypes: params.passageTypes,
       difficulty: params.difficulty,
     );
   }
@@ -154,18 +153,16 @@ class GetPart7SetsUseCase implements UseCase<Part7SetsResponse, GetPart7SetsPara
 
 class GetPart7SetsParams {
   final int? page;
-  final int? size;
+  final int? limit;
   final String? setType;
-  final String? passageType;
-  final String? passageCombination;
+  final List<String>? passageTypes;
   final String? difficulty;
 
   GetPart7SetsParams({
     this.page,
-    this.size,
+    this.limit,
     this.setType,
-    this.passageType,
-    this.passageCombination,
+    this.passageTypes,
     this.difficulty,
   });
 }
@@ -180,7 +177,7 @@ class SubmitPart7AnswerUseCase implements UseCase<Part7Answer, SubmitPart7Answer
     return await repository.submitPart7Answer(
       setId: params.setId,
       questionSeq: params.questionSeq,
-      answer: params.answer,
+      selectedAnswer: params.answer,
     );
   }
 }

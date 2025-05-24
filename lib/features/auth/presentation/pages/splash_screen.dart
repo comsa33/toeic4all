@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_strings.dart';
 import '../../../../shared/themes/typography.dart';
+import '../providers/auth_providers.dart';
 
-class SplashScreen extends StatefulWidget {
+class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
 
   @override
-  State<SplashScreen> createState() => _SplashScreenState();
+  ConsumerState<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   void initState() {
     super.initState();
@@ -20,12 +22,20 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> _navigateToNext() async {
-    // 3초 후 다음 화면으로 이동
+    // 스플래시 화면을 보여주기 위한 최소 지연
     await Future.delayed(const Duration(seconds: 3));
     
     if (mounted) {
-      // 테스트 화면으로 이동
-      context.go('/test');
+      // 인증 상태 확인
+      final authState = ref.read(authControllerProvider);
+      
+      if (authState.isAuthenticated) {
+        // 인증된 사용자는 문제 서비스로 이동
+        context.go('/questions');
+      } else {
+        // 인증되지 않은 사용자는 로그인 페이지로 이동
+        context.go('/login');
+      }
     }
   }
 

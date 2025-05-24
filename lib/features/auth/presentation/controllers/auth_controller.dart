@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../domain/entities/user.dart';
 import '../../domain/entities/auth_response.dart';
@@ -93,13 +94,23 @@ class AuthController extends StateNotifier<AuthState> {
         );
       },
       (authResponse) {
+        // 명시적인 디버그 로깅 추가
+        debugPrint('✅ 로그인 성공! 토큰 정보: ${authResponse.accessToken.substring(0, 10)}...');
+        debugPrint('👤 유저 정보: ${authResponse.user.username}, ${authResponse.user.email}, ${authResponse.user.role}');
+        
+        // 상태 업데이트
         state = state.copyWith(
           isLoading: false,
           isAuthenticated: true,
+          user: authResponse.user,
           accessToken: authResponse.accessToken,
           refreshToken: authResponse.refreshToken,
           errorMessage: null,
         );
+        
+        // 상태 업데이트 후 추가 로깅으로 확인
+        debugPrint('🔐 인증 상태 업데이트 완료: isAuthenticated=${state.isAuthenticated}, hasToken=${state.accessToken != null}');
+        debugPrint('📱 로그인 성공 - 이제 앱에서 성공적으로 /questions 화면으로 이동해야 함');
       },
     );
   }

@@ -28,12 +28,35 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     super.dispose();
   }
 
-  void _handleLogin() {
+  Future<void> _handleLogin() async {
     if (_formKey.currentState?.validate() ?? false) {
-      ref.read(authControllerProvider.notifier).signInWithUsername(
-            username: _usernameController.text.trim(),
-            password: _passwordController.text,
-          );
+      // 로그인 시도 전에 값을 저장
+      final username = _usernameController.text.trim();
+      final password = _passwordController.text;
+      
+      try {
+        // 로그인 시도
+        await ref.read(authControllerProvider.notifier).signInWithUsername(
+              username: username,
+              password: password,
+            );
+        
+        // mounted 체크를 먼저 수행하고, 위젯이 여전히 마운트되어 있는지 확인
+        if (!mounted) return;
+        
+        // 로그인 완료 후 상태 확인 (mounted 확인 후)
+        final authState = ref.read(authControllerProvider);
+        if (authState.isAuthenticated && authState.accessToken != null) {
+          debugPrint('⚡ 로그인 성공 확인 - 직접 화면 전환');
+          
+          // GoRouter를 사용하여 화면 전환 (이중 mounted 확인 제거)
+          debugPrint('🔥 GoRouter로 직접 문제 화면으로 이동');
+          // context.go 대신 pushReplacement 사용하여 이전 화면으로 돌아갈 수 없게 함
+          context.go('/questions');
+        }
+      } catch (e) {
+        debugPrint('❌ 로그인 중 오류 발생: $e');
+      }
     }
   }
 
@@ -58,20 +81,31 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   Widget build(BuildContext context) {
     final authState = ref.watch(authControllerProvider);
     
-    // Navigate to home when authenticated
+    // 상태 변경 감지와 화면 전환 처리는 _handleLogin에서 직접 처리하도록 변경
+    // 에러 메시지 표시만 여기서 처리
     ref.listen(authControllerProvider, (previous, next) {
-      if (next.isAuthenticated) {
-        context.go('/home');
-      }
+      debugPrint('🔑 Auth state changed: isAuthenticated=${next.isAuthenticated}, tokens=${next.accessToken != null}');
       
-      if (next.errorMessage != null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(next.errorMessage!),
-            backgroundColor: Theme.of(context).colorScheme.error,
-          ),
-        );
-        ref.read(authControllerProvider.notifier).clearError();
+      // 상태 변경에 따른 디버그 로깅
+      if (previous?.isAuthenticated != next.isAuthenticated || 
+          (previous?.accessToken != null) != (next.accessToken != null)) {
+        debugPrint('🔄 인증 상태 변경: ${next.isAuthenticated}, 토큰존재: ${next.accessToken != null}');
+      }
+
+      // Show error messages (only if they've changed)
+      if (!identical(previous, next) && next.errorMessage != null && next.errorMessage != previous?.errorMessage) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(next.errorMessage!),
+                backgroundColor: Theme.of(context).colorScheme.error,
+              ),
+            );
+            // 에러 메시지 초기화
+            ref.read(authControllerProvider.notifier).clearError();
+          }
+        });
       }
     });
 

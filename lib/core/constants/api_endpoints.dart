@@ -1,6 +1,6 @@
 class ApiEndpoints {
   // Base URLs
-  static const String baseUrl = 'https://api.toeic4all.com';
+  static const String baseUrl = 'https://toeic4all-apis.po24lio.com';
   static const String authVersion = '/api/v1/auth';
   static const String questionsVersion = '/api/v1/questions';
   

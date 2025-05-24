@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,29 +8,77 @@ import '../../features/auth/presentation/pages/signup_screen.dart';
 import '../../features/auth/presentation/controllers/auth_controller.dart';
 import '../../features/auth/presentation/providers/auth_providers.dart';
 import '../../features/test/test_screen.dart';
+import '../../features/questions/presentation/pages/questions_main_screen.dart';
+import '../../features/questions/presentation/pages/part5_filter_screen.dart';
 import '../../shared/widgets/app_button.dart';
+
+// GoRouter 라우팅을 위한 상태 변경 알림 클래스
+class AuthStateNotifier extends ChangeNotifier {
+  final Ref _ref;
+  AuthState? _previousAuthState;
+  
+  AuthStateNotifier(this._ref) {
+    _ref.listen<AuthState>(
+      authControllerProvider, 
+      (previous, next) {
+        final isLoggedInChanged = previous?.isAuthenticated != next.isAuthenticated;
+        final tokenChanged = previous?.accessToken != next.accessToken;
+        
+        if (isLoggedInChanged || tokenChanged) {
+          debugPrint('⚡ 인증 상태 변경 감지됨: ${next.isAuthenticated}, 토큰: ${next.accessToken != null}');
+          _previousAuthState = next;
+          notifyListeners();
+        }
+      },
+    );
+  }
+}
 
 final routerProvider = Provider<GoRouter>((ref) {
   final authState = ref.watch(authControllerProvider);
+  final notifier = AuthStateNotifier(ref);
   
   return GoRouter(
     initialLocation: '/',
+    refreshListenable: notifier, // 인증 상태 변경 시 리프레시
     redirect: (context, state) {
-      final isAuthenticated = authState.isAuthenticated;
-      final isOnAuthPage = state.uri.path == '/login' || 
-                          state.uri.path == '/signup' ||
-                          state.uri.path == '/';
+      debugPrint('🧭 라우터 리디렉션: 경로=${state.uri.path}');
+      debugPrint('🔑 인증상태: ${authState.isAuthenticated}, 토큰존재: ${authState.accessToken != null}');
       
-      // If user is authenticated and on auth page, redirect to home
-      if (isAuthenticated && isOnAuthPage) {
-        return '/home';
+      // 인증 상태 (accessToken까지 있어야 진짜 인증된 상태)
+      final isAuthenticated = authState.isAuthenticated && authState.accessToken != null;
+      final currentPath = state.uri.path;
+      
+      // 로딩 중에는 리디렉션 하지 않음
+      if (authState.isLoading) {
+        debugPrint('⏳ 로딩 중 - 리디렉션 없음');
+        return null;
       }
       
-      // If user is not authenticated and not on auth page, redirect to login
-      if (!isAuthenticated && !isOnAuthPage) {
+      // 스플래시 화면은 특별 처리
+      if (currentPath == '/') {
+        debugPrint('🚀 스플래시 화면 - 자체 내비게이션 사용');
+        return null;
+      }
+      
+      // 로그인/회원가입 페이지인지 확인
+      final isOnAuthPage = currentPath == '/login' || currentPath == '/signup';
+      
+      // 1. 인증된 사용자가 로그인/회원가입 페이지 접근 시 문제 서비스로 리디렉션
+      if (isAuthenticated && isOnAuthPage) {
+        debugPrint('🔄 인증된 사용자가 인증 페이지 접근 - 문제 서비스로 리디렉션');
+        return '/questions';
+      }
+      
+      // 2. 인증되지 않은 사용자가 보호된 페이지 접근 시 로그인으로 리디렉션
+      // (테스트 페이지는 예외)
+      if (!isAuthenticated && !isOnAuthPage && currentPath != '/test') {
+        debugPrint('🔒 비인증 사용자가 보호된 페이지 접근 - 로그인으로 리디렉션');
         return '/login';
       }
       
+      // 리디렉션 필요 없음
+      debugPrint('✅ 현재 경로 유지: $currentPath');
       return null;
     },
     routes: [
@@ -55,7 +104,15 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/questions',
-        builder: (context, state) => const QuestionsScreen(),
+        builder: (context, state) => const QuestionsMainScreen(),
+        routes: [
+          GoRoute(
+            path: '/part5/filter',
+            builder: (context, state) => const Part5FilterScreen(),
+          ),
+          // Part 5 quiz and result screens will be navigated programmatically
+          // with proper object passing instead of URL parameters
+        ],
       ),
       GoRoute(
         path: '/statistics',
@@ -238,24 +295,6 @@ class _FeatureCard extends StatelessWidget {
 }
 
 // Placeholder screens
-class QuestionsScreen extends StatelessWidget {
-  const QuestionsScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('문제 풀이')),
-      body: const Center(
-        child: Text(
-          '문제 풀이 화면\n곧 업데이트됩니다!',
-          style: TextStyle(fontSize: 18),
-          textAlign: TextAlign.center,
-        ),
-      ),
-    );
-  }
-}
-
 class StatisticsScreen extends StatelessWidget {
   const StatisticsScreen({super.key});
 
