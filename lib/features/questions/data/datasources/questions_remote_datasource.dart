@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 import '../../../../core/constants/api_endpoints.dart';
+import '../models/common_models.dart';
 import '../models/part5_models.dart';
 import '../models/part6_models.dart';
 import '../models/part7_models.dart';
@@ -25,25 +26,25 @@ abstract class QuestionsRemoteDataSource {
   });
 
   @GET('/api/v1/questions/part5/{question_id}/answer')
-  Future<Part5AnswerModel> getPart5Answer(
+  Future<Part5AnswerResponseModel> getPart5Answer(
     @Path('question_id') String questionId,
   );
 
   @GET(ApiEndpoints.part5Categories)
-  Future<List<String>> getPart5Categories({
+  Future<ApiMetadataResponse> getPart5Categories({
     @Query('used_only') bool usedOnly = true,
     @Query('skip_cache') bool skipCache = false,
   });
 
   @GET(ApiEndpoints.part5Subtypes)
-  Future<List<String>> getPart5Subtypes({
+  Future<ApiSubtypesResponse> getPart5Subtypes({
     @Query('category') String? category,
     @Query('used_only') bool usedOnly = true,
     @Query('skip_cache') bool skipCache = false,
   });
 
   @GET(ApiEndpoints.part5Difficulties)
-  Future<List<String>> getPart5Difficulties({
+  Future<ApiMetadataResponse> getPart5Difficulties({
     @Query('category') String? category,
     @Query('subtype') String? subtype,
     @Query('used_only') bool usedOnly = true,
@@ -61,19 +62,19 @@ abstract class QuestionsRemoteDataSource {
   });
 
   @GET('/api/v1/questions/part6/{set_id}/answers/{question_seq}')
-  Future<Part6AnswerModel> getPart6Answer(
+  Future<Part6AnswerResponseModel> getPart6Answer(
     @Path('set_id') String setId,
     @Path('question_seq') int questionSeq,
   );
 
   @GET(ApiEndpoints.part6PassageTypes)
-  Future<List<String>> getPart6PassageTypes({
+  Future<ApiMetadataResponse> getPart6PassageTypes({
     @Query('used_only') bool usedOnly = false,
     @Query('skip_cache') bool skipCache = false,
   });
 
   @GET(ApiEndpoints.part6Difficulties)
-  Future<List<String>> getPart6Difficulties({
+  Future<ApiMetadataResponse> getPart6Difficulties({
     @Query('passage_type') String? passageType,
     @Query('used_only') bool usedOnly = false,
     @Query('skip_cache') bool skipCache = false,
@@ -91,26 +92,32 @@ abstract class QuestionsRemoteDataSource {
   });
 
   @GET('/api/v1/questions/part7/{set_id}/answers/{question_seq}')
-  Future<Part7AnswerModel> getPart7Answer(
+  Future<Part7AnswerResponseModel> getPart7Answer(
     @Path('set_id') String setId,
     @Path('question_seq') int questionSeq,
   );
 
   @GET(ApiEndpoints.part7SetTypes)
-  Future<List<String>> getPart7SetTypes({
+  Future<Part7SetTypesResponseModel> getPart7SetTypes({
     @Query('used_only') bool usedOnly = false,
     @Query('skip_cache') bool skipCache = false,
   });
 
   @GET(ApiEndpoints.part7PassageTypes)
-  Future<List<String>> getPart7PassageTypes({
+  Future<ApiMetadataResponse> getPart7PassageTypes({
     @Query('set_type') String? setType,
     @Query('used_only') bool usedOnly = false,
     @Query('skip_cache') bool skipCache = false,
   });
 
+  @GET(ApiEndpoints.part7PassageCombinations)
+  Future<Part7PassageCombinationsResponseModel> getPart7PassageCombinations({
+    @Query('set_type') required String setType,
+    @Query('skip_cache') bool skipCache = false,
+  });
+
   @GET(ApiEndpoints.part7Difficulties)
-  Future<List<String>> getPart7Difficulties({
+  Future<ApiMetadataResponse> getPart7Difficulties({
     @Query('set_type') String? setType,
     @Query('used_only') bool usedOnly = false,
     @Query('skip_cache') bool skipCache = false,

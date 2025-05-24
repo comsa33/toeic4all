@@ -74,12 +74,12 @@ class _QuestionsRemoteDataSource implements QuestionsRemoteDataSource {
   }
 
   @override
-  Future<Part5AnswerModel> getPart5Answer(String questionId) async {
+  Future<Part5AnswerResponseModel> getPart5Answer(String questionId) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<Part5AnswerModel>(Options(
+    final _options = _setStreamType<Part5AnswerResponseModel>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -96,9 +96,9 @@ class _QuestionsRemoteDataSource implements QuestionsRemoteDataSource {
           baseUrl,
         )));
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late Part5AnswerModel _value;
+    late Part5AnswerResponseModel _value;
     try {
-      _value = Part5AnswerModel.fromJson(_result.data!);
+      _value = Part5AnswerResponseModel.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;
@@ -107,7 +107,7 @@ class _QuestionsRemoteDataSource implements QuestionsRemoteDataSource {
   }
 
   @override
-  Future<List<String>> getPart5Categories({
+  Future<ApiMetadataResponse> getPart5Categories({
     bool usedOnly = true,
     bool skipCache = false,
   }) async {
@@ -118,7 +118,7 @@ class _QuestionsRemoteDataSource implements QuestionsRemoteDataSource {
     };
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<List<String>>(Options(
+    final _options = _setStreamType<ApiMetadataResponse>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -134,10 +134,10 @@ class _QuestionsRemoteDataSource implements QuestionsRemoteDataSource {
           _dio.options.baseUrl,
           baseUrl,
         )));
-    final _result = await _dio.fetch<List<dynamic>>(_options);
-    late List<String> _value;
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late ApiMetadataResponse _value;
     try {
-      _value = _result.data!.cast<String>();
+      _value = ApiMetadataResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;
@@ -146,7 +146,7 @@ class _QuestionsRemoteDataSource implements QuestionsRemoteDataSource {
   }
 
   @override
-  Future<List<String>> getPart5Subtypes({
+  Future<ApiSubtypesResponse> getPart5Subtypes({
     String? category,
     bool usedOnly = true,
     bool skipCache = false,
@@ -160,7 +160,7 @@ class _QuestionsRemoteDataSource implements QuestionsRemoteDataSource {
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<List<String>>(Options(
+    final _options = _setStreamType<ApiSubtypesResponse>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -176,10 +176,10 @@ class _QuestionsRemoteDataSource implements QuestionsRemoteDataSource {
           _dio.options.baseUrl,
           baseUrl,
         )));
-    final _result = await _dio.fetch<List<dynamic>>(_options);
-    late List<String> _value;
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late ApiSubtypesResponse _value;
     try {
-      _value = _result.data!.cast<String>();
+      _value = ApiSubtypesResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;
@@ -188,7 +188,7 @@ class _QuestionsRemoteDataSource implements QuestionsRemoteDataSource {
   }
 
   @override
-  Future<List<String>> getPart5Difficulties({
+  Future<ApiMetadataResponse> getPart5Difficulties({
     String? category,
     String? subtype,
     bool usedOnly = true,
@@ -204,7 +204,7 @@ class _QuestionsRemoteDataSource implements QuestionsRemoteDataSource {
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<List<String>>(Options(
+    final _options = _setStreamType<ApiMetadataResponse>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -220,10 +220,10 @@ class _QuestionsRemoteDataSource implements QuestionsRemoteDataSource {
           _dio.options.baseUrl,
           baseUrl,
         )));
-    final _result = await _dio.fetch<List<dynamic>>(_options);
-    late List<String> _value;
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late ApiMetadataResponse _value;
     try {
-      _value = _result.data!.cast<String>();
+      _value = ApiMetadataResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;
@@ -278,7 +278,7 @@ class _QuestionsRemoteDataSource implements QuestionsRemoteDataSource {
   }
 
   @override
-  Future<Part6AnswerModel> getPart6Answer(
+  Future<Part6AnswerResponseModel> getPart6Answer(
     String setId,
     int questionSeq,
   ) async {
@@ -286,7 +286,7 @@ class _QuestionsRemoteDataSource implements QuestionsRemoteDataSource {
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<Part6AnswerModel>(Options(
+    final _options = _setStreamType<Part6AnswerResponseModel>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -303,9 +303,9 @@ class _QuestionsRemoteDataSource implements QuestionsRemoteDataSource {
           baseUrl,
         )));
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late Part6AnswerModel _value;
+    late Part6AnswerResponseModel _value;
     try {
-      _value = Part6AnswerModel.fromJson(_result.data!);
+      _value = Part6AnswerResponseModel.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;
@@ -314,7 +314,7 @@ class _QuestionsRemoteDataSource implements QuestionsRemoteDataSource {
   }
 
   @override
-  Future<List<String>> getPart6PassageTypes({
+  Future<ApiMetadataResponse> getPart6PassageTypes({
     bool usedOnly = false,
     bool skipCache = false,
   }) async {
@@ -325,7 +325,7 @@ class _QuestionsRemoteDataSource implements QuestionsRemoteDataSource {
     };
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<List<String>>(Options(
+    final _options = _setStreamType<ApiMetadataResponse>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -341,10 +341,10 @@ class _QuestionsRemoteDataSource implements QuestionsRemoteDataSource {
           _dio.options.baseUrl,
           baseUrl,
         )));
-    final _result = await _dio.fetch<List<dynamic>>(_options);
-    late List<String> _value;
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late ApiMetadataResponse _value;
     try {
-      _value = _result.data!.cast<String>();
+      _value = ApiMetadataResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;
@@ -353,7 +353,7 @@ class _QuestionsRemoteDataSource implements QuestionsRemoteDataSource {
   }
 
   @override
-  Future<List<String>> getPart6Difficulties({
+  Future<ApiMetadataResponse> getPart6Difficulties({
     String? passageType,
     bool usedOnly = false,
     bool skipCache = false,
@@ -367,7 +367,7 @@ class _QuestionsRemoteDataSource implements QuestionsRemoteDataSource {
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<List<String>>(Options(
+    final _options = _setStreamType<ApiMetadataResponse>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -383,10 +383,10 @@ class _QuestionsRemoteDataSource implements QuestionsRemoteDataSource {
           _dio.options.baseUrl,
           baseUrl,
         )));
-    final _result = await _dio.fetch<List<dynamic>>(_options);
-    late List<String> _value;
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late ApiMetadataResponse _value;
     try {
-      _value = _result.data!.cast<String>();
+      _value = ApiMetadataResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;
@@ -443,7 +443,7 @@ class _QuestionsRemoteDataSource implements QuestionsRemoteDataSource {
   }
 
   @override
-  Future<Part7AnswerModel> getPart7Answer(
+  Future<Part7AnswerResponseModel> getPart7Answer(
     String setId,
     int questionSeq,
   ) async {
@@ -451,7 +451,7 @@ class _QuestionsRemoteDataSource implements QuestionsRemoteDataSource {
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<Part7AnswerModel>(Options(
+    final _options = _setStreamType<Part7AnswerResponseModel>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -468,9 +468,9 @@ class _QuestionsRemoteDataSource implements QuestionsRemoteDataSource {
           baseUrl,
         )));
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late Part7AnswerModel _value;
+    late Part7AnswerResponseModel _value;
     try {
-      _value = Part7AnswerModel.fromJson(_result.data!);
+      _value = Part7AnswerResponseModel.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;
@@ -479,7 +479,7 @@ class _QuestionsRemoteDataSource implements QuestionsRemoteDataSource {
   }
 
   @override
-  Future<List<String>> getPart7SetTypes({
+  Future<Part7SetTypesResponseModel> getPart7SetTypes({
     bool usedOnly = false,
     bool skipCache = false,
   }) async {
@@ -490,7 +490,7 @@ class _QuestionsRemoteDataSource implements QuestionsRemoteDataSource {
     };
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<List<String>>(Options(
+    final _options = _setStreamType<Part7SetTypesResponseModel>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -506,10 +506,10 @@ class _QuestionsRemoteDataSource implements QuestionsRemoteDataSource {
           _dio.options.baseUrl,
           baseUrl,
         )));
-    final _result = await _dio.fetch<List<dynamic>>(_options);
-    late List<String> _value;
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late Part7SetTypesResponseModel _value;
     try {
-      _value = _result.data!.cast<String>();
+      _value = Part7SetTypesResponseModel.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;
@@ -518,7 +518,7 @@ class _QuestionsRemoteDataSource implements QuestionsRemoteDataSource {
   }
 
   @override
-  Future<List<String>> getPart7PassageTypes({
+  Future<ApiMetadataResponse> getPart7PassageTypes({
     String? setType,
     bool usedOnly = false,
     bool skipCache = false,
@@ -532,7 +532,7 @@ class _QuestionsRemoteDataSource implements QuestionsRemoteDataSource {
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<List<String>>(Options(
+    final _options = _setStreamType<ApiMetadataResponse>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -548,10 +548,10 @@ class _QuestionsRemoteDataSource implements QuestionsRemoteDataSource {
           _dio.options.baseUrl,
           baseUrl,
         )));
-    final _result = await _dio.fetch<List<dynamic>>(_options);
-    late List<String> _value;
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late ApiMetadataResponse _value;
     try {
-      _value = _result.data!.cast<String>();
+      _value = ApiMetadataResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;
@@ -560,7 +560,47 @@ class _QuestionsRemoteDataSource implements QuestionsRemoteDataSource {
   }
 
   @override
-  Future<List<String>> getPart7Difficulties({
+  Future<Part7PassageCombinationsResponseModel> getPart7PassageCombinations({
+    required String setType,
+    bool skipCache = false,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'set_type': setType,
+      r'skip_cache': skipCache,
+    };
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options =
+        _setStreamType<Part7PassageCombinationsResponseModel>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/api/v1/questions/part7/passage_combinations',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            )));
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late Part7PassageCombinationsResponseModel _value;
+    try {
+      _value = Part7PassageCombinationsResponseModel.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<ApiMetadataResponse> getPart7Difficulties({
     String? setType,
     bool usedOnly = false,
     bool skipCache = false,
@@ -574,7 +614,7 @@ class _QuestionsRemoteDataSource implements QuestionsRemoteDataSource {
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<List<String>>(Options(
+    final _options = _setStreamType<ApiMetadataResponse>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -590,10 +630,10 @@ class _QuestionsRemoteDataSource implements QuestionsRemoteDataSource {
           _dio.options.baseUrl,
           baseUrl,
         )));
-    final _result = await _dio.fetch<List<dynamic>>(_options);
-    late List<String> _value;
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late ApiMetadataResponse _value;
     try {
-      _value = _result.data!.cast<String>();
+      _value = ApiMetadataResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;

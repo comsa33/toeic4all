@@ -52,7 +52,22 @@ final part5SubtypesProvider = FutureProvider.family<List<String>, String?>((ref,
   final result = await repository.getPart5Subtypes(category: category);
   return result.fold(
     (failure) => throw Exception(failure.displayMessage),
-    (subtypes) => subtypes,
+    (subtypes) {
+      // Handle dynamic data type from API
+      if (subtypes is List) {
+        return (subtypes as List).map((item) => item.toString()).toList();
+      } else if (subtypes is Map) {
+        // If it's a Map, extract all values as a flattened list
+        final allSubtypes = <String>[];
+        (subtypes as Map).values.forEach((value) {
+          if (value is List) {
+            allSubtypes.addAll((value as List).map((item) => item.toString()));
+          }
+        });
+        return allSubtypes;
+      }
+      return <String>[];
+    },
   );
 });
 
@@ -88,7 +103,10 @@ final part7SetTypesProvider = FutureProvider<List<String>>((ref) async {
   final result = await repository.getPart7SetTypes();
   return result.fold(
     (failure) => throw Exception(failure.displayMessage),
-    (setTypes) => setTypes,
+    (setTypesMap) {
+      // Extract keys from the map and filter out null values
+      return setTypesMap.keys.where((key) => setTypesMap[key] != null).toList();
+    },
   );
 });
 

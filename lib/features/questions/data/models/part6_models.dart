@@ -43,19 +43,59 @@ class Part6ChoiceModel with _$Part6ChoiceModel {
       _$Part6ChoiceModelFromJson(json);
 }
 
+// Part 6 세트 목록 데이터 구조
+@freezed
+class Part6SetsData with _$Part6SetsData {
+  const factory Part6SetsData({
+    required List<Part6SetModel> sets,
+  }) = _Part6SetsData;
+
+  factory Part6SetsData.fromJson(Map<String, dynamic> json) =>
+      _$Part6SetsDataFromJson(json);
+}
+
+// Part 6 세트 목록 응답 구조
 @freezed
 class Part6SetsResponseModel with _$Part6SetsResponseModel {
   const factory Part6SetsResponseModel({
     @Default(true) bool success,
+    String? message,
+    required Part6SetsData data,
     required int count,
     required int total,
     required int page,
-    required int totalPages,
-    required List<Part6SetModel> sets,
+    @JsonKey(name: 'total_pages') required int totalPages,
   }) = _Part6SetsResponseModel;
 
   factory Part6SetsResponseModel.fromJson(Map<String, dynamic> json) =>
       _$Part6SetsResponseModelFromJson(json);
+}
+
+// Part 6 정답 데이터 구조
+@freezed
+class Part6AnswerData with _$Part6AnswerData {
+  const factory Part6AnswerData({
+    @JsonKey(name: 'set_id') required String setId,
+    @JsonKey(name: 'question_seq') required int questionSeq,
+    required String answer,
+    required String explanation,
+  }) = _Part6AnswerData;
+
+  factory Part6AnswerData.fromJson(Map<String, dynamic> json) =>
+      _$Part6AnswerDataFromJson(json);
+}
+
+// Part 6 정답 응답 구조
+@freezed
+class Part6AnswerResponseModel with _$Part6AnswerResponseModel {
+  const factory Part6AnswerResponseModel({
+    @Default(true) bool success,
+    String? message,
+    required Part6AnswerData data,
+  }) = _Part6AnswerResponseModel;
+
+  factory Part6AnswerResponseModel.fromJson(Map<String, dynamic> json) =>
+      _$Part6AnswerResponseModelFromJson(json);
 }
 
 @freezed
@@ -106,6 +146,17 @@ extension Part6ChoiceModelExt on Part6ChoiceModel {
 }
 
 extension Part6AnswerModelExt on Part6AnswerModel {
+  Part6Answer toEntity() {
+    return Part6Answer(
+      setId: setId,
+      questionSeq: questionSeq,
+      answer: answer,
+      explanation: explanation,
+    );
+  }
+}
+
+extension Part6AnswerDataExt on Part6AnswerData {
   Part6Answer toEntity() {
     return Part6Answer(
       setId: setId,

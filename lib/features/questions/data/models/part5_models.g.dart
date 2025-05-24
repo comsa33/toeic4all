@@ -6,6 +6,20 @@ part of 'part5_models.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+_$ChoiceModelImpl _$$ChoiceModelImplFromJson(Map<String, dynamic> json) =>
+    _$ChoiceModelImpl(
+      id: json['id'] as String,
+      text: json['text'] as String,
+      translation: json['translation'] as String,
+    );
+
+Map<String, dynamic> _$$ChoiceModelImplToJson(_$ChoiceModelImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'text': instance.text,
+      'translation': instance.translation,
+    };
+
 _$Part5QuestionModelImpl _$$Part5QuestionModelImplFromJson(
         Map<String, dynamic> json) =>
     _$Part5QuestionModelImpl(
@@ -32,42 +46,42 @@ Map<String, dynamic> _$$Part5QuestionModelImplToJson(
       'choices': instance.choices,
     };
 
-_$ChoiceModelImpl _$$ChoiceModelImplFromJson(Map<String, dynamic> json) =>
-    _$ChoiceModelImpl(
-      id: json['id'] as String,
-      text: json['text'] as String,
-      translation: json['translation'] as String,
+_$Part5QuestionsDataImpl _$$Part5QuestionsDataImplFromJson(
+        Map<String, dynamic> json) =>
+    _$Part5QuestionsDataImpl(
+      questions: (json['questions'] as List<dynamic>)
+          .map((e) => Part5QuestionModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
-Map<String, dynamic> _$$ChoiceModelImplToJson(_$ChoiceModelImpl instance) =>
+Map<String, dynamic> _$$Part5QuestionsDataImplToJson(
+        _$Part5QuestionsDataImpl instance) =>
     <String, dynamic>{
-      'id': instance.id,
-      'text': instance.text,
-      'translation': instance.translation,
+      'questions': instance.questions,
     };
 
 _$Part5QuestionsResponseModelImpl _$$Part5QuestionsResponseModelImplFromJson(
         Map<String, dynamic> json) =>
     _$Part5QuestionsResponseModelImpl(
       success: json['success'] as bool? ?? true,
+      message: json['message'] as String?,
+      data: Part5QuestionsData.fromJson(json['data'] as Map<String, dynamic>),
       count: (json['count'] as num).toInt(),
       total: (json['total'] as num).toInt(),
       page: (json['page'] as num).toInt(),
       totalPages: (json['totalPages'] as num).toInt(),
-      questions: (json['questions'] as List<dynamic>)
-          .map((e) => Part5QuestionModel.fromJson(e as Map<String, dynamic>))
-          .toList(),
     );
 
 Map<String, dynamic> _$$Part5QuestionsResponseModelImplToJson(
         _$Part5QuestionsResponseModelImpl instance) =>
     <String, dynamic>{
       'success': instance.success,
+      'message': instance.message,
+      'data': instance.data,
       'count': instance.count,
       'total': instance.total,
       'page': instance.page,
       'totalPages': instance.totalPages,
-      'questions': instance.questions,
     };
 
 _$Part5AnswerModelImpl _$$Part5AnswerModelImplFromJson(
@@ -88,6 +102,22 @@ Map<String, dynamic> _$$Part5AnswerModelImplToJson(
       'answer': instance.answer,
       'explanation': instance.explanation,
       'vocabulary': instance.vocabulary,
+    };
+
+_$Part5AnswerResponseModelImpl _$$Part5AnswerResponseModelImplFromJson(
+        Map<String, dynamic> json) =>
+    _$Part5AnswerResponseModelImpl(
+      success: json['success'] as bool? ?? true,
+      message: json['message'] as String?,
+      data: Part5AnswerModel.fromJson(json['data'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$Part5AnswerResponseModelImplToJson(
+        _$Part5AnswerResponseModelImpl instance) =>
+    <String, dynamic>{
+      'success': instance.success,
+      'message': instance.message,
+      'data': instance.data,
     };
 
 _$VocabularyItemModelImpl _$$VocabularyItemModelImplFromJson(

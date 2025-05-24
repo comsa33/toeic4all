@@ -62,28 +62,74 @@ Map<String, dynamic> _$$Part6ChoiceModelImplToJson(
       'translation': instance.translation,
     };
 
+_$Part6SetsDataImpl _$$Part6SetsDataImplFromJson(Map<String, dynamic> json) =>
+    _$Part6SetsDataImpl(
+      sets: (json['sets'] as List<dynamic>)
+          .map((e) => Part6SetModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$$Part6SetsDataImplToJson(_$Part6SetsDataImpl instance) =>
+    <String, dynamic>{
+      'sets': instance.sets,
+    };
+
 _$Part6SetsResponseModelImpl _$$Part6SetsResponseModelImplFromJson(
         Map<String, dynamic> json) =>
     _$Part6SetsResponseModelImpl(
       success: json['success'] as bool? ?? true,
+      message: json['message'] as String?,
+      data: Part6SetsData.fromJson(json['data'] as Map<String, dynamic>),
       count: (json['count'] as num).toInt(),
       total: (json['total'] as num).toInt(),
       page: (json['page'] as num).toInt(),
-      totalPages: (json['totalPages'] as num).toInt(),
-      sets: (json['sets'] as List<dynamic>)
-          .map((e) => Part6SetModel.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      totalPages: (json['total_pages'] as num).toInt(),
     );
 
 Map<String, dynamic> _$$Part6SetsResponseModelImplToJson(
         _$Part6SetsResponseModelImpl instance) =>
     <String, dynamic>{
       'success': instance.success,
+      'message': instance.message,
+      'data': instance.data,
       'count': instance.count,
       'total': instance.total,
       'page': instance.page,
-      'totalPages': instance.totalPages,
-      'sets': instance.sets,
+      'total_pages': instance.totalPages,
+    };
+
+_$Part6AnswerDataImpl _$$Part6AnswerDataImplFromJson(
+        Map<String, dynamic> json) =>
+    _$Part6AnswerDataImpl(
+      setId: json['set_id'] as String,
+      questionSeq: (json['question_seq'] as num).toInt(),
+      answer: json['answer'] as String,
+      explanation: json['explanation'] as String,
+    );
+
+Map<String, dynamic> _$$Part6AnswerDataImplToJson(
+        _$Part6AnswerDataImpl instance) =>
+    <String, dynamic>{
+      'set_id': instance.setId,
+      'question_seq': instance.questionSeq,
+      'answer': instance.answer,
+      'explanation': instance.explanation,
+    };
+
+_$Part6AnswerResponseModelImpl _$$Part6AnswerResponseModelImplFromJson(
+        Map<String, dynamic> json) =>
+    _$Part6AnswerResponseModelImpl(
+      success: json['success'] as bool? ?? true,
+      message: json['message'] as String?,
+      data: Part6AnswerData.fromJson(json['data'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$Part6AnswerResponseModelImplToJson(
+        _$Part6AnswerResponseModelImpl instance) =>
+    <String, dynamic>{
+      'success': instance.success,
+      'message': instance.message,
+      'data': instance.data,
     };
 
 _$Part6AnswerModelImpl _$$Part6AnswerModelImplFromJson(

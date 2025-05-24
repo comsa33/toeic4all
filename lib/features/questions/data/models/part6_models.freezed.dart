@@ -671,6 +671,163 @@ abstract class _Part6ChoiceModel implements Part6ChoiceModel {
       throw _privateConstructorUsedError;
 }
 
+Part6SetsData _$Part6SetsDataFromJson(Map<String, dynamic> json) {
+  return _Part6SetsData.fromJson(json);
+}
+
+/// @nodoc
+mixin _$Part6SetsData {
+  List<Part6SetModel> get sets => throw _privateConstructorUsedError;
+
+  /// Serializes this Part6SetsData to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of Part6SetsData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $Part6SetsDataCopyWith<Part6SetsData> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $Part6SetsDataCopyWith<$Res> {
+  factory $Part6SetsDataCopyWith(
+          Part6SetsData value, $Res Function(Part6SetsData) then) =
+      _$Part6SetsDataCopyWithImpl<$Res, Part6SetsData>;
+  @useResult
+  $Res call({List<Part6SetModel> sets});
+}
+
+/// @nodoc
+class _$Part6SetsDataCopyWithImpl<$Res, $Val extends Part6SetsData>
+    implements $Part6SetsDataCopyWith<$Res> {
+  _$Part6SetsDataCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of Part6SetsData
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? sets = null,
+  }) {
+    return _then(_value.copyWith(
+      sets: null == sets
+          ? _value.sets
+          : sets // ignore: cast_nullable_to_non_nullable
+              as List<Part6SetModel>,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$Part6SetsDataImplCopyWith<$Res>
+    implements $Part6SetsDataCopyWith<$Res> {
+  factory _$$Part6SetsDataImplCopyWith(
+          _$Part6SetsDataImpl value, $Res Function(_$Part6SetsDataImpl) then) =
+      __$$Part6SetsDataImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({List<Part6SetModel> sets});
+}
+
+/// @nodoc
+class __$$Part6SetsDataImplCopyWithImpl<$Res>
+    extends _$Part6SetsDataCopyWithImpl<$Res, _$Part6SetsDataImpl>
+    implements _$$Part6SetsDataImplCopyWith<$Res> {
+  __$$Part6SetsDataImplCopyWithImpl(
+      _$Part6SetsDataImpl _value, $Res Function(_$Part6SetsDataImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of Part6SetsData
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? sets = null,
+  }) {
+    return _then(_$Part6SetsDataImpl(
+      sets: null == sets
+          ? _value._sets
+          : sets // ignore: cast_nullable_to_non_nullable
+              as List<Part6SetModel>,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$Part6SetsDataImpl implements _Part6SetsData {
+  const _$Part6SetsDataImpl({required final List<Part6SetModel> sets})
+      : _sets = sets;
+
+  factory _$Part6SetsDataImpl.fromJson(Map<String, dynamic> json) =>
+      _$$Part6SetsDataImplFromJson(json);
+
+  final List<Part6SetModel> _sets;
+  @override
+  List<Part6SetModel> get sets {
+    if (_sets is EqualUnmodifiableListView) return _sets;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_sets);
+  }
+
+  @override
+  String toString() {
+    return 'Part6SetsData(sets: $sets)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$Part6SetsDataImpl &&
+            const DeepCollectionEquality().equals(other._sets, _sets));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_sets));
+
+  /// Create a copy of Part6SetsData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$Part6SetsDataImplCopyWith<_$Part6SetsDataImpl> get copyWith =>
+      __$$Part6SetsDataImplCopyWithImpl<_$Part6SetsDataImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$Part6SetsDataImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _Part6SetsData implements Part6SetsData {
+  const factory _Part6SetsData({required final List<Part6SetModel> sets}) =
+      _$Part6SetsDataImpl;
+
+  factory _Part6SetsData.fromJson(Map<String, dynamic> json) =
+      _$Part6SetsDataImpl.fromJson;
+
+  @override
+  List<Part6SetModel> get sets;
+
+  /// Create a copy of Part6SetsData
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$Part6SetsDataImplCopyWith<_$Part6SetsDataImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
 Part6SetsResponseModel _$Part6SetsResponseModelFromJson(
     Map<String, dynamic> json) {
   return _Part6SetsResponseModel.fromJson(json);
@@ -679,11 +836,13 @@ Part6SetsResponseModel _$Part6SetsResponseModelFromJson(
 /// @nodoc
 mixin _$Part6SetsResponseModel {
   bool get success => throw _privateConstructorUsedError;
+  String? get message => throw _privateConstructorUsedError;
+  Part6SetsData get data => throw _privateConstructorUsedError;
   int get count => throw _privateConstructorUsedError;
   int get total => throw _privateConstructorUsedError;
   int get page => throw _privateConstructorUsedError;
+  @JsonKey(name: 'total_pages')
   int get totalPages => throw _privateConstructorUsedError;
-  List<Part6SetModel> get sets => throw _privateConstructorUsedError;
 
   /// Serializes this Part6SetsResponseModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -703,11 +862,14 @@ abstract class $Part6SetsResponseModelCopyWith<$Res> {
   @useResult
   $Res call(
       {bool success,
+      String? message,
+      Part6SetsData data,
       int count,
       int total,
       int page,
-      int totalPages,
-      List<Part6SetModel> sets});
+      @JsonKey(name: 'total_pages') int totalPages});
+
+  $Part6SetsDataCopyWith<$Res> get data;
 }
 
 /// @nodoc
@@ -727,17 +889,26 @@ class _$Part6SetsResponseModelCopyWithImpl<$Res,
   @override
   $Res call({
     Object? success = null,
+    Object? message = freezed,
+    Object? data = null,
     Object? count = null,
     Object? total = null,
     Object? page = null,
     Object? totalPages = null,
-    Object? sets = null,
   }) {
     return _then(_value.copyWith(
       success: null == success
           ? _value.success
           : success // ignore: cast_nullable_to_non_nullable
               as bool,
+      message: freezed == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String?,
+      data: null == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as Part6SetsData,
       count: null == count
           ? _value.count
           : count // ignore: cast_nullable_to_non_nullable
@@ -754,11 +925,17 @@ class _$Part6SetsResponseModelCopyWithImpl<$Res,
           ? _value.totalPages
           : totalPages // ignore: cast_nullable_to_non_nullable
               as int,
-      sets: null == sets
-          ? _value.sets
-          : sets // ignore: cast_nullable_to_non_nullable
-              as List<Part6SetModel>,
     ) as $Val);
+  }
+
+  /// Create a copy of Part6SetsResponseModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Part6SetsDataCopyWith<$Res> get data {
+    return $Part6SetsDataCopyWith<$Res>(_value.data, (value) {
+      return _then(_value.copyWith(data: value) as $Val);
+    });
   }
 }
 
@@ -773,11 +950,15 @@ abstract class _$$Part6SetsResponseModelImplCopyWith<$Res>
   @useResult
   $Res call(
       {bool success,
+      String? message,
+      Part6SetsData data,
       int count,
       int total,
       int page,
-      int totalPages,
-      List<Part6SetModel> sets});
+      @JsonKey(name: 'total_pages') int totalPages});
+
+  @override
+  $Part6SetsDataCopyWith<$Res> get data;
 }
 
 /// @nodoc
@@ -796,17 +977,26 @@ class __$$Part6SetsResponseModelImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? success = null,
+    Object? message = freezed,
+    Object? data = null,
     Object? count = null,
     Object? total = null,
     Object? page = null,
     Object? totalPages = null,
-    Object? sets = null,
   }) {
     return _then(_$Part6SetsResponseModelImpl(
       success: null == success
           ? _value.success
           : success // ignore: cast_nullable_to_non_nullable
               as bool,
+      message: freezed == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String?,
+      data: null == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as Part6SetsData,
       count: null == count
           ? _value.count
           : count // ignore: cast_nullable_to_non_nullable
@@ -823,10 +1013,6 @@ class __$$Part6SetsResponseModelImplCopyWithImpl<$Res>
           ? _value.totalPages
           : totalPages // ignore: cast_nullable_to_non_nullable
               as int,
-      sets: null == sets
-          ? _value._sets
-          : sets // ignore: cast_nullable_to_non_nullable
-              as List<Part6SetModel>,
     ));
   }
 }
@@ -836,12 +1022,12 @@ class __$$Part6SetsResponseModelImplCopyWithImpl<$Res>
 class _$Part6SetsResponseModelImpl implements _Part6SetsResponseModel {
   const _$Part6SetsResponseModelImpl(
       {this.success = true,
+      this.message,
+      required this.data,
       required this.count,
       required this.total,
       required this.page,
-      required this.totalPages,
-      required final List<Part6SetModel> sets})
-      : _sets = sets;
+      @JsonKey(name: 'total_pages') required this.totalPages});
 
   factory _$Part6SetsResponseModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$Part6SetsResponseModelImplFromJson(json);
@@ -850,24 +1036,22 @@ class _$Part6SetsResponseModelImpl implements _Part6SetsResponseModel {
   @JsonKey()
   final bool success;
   @override
+  final String? message;
+  @override
+  final Part6SetsData data;
+  @override
   final int count;
   @override
   final int total;
   @override
   final int page;
   @override
+  @JsonKey(name: 'total_pages')
   final int totalPages;
-  final List<Part6SetModel> _sets;
-  @override
-  List<Part6SetModel> get sets {
-    if (_sets is EqualUnmodifiableListView) return _sets;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_sets);
-  }
 
   @override
   String toString() {
-    return 'Part6SetsResponseModel(success: $success, count: $count, total: $total, page: $page, totalPages: $totalPages, sets: $sets)';
+    return 'Part6SetsResponseModel(success: $success, message: $message, data: $data, count: $count, total: $total, page: $page, totalPages: $totalPages)';
   }
 
   @override
@@ -876,18 +1060,19 @@ class _$Part6SetsResponseModelImpl implements _Part6SetsResponseModel {
         (other.runtimeType == runtimeType &&
             other is _$Part6SetsResponseModelImpl &&
             (identical(other.success, success) || other.success == success) &&
+            (identical(other.message, message) || other.message == message) &&
+            (identical(other.data, data) || other.data == data) &&
             (identical(other.count, count) || other.count == count) &&
             (identical(other.total, total) || other.total == total) &&
             (identical(other.page, page) || other.page == page) &&
             (identical(other.totalPages, totalPages) ||
-                other.totalPages == totalPages) &&
-            const DeepCollectionEquality().equals(other._sets, _sets));
+                other.totalPages == totalPages));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, success, count, total, page,
-      totalPages, const DeepCollectionEquality().hash(_sets));
+  int get hashCode => Object.hash(
+      runtimeType, success, message, data, count, total, page, totalPages);
 
   /// Create a copy of Part6SetsResponseModel
   /// with the given fields replaced by the non-null parameter values.
@@ -908,12 +1093,14 @@ class _$Part6SetsResponseModelImpl implements _Part6SetsResponseModel {
 
 abstract class _Part6SetsResponseModel implements Part6SetsResponseModel {
   const factory _Part6SetsResponseModel(
-      {final bool success,
-      required final int count,
-      required final int total,
-      required final int page,
-      required final int totalPages,
-      required final List<Part6SetModel> sets}) = _$Part6SetsResponseModelImpl;
+          {final bool success,
+          final String? message,
+          required final Part6SetsData data,
+          required final int count,
+          required final int total,
+          required final int page,
+          @JsonKey(name: 'total_pages') required final int totalPages}) =
+      _$Part6SetsResponseModelImpl;
 
   factory _Part6SetsResponseModel.fromJson(Map<String, dynamic> json) =
       _$Part6SetsResponseModelImpl.fromJson;
@@ -921,21 +1108,454 @@ abstract class _Part6SetsResponseModel implements Part6SetsResponseModel {
   @override
   bool get success;
   @override
+  String? get message;
+  @override
+  Part6SetsData get data;
+  @override
   int get count;
   @override
   int get total;
   @override
   int get page;
   @override
+  @JsonKey(name: 'total_pages')
   int get totalPages;
-  @override
-  List<Part6SetModel> get sets;
 
   /// Create a copy of Part6SetsResponseModel
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$Part6SetsResponseModelImplCopyWith<_$Part6SetsResponseModelImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+Part6AnswerData _$Part6AnswerDataFromJson(Map<String, dynamic> json) {
+  return _Part6AnswerData.fromJson(json);
+}
+
+/// @nodoc
+mixin _$Part6AnswerData {
+  @JsonKey(name: 'set_id')
+  String get setId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'question_seq')
+  int get questionSeq => throw _privateConstructorUsedError;
+  String get answer => throw _privateConstructorUsedError;
+  String get explanation => throw _privateConstructorUsedError;
+
+  /// Serializes this Part6AnswerData to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of Part6AnswerData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $Part6AnswerDataCopyWith<Part6AnswerData> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $Part6AnswerDataCopyWith<$Res> {
+  factory $Part6AnswerDataCopyWith(
+          Part6AnswerData value, $Res Function(Part6AnswerData) then) =
+      _$Part6AnswerDataCopyWithImpl<$Res, Part6AnswerData>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'set_id') String setId,
+      @JsonKey(name: 'question_seq') int questionSeq,
+      String answer,
+      String explanation});
+}
+
+/// @nodoc
+class _$Part6AnswerDataCopyWithImpl<$Res, $Val extends Part6AnswerData>
+    implements $Part6AnswerDataCopyWith<$Res> {
+  _$Part6AnswerDataCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of Part6AnswerData
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? setId = null,
+    Object? questionSeq = null,
+    Object? answer = null,
+    Object? explanation = null,
+  }) {
+    return _then(_value.copyWith(
+      setId: null == setId
+          ? _value.setId
+          : setId // ignore: cast_nullable_to_non_nullable
+              as String,
+      questionSeq: null == questionSeq
+          ? _value.questionSeq
+          : questionSeq // ignore: cast_nullable_to_non_nullable
+              as int,
+      answer: null == answer
+          ? _value.answer
+          : answer // ignore: cast_nullable_to_non_nullable
+              as String,
+      explanation: null == explanation
+          ? _value.explanation
+          : explanation // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$Part6AnswerDataImplCopyWith<$Res>
+    implements $Part6AnswerDataCopyWith<$Res> {
+  factory _$$Part6AnswerDataImplCopyWith(_$Part6AnswerDataImpl value,
+          $Res Function(_$Part6AnswerDataImpl) then) =
+      __$$Part6AnswerDataImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'set_id') String setId,
+      @JsonKey(name: 'question_seq') int questionSeq,
+      String answer,
+      String explanation});
+}
+
+/// @nodoc
+class __$$Part6AnswerDataImplCopyWithImpl<$Res>
+    extends _$Part6AnswerDataCopyWithImpl<$Res, _$Part6AnswerDataImpl>
+    implements _$$Part6AnswerDataImplCopyWith<$Res> {
+  __$$Part6AnswerDataImplCopyWithImpl(
+      _$Part6AnswerDataImpl _value, $Res Function(_$Part6AnswerDataImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of Part6AnswerData
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? setId = null,
+    Object? questionSeq = null,
+    Object? answer = null,
+    Object? explanation = null,
+  }) {
+    return _then(_$Part6AnswerDataImpl(
+      setId: null == setId
+          ? _value.setId
+          : setId // ignore: cast_nullable_to_non_nullable
+              as String,
+      questionSeq: null == questionSeq
+          ? _value.questionSeq
+          : questionSeq // ignore: cast_nullable_to_non_nullable
+              as int,
+      answer: null == answer
+          ? _value.answer
+          : answer // ignore: cast_nullable_to_non_nullable
+              as String,
+      explanation: null == explanation
+          ? _value.explanation
+          : explanation // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$Part6AnswerDataImpl implements _Part6AnswerData {
+  const _$Part6AnswerDataImpl(
+      {@JsonKey(name: 'set_id') required this.setId,
+      @JsonKey(name: 'question_seq') required this.questionSeq,
+      required this.answer,
+      required this.explanation});
+
+  factory _$Part6AnswerDataImpl.fromJson(Map<String, dynamic> json) =>
+      _$$Part6AnswerDataImplFromJson(json);
+
+  @override
+  @JsonKey(name: 'set_id')
+  final String setId;
+  @override
+  @JsonKey(name: 'question_seq')
+  final int questionSeq;
+  @override
+  final String answer;
+  @override
+  final String explanation;
+
+  @override
+  String toString() {
+    return 'Part6AnswerData(setId: $setId, questionSeq: $questionSeq, answer: $answer, explanation: $explanation)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$Part6AnswerDataImpl &&
+            (identical(other.setId, setId) || other.setId == setId) &&
+            (identical(other.questionSeq, questionSeq) ||
+                other.questionSeq == questionSeq) &&
+            (identical(other.answer, answer) || other.answer == answer) &&
+            (identical(other.explanation, explanation) ||
+                other.explanation == explanation));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, setId, questionSeq, answer, explanation);
+
+  /// Create a copy of Part6AnswerData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$Part6AnswerDataImplCopyWith<_$Part6AnswerDataImpl> get copyWith =>
+      __$$Part6AnswerDataImplCopyWithImpl<_$Part6AnswerDataImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$Part6AnswerDataImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _Part6AnswerData implements Part6AnswerData {
+  const factory _Part6AnswerData(
+      {@JsonKey(name: 'set_id') required final String setId,
+      @JsonKey(name: 'question_seq') required final int questionSeq,
+      required final String answer,
+      required final String explanation}) = _$Part6AnswerDataImpl;
+
+  factory _Part6AnswerData.fromJson(Map<String, dynamic> json) =
+      _$Part6AnswerDataImpl.fromJson;
+
+  @override
+  @JsonKey(name: 'set_id')
+  String get setId;
+  @override
+  @JsonKey(name: 'question_seq')
+  int get questionSeq;
+  @override
+  String get answer;
+  @override
+  String get explanation;
+
+  /// Create a copy of Part6AnswerData
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$Part6AnswerDataImplCopyWith<_$Part6AnswerDataImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+Part6AnswerResponseModel _$Part6AnswerResponseModelFromJson(
+    Map<String, dynamic> json) {
+  return _Part6AnswerResponseModel.fromJson(json);
+}
+
+/// @nodoc
+mixin _$Part6AnswerResponseModel {
+  bool get success => throw _privateConstructorUsedError;
+  String? get message => throw _privateConstructorUsedError;
+  Part6AnswerData get data => throw _privateConstructorUsedError;
+
+  /// Serializes this Part6AnswerResponseModel to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of Part6AnswerResponseModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $Part6AnswerResponseModelCopyWith<Part6AnswerResponseModel> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $Part6AnswerResponseModelCopyWith<$Res> {
+  factory $Part6AnswerResponseModelCopyWith(Part6AnswerResponseModel value,
+          $Res Function(Part6AnswerResponseModel) then) =
+      _$Part6AnswerResponseModelCopyWithImpl<$Res, Part6AnswerResponseModel>;
+  @useResult
+  $Res call({bool success, String? message, Part6AnswerData data});
+
+  $Part6AnswerDataCopyWith<$Res> get data;
+}
+
+/// @nodoc
+class _$Part6AnswerResponseModelCopyWithImpl<$Res,
+        $Val extends Part6AnswerResponseModel>
+    implements $Part6AnswerResponseModelCopyWith<$Res> {
+  _$Part6AnswerResponseModelCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of Part6AnswerResponseModel
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? success = null,
+    Object? message = freezed,
+    Object? data = null,
+  }) {
+    return _then(_value.copyWith(
+      success: null == success
+          ? _value.success
+          : success // ignore: cast_nullable_to_non_nullable
+              as bool,
+      message: freezed == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String?,
+      data: null == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as Part6AnswerData,
+    ) as $Val);
+  }
+
+  /// Create a copy of Part6AnswerResponseModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Part6AnswerDataCopyWith<$Res> get data {
+    return $Part6AnswerDataCopyWith<$Res>(_value.data, (value) {
+      return _then(_value.copyWith(data: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$Part6AnswerResponseModelImplCopyWith<$Res>
+    implements $Part6AnswerResponseModelCopyWith<$Res> {
+  factory _$$Part6AnswerResponseModelImplCopyWith(
+          _$Part6AnswerResponseModelImpl value,
+          $Res Function(_$Part6AnswerResponseModelImpl) then) =
+      __$$Part6AnswerResponseModelImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({bool success, String? message, Part6AnswerData data});
+
+  @override
+  $Part6AnswerDataCopyWith<$Res> get data;
+}
+
+/// @nodoc
+class __$$Part6AnswerResponseModelImplCopyWithImpl<$Res>
+    extends _$Part6AnswerResponseModelCopyWithImpl<$Res,
+        _$Part6AnswerResponseModelImpl>
+    implements _$$Part6AnswerResponseModelImplCopyWith<$Res> {
+  __$$Part6AnswerResponseModelImplCopyWithImpl(
+      _$Part6AnswerResponseModelImpl _value,
+      $Res Function(_$Part6AnswerResponseModelImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of Part6AnswerResponseModel
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? success = null,
+    Object? message = freezed,
+    Object? data = null,
+  }) {
+    return _then(_$Part6AnswerResponseModelImpl(
+      success: null == success
+          ? _value.success
+          : success // ignore: cast_nullable_to_non_nullable
+              as bool,
+      message: freezed == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String?,
+      data: null == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as Part6AnswerData,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$Part6AnswerResponseModelImpl implements _Part6AnswerResponseModel {
+  const _$Part6AnswerResponseModelImpl(
+      {this.success = true, this.message, required this.data});
+
+  factory _$Part6AnswerResponseModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$Part6AnswerResponseModelImplFromJson(json);
+
+  @override
+  @JsonKey()
+  final bool success;
+  @override
+  final String? message;
+  @override
+  final Part6AnswerData data;
+
+  @override
+  String toString() {
+    return 'Part6AnswerResponseModel(success: $success, message: $message, data: $data)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$Part6AnswerResponseModelImpl &&
+            (identical(other.success, success) || other.success == success) &&
+            (identical(other.message, message) || other.message == message) &&
+            (identical(other.data, data) || other.data == data));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, success, message, data);
+
+  /// Create a copy of Part6AnswerResponseModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$Part6AnswerResponseModelImplCopyWith<_$Part6AnswerResponseModelImpl>
+      get copyWith => __$$Part6AnswerResponseModelImplCopyWithImpl<
+          _$Part6AnswerResponseModelImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$Part6AnswerResponseModelImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _Part6AnswerResponseModel implements Part6AnswerResponseModel {
+  const factory _Part6AnswerResponseModel(
+      {final bool success,
+      final String? message,
+      required final Part6AnswerData data}) = _$Part6AnswerResponseModelImpl;
+
+  factory _Part6AnswerResponseModel.fromJson(Map<String, dynamic> json) =
+      _$Part6AnswerResponseModelImpl.fromJson;
+
+  @override
+  bool get success;
+  @override
+  String? get message;
+  @override
+  Part6AnswerData get data;
+
+  /// Create a copy of Part6AnswerResponseModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$Part6AnswerResponseModelImplCopyWith<_$Part6AnswerResponseModelImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 

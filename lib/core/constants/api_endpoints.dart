@@ -55,9 +55,6 @@ class ApiEndpoints {
   static const String part7PassageCombinations = '$questionsVersion/part7/passage_combinations';
   static const String part7Difficulties = '$questionsVersion/part7/difficulties';
   
-  // Questions swagger auth endpoint
-  static const String swaggerAuthToken = '$questionsVersion/swagger-auth/token';
-  
   // System endpoints
   static const String systemHealth = '$questionsVersion/system/health';
   static const String cacheStats = '$questionsVersion/system/cache-stats';

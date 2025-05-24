@@ -39,7 +39,7 @@ class QuestionsRepositoryImpl implements QuestionsRepository {
         total: response.total,
         page: response.page,
         totalPages: response.totalPages,
-        questions: response.questions.map((q) => q.toEntity()).toList(),
+        questions: response.data.questions.map((q) => q.toEntity()).toList(),
       );
       
       return Right(entity);
@@ -52,23 +52,9 @@ class QuestionsRepositoryImpl implements QuestionsRepository {
   Future<Either<Failure, Part5Answer>> getPart5Answer(String questionId) async {
     try {
       final response = await remoteDataSource.getPart5Answer(questionId);
-      return Right(response.toEntity());
+      return Right(response.data.toEntity());
     } catch (e) {
       return Left(Failure.server(message: 'Failed to get Part 5 answer: ${e.toString()}'));
-    }
-  }
-
-  @override
-  Future<Either<Failure, Part5Answer>> submitPart5Answer({
-    required String questionId,
-    required String selectedAnswer,
-  }) async {
-    try {
-      // For now, return the answer since submit endpoint doesn't exist yet
-      final response = await remoteDataSource.getPart5Answer(questionId);
-      return Right(response.toEntity());
-    } catch (e) {
-      return Left(Failure.server(message: 'Failed to submit Part 5 answer: ${e.toString()}'));
     }
   }
 
@@ -76,30 +62,33 @@ class QuestionsRepositoryImpl implements QuestionsRepository {
   Future<Either<Failure, List<String>>> getPart5Categories() async {
     try {
       final response = await remoteDataSource.getPart5Categories();
-      return Right(response);
+      return Right(response.data);
     } catch (e) {
       return Left(Failure.server(message: 'Failed to get Part 5 categories: ${e.toString()}'));
     }
   }
 
   @override
-  Future<Either<Failure, List<String>>> getPart5Subtypes({String? category}) async {
+  Future<Either<Failure, dynamic>> getPart5Subtypes({String? category}) async {
     try {
       final response = await remoteDataSource.getPart5Subtypes(category: category);
-      return Right(response);
+      return Right(response.data);
     } catch (e) {
       return Left(Failure.server(message: 'Failed to get Part 5 subtypes: ${e.toString()}'));
     }
   }
 
   @override
-  Future<Either<Failure, List<String>>> getPart5Difficulties({String? category, String? subtype}) async {
+  Future<Either<Failure, List<String>>> getPart5Difficulties({
+    String? category,
+    String? subtype,
+  }) async {
     try {
       final response = await remoteDataSource.getPart5Difficulties(
         category: category,
         subtype: subtype,
       );
-      return Right(response);
+      return Right(response.data);
     } catch (e) {
       return Left(Failure.server(message: 'Failed to get Part 5 difficulties: ${e.toString()}'));
     }
@@ -127,7 +116,7 @@ class QuestionsRepositoryImpl implements QuestionsRepository {
         total: response.total,
         page: response.page,
         totalPages: response.totalPages,
-        sets: response.sets.map((s) => s.toEntity()).toList(),
+        sets: response.data.sets.map((s) => s.toEntity()).toList(),
       );
       
       return Right(entity);
@@ -137,27 +126,23 @@ class QuestionsRepositoryImpl implements QuestionsRepository {
   }
 
   @override
-  Future<Either<Failure, Part6Answer>> getPart6Answer(String setId, int questionSeq) async {
+  Future<Either<Failure, Part6Answer>> getPart6Answer(
+    String setId,
+    int questionSeq,
+  ) async {
     try {
       final response = await remoteDataSource.getPart6Answer(setId, questionSeq);
-      return Right(response.toEntity());
+      
+      final entity = Part6Answer(
+        setId: response.data.setId,
+        questionSeq: response.data.questionSeq,
+        answer: response.data.answer,
+        explanation: response.data.explanation,
+      );
+      
+      return Right(entity);
     } catch (e) {
       return Left(Failure.server(message: 'Failed to get Part 6 answer: ${e.toString()}'));
-    }
-  }
-
-  @override
-  Future<Either<Failure, Part6Answer>> submitPart6Answer({
-    required String setId,
-    required int questionSeq,
-    required String selectedAnswer,
-  }) async {
-    try {
-      // For now, return the answer since submit endpoint doesn't exist yet
-      final response = await remoteDataSource.getPart6Answer(setId, questionSeq);
-      return Right(response.toEntity());
-    } catch (e) {
-      return Left(Failure.server(message: 'Failed to submit Part 6 answer: ${e.toString()}'));
     }
   }
 
@@ -165,17 +150,21 @@ class QuestionsRepositoryImpl implements QuestionsRepository {
   Future<Either<Failure, List<String>>> getPart6PassageTypes() async {
     try {
       final response = await remoteDataSource.getPart6PassageTypes();
-      return Right(response);
+      return Right(response.data);
     } catch (e) {
       return Left(Failure.server(message: 'Failed to get Part 6 passage types: ${e.toString()}'));
     }
   }
 
   @override
-  Future<Either<Failure, List<String>>> getPart6Difficulties({String? passageType}) async {
+  Future<Either<Failure, List<String>>> getPart6Difficulties({
+    String? passageType,
+  }) async {
     try {
-      final response = await remoteDataSource.getPart6Difficulties(passageType: passageType);
-      return Right(response);
+      final response = await remoteDataSource.getPart6Difficulties(
+        passageType: passageType,
+      );
+      return Right(response.data);
     } catch (e) {
       return Left(Failure.server(message: 'Failed to get Part 6 difficulties: ${e.toString()}'));
     }
@@ -205,7 +194,7 @@ class QuestionsRepositoryImpl implements QuestionsRepository {
         total: response.total,
         page: response.page,
         totalPages: response.totalPages,
-        sets: response.sets.map((s) => s.toEntity()).toList(),
+        sets: response.data.sets.map((s) => s.toEntity()).toList(),
       );
       
       return Right(entity);
@@ -215,55 +204,73 @@ class QuestionsRepositoryImpl implements QuestionsRepository {
   }
 
   @override
-  Future<Either<Failure, Part7Answer>> getPart7Answer(String setId, int questionSeq) async {
+  Future<Either<Failure, Part7Answer>> getPart7Answer(
+    String setId,
+    int questionSeq,
+  ) async {
     try {
       final response = await remoteDataSource.getPart7Answer(setId, questionSeq);
-      return Right(response.toEntity());
+      
+      final entity = Part7Answer(
+        setId: response.data.setId,
+        questionSeq: response.data.questionSeq,
+        answer: response.data.answer,
+        explanation: response.data.explanation,
+      );
+      
+      return Right(entity);
     } catch (e) {
       return Left(Failure.server(message: 'Failed to get Part 7 answer: ${e.toString()}'));
     }
   }
 
   @override
-  Future<Either<Failure, Part7Answer>> submitPart7Answer({
-    required String setId,
-    required int questionSeq,
-    required String selectedAnswer,
-  }) async {
-    try {
-      // For now, return the answer since submit endpoint doesn't exist yet
-      final response = await remoteDataSource.getPart7Answer(setId, questionSeq);
-      return Right(response.toEntity());
-    } catch (e) {
-      return Left(Failure.server(message: 'Failed to submit Part 7 answer: ${e.toString()}'));
-    }
-  }
-
-  @override
-  Future<Either<Failure, List<String>>> getPart7SetTypes() async {
+  Future<Either<Failure, Map<String, dynamic>>> getPart7SetTypes() async {
     try {
       final response = await remoteDataSource.getPart7SetTypes();
-      return Right(response);
+      return Right(response.data.toJson());
     } catch (e) {
       return Left(Failure.server(message: 'Failed to get Part 7 set types: ${e.toString()}'));
     }
   }
 
   @override
-  Future<Either<Failure, List<String>>> getPart7PassageTypes({String? setType}) async {
+  Future<Either<Failure, List<String>>> getPart7PassageTypes({
+    String? setType,
+  }) async {
     try {
-      final response = await remoteDataSource.getPart7PassageTypes(setType: setType);
-      return Right(response);
+      final response = await remoteDataSource.getPart7PassageTypes(
+        setType: setType,
+      );
+      return Right(response.data);
     } catch (e) {
       return Left(Failure.server(message: 'Failed to get Part 7 passage types: ${e.toString()}'));
     }
   }
 
   @override
-  Future<Either<Failure, List<String>>> getPart7Difficulties({String? setType}) async {
+  Future<Either<Failure, List<List<String>>>> getPart7PassageCombinations({
+    required String setType,
+  }) async {
     try {
-      final response = await remoteDataSource.getPart7Difficulties(setType: setType);
-      return Right(response);
+      final response = await remoteDataSource.getPart7PassageCombinations(
+        setType: setType,
+      );
+      return Right(response.data);
+    } catch (e) {
+      return Left(Failure.server(message: 'Failed to get Part 7 passage combinations: ${e.toString()}'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<String>>> getPart7Difficulties({
+    String? setType,
+  }) async {
+    try {
+      final response = await remoteDataSource.getPart7Difficulties(
+        setType: setType,
+      );
+      return Right(response.data);
     } catch (e) {
       return Left(Failure.server(message: 'Failed to get Part 7 difficulties: ${e.toString()}'));
     }
