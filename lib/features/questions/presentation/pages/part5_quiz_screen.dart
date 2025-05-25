@@ -8,14 +8,12 @@ import '../controllers/question_session_controller.dart';
 import '../widgets/question_progress_bar.dart';
 import '../widgets/choice_button.dart';
 import '../../../../shared/widgets/app_button.dart';
+import '../pages/quiz_result_screen.dart';
 
 class Part5QuizScreen extends ConsumerStatefulWidget {
   final QuestionFilter filter;
 
-  const Part5QuizScreen({
-    super.key,
-    required this.filter,
-  });
+  const Part5QuizScreen({super.key, required this.filter});
 
   @override
   ConsumerState<Part5QuizScreen> createState() => _Part5QuizScreenState();
@@ -30,7 +28,9 @@ class _Part5QuizScreenState extends ConsumerState<Part5QuizScreen> {
   Widget build(BuildContext context) {
     final questionsAsync = ref.watch(part5QuestionsProvider(widget.filter));
     final sessionState = ref.watch(questionSessionControllerProvider);
-    final sessionController = ref.read(questionSessionControllerProvider.notifier);
+    final sessionController = ref.read(
+      questionSessionControllerProvider.notifier,
+    );
 
     return Scaffold(
       appBar: AppBar(
@@ -43,7 +43,9 @@ class _Part5QuizScreenState extends ConsumerState<Part5QuizScreen> {
         actions: [
           // 번역 토글 버튼 추가
           IconButton(
-            icon: Icon(_showTranslations ? Icons.translate : Icons.translate_outlined),
+            icon: Icon(
+              _showTranslations ? Icons.translate : Icons.translate_outlined,
+            ),
             onPressed: () {
               setState(() {
                 _showTranslations = !_showTranslations;
@@ -83,7 +85,7 @@ class _Part5QuizScreenState extends ConsumerState<Part5QuizScreen> {
                 total: questions.length,
                 answered: session.userAnswers.length,
               ),
-              
+
               Expanded(
                 child: SingleChildScrollView(
                   padding: const EdgeInsets.all(24),
@@ -96,23 +98,25 @@ class _Part5QuizScreenState extends ConsumerState<Part5QuizScreen> {
                         questionNumber: session.currentIndex + 1,
                         totalQuestions: questions.length,
                       ),
-                      
+
                       const SizedBox(height: 24),
-                      
+
                       // Question text (번역 토글 기능 추가)
                       _QuestionTextCard(
                         question: currentQuestion,
                         showTranslation: _showTranslations,
                       ),
-                      
+
                       const SizedBox(height: 24),
-                      
+
                       // Choices (번역 토글 기능 추가)
                       ...currentQuestion.choices.asMap().entries.map((entry) {
                         final index = entry.key;
                         final choice = entry.value;
-                        final choiceLabel = String.fromCharCode(65 + index); // A, B, C, D
-                        
+                        final choiceLabel = String.fromCharCode(
+                          65 + index,
+                        ); // A, B, C, D
+
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 12),
                           child: _ImprovedChoiceButton(
@@ -121,21 +125,28 @@ class _Part5QuizScreenState extends ConsumerState<Part5QuizScreen> {
                             translation: choice.translation,
                             showTranslation: _showTranslations,
                             isSelected: _selectedChoice == choice.id,
-                            isCorrect: _showAnswer ? _getChoiceCorrectness(choice.id, userAnswer) : null,
-                            onTap: _showAnswer ? null : () {
-                              setState(() {
-                                _selectedChoice = choice.id;
-                              });
-                              sessionController.submitAnswer(currentQuestion.id, choice.id);
-                            },
+                            isCorrect: _showAnswer
+                                ? _getChoiceCorrectness(choice.id, userAnswer)
+                                : null,
+                            onTap: _showAnswer
+                                ? null
+                                : () {
+                                    setState(() {
+                                      _selectedChoice = choice.id;
+                                    });
+                                    sessionController.submitAnswer(
+                                      currentQuestion.id,
+                                      choice.id,
+                                    );
+                                  },
                           ),
                         );
                       }),
-                      
+
                       const SizedBox(height: 24),
-                      
+
                       // Answer section (개선됨)
-                      if (_showAnswer) 
+                      if (_showAnswer)
                         _ImprovedAnswerSection(
                           questionId: currentQuestion.id,
                           selectedChoice: _selectedChoice,
@@ -145,7 +156,7 @@ class _Part5QuizScreenState extends ConsumerState<Part5QuizScreen> {
                   ),
                 ),
               ),
-              
+
               // Bottom navigation (개선됨)
               _ImprovedBottomNavigation(
                 hasAnswer: userAnswer != null,
@@ -164,14 +175,17 @@ class _Part5QuizScreenState extends ConsumerState<Part5QuizScreen> {
                     _showTranslations = false; // 번역 초기화
                   });
                 },
-                onPrevious: session.currentIndex > 0 ? () {
-                  sessionController.previousQuestion();
-                  setState(() {
-                    _showAnswer = false;
-                    _selectedChoice = sessionController.getCurrentUserAnswer();
-                    _showTranslations = false; // 번역 초기화
-                  });
-                } : null,
+                onPrevious: session.currentIndex > 0
+                    ? () {
+                        sessionController.previousQuestion();
+                        setState(() {
+                          _showAnswer = false;
+                          _selectedChoice = sessionController
+                              .getCurrentUserAnswer();
+                          _showTranslations = false; // 번역 초기화
+                        });
+                      }
+                    : null,
                 isLastQuestion: session.currentIndex >= questions.length - 1,
                 onComplete: () => _completeQuiz(context),
               ),
@@ -203,7 +217,9 @@ class _Part5QuizScreenState extends ConsumerState<Part5QuizScreen> {
           TextButton(
             onPressed: () {
               Navigator.of(context).pop();
-              ref.read(questionSessionControllerProvider.notifier).resetSession();
+              ref
+                  .read(questionSessionControllerProvider.notifier)
+                  .resetSession();
               context.pop();
             },
             child: const Text('종료'),
@@ -245,11 +261,17 @@ class _Part5QuizScreenState extends ConsumerState<Part5QuizScreen> {
   }
 
   void _completeQuiz(BuildContext context) {
-    final sessionController = ref.read(questionSessionControllerProvider.notifier);
+    final sessionController = ref.read(
+      questionSessionControllerProvider.notifier,
+    );
     final result = sessionController.completeSession();
-    
-    if (result != null) {
-      context.pushReplacement('/questions/result', extra: result);
+
+    if (result != null && mounted) {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => ImprovedQuizResultScreen(result: result),
+        ),
+      );
     }
   }
 }
@@ -272,15 +294,10 @@ class _QuestionInfoCard extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [
-            Colors.blue.withOpacity(0.1),
-            Colors.blue.withOpacity(0.05),
-          ],
+          colors: [Colors.blue.withOpacity(0.1), Colors.blue.withOpacity(0.05)],
         ),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: Colors.blue.withOpacity(0.3),
-        ),
+        border: Border.all(color: Colors.blue.withOpacity(0.3)),
       ),
       child: Column(
         children: [
@@ -454,10 +471,14 @@ class _QuestionTextCard extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.surfaceVariant.withOpacity(0.5),
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.surfaceVariant.withOpacity(0.5),
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(
-                    color: Theme.of(context).colorScheme.outline.withOpacity(0.2),
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.outline.withOpacity(0.2),
                   ),
                 ),
                 child: Column(
@@ -473,10 +494,11 @@ class _QuestionTextCard extends StatelessWidget {
                         const SizedBox(width: 6),
                         Text(
                           '번역',
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
+                          style: Theme.of(context).textTheme.bodySmall
+                              ?.copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
                         ),
                       ],
                     ),
@@ -546,7 +568,9 @@ class _ImprovedChoiceButton extends StatelessWidget {
     } else {
       // Normal state
       if (isSelected) {
-        backgroundColor = Theme.of(context).colorScheme.primaryContainer.withOpacity(0.7);
+        backgroundColor = Theme.of(
+          context,
+        ).colorScheme.primaryContainer.withOpacity(0.7);
         borderColor = Theme.of(context).colorScheme.primary;
         textColor = Theme.of(context).colorScheme.onPrimaryContainer;
       } else {
@@ -589,9 +613,9 @@ class _ImprovedChoiceButton extends StatelessWidget {
                   ),
                 ),
               ),
-              
+
               const SizedBox(width: 16),
-              
+
               // Choice content
               Expanded(
                 child: Column(
@@ -623,10 +647,11 @@ class _ImprovedChoiceButton extends StatelessWidget {
                             Expanded(
                               child: Text(
                                 translation,
-                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                  color: textColor?.withOpacity(0.8),
-                                  fontStyle: FontStyle.italic,
-                                ),
+                                style: Theme.of(context).textTheme.bodyMedium
+                                    ?.copyWith(
+                                      color: textColor?.withOpacity(0.8),
+                                      fontStyle: FontStyle.italic,
+                                    ),
                               ),
                             ),
                           ],
@@ -636,15 +661,11 @@ class _ImprovedChoiceButton extends StatelessWidget {
                   ],
                 ),
               ),
-              
+
               // Result icon
               if (icon != null) ...[
                 const SizedBox(width: 12),
-                Icon(
-                  icon,
-                  color: borderColor,
-                  size: 24,
-                ),
+                Icon(icon, color: borderColor, size: 24),
               ],
             ],
           ),
@@ -673,7 +694,8 @@ class _ImprovedAnswerSection extends ConsumerWidget {
       data: (answer) {
         // Set correct answer in session
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          ref.read(questionSessionControllerProvider.notifier)
+          ref
+              .read(questionSessionControllerProvider.notifier)
               .setCorrectAnswer(questionId, answer.answer);
         });
 
@@ -687,9 +709,15 @@ class _ImprovedAnswerSection extends ConsumerWidget {
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: isCorrect 
-                      ? [Colors.green.withOpacity(0.1), Colors.green.withOpacity(0.05)]
-                      : [Colors.red.withOpacity(0.1), Colors.red.withOpacity(0.05)],
+                  colors: isCorrect
+                      ? [
+                          Colors.green.withOpacity(0.1),
+                          Colors.green.withOpacity(0.05),
+                        ]
+                      : [
+                          Colors.red.withOpacity(0.1),
+                          Colors.red.withOpacity(0.05),
+                        ],
                 ),
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(
@@ -718,42 +746,49 @@ class _ImprovedAnswerSection extends ConsumerWidget {
                       children: [
                         Text(
                           isCorrect ? '정답입니다! 🎉' : '아쉽네요 😔',
-                          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                            color: isCorrect ? Colors.green.shade700 : Colors.red.shade700,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style: Theme.of(context).textTheme.titleLarge
+                              ?.copyWith(
+                                color: isCorrect
+                                    ? Colors.green.shade700
+                                    : Colors.red.shade700,
+                                fontWeight: FontWeight.bold,
+                              ),
                         ),
                         const SizedBox(height: 4),
                         Row(
                           children: [
                             Text(
                               '정답: ',
-                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                fontWeight: FontWeight.w600,
-                              ),
+                              style: Theme.of(context).textTheme.bodyMedium
+                                  ?.copyWith(fontWeight: FontWeight.w600),
                             ),
                             Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8,
+                                vertical: 2,
+                              ),
                               decoration: BoxDecoration(
                                 color: Colors.green.withOpacity(0.2),
                                 borderRadius: BorderRadius.circular(4),
                               ),
                               child: Text(
                                 '${answer.answer}. ${correctChoice.text}',
-                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                  color: Colors.green.shade700,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                                style: Theme.of(context).textTheme.bodyMedium
+                                    ?.copyWith(
+                                      color: Colors.green.shade700,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                               ),
                             ),
                             if (correctChoice.translation.isNotEmpty) ...[
                               const SizedBox(width: 8),
                               Text(
                                 '(${correctChoice.translation})',
-                                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                  color: Colors.green.shade600,
-                                  fontStyle: FontStyle.italic,
-                                ),
+                                style: Theme.of(context).textTheme.bodySmall
+                                    ?.copyWith(
+                                      color: Colors.green.shade600,
+                                      fontStyle: FontStyle.italic,
+                                    ),
                               ),
                             ],
                           ],
@@ -764,22 +799,25 @@ class _ImprovedAnswerSection extends ConsumerWidget {
                             children: [
                               Text(
                                 '선택: ',
-                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                  fontWeight: FontWeight.w600,
-                                ),
+                                style: Theme.of(context).textTheme.bodyMedium
+                                    ?.copyWith(fontWeight: FontWeight.w600),
                               ),
                               Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 8,
+                                  vertical: 2,
+                                ),
                                 decoration: BoxDecoration(
                                   color: Colors.red.withOpacity(0.2),
                                   borderRadius: BorderRadius.circular(4),
                                 ),
                                 child: Text(
                                   '$selectedChoice. ${choices.firstWhere((c) => c.id == selectedChoice).text}',
-                                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                    color: Colors.red.shade700,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                  style: Theme.of(context).textTheme.bodyMedium
+                                      ?.copyWith(
+                                        color: Colors.red.shade700,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                 ),
                               ),
                             ],
@@ -791,14 +829,16 @@ class _ImprovedAnswerSection extends ConsumerWidget {
                 ],
               ),
             ),
-            
+
             const SizedBox(height: 16),
-            
+
             // Explanation
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primaryContainer.withOpacity(0.3),
+                color: Theme.of(
+                  context,
+                ).colorScheme.primaryContainer.withOpacity(0.3),
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(
                   color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
@@ -824,22 +864,23 @@ class _ImprovedAnswerSection extends ConsumerWidget {
                       const SizedBox(width: 8),
                       Text(
                         '정답 및 해설',
-                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
+                        style: Theme.of(context).textTheme.titleMedium
+                            ?.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
                       ),
                     ],
                   ),
                   const SizedBox(height: 12),
                   Text(
                     answer.explanation,
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      height: 1.6,
-                      fontSize: 15,
-                    ),
+                    style: Theme.of(
+                      context,
+                    ).textTheme.bodyMedium?.copyWith(height: 1.6, fontSize: 15),
                   ),
-                  if (answer.vocabulary != null && answer.vocabulary!.isNotEmpty) ...[
+                  if (answer.vocabulary != null &&
+                      answer.vocabulary!.isNotEmpty) ...[
                     const SizedBox(height: 16),
                     Container(
                       padding: const EdgeInsets.all(12),
@@ -847,7 +888,9 @@ class _ImprovedAnswerSection extends ConsumerWidget {
                         color: Theme.of(context).colorScheme.surface,
                         borderRadius: BorderRadius.circular(8),
                         border: Border.all(
-                          color: Theme.of(context).colorScheme.outline.withOpacity(0.2),
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.outline.withOpacity(0.2),
                         ),
                       ),
                       child: Column(
@@ -863,91 +906,132 @@ class _ImprovedAnswerSection extends ConsumerWidget {
                               const SizedBox(width: 6),
                               Text(
                                 '핵심 어휘',
-                                style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                  color: Theme.of(context).colorScheme.primary,
-                                ),
+                                style: Theme.of(context).textTheme.titleSmall
+                                    ?.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.primary,
+                                    ),
                               ),
                             ],
                           ),
                           const SizedBox(height: 8),
-                          ...answer.vocabulary!.map((vocab) => Padding(
-                            padding: const EdgeInsets.only(bottom: 8),
-                            child: Container(
-                              padding: const EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                color: Theme.of(context).colorScheme.surfaceVariant.withOpacity(0.3),
-                                borderRadius: BorderRadius.circular(6),
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Text(
-                                        vocab.word,
-                                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                          fontWeight: FontWeight.bold,
+                          ...answer.vocabulary!.map(
+                            (vocab) => Padding(
+                              padding: const EdgeInsets.only(bottom: 8),
+                              child: Container(
+                                padding: const EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.surfaceVariant.withOpacity(0.3),
+                                  borderRadius: BorderRadius.circular(6),
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Text(
+                                          vocab.word,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium
+                                              ?.copyWith(
+                                                fontWeight: FontWeight.bold,
+                                              ),
                                         ),
-                                      ),
-                                      const SizedBox(width: 8),
-                                      Container(
-                                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                                        decoration: BoxDecoration(
-                                          color: Theme.of(context).colorScheme.primary.withOpacity(0.2),
-                                          borderRadius: BorderRadius.circular(4),
-                                        ),
-                                        child: Text(
-                                          vocab.partOfSpeech,
-                                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                            color: Theme.of(context).colorScheme.primary,
-                                            fontWeight: FontWeight.w500,
+                                        const SizedBox(width: 8),
+                                        Container(
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 6,
+                                            vertical: 2,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary
+                                                .withOpacity(0.2),
+                                            borderRadius: BorderRadius.circular(
+                                              4,
+                                            ),
+                                          ),
+                                          child: Text(
+                                            vocab.partOfSpeech,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall
+                                                ?.copyWith(
+                                                  color: Theme.of(
+                                                    context,
+                                                  ).colorScheme.primary,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
                                           ),
                                         ),
-                                      ),
-                                      const Spacer(),
-                                      Text(
-                                        vocab.meaning,
-                                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                          fontWeight: FontWeight.w500,
+                                        const Spacer(),
+                                        Text(
+                                          vocab.meaning,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium
+                                              ?.copyWith(
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                        ),
+                                      ],
+                                    ),
+                                    if (vocab.example.isNotEmpty) ...[
+                                      const SizedBox(height: 6),
+                                      Container(
+                                        padding: const EdgeInsets.all(8),
+                                        decoration: BoxDecoration(
+                                          color: Theme.of(
+                                            context,
+                                          ).colorScheme.surface,
+                                          borderRadius: BorderRadius.circular(
+                                            4,
+                                          ),
+                                        ),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              vocab.example,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodySmall
+                                                  ?.copyWith(
+                                                    fontStyle: FontStyle.italic,
+                                                  ),
+                                            ),
+                                            if (vocab
+                                                .exampleTranslation
+                                                .isNotEmpty) ...[
+                                              const SizedBox(height: 2),
+                                              Text(
+                                                vocab.exampleTranslation,
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodySmall
+                                                    ?.copyWith(
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .onSurfaceVariant,
+                                                    ),
+                                              ),
+                                            ],
+                                          ],
                                         ),
                                       ),
                                     ],
-                                  ),
-                                  if (vocab.example.isNotEmpty) ...[
-                                    const SizedBox(height: 6),
-                                    Container(
-                                      padding: const EdgeInsets.all(8),
-                                      decoration: BoxDecoration(
-                                        color: Theme.of(context).colorScheme.surface,
-                                        borderRadius: BorderRadius.circular(4),
-                                      ),
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            vocab.example,
-                                            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                              fontStyle: FontStyle.italic,
-                                            ),
-                                          ),
-                                          if (vocab.exampleTranslation.isNotEmpty) ...[
-                                            const SizedBox(height: 2),
-                                            Text(
-                                              vocab.exampleTranslation,
-                                              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                                color: Theme.of(context).colorScheme.onSurfaceVariant,
-                                              ),
-                                            ),
-                                          ],
-                                        ],
-                                      ),
-                                    ),
                                   ],
-                                ],
+                                ),
                               ),
                             ),
-                          )),
+                          ),
                         ],
                       ),
                     ),
@@ -1040,9 +1124,9 @@ class _ImprovedBottomNavigation extends StatelessWidget {
                   onPressed: onPrevious,
                 ),
               ),
-            
+
             if (onPrevious != null) const SizedBox(width: 12),
-            
+
             if (hasAnswer && !showAnswer)
               Expanded(
                 flex: 2,
@@ -1052,7 +1136,7 @@ class _ImprovedBottomNavigation extends StatelessWidget {
                   onPressed: onShowAnswer,
                 ),
               ),
-            
+
             if (showAnswer)
               Expanded(
                 flex: 2,
@@ -1066,7 +1150,11 @@ class _ImprovedBottomNavigation extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.check_circle, color: Colors.green.shade700, size: 20),
+                      Icon(
+                        Icons.check_circle,
+                        color: Colors.green.shade700,
+                        size: 20,
+                      ),
                       const SizedBox(width: 8),
                       Text(
                         '정답 확인됨',
@@ -1079,14 +1167,16 @@ class _ImprovedBottomNavigation extends StatelessWidget {
                   ),
                 ),
               ),
-              
+
             if (onPrevious != null) const SizedBox(width: 12),
-            
+
             Expanded(
               child: AppButton(
                 text: isLastQuestion ? '완료' : '다음',
                 icon: Icon(isLastQuestion ? Icons.flag : Icons.arrow_forward),
-                onPressed: hasAnswer ? (isLastQuestion ? onComplete : onNext) : null,
+                onPressed: hasAnswer
+                    ? (isLastQuestion ? onComplete : onNext)
+                    : null,
               ),
             ),
           ],
