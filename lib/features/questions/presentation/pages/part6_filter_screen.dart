@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:uuid/uuid.dart';
 import '../../domain/entities/question_filter.dart';
 import '../providers/questions_providers.dart';
 import '../pages/part6_quiz_screen.dart';
@@ -20,13 +21,12 @@ class _Part6FilterScreenState extends ConsumerState<Part6FilterScreen> {
   @override
   Widget build(BuildContext context) {
     final passageTypesAsync = ref.watch(part6PassageTypesProvider);
-    final difficultiesAsync = ref.watch(part6DifficultiesProvider(selectedPassageType));
+    final difficultiesAsync = ref.watch(
+      part6DifficultiesProvider(selectedPassageType),
+    );
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Part 6 설정'),
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: const Text('Part 6 설정'), centerTitle: true),
       body: Padding(
         padding: const EdgeInsets.all(24),
         child: Column(
@@ -41,11 +41,7 @@ class _Part6FilterScreenState extends ConsumerState<Part6FilterScreen> {
               ),
               child: Row(
                 children: [
-                  const Icon(
-                    Icons.article,
-                    color: Colors.orange,
-                    size: 32,
-                  ),
+                  const Icon(Icons.article, color: Colors.orange, size: 32),
                   const SizedBox(width: 12),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -68,9 +64,9 @@ class _Part6FilterScreenState extends ConsumerState<Part6FilterScreen> {
                 ],
               ),
             ),
-            
+
             const SizedBox(height: 32),
-            
+
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
@@ -80,26 +76,30 @@ class _Part6FilterScreenState extends ConsumerState<Part6FilterScreen> {
                     _FilterSection(
                       title: '지문 유형',
                       child: passageTypesAsync.when(
-                        data: (passageTypes) => _buildPassageTypeSelection(passageTypes),
+                        data: (passageTypes) =>
+                            _buildPassageTypeSelection(passageTypes),
                         loading: () => const _FilterSkeleton(),
-                        error: (error, stack) => _ErrorWidget(error: error.toString()),
+                        error: (error, stack) =>
+                            _ErrorWidget(error: error.toString()),
                       ),
                     ),
-                    
+
                     const SizedBox(height: 24),
-                    
+
                     // Difficulty Selection
                     _FilterSection(
                       title: '난이도',
                       child: difficultiesAsync.when(
-                        data: (difficulties) => _buildDifficultySelection(difficulties),
+                        data: (difficulties) =>
+                            _buildDifficultySelection(difficulties),
                         loading: () => const _FilterSkeleton(),
-                        error: (error, stack) => _ErrorWidget(error: error.toString()),
+                        error: (error, stack) =>
+                            _ErrorWidget(error: error.toString()),
                       ),
                     ),
-                    
+
                     const SizedBox(height: 24),
-                    
+
                     // Question Count - 수정: 백엔드 API limit 범위에 맞게 조정
                     _FilterSection(
                       title: '문제 세트 수',
@@ -109,9 +109,9 @@ class _Part6FilterScreenState extends ConsumerState<Part6FilterScreen> {
                 ),
               ),
             ),
-            
+
             const SizedBox(height: 24),
-            
+
             // Start Button
             AppButton(
               text: '문제 풀이 시작',
@@ -153,9 +153,7 @@ class _Part6FilterScreenState extends ConsumerState<Part6FilterScreen> {
   Widget _buildDifficultySelection(List<String> difficulties) {
     if (difficulties.isEmpty) {
       return Text(
-        selectedPassageType == null 
-          ? '지문 유형을 먼저 선택해주세요.'
-          : '사용 가능한 난이도가 없습니다.',
+        selectedPassageType == null ? '지문 유형을 먼저 선택해주세요.' : '사용 가능한 난이도가 없습니다.',
       );
     }
 
@@ -236,12 +234,11 @@ class _Part6FilterScreenState extends ConsumerState<Part6FilterScreen> {
       passageType: selectedPassageType,
       difficulty: selectedDifficulty,
       limit: questionCount,
+      requestId: const Uuid().v4(), // 고유 ID 추가
     );
 
     Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => Part6QuizScreen(filter: filter),
-      ),
+      MaterialPageRoute(builder: (context) => Part6QuizScreen(filter: filter)),
     );
   }
 }
@@ -251,10 +248,7 @@ class _FilterSection extends StatelessWidget {
   final String title;
   final Widget child;
 
-  const _FilterSection({
-    required this.title,
-    required this.child,
-  });
+  const _FilterSection({required this.title, required this.child});
 
   @override
   Widget build(BuildContext context) {
@@ -263,9 +257,9 @@ class _FilterSection extends StatelessWidget {
       children: [
         Text(
           title,
-          style: Theme.of(context).textTheme.titleMedium?.copyWith(
-            fontWeight: FontWeight.bold,
-          ),
+          style: Theme.of(
+            context,
+          ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 12),
         child,
@@ -311,9 +305,7 @@ class _ErrorWidget extends StatelessWidget {
       ),
       child: Text(
         '오류: $error',
-        style: TextStyle(
-          color: Theme.of(context).colorScheme.onErrorContainer,
-        ),
+        style: TextStyle(color: Theme.of(context).colorScheme.onErrorContainer),
       ),
     );
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:uuid/uuid.dart';
 import '../../domain/entities/question_filter.dart';
 import '../providers/questions_providers.dart';
 import '../pages/part5_quiz_screen.dart'; // 추가: Part5QuizScreen import
@@ -23,16 +24,15 @@ class _Part5FilterScreenState extends ConsumerState<Part5FilterScreen> {
   Widget build(BuildContext context) {
     final categoriesAsync = ref.watch(part5CategoriesProvider);
     final subtypesAsync = ref.watch(part5SubtypesProvider(selectedCategory));
-    final difficultiesAsync = ref.watch(part5DifficultiesProvider((
-      category: selectedCategory,
-      subtype: selectedSubtype,
-    )));
+    final difficultiesAsync = ref.watch(
+      part5DifficultiesProvider((
+        category: selectedCategory,
+        subtype: selectedSubtype,
+      )),
+    );
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Part 5 설정'),
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: const Text('Part 5 설정'), centerTitle: true),
       body: Padding(
         padding: const EdgeInsets.all(24),
         child: Column(
@@ -47,11 +47,7 @@ class _Part5FilterScreenState extends ConsumerState<Part5FilterScreen> {
               ),
               child: Row(
                 children: [
-                  Icon(
-                    Icons.text_fields,
-                    color: Colors.blue,
-                    size: 32,
-                  ),
+                  Icon(Icons.text_fields, color: Colors.blue, size: 32),
                   const SizedBox(width: 12),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -74,9 +70,9 @@ class _Part5FilterScreenState extends ConsumerState<Part5FilterScreen> {
                 ],
               ),
             ),
-            
+
             const SizedBox(height: 24),
-            
+
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
@@ -108,23 +104,27 @@ class _Part5FilterScreenState extends ConsumerState<Part5FilterScreen> {
                               vertical: 8,
                             ),
                             decoration: BoxDecoration(
-                              color: Theme.of(context).colorScheme.primaryContainer,
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.primaryContainer,
                               borderRadius: BorderRadius.circular(8),
                             ),
                             child: Text(
                               '$questionCount',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                color: Theme.of(context).colorScheme.onPrimaryContainer,
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onPrimaryContainer,
                               ),
                             ),
                           ),
                         ],
                       ),
                     ),
-                    
+
                     const SizedBox(height: 16),
-                    
+
                     // Category filter
                     _FilterCard(
                       title: '카테고리',
@@ -136,18 +136,20 @@ class _Part5FilterScreenState extends ConsumerState<Part5FilterScreen> {
                           onChanged: (value) {
                             setState(() {
                               selectedCategory = value;
-                              selectedSubtype = null; // Reset subtype when category changes
+                              selectedSubtype =
+                                  null; // Reset subtype when category changes
                               selectedDifficulty = null; // Reset difficulty
                             });
                           },
                         ),
                         loading: () => const _LoadingDropdown(),
-                        error: (error, stack) => _ErrorMessage(error.toString()),
+                        error: (error, stack) =>
+                            _ErrorMessage(error.toString()),
                       ),
                     ),
-                    
+
                     const SizedBox(height: 16),
-                    
+
                     // Subtype filter
                     _FilterCard(
                       title: '세부 유형',
@@ -165,12 +167,13 @@ class _Part5FilterScreenState extends ConsumerState<Part5FilterScreen> {
                           },
                         ),
                         loading: () => const _LoadingDropdown(),
-                        error: (error, stack) => _ErrorMessage(error.toString()),
+                        error: (error, stack) =>
+                            _ErrorMessage(error.toString()),
                       ),
                     ),
-                    
+
                     const SizedBox(height: 16),
-                    
+
                     // Difficulty filter
                     _FilterCard(
                       title: '난이도',
@@ -186,16 +189,17 @@ class _Part5FilterScreenState extends ConsumerState<Part5FilterScreen> {
                           },
                         ),
                         loading: () => const _LoadingDropdown(),
-                        error: (error, stack) => _ErrorMessage(error.toString()),
+                        error: (error, stack) =>
+                            _ErrorMessage(error.toString()),
                       ),
                     ),
                   ],
                 ),
               ),
             ),
-            
+
             const SizedBox(height: 24),
-            
+
             // Action buttons
             Row(
               children: [
@@ -223,8 +227,9 @@ class _Part5FilterScreenState extends ConsumerState<Part5FilterScreen> {
                         subtype: selectedSubtype,
                         difficulty: selectedDifficulty,
                         limit: questionCount,
+                        requestId: const Uuid().v4(), // 고유 ID 추가
                       );
-                      
+
                       // 수정: Navigator.push 사용 (파트6, 파트7과 동일한 방식)
                       Navigator.of(context).push(
                         MaterialPageRoute(
@@ -247,10 +252,7 @@ class _FilterCard extends StatelessWidget {
   final String title;
   final Widget child;
 
-  const _FilterCard({
-    required this.title,
-    required this.child,
-  });
+  const _FilterCard({required this.title, required this.child});
 
   @override
   Widget build(BuildContext context) {
@@ -262,9 +264,9 @@ class _FilterCard extends StatelessWidget {
           children: [
             Text(
               title,
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
+              style: Theme.of(
+                context,
+              ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 12),
             child,
@@ -296,21 +298,21 @@ class _DropdownFilter extends StatelessWidget {
       value: value,
       decoration: InputDecoration(
         hintText: hint,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
       ),
       items: [
         DropdownMenuItem(
           value: null,
-          child: Text('전체', style: TextStyle(
-            color: Theme.of(context).colorScheme.onSurfaceVariant,
-          )),
+          child: Text(
+            '전체',
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+            ),
+          ),
         ),
-        ...items.map((item) => DropdownMenuItem(
-          value: item,
-          child: Text(item),
-        )),
+        ...items.map(
+          (item) => DropdownMenuItem(value: item, child: Text(item)),
+        ),
       ],
       onChanged: enabled ? onChanged : null,
     );

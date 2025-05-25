@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:uuid/uuid.dart';
 import '../../domain/entities/question_filter.dart';
 import '../providers/questions_providers.dart';
 import '../pages/part7_quiz_screen.dart';
@@ -21,14 +22,15 @@ class _Part7FilterScreenState extends ConsumerState<Part7FilterScreen> {
   @override
   Widget build(BuildContext context) {
     final setTypesAsync = ref.watch(part7SetTypesProvider);
-    final passageTypesAsync = ref.watch(part7PassageTypesProvider(selectedSetType));
-    final difficultiesAsync = ref.watch(part7DifficultiesProvider(selectedSetType));
+    final passageTypesAsync = ref.watch(
+      part7PassageTypesProvider(selectedSetType),
+    );
+    final difficultiesAsync = ref.watch(
+      part7DifficultiesProvider(selectedSetType),
+    );
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Part 7 설정'),
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: const Text('Part 7 설정'), centerTitle: true),
       body: Padding(
         padding: const EdgeInsets.all(24),
         child: Column(
@@ -70,9 +72,9 @@ class _Part7FilterScreenState extends ConsumerState<Part7FilterScreen> {
                 ],
               ),
             ),
-            
+
             const SizedBox(height: 32),
-            
+
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
@@ -84,36 +86,41 @@ class _Part7FilterScreenState extends ConsumerState<Part7FilterScreen> {
                       child: setTypesAsync.when(
                         data: (setTypes) => _buildSetTypeSelection(setTypes),
                         loading: () => const _FilterSkeleton(),
-                        error: (error, stack) => _ErrorWidget(error: error.toString()),
+                        error: (error, stack) =>
+                            _ErrorWidget(error: error.toString()),
                       ),
                     ),
-                    
+
                     const SizedBox(height: 24),
-                    
+
                     // Passage Type Selection
                     _FilterSection(
                       title: '지문 유형 (복수 선택 가능)',
                       child: passageTypesAsync.when(
-                        data: (passageTypes) => _buildPassageTypeSelection(passageTypes),
+                        data: (passageTypes) =>
+                            _buildPassageTypeSelection(passageTypes),
                         loading: () => const _FilterSkeleton(),
-                        error: (error, stack) => _ErrorWidget(error: error.toString()),
+                        error: (error, stack) =>
+                            _ErrorWidget(error: error.toString()),
                       ),
                     ),
-                    
+
                     const SizedBox(height: 24),
-                    
+
                     // Difficulty Selection
                     _FilterSection(
                       title: '난이도',
                       child: difficultiesAsync.when(
-                        data: (difficulties) => _buildDifficultySelection(difficulties),
+                        data: (difficulties) =>
+                            _buildDifficultySelection(difficulties),
                         loading: () => const _FilterSkeleton(),
-                        error: (error, stack) => _ErrorWidget(error: error.toString()),
+                        error: (error, stack) =>
+                            _ErrorWidget(error: error.toString()),
                       ),
                     ),
-                    
+
                     const SizedBox(height: 24),
-                    
+
                     // Question Count - 수정: 세트 타입별 제한 적용
                     _FilterSection(
                       title: '문제 세트 수',
@@ -123,9 +130,9 @@ class _Part7FilterScreenState extends ConsumerState<Part7FilterScreen> {
                 ),
               ),
             ),
-            
+
             const SizedBox(height: 24),
-            
+
             // Start Button
             AppButton(
               text: '문제 풀이 시작',
@@ -200,9 +207,7 @@ class _Part7FilterScreenState extends ConsumerState<Part7FilterScreen> {
   Widget _buildDifficultySelection(List<String> difficulties) {
     if (difficulties.isEmpty) {
       return Text(
-        selectedSetType == null 
-          ? '세트 유형을 먼저 선택해주세요.'
-          : '사용 가능한 난이도가 없습니다.',
+        selectedSetType == null ? '세트 유형을 먼저 선택해주세요.' : '사용 가능한 난이도가 없습니다.',
       );
     }
 
@@ -233,14 +238,10 @@ class _Part7FilterScreenState extends ConsumerState<Part7FilterScreen> {
     }
 
     // 세트 타입별 최대 제한 (백엔드 API와 일치)
-    final maxLimits = {
-      'Single': 5,
-      'Double': 2,
-      'Triple': 2,
-    };
-    
+    final maxLimits = {'Single': 5, 'Double': 2, 'Triple': 2};
+
     final maxCount = maxLimits[selectedSetType] ?? 1;
-    
+
     // 현재 값이 최대값을 초과하면 조정
     if (questionCount > maxCount) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -313,11 +314,7 @@ class _Part7FilterScreenState extends ConsumerState<Part7FilterScreen> {
   // 추가: 세트 타입 변경시 문제 수 초기화
   void _resetQuestionCountForSetType() {
     if (selectedSetType != null) {
-      final maxLimits = {
-        'Single': 5,
-        'Double': 2,
-        'Triple': 2,
-      };
+      final maxLimits = {'Single': 5, 'Double': 2, 'Triple': 2};
       final maxCount = maxLimits[selectedSetType] ?? 1;
       questionCount = 1; // 기본값으로 초기화
     }
@@ -330,15 +327,16 @@ class _Part7FilterScreenState extends ConsumerState<Part7FilterScreen> {
   void _startQuiz() {
     final filter = QuestionFilter(
       setType: selectedSetType,
-      passageTypes: selectedPassageTypes.isNotEmpty ? selectedPassageTypes : null,
+      passageTypes: selectedPassageTypes.isNotEmpty
+          ? selectedPassageTypes
+          : null,
       difficulty: selectedDifficulty,
       limit: questionCount,
+      requestId: const Uuid().v4(), // 고유 ID 추가
     );
 
     Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => Part7QuizScreen(filter: filter),
-      ),
+      MaterialPageRoute(builder: (context) => Part7QuizScreen(filter: filter)),
     );
   }
 }
@@ -348,10 +346,7 @@ class _FilterSection extends StatelessWidget {
   final String title;
   final Widget child;
 
-  const _FilterSection({
-    required this.title,
-    required this.child,
-  });
+  const _FilterSection({required this.title, required this.child});
 
   @override
   Widget build(BuildContext context) {
@@ -360,9 +355,9 @@ class _FilterSection extends StatelessWidget {
       children: [
         Text(
           title,
-          style: Theme.of(context).textTheme.titleMedium?.copyWith(
-            fontWeight: FontWeight.bold,
-          ),
+          style: Theme.of(
+            context,
+          ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 12),
         child,
@@ -408,9 +403,7 @@ class _ErrorWidget extends StatelessWidget {
       ),
       child: Text(
         '오류: $error',
-        style: TextStyle(
-          color: Theme.of(context).colorScheme.onErrorContainer,
-        ),
+        style: TextStyle(color: Theme.of(context).colorScheme.onErrorContainer),
       ),
     );
   }

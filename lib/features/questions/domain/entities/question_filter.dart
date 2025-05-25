@@ -13,6 +13,8 @@ class QuestionFilter with _$QuestionFilter {
     @Default(null) List<String>? passageTypes,
     @Default(10) int limit,
     @Default(1) int page,
+    // Provider 캐싱 방지를 위한 고유 식별자
+    String? requestId,
   }) = _QuestionFilter;
 }
 
@@ -31,11 +33,7 @@ class QuestionSession with _$QuestionSession {
   }) = _QuestionSession;
 }
 
-enum QuestionType {
-  part5,
-  part6,
-  part7,
-}
+enum QuestionType { part5, part6, part7 }
 
 @freezed
 class SessionResult with _$SessionResult {

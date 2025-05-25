@@ -23,7 +23,9 @@ mixin _$QuestionFilter {
   String? get setType => throw _privateConstructorUsedError;
   List<String>? get passageTypes => throw _privateConstructorUsedError;
   int get limit => throw _privateConstructorUsedError;
-  int get page => throw _privateConstructorUsedError;
+  int get page =>
+      throw _privateConstructorUsedError; // Provider 캐싱 방지를 위한 고유 식별자
+  String? get requestId => throw _privateConstructorUsedError;
 
   /// Create a copy of QuestionFilter
   /// with the given fields replaced by the non-null parameter values.
@@ -46,7 +48,8 @@ abstract class $QuestionFilterCopyWith<$Res> {
       String? setType,
       List<String>? passageTypes,
       int limit,
-      int page});
+      int page,
+      String? requestId});
 }
 
 /// @nodoc
@@ -72,6 +75,7 @@ class _$QuestionFilterCopyWithImpl<$Res, $Val extends QuestionFilter>
     Object? passageTypes = freezed,
     Object? limit = null,
     Object? page = null,
+    Object? requestId = freezed,
   }) {
     return _then(_value.copyWith(
       category: freezed == category
@@ -106,6 +110,10 @@ class _$QuestionFilterCopyWithImpl<$Res, $Val extends QuestionFilter>
           ? _value.page
           : page // ignore: cast_nullable_to_non_nullable
               as int,
+      requestId: freezed == requestId
+          ? _value.requestId
+          : requestId // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -126,7 +134,8 @@ abstract class _$$QuestionFilterImplCopyWith<$Res>
       String? setType,
       List<String>? passageTypes,
       int limit,
-      int page});
+      int page,
+      String? requestId});
 }
 
 /// @nodoc
@@ -150,6 +159,7 @@ class __$$QuestionFilterImplCopyWithImpl<$Res>
     Object? passageTypes = freezed,
     Object? limit = null,
     Object? page = null,
+    Object? requestId = freezed,
   }) {
     return _then(_$QuestionFilterImpl(
       category: freezed == category
@@ -184,6 +194,10 @@ class __$$QuestionFilterImplCopyWithImpl<$Res>
           ? _value.page
           : page // ignore: cast_nullable_to_non_nullable
               as int,
+      requestId: freezed == requestId
+          ? _value.requestId
+          : requestId // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -199,7 +213,8 @@ class _$QuestionFilterImpl implements _QuestionFilter {
       this.setType = null,
       final List<String>? passageTypes = null,
       this.limit = 10,
-      this.page = 1})
+      this.page = 1,
+      this.requestId})
       : _passageTypes = passageTypes;
 
   @override
@@ -234,10 +249,13 @@ class _$QuestionFilterImpl implements _QuestionFilter {
   @override
   @JsonKey()
   final int page;
+// Provider 캐싱 방지를 위한 고유 식별자
+  @override
+  final String? requestId;
 
   @override
   String toString() {
-    return 'QuestionFilter(category: $category, subtype: $subtype, difficulty: $difficulty, passageType: $passageType, setType: $setType, passageTypes: $passageTypes, limit: $limit, page: $page)';
+    return 'QuestionFilter(category: $category, subtype: $subtype, difficulty: $difficulty, passageType: $passageType, setType: $setType, passageTypes: $passageTypes, limit: $limit, page: $page, requestId: $requestId)';
   }
 
   @override
@@ -256,7 +274,9 @@ class _$QuestionFilterImpl implements _QuestionFilter {
             const DeepCollectionEquality()
                 .equals(other._passageTypes, _passageTypes) &&
             (identical(other.limit, limit) || other.limit == limit) &&
-            (identical(other.page, page) || other.page == page));
+            (identical(other.page, page) || other.page == page) &&
+            (identical(other.requestId, requestId) ||
+                other.requestId == requestId));
   }
 
   @override
@@ -269,7 +289,8 @@ class _$QuestionFilterImpl implements _QuestionFilter {
       setType,
       const DeepCollectionEquality().hash(_passageTypes),
       limit,
-      page);
+      page,
+      requestId);
 
   /// Create a copy of QuestionFilter
   /// with the given fields replaced by the non-null parameter values.
@@ -290,7 +311,8 @@ abstract class _QuestionFilter implements QuestionFilter {
       final String? setType,
       final List<String>? passageTypes,
       final int limit,
-      final int page}) = _$QuestionFilterImpl;
+      final int page,
+      final String? requestId}) = _$QuestionFilterImpl;
 
   @override
   String? get category;
@@ -307,7 +329,9 @@ abstract class _QuestionFilter implements QuestionFilter {
   @override
   int get limit;
   @override
-  int get page;
+  int get page; // Provider 캐싱 방지를 위한 고유 식별자
+  @override
+  String? get requestId;
 
   /// Create a copy of QuestionFilter
   /// with the given fields replaced by the non-null parameter values.
