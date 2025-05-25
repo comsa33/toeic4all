@@ -34,7 +34,7 @@ class QuestionSessionController extends StateNotifier<QuestionSessionState> {
   void startPart5Session(List<Part5Question> questions) {
     final sessionId = const Uuid().v4();
     final questionIds = questions.map((q) => q.id).toList();
-    
+
     final session = QuestionSession(
       sessionId: sessionId,
       type: QuestionType.part5,
@@ -43,7 +43,7 @@ class QuestionSessionController extends StateNotifier<QuestionSessionState> {
       correctAnswers: {},
       startTime: DateTime.now(),
     );
-    
+
     state = state.copyWith(currentSession: session);
   }
 
@@ -51,13 +51,13 @@ class QuestionSessionController extends StateNotifier<QuestionSessionState> {
   void startPart6Session(List<Part6Set> sets) {
     final sessionId = const Uuid().v4();
     final questionIds = <String>[];
-    
+
     for (final set in sets) {
       for (final question in set.questions) {
         questionIds.add('${set.id}_${question.blankNumber}');
       }
     }
-    
+
     final session = QuestionSession(
       sessionId: sessionId,
       type: QuestionType.part6,
@@ -66,7 +66,7 @@ class QuestionSessionController extends StateNotifier<QuestionSessionState> {
       correctAnswers: {},
       startTime: DateTime.now(),
     );
-    
+
     state = state.copyWith(currentSession: session);
   }
 
@@ -74,13 +74,13 @@ class QuestionSessionController extends StateNotifier<QuestionSessionState> {
   void startPart7Session(List<Part7Set> sets) {
     final sessionId = const Uuid().v4();
     final questionIds = <String>[];
-    
+
     for (final set in sets) {
       for (final question in set.questions) {
         questionIds.add('${set.id}_${question.questionSeq}');
       }
     }
-    
+
     final session = QuestionSession(
       sessionId: sessionId,
       type: QuestionType.part7,
@@ -89,7 +89,7 @@ class QuestionSessionController extends StateNotifier<QuestionSessionState> {
       correctAnswers: {},
       startTime: DateTime.now(),
     );
-    
+
     state = state.copyWith(currentSession: session);
   }
 
@@ -101,9 +101,7 @@ class QuestionSessionController extends StateNotifier<QuestionSessionState> {
     final updatedAnswers = Map<String, String>.from(session.userAnswers);
     updatedAnswers[questionId] = answer;
 
-    final updatedSession = session.copyWith(
-      userAnswers: updatedAnswers,
-    );
+    final updatedSession = session.copyWith(userAnswers: updatedAnswers);
 
     state = state.copyWith(currentSession: updatedSession);
   }
@@ -113,7 +111,9 @@ class QuestionSessionController extends StateNotifier<QuestionSessionState> {
     final session = state.currentSession;
     if (session == null) return;
 
-    final updatedCorrectAnswers = Map<String, String>.from(session.correctAnswers);
+    final updatedCorrectAnswers = Map<String, String>.from(
+      session.correctAnswers,
+    );
     updatedCorrectAnswers[questionId] = correctAnswer;
 
     final updatedSession = session.copyWith(
@@ -155,11 +155,10 @@ class QuestionSessionController extends StateNotifier<QuestionSessionState> {
   // Jump to specific question
   void jumpToQuestion(int index) {
     final session = state.currentSession;
-    if (session == null || index < 0 || index >= session.questionIds.length) return;
+    if (session == null || index < 0 || index >= session.questionIds.length)
+      return;
 
-    final updatedSession = session.copyWith(
-      currentIndex: index,
-    );
+    final updatedSession = session.copyWith(currentIndex: index);
 
     state = state.copyWith(currentSession: updatedSession);
   }
@@ -178,7 +177,7 @@ class QuestionSessionController extends StateNotifier<QuestionSessionState> {
     final session = state.currentSession;
     final questionId = getCurrentQuestionId();
     if (session == null || questionId == null) return null;
-    
+
     return session.userAnswers[questionId];
   }
 
@@ -191,11 +190,28 @@ class QuestionSessionController extends StateNotifier<QuestionSessionState> {
     var correctAnswers = 0;
     final questionResults = <String, QuestionResult>{};
 
+    // 디버깅을 위한 로그 추가
+    print('🎯 === 학습 결과 계산 시작 ===');
+    print('📊 총 문제 수: $totalQuestions');
+    print('📝 사용자 답안: ${session.userAnswers}');
+    print('✅ 정답: ${session.correctAnswers}');
+    print('');
+
     for (final questionId in session.questionIds) {
       final userAnswer = session.userAnswers[questionId] ?? '';
       final correctAnswer = session.correctAnswers[questionId] ?? '';
       final isCorrect = userAnswer == correctAnswer && userAnswer.isNotEmpty;
-      
+
+      // 각 문제별 상세 로그
+      print('🔍 문제 ID: $questionId');
+      print('   사용자 답: "$userAnswer" (타입: ${userAnswer.runtimeType})');
+      print('   정답: "$correctAnswer" (타입: ${correctAnswer.runtimeType})');
+      print('   정답 여부: $isCorrect');
+      print(
+        '   조건 체크: userAnswer == correctAnswer: ${userAnswer == correctAnswer}, userAnswer.isNotEmpty: ${userAnswer.isNotEmpty}',
+      );
+      print('');
+
       if (isCorrect) correctAnswers++;
 
       questionResults[questionId] = QuestionResult(
@@ -203,12 +219,16 @@ class QuestionSessionController extends StateNotifier<QuestionSessionState> {
         userAnswer: userAnswer,
         correctAnswer: correctAnswer,
         isCorrect: isCorrect,
-        timeTaken: const Duration(seconds: 0), // TODO: Track individual question time
+        timeTaken: const Duration(seconds: 0),
       );
     }
 
     final endTime = session.endTime ?? DateTime.now();
     final timeTaken = endTime.difference(session.startTime);
+
+    print('🏆 최종 결과: $correctAnswers/$totalQuestions');
+    print('🎯 === 학습 결과 계산 완료 ===');
+    print('');
 
     final result = SessionResult(
       sessionId: session.sessionId,
@@ -231,6 +251,9 @@ class QuestionSessionController extends StateNotifier<QuestionSessionState> {
   }
 }
 
-final questionSessionControllerProvider = StateNotifierProvider<QuestionSessionController, QuestionSessionState>((ref) {
-  return QuestionSessionController();
-});
+final questionSessionControllerProvider =
+    StateNotifierProvider<QuestionSessionController, QuestionSessionState>((
+      ref,
+    ) {
+      return QuestionSessionController();
+    });

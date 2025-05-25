@@ -115,29 +115,35 @@ class _Part5QuizScreenState extends ConsumerState<Part5QuizScreen> {
                         final choice = entry.value;
                         final choiceLabel = String.fromCharCode(
                           65 + index,
-                        ); // A, B, C, D
+                        ); // A, B, C, D (화면 표시용)
 
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 12),
                           child: _ImprovedChoiceButton(
-                            label: choiceLabel,
+                            label: choiceLabel, // 화면에는 A, B, C, D로 표시
                             text: choice.text,
                             translation: choice.translation,
                             showTranslation: _showTranslations,
-                            isSelected: _selectedChoice == choice.id,
+                            isSelected:
+                                _selectedChoice == choice.id, // ✅ choice.id로 비교
                             isCorrect: _showAnswer
                                 ? _getChoiceCorrectness(choice.id, userAnswer)
                                 : null,
                             onTap: _showAnswer
                                 ? null
                                 : () {
+                                    print(
+                                      '🎯 선택: 라벨=$choiceLabel, 실제ID=${choice.id}',
+                                    );
+
                                     setState(() {
-                                      _selectedChoice = choice.id;
+                                      _selectedChoice =
+                                          choice.id; // ✅ choice.id 저장
                                     });
                                     sessionController.submitAnswer(
                                       currentQuestion.id,
                                       choice.id,
-                                    );
+                                    ); // ✅ choice.id 제출
                                   },
                           ),
                         );
@@ -260,18 +266,100 @@ class _Part5QuizScreenState extends ConsumerState<Part5QuizScreen> {
     );
   }
 
-  void _completeQuiz(BuildContext context) {
+  void _completeQuiz(BuildContext context) async {
     final sessionController = ref.read(
       questionSessionControllerProvider.notifier,
     );
-    final result = sessionController.completeSession();
+    final session = ref.read(questionSessionControllerProvider).currentSession;
 
-    if (result != null && mounted) {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => ImprovedQuizResultScreen(result: result),
+    if (session == null) return;
+
+    try {
+      // 로딩 다이얼로그 표시
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => const AlertDialog(
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              CircularProgressIndicator(),
+              SizedBox(height: 16),
+              Text('결과 계산 중...'),
+            ],
+          ),
         ),
       );
+
+      print('🔄 누락된 정답들을 가져오는 중...');
+
+      // 누락된 정답들을 찾아서 API에서 가져오기
+      final missingAnswers = <String>[];
+      for (final questionId in session.questionIds) {
+        if (!session.correctAnswers.containsKey(questionId) ||
+            session.correctAnswers[questionId]?.isEmpty == true) {
+          missingAnswers.add(questionId);
+        }
+      }
+
+      print('❓ 누락된 정답 문제 ID들: $missingAnswers');
+
+      // 누락된 정답들을 병렬로 가져오기
+      if (missingAnswers.isNotEmpty) {
+        final futures = missingAnswers
+            .map(
+              (questionId) => ref.read(part5AnswerProvider(questionId).future),
+            )
+            .toList();
+
+        final answers = await Future.wait(futures);
+
+        // 가져온 정답들을 세션에 저장
+        for (int i = 0; i < missingAnswers.length; i++) {
+          final questionId = missingAnswers[i];
+          final answer = answers[i];
+          print('✅ 누락된 정답 저장: $questionId -> ${answer.answer}');
+          sessionController.setCorrectAnswer(questionId, answer.answer);
+        }
+      }
+
+      // 다이얼로그 닫기
+      if (mounted) {
+        Navigator.of(context).pop();
+      }
+
+      // 이제 모든 정답이 준비되었으므로 세션 완료
+      final result = sessionController.completeSession();
+
+      if (result != null && mounted) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => ImprovedQuizResultScreen(result: result),
+          ),
+        );
+      }
+    } catch (error) {
+      print('❌ 결과 계산 중 오류 발생: $error');
+
+      // 에러 다이얼로그 닫기
+      if (mounted) {
+        Navigator.of(context).pop();
+
+        // 에러 메시지 표시
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text('오류'),
+            content: Text('결과 계산 중 오류가 발생했습니다.\n$error'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: const Text('확인'),
+              ),
+            ],
+          ),
+        );
+      }
     }
   }
 }
@@ -700,7 +788,12 @@ class _ImprovedAnswerSection extends ConsumerWidget {
         });
 
         final isCorrect = selectedChoice == answer.answer;
-        final correctChoice = choices.firstWhere((c) => c.id == answer.answer);
+
+        // ✅ choice.id로 정답 선택지 찾기
+        final correctChoice = choices.firstWhere(
+          (c) => c.id == answer.answer,
+          orElse: () => choices.first, // 만약을 위한 fallback
+        );
 
         return Column(
           children: [
@@ -780,17 +873,6 @@ class _ImprovedAnswerSection extends ConsumerWidget {
                                     ),
                               ),
                             ),
-                            if (correctChoice.translation.isNotEmpty) ...[
-                              const SizedBox(width: 8),
-                              Text(
-                                '(${correctChoice.translation})',
-                                style: Theme.of(context).textTheme.bodySmall
-                                    ?.copyWith(
-                                      color: Colors.green.shade600,
-                                      fontStyle: FontStyle.italic,
-                                    ),
-                              ),
-                            ],
                           ],
                         ),
                         if (selectedChoice != null && !isCorrect) ...[
@@ -812,7 +894,8 @@ class _ImprovedAnswerSection extends ConsumerWidget {
                                   borderRadius: BorderRadius.circular(4),
                                 ),
                                 child: Text(
-                                  '$selectedChoice. ${choices.firstWhere((c) => c.id == selectedChoice).text}',
+                                  // ✅ choice.id로 선택한 선택지 찾기
+                                  '$selectedChoice. ${choices.firstWhere((c) => c.id == selectedChoice, orElse: () => choices.first).text}',
                                   style: Theme.of(context).textTheme.bodyMedium
                                       ?.copyWith(
                                         color: Colors.red.shade700,
