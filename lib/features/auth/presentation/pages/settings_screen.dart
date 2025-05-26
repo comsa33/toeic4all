@@ -5,7 +5,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../shared/widgets/app_button.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../providers/auth_providers.dart';
-import '../controllers/auth_controller.dart';
 
 // 설정 상태 관리
 final settingsProvider =
@@ -59,7 +58,9 @@ class SettingsController extends StateNotifier<SettingsState> {
 
   void _loadSettings() {
     state = SettingsState(
-      autoLogin: _prefs.getBool('auto_login') ?? true,
+      autoLogin:
+          _prefs.getBool('auto_login_enabled') ??
+          true, // AuthController와 동일한 키 사용
       biometricLogin: _prefs.getBool('biometric_login') ?? false,
       pushNotifications: _prefs.getBool('push_notifications') ?? true,
       studyReminders: _prefs.getBool('study_reminders') ?? true,
@@ -69,7 +70,10 @@ class SettingsController extends StateNotifier<SettingsState> {
   }
 
   Future<void> setAutoLogin(bool value) async {
-    await _prefs.setBool('auto_login', value);
+    await _prefs.setBool(
+      'auto_login_enabled',
+      value,
+    ); // AuthController와 동일한 키 사용
     state = state.copyWith(autoLogin: value);
   }
 
@@ -142,8 +146,14 @@ class SettingsScreen extends ConsumerWidget {
                   title: const Text('자동 로그인'),
                   subtitle: const Text('앱 재시작 시 자동으로 로그인합니다'),
                   value: settings.autoLogin,
-                  onChanged: (value) {
-                    ref.read(settingsProvider.notifier).setAutoLogin(value);
+                  onChanged: (value) async {
+                    // 설정 화면과 AuthController 모두 업데이트
+                    await ref
+                        .read(settingsProvider.notifier)
+                        .setAutoLogin(value);
+                    await ref
+                        .read(authControllerProvider.notifier)
+                        .setAutoLoginEnabled(value);
                   },
                 ),
                 const Divider(height: 1),

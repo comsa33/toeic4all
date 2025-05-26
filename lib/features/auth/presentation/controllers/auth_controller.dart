@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../domain/entities/user.dart';
-import '../../domain/entities/auth_response.dart';
 import '../../domain/usecases/auth_usecases.dart';
 import '../../data/datasources/auth_local_datasource.dart';
 
@@ -100,6 +99,16 @@ class AuthController extends StateNotifier<AuthState> {
     debugPrint('🔍 자동 로그인 체크 시작');
 
     try {
+      // 자동 로그인 설정 확인
+      final isAutoLoginEnabled = await _localDataSource.isAutoLoginEnabled();
+      debugPrint('🔧 자동 로그인 설정: $isAutoLoginEnabled');
+
+      if (!isAutoLoginEnabled) {
+        debugPrint('⏸️ 자동 로그인 비활성화 - 로그인 화면으로 이동');
+        state = state.copyWith(isInitialized: true);
+        return;
+      }
+
       // 저장된 토큰 확인
       final accessToken = await _localDataSource.getAccessToken();
       final refreshToken = await _localDataSource.getRefreshToken();
@@ -428,9 +437,15 @@ class AuthController extends StateNotifier<AuthState> {
 
     state = state.copyWith(isLoading: true, errorMessage: null);
 
-    final result = await _logoutUseCase(
-      LogoutParams(refreshToken: state.refreshToken!),
-    );
+    // 서버 로그아웃 시도 (결과는 무시하고 로컬 정리를 진행)
+    await _logoutUseCase(LogoutParams(refreshToken: state.refreshToken!));
+
+    // 자동 로그인이 비활성화된 경우 토큰 완전 삭제
+    final isAutoLoginEnabled = await _localDataSource.isAutoLoginEnabled();
+    if (!isAutoLoginEnabled) {
+      debugPrint('🔧 자동 로그인 비활성화 - 토큰 완전 삭제');
+      await _localDataSource.clearTokens();
+    }
 
     // 서버 로그아웃 성공 여부와 관계없이 로컬 상태 초기화
     await _clearAuthData();
@@ -441,6 +456,16 @@ class AuthController extends StateNotifier<AuthState> {
     await _localDataSource.clearAuthData();
     state = const AuthState(isInitialized: true);
     debugPrint('🧹 인증 데이터 초기화 완료');
+  }
+
+  // 자동 로그인 설정 관련 메서드
+  Future<void> setAutoLoginEnabled(bool enabled) async {
+    await _localDataSource.setAutoLoginEnabled(enabled);
+    debugPrint('🔧 자동 로그인 설정 변경: $enabled');
+  }
+
+  Future<bool> isAutoLoginEnabled() async {
+    return await _localDataSource.isAutoLoginEnabled();
   }
 
   void clearError() {

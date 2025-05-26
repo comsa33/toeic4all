@@ -5,7 +5,6 @@ import '../../../../core/constants/app_strings.dart';
 import '../../../../core/utils/validators.dart';
 import '../../../../shared/widgets/app_button.dart';
 import '../../../../shared/widgets/app_text_field.dart';
-import '../controllers/auth_controller.dart';
 import '../providers/auth_providers.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
@@ -19,6 +18,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
+  bool _autoLoginEnabled = true; // 자동 로그인 체크박스 상태
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAutoLoginSetting();
+  }
 
   @override
   void dispose() {
@@ -27,14 +33,35 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     super.dispose();
   }
 
+  // 자동 로그인 설정 로드
+  void _loadAutoLoginSetting() async {
+    try {
+      final authController = ref.read(authControllerProvider.notifier);
+      final isEnabled = await authController.isAutoLoginEnabled();
+      if (mounted) {
+        setState(() {
+          _autoLoginEnabled = isEnabled;
+        });
+      }
+    } catch (e) {
+      debugPrint('자동 로그인 설정 로드 실패: $e');
+    }
+  }
+
   Future<void> _handleLogin() async {
     if (_formKey.currentState?.validate() ?? false) {
       final username = _usernameController.text.trim();
       final password = _passwordController.text;
 
       debugPrint('🔄 로그인 요청 시작: $username');
+      debugPrint('🔧 자동 로그인 설정: $_autoLoginEnabled');
 
       try {
+        // 자동 로그인 설정 저장
+        await ref
+            .read(authControllerProvider.notifier)
+            .setAutoLoginEnabled(_autoLoginEnabled);
+
         // 로그인 시도
         await ref
             .read(authControllerProvider.notifier)
@@ -212,13 +239,47 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
                 const SizedBox(height: 12),
 
-                // Forgot Password
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: TextButton(
-                    onPressed: () => context.push('/forgot-password'),
-                    child: Text(AppStrings.forgotPassword),
-                  ),
+                // Forgot Password & Auto Login
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    // Auto Login Checkbox
+                    Row(
+                      children: [
+                        Checkbox(
+                          value: _autoLoginEnabled,
+                          onChanged: (value) {
+                            setState(() {
+                              _autoLoginEnabled = value ?? true;
+                            });
+                          },
+                          materialTapTargetSize:
+                              MaterialTapTargetSize.shrinkWrap,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _autoLoginEnabled = !_autoLoginEnabled;
+                            });
+                          },
+                          child: Text(
+                            '자동 로그인',
+                            style: Theme.of(context).textTheme.bodyMedium
+                                ?.copyWith(
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onSurfaceVariant,
+                                ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    // Forgot Password
+                    TextButton(
+                      onPressed: () => context.push('/forgot-password'),
+                      child: Text(AppStrings.forgotPassword),
+                    ),
+                  ],
                 ),
 
                 const SizedBox(height: 24),

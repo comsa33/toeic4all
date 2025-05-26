@@ -17,6 +17,10 @@ abstract class AuthLocalDataSource {
   });
   Future<void> clearTokens();
 
+  // 자동 로그인 설정 관련 메서드 추가
+  Future<void> setAutoLoginEnabled(bool enabled);
+  Future<bool> isAutoLoginEnabled();
+
   Future<void> clearAuthData() async {
     // Clear all authentication-related data
     await clearCache();
@@ -37,6 +41,7 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   static const String _keyUser = 'user';
   static const String _keyAccessToken = 'access_token';
   static const String _keyRefreshToken = 'refresh_token';
+  static const String _keyAutoLoginEnabled = 'auto_login_enabled';
 
   AuthLocalDataSourceImpl(this._prefs);
 
@@ -44,13 +49,13 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   Future<void> cacheAuthResponse(AuthResponseModel authResponse) async {
     final jsonString = json.encode(authResponse.toJson());
     await _prefs.setString(_keyAuthResponse, jsonString);
-    
+
     // Also save tokens separately for easier access
     await saveTokens(
       accessToken: authResponse.accessToken,
       refreshToken: authResponse.refreshToken,
     );
-    
+
     // Note: AuthResponseModel no longer contains user object directly
     // User info should be cached separately when getCurrentUser is called
   }
@@ -59,7 +64,7 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   Future<AuthResponseModel?> getCachedAuthResponse() async {
     final jsonString = _prefs.getString(_keyAuthResponse);
     if (jsonString == null) return null;
-    
+
     try {
       final jsonMap = json.decode(jsonString) as Map<String, dynamic>;
       return AuthResponseModel.fromJson(jsonMap);
@@ -80,7 +85,7 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   Future<UserModel?> getCachedUser() async {
     final jsonString = _prefs.getString(_keyUser);
     if (jsonString == null) return null;
-    
+
     try {
       final jsonMap = json.decode(jsonString) as Map<String, dynamic>;
       return UserModel.fromJson(jsonMap);
@@ -127,5 +132,16 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
       _prefs.remove(_keyAccessToken),
       _prefs.remove(_keyRefreshToken),
     ]);
+  }
+
+  @override
+  Future<void> setAutoLoginEnabled(bool enabled) async {
+    await _prefs.setBool(_keyAutoLoginEnabled, enabled);
+  }
+
+  @override
+  Future<bool> isAutoLoginEnabled() async {
+    // 기본값은 true (사용자 편의성을 위해)
+    return _prefs.getBool(_keyAutoLoginEnabled) ?? true;
   }
 }
