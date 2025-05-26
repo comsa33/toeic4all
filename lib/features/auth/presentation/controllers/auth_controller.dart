@@ -12,8 +12,7 @@ class AuthState {
   final String? errorMessage;
   final String? accessToken;
   final String? refreshToken;
-  final bool isInitialized;
-  final bool isCheckingAuth; // 자동 로그인 체크 중인지 표시
+  final bool isInitialized; // 앱 초기화 완료 여부
 
   const AuthState({
     this.isLoading = false,
@@ -23,7 +22,6 @@ class AuthState {
     this.accessToken,
     this.refreshToken,
     this.isInitialized = false,
-    this.isCheckingAuth = false, // 추가
   });
 
   AuthState copyWith({
@@ -34,7 +32,6 @@ class AuthState {
     String? accessToken,
     String? refreshToken,
     bool? isInitialized,
-    bool? isCheckingAuth, // 추가
   }) {
     return AuthState(
       isLoading: isLoading ?? this.isLoading,
@@ -44,7 +41,6 @@ class AuthState {
       accessToken: accessToken ?? this.accessToken,
       refreshToken: refreshToken ?? this.refreshToken,
       isInitialized: isInitialized ?? this.isInitialized,
-      isCheckingAuth: isCheckingAuth ?? this.isCheckingAuth, // 추가
     );
   }
 }
@@ -90,16 +86,9 @@ class AuthController extends StateNotifier<AuthState> {
        _localDataSource = localDataSource,
        super(const AuthState());
 
-  // 앱 시작 시 자동 로그인 체크 (중복 실행 방지)
+  // 앱 시작 시 자동 로그인 체크
   Future<void> checkAuthStatus() async {
-    // 이미 체크 중이거나 초기화 완료된 경우 스킵
-    if (state.isCheckingAuth || state.isInitialized) {
-      debugPrint('🔄 자동 로그인 체크 스킵: 이미 체크 중이거나 완료됨');
-      return;
-    }
-
     debugPrint('🔍 자동 로그인 체크 시작');
-    state = state.copyWith(isCheckingAuth: true);
 
     try {
       // 저장된 토큰 확인
@@ -107,51 +96,67 @@ class AuthController extends StateNotifier<AuthState> {
       final refreshToken = await _localDataSource.getRefreshToken();
 
       if (accessToken != null && refreshToken != null) {
-        debugPrint('✅ 저장된 토큰 발견 - 토큰 갱신 시도');
+        debugPrint('✅ 저장된 토큰 발견 - 사용자 정보 확인 중');
 
-        // 바로 토큰 갱신부터 시도 (getCurrentUser API가 없으므로)
-        final refreshResult = await _refreshTokenUseCase.call(
-          RefreshTokenParams(refreshToken: refreshToken),
-        );
+        // 현재 사용자 정보 가져오기 시도
+        final result = await _getCurrentUserUseCase.call();
 
-        refreshResult.fold(
-          (refreshFailure) {
-            debugPrint('❌ 토큰 갱신 실패 - 로그아웃 처리: ${refreshFailure.message}');
-            _clearAuthData();
-          },
-          (newToken) async {
-            debugPrint('✅ 토큰 갱신 성공');
+        result.fold(
+          (failure) async {
+            debugPrint('❌ 토큰으로 사용자 정보 조회 실패 - 토큰 갱신 시도');
 
-            // 토큰만으로 간단한 사용자 정보 생성 (임시)
-            // 실제로는 토큰에서 사용자 ID를 디코딩하거나 별도 API 호출 필요
-            final tempUser = User(
-              id: 'temp_id', // 실제로는 토큰에서 추출
-              username: 'user', // 실제로는 토큰에서 추출 또는 캐시된 데이터 사용
-              email: 'user@example.com', // 실제로는 캐시된 데이터 사용
-              role: 'user',
-              profile: const UserProfile(name: '사용자'),
-              stats: const UserStats(),
-              subscription: const UserSubscription(),
+            // 토큰 갱신 시도
+            final refreshResult = await _refreshTokenUseCase.call(
+              RefreshTokenParams(refreshToken: refreshToken),
             );
 
-            debugPrint('✅ 자동 로그인 성공');
+            refreshResult.fold(
+              (refreshFailure) {
+                debugPrint('❌ 토큰 갱신 실패 - 로그아웃 처리');
+                _clearAuthData();
+              },
+              (newToken) async {
+                debugPrint('✅ 토큰 갱신 성공 - 사용자 정보 재조회');
+
+                // 새 토큰으로 사용자 정보 재조회
+                final userResult = await _getCurrentUserUseCase.call();
+                userResult.fold(
+                  (userFailure) {
+                    debugPrint('❌ 토큰 갱신 후에도 사용자 정보 조회 실패');
+                    _clearAuthData();
+                  },
+                  (user) {
+                    debugPrint('✅ 자동 로그인 성공: ${user.username}');
+                    state = state.copyWith(
+                      isAuthenticated: true,
+                      user: user,
+                      accessToken: newToken.accessToken,
+                      refreshToken: newToken.refreshToken,
+                      isInitialized: true,
+                    );
+                  },
+                );
+              },
+            );
+          },
+          (user) {
+            debugPrint('✅ 자동 로그인 성공: ${user.username}');
             state = state.copyWith(
               isAuthenticated: true,
-              user: tempUser,
-              accessToken: newToken.accessToken,
-              refreshToken: newToken.refreshToken,
+              user: user,
+              accessToken: accessToken,
+              refreshToken: refreshToken,
               isInitialized: true,
-              isCheckingAuth: false,
             );
           },
         );
       } else {
         debugPrint('ℹ️ 저장된 토큰 없음 - 로그인 필요');
-        state = state.copyWith(isInitialized: true, isCheckingAuth: false);
+        state = state.copyWith(isInitialized: true);
       }
     } catch (e) {
       debugPrint('❌ 자동 로그인 체크 중 오류: $e');
-      state = state.copyWith(isInitialized: true, isCheckingAuth: false);
+      state = state.copyWith(isInitialized: true);
     }
   }
 
@@ -398,7 +403,7 @@ class AuthController extends StateNotifier<AuthState> {
   // 로컬 인증 데이터 초기화
   Future<void> _clearAuthData() async {
     await _localDataSource.clearAuthData();
-    state = const AuthState(isInitialized: true, isCheckingAuth: false);
+    state = const AuthState(isInitialized: true);
     debugPrint('🧹 인증 데이터 초기화 완료');
   }
 
