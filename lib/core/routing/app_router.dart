@@ -24,12 +24,11 @@ class AuthStateNotifier extends ChangeNotifier {
       final isLoggedInChanged =
           previous?.isAuthenticated != next.isAuthenticated;
       final tokenChanged = previous?.accessToken != next.accessToken;
-      final initializationChanged =
-          previous?.isInitialized != next.isInitialized;
 
-      if (isLoggedInChanged || tokenChanged || initializationChanged) {
+      // 초기화 완료 후 인증 상태나 토큰 변경 시에만 라우터 리디렉션 실행
+      if ((isLoggedInChanged || tokenChanged) && next.isInitialized) {
         debugPrint(
-          '⚡ 인증 상태 변경 감지됨: isAuth=${next.isAuthenticated}, hasToken=${next.accessToken != null}, isInit=${next.isInitialized}',
+          '⚡ 라우터 리디렉션 트리거: isAuth=${next.isAuthenticated}, hasToken=${next.accessToken != null}',
         );
         _previousAuthState = next;
         notifyListeners();
@@ -68,9 +67,14 @@ final routerProvider = Provider<GoRouter>((ref) {
       }
 
       // 스플래시 화면은 자체적으로 네비게이션 처리
+      // 초기화가 완료되지 않은 경우에만 스플래시 화면 유지
       if (currentPath == '/') {
-        debugPrint('🚀 스플래시 화면 - 자체 네비게이션 사용');
-        return null;
+        if (authState.isInitialized) {
+          debugPrint('🚀 스플래시 화면 - 초기화 완료됨, 자체 네비게이션 허용');
+        } else {
+          debugPrint('⏳ 스플래시 화면 - 초기화 대기 중');
+        }
+        return null; // 스플래시 화면이 자체적으로 네비게이션 처리
       }
 
       // 로그인/회원가입/비밀번호 찾기 페이지인지 확인

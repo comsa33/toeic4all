@@ -19,29 +19,45 @@ class SplashScreen extends ConsumerStatefulWidget {
 
 class _SplashScreenState extends ConsumerState<SplashScreen> {
   bool _hasNavigated = false; // 네비게이션 중복 실행 방지
+  bool _isInitializing = false; // 초기화 중복 실행 방지
 
   @override
   void initState() {
     super.initState();
-    _initializeApp();
+    // 앱 시작 시 한 번만 자동 초기화
+    if (!_isInitializing && !_hasNavigated) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _initializeApp();
+      });
+    }
   }
 
   Future<void> _initializeApp() async {
-    if (_hasNavigated) return;
+    if (_isInitializing || _hasNavigated) {
+      debugPrint('⚠️ 이미 초기화 중이거나 네비게이션됨 - 건너뛰기');
+      return;
+    }
+
+    _isInitializing = true;
+    debugPrint('🚀 앱 초기화 시작');
 
     try {
-      debugPrint('🚀 앱 초기화 시작');
-
       // 스플래시 화면 최소 표시 시간
       final splashDelay = Future.delayed(const Duration(seconds: 2));
 
-      // 자동 로그인 체크 시작
-      final authCheck = ref
-          .read(authControllerProvider.notifier)
-          .checkAuthStatus();
+      // 자동 로그인 체크 시작 (한 번만)
+      final authController = ref.read(authControllerProvider.notifier);
+      final currentState = ref.read(authControllerProvider);
 
-      // 둘 다 완료될 때까지 대기
-      await Future.wait([splashDelay, authCheck]);
+      if (!currentState.isInitialized) {
+        debugPrint('🔍 자동 로그인 체크 시작');
+        await authController.checkAuthStatus();
+      } else {
+        debugPrint('✅ 이미 초기화됨 - 인증 체크 건너뛰기');
+      }
+
+      // 스플래시 최소 시간 대기
+      await splashDelay;
 
       if (mounted && !_hasNavigated) {
         _navigateToNextScreen();
@@ -52,6 +68,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
         // 오류가 발생해도 로그인 화면으로 이동
         _navigateToNextScreen(forceLogin: true);
       }
+    } finally {
+      _isInitializing = false;
     }
   }
 
@@ -85,25 +103,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // 인증 상태 변화 감지 - 한 번만 실행되도록 수정
-    ref.listen(authControllerProvider, (previous, next) {
-      // 초기화가 완료되고, 로딩이 끝났으며, 아직 네비게이션하지 않았을 때만 실행
-      if (next.isInitialized &&
-          !next.isLoading &&
-          mounted &&
-          !_hasNavigated &&
-          (previous?.isInitialized != next.isInitialized ||
-              previous?.isLoading != next.isLoading)) {
-        debugPrint('📡 인증 상태 변화 감지 - 네비게이션 실행');
-
-        // 약간의 지연을 두고 네비게이션 실행 (애니메이션 완료를 위해)
-        Future.delayed(const Duration(milliseconds: 500), () {
-          if (mounted && !_hasNavigated) {
-            _navigateToNextScreen();
-          }
-        });
-      }
-    });
+    // ref.listen 제거 - _initializeApp()에서만 네비게이션 처리하여 중복 방지
 
     return Scaffold(
       backgroundColor: AppColors.primary,
