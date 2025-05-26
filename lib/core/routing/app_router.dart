@@ -5,6 +5,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../features/auth/presentation/pages/splash_screen.dart';
 import '../../features/auth/presentation/pages/login_screen.dart';
 import '../../features/auth/presentation/pages/signup_screen.dart';
+import '../../features/auth/presentation/pages/forgot_password_screen.dart';
+import '../../features/auth/presentation/pages/settings_screen.dart';
 import '../../features/auth/presentation/controllers/auth_controller.dart';
 import '../../features/auth/presentation/providers/auth_providers.dart';
 import '../../features/test/test_screen.dart';
@@ -16,92 +18,101 @@ import '../../shared/widgets/app_button.dart';
 class AuthStateNotifier extends ChangeNotifier {
   final Ref _ref;
   AuthState? _previousAuthState;
-  
+
   AuthStateNotifier(this._ref) {
-    _ref.listen<AuthState>(
-      authControllerProvider, 
-      (previous, next) {
-        final isLoggedInChanged = previous?.isAuthenticated != next.isAuthenticated;
-        final tokenChanged = previous?.accessToken != next.accessToken;
-        
-        if (isLoggedInChanged || tokenChanged) {
-          debugPrint('⚡ 인증 상태 변경 감지됨: ${next.isAuthenticated}, 토큰: ${next.accessToken != null}');
-          _previousAuthState = next;
-          notifyListeners();
-        }
-      },
-    );
+    _ref.listen<AuthState>(authControllerProvider, (previous, next) {
+      final isLoggedInChanged =
+          previous?.isAuthenticated != next.isAuthenticated;
+      final tokenChanged = previous?.accessToken != next.accessToken;
+      final initializationChanged =
+          previous?.isInitialized != next.isInitialized;
+
+      if (isLoggedInChanged || tokenChanged || initializationChanged) {
+        debugPrint(
+          '⚡ 인증 상태 변경 감지됨: isAuth=${next.isAuthenticated}, hasToken=${next.accessToken != null}, isInit=${next.isInitialized}',
+        );
+        _previousAuthState = next;
+        notifyListeners();
+      }
+    });
   }
 }
 
 final routerProvider = Provider<GoRouter>((ref) {
   final authState = ref.watch(authControllerProvider);
   final notifier = AuthStateNotifier(ref);
-  
+
   return GoRouter(
     initialLocation: '/',
-    refreshListenable: notifier, // 인증 상태 변경 시 리프레시
+    refreshListenable: notifier,
     redirect: (context, state) {
       debugPrint('🧭 라우터 리디렉션: 경로=${state.uri.path}');
-      debugPrint('🔑 인증상태: ${authState.isAuthenticated}, 토큰존재: ${authState.accessToken != null}');
-      
-      // 인증 상태 (accessToken까지 있어야 진짜 인증된 상태)
-      final isAuthenticated = authState.isAuthenticated && authState.accessToken != null;
+      debugPrint(
+        '🔑 인증상태: isAuth=${authState.isAuthenticated}, hasToken=${authState.accessToken != null}, isInit=${authState.isInitialized}',
+      );
+
       final currentPath = state.uri.path;
-      
-      // 로딩 중에는 리디렉션 하지 않음
-      if (authState.isLoading) {
-        debugPrint('⏳ 로딩 중 - 리디렉션 없음');
+      final isAuthenticated =
+          authState.isAuthenticated && authState.accessToken != null;
+
+      // 앱이 아직 초기화되지 않았으면 스플래시 화면에서 대기
+      if (!authState.isInitialized && currentPath != '/') {
+        debugPrint('⏳ 앱 초기화 대기 중 - 스플래시로 리디렉션');
+        return '/';
+      }
+
+      // 로딩 중에는 현재 화면 유지
+      if (authState.isLoading && currentPath == '/') {
+        debugPrint('⏳ 로딩 중 - 현재 화면 유지');
         return null;
       }
-      
-      // 스플래시 화면은 특별 처리
+
+      // 스플래시 화면은 자체적으로 네비게이션 처리
       if (currentPath == '/') {
-        debugPrint('🚀 스플래시 화면 - 자체 내비게이션 사용');
+        debugPrint('🚀 스플래시 화면 - 자체 네비게이션 사용');
         return null;
       }
-      
-      // 로그인/회원가입 페이지인지 확인
-      final isOnAuthPage = currentPath == '/login' || currentPath == '/signup';
-      
-      // 1. 인증된 사용자가 로그인/회원가입 페이지 접근 시 문제 서비스로 리디렉션
+
+      // 로그인/회원가입/비밀번호 찾기 페이지인지 확인
+      final isOnAuthPage =
+          currentPath == '/login' ||
+          currentPath == '/signup' ||
+          currentPath == '/forgot-password';
+
+      // 1. 인증된 사용자가 인증 페이지 접근 시 문제 서비스로 리디렉션
       if (isAuthenticated && isOnAuthPage) {
         debugPrint('🔄 인증된 사용자가 인증 페이지 접근 - 문제 서비스로 리디렉션');
         return '/questions';
       }
-      
+
       // 2. 인증되지 않은 사용자가 보호된 페이지 접근 시 로그인으로 리디렉션
       // (테스트 페이지는 예외)
       if (!isAuthenticated && !isOnAuthPage && currentPath != '/test') {
         debugPrint('🔒 비인증 사용자가 보호된 페이지 접근 - 로그인으로 리디렉션');
         return '/login';
       }
-      
+
       // 리디렉션 필요 없음
       debugPrint('✅ 현재 경로 유지: $currentPath');
       return null;
     },
     routes: [
-      GoRoute(
-        path: '/',
-        builder: (context, state) => const SplashScreen(),
-      ),
+      GoRoute(path: '/', builder: (context, state) => const SplashScreen()),
       GoRoute(
         path: '/test',
         builder: (context, state) => const SimpleTestScreen(),
       ),
-      GoRoute(
-        path: '/login',
-        builder: (context, state) => const LoginScreen(),
-      ),
+      GoRoute(path: '/login', builder: (context, state) => const LoginScreen()),
       GoRoute(
         path: '/signup',
         builder: (context, state) => const SignUpScreen(),
       ),
+      // 새로 추가된 비밀번호 찾기 경로
       GoRoute(
-        path: '/home',
-        builder: (context, state) => const HomeScreen(),
+        path: '/forgot-password',
+        builder: (context, state) => const ForgotPasswordScreen(),
       ),
+      GoRoute(path: '/home', builder: (context, state) => const HomeScreen()),
       GoRoute(
         path: '/questions',
         builder: (context, state) => const QuestionsMainScreen(),
@@ -110,8 +121,6 @@ final routerProvider = Provider<GoRouter>((ref) {
             path: '/part5/filter',
             builder: (context, state) => const Part5FilterScreen(),
           ),
-          // Part 5 quiz and result screens will be navigated programmatically
-          // with proper object passing instead of URL parameters
         ],
       ),
       GoRoute(
@@ -121,6 +130,10 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/profile',
         builder: (context, state) => const ProfileScreen(),
+      ),
+      GoRoute(
+        path: '/settings',
+        builder: (context, state) => const SettingsScreen(),
       ),
     ],
   );
@@ -133,7 +146,7 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final authState = ref.watch(authControllerProvider);
-    
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('TOEIC4ALL'),
@@ -141,9 +154,10 @@ class HomeScreen extends ConsumerWidget {
         actions: [
           IconButton(
             onPressed: () {
-              ref.read(authControllerProvider.notifier).signOut();
+              _showLogoutDialog(context, ref);
             },
             icon: const Icon(Icons.logout),
+            tooltip: '로그아웃',
           ),
         ],
       ),
@@ -162,7 +176,9 @@ class HomeScreen extends ConsumerWidget {
                         radius: 40,
                         backgroundColor: Theme.of(context).colorScheme.primary,
                         child: Text(
-                          authState.user!.profile.name.substring(0, 1).toUpperCase(),
+                          authState.user!.profile.name
+                              .substring(0, 1)
+                              .toUpperCase(),
                           style: const TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
@@ -190,7 +206,7 @@ class HomeScreen extends ConsumerWidget {
               ),
               const SizedBox(height: 32),
             ],
-            
+
             // Feature buttons
             Expanded(
               child: GridView.count(
@@ -220,23 +236,44 @@ class HomeScreen extends ConsumerWidget {
                     icon: Icons.settings,
                     title: '설정',
                     subtitle: '앱 설정',
-                    onTap: () {
-                      // Settings page to be implemented
-                    },
+                    onTap: () => context.push('/settings'),
                   ),
                 ],
               ),
             ),
-            
+
             AppButton.outline(
               text: '로그아웃',
-              onPressed: () {
-                ref.read(authControllerProvider.notifier).signOut();
-              },
+              onPressed: () => _showLogoutDialog(context, ref),
             ),
           ],
         ),
       ),
+    );
+  }
+
+  void _showLogoutDialog(BuildContext context, WidgetRef ref) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('로그아웃'),
+          content: const Text('정말로 로그아웃하시겠습니까?'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('취소'),
+            ),
+            AppButton.primary(
+              text: '로그아웃',
+              onPressed: () {
+                Navigator.of(context).pop();
+                ref.read(authControllerProvider.notifier).signOut();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }
@@ -273,9 +310,9 @@ class _FeatureCard extends StatelessWidget {
               const SizedBox(height: 12),
               Text(
                 title,
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+                style: Theme.of(
+                  context,
+                ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 4),

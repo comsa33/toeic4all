@@ -19,7 +19,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
-  bool _obscurePassword = true;
 
   @override
   void dispose() {
@@ -56,25 +55,38 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           // 네비게이션 - replace 사용으로 뒤로가기 방지
           context.go('/questions');
 
-          // 성공 메시지 표시 (선택사항)
+          // 성공 메시지 표시
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('로그인되었습니다!'),
+            SnackBar(
+              content: Row(
+                children: [
+                  const Icon(Icons.check_circle, color: Colors.white),
+                  const SizedBox(width: 8),
+                  Text('환영합니다, ${authState.user?.profile.name ?? username}님!'),
+                ],
+              ),
               backgroundColor: Colors.green,
-              duration: Duration(seconds: 2),
+              duration: const Duration(seconds: 3),
+              behavior: SnackBarBehavior.floating,
             ),
           );
         } else {
           debugPrint('⚠️ 로그인 후에도 인증 상태가 false임');
-          debugPrint('🔍 AuthState 상세: ${authState.toString()}');
         }
       } catch (e) {
         debugPrint('❌ 로그인 중 예외 발생: $e');
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text('로그인 중 오류가 발생했습니다: $e'),
+              content: Row(
+                children: [
+                  const Icon(Icons.error, color: Colors.white),
+                  const SizedBox(width: 8),
+                  const Expanded(child: Text('로그인에 실패했습니다. 다시 시도해주세요.')),
+                ],
+              ),
               backgroundColor: Colors.red,
+              behavior: SnackBarBehavior.floating,
             ),
           );
         }
@@ -103,34 +115,25 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   Widget build(BuildContext context) {
     final authState = ref.watch(authControllerProvider);
 
-    // 상태 변경 감지와 화면 전환 처리는 _handleLogin에서 직접 처리하도록 변경
-    // 에러 메시지 표시만 여기서 처리
+    // 에러 메시지 표시
     ref.listen(authControllerProvider, (previous, next) {
-      debugPrint(
-        '🔑 Auth state changed: isAuthenticated=${next.isAuthenticated}, tokens=${next.accessToken != null}',
-      );
-
-      // 상태 변경에 따른 디버그 로깅
-      if (previous?.isAuthenticated != next.isAuthenticated ||
-          (previous?.accessToken != null) != (next.accessToken != null)) {
-        debugPrint(
-          '🔄 인증 상태 변경: ${next.isAuthenticated}, 토큰존재: ${next.accessToken != null}',
-        );
-      }
-
-      // Show error messages (only if they've changed)
-      if (!identical(previous, next) &&
-          next.errorMessage != null &&
+      if (next.errorMessage != null &&
           next.errorMessage != previous?.errorMessage) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           if (mounted) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text(next.errorMessage!),
+                content: Row(
+                  children: [
+                    const Icon(Icons.error, color: Colors.white),
+                    const SizedBox(width: 8),
+                    Expanded(child: Text(next.errorMessage!)),
+                  ],
+                ),
                 backgroundColor: Theme.of(context).colorScheme.error,
+                behavior: SnackBarBehavior.floating,
               ),
             );
-            // 에러 메시지 초기화
             ref.read(authControllerProvider.notifier).clearError();
           }
         });
@@ -189,10 +192,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 const SizedBox(height: 48),
 
                 // Username Field
-                AppTextField(
+                AppTextField.username(
                   controller: _usernameController,
-                  label: AppStrings.username,
-                  keyboardType: TextInputType.text,
                   prefixIcon: const Icon(Icons.person_outline),
                   validator: Validators.username,
                   textInputAction: TextInputAction.next,
@@ -200,24 +201,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
                 const SizedBox(height: 16),
 
-                // Password Field
-                AppTextField(
+                // Password Field - 수정된 부분 (커스텀 suffixIcon 제거)
+                AppTextField.password(
                   controller: _passwordController,
-                  label: AppStrings.password,
-                  obscureText: _obscurePassword,
                   prefixIcon: const Icon(Icons.lock_outline),
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      _obscurePassword
-                          ? Icons.visibility_off
-                          : Icons.visibility,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        _obscurePassword = !_obscurePassword;
-                      });
-                    },
-                  ),
                   validator: Validators.password,
                   textInputAction: TextInputAction.done,
                   onSubmitted: (_) => _handleLogin(),

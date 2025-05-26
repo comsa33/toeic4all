@@ -22,6 +22,7 @@ class AppTextField extends StatefulWidget {
   final TextInputAction? textInputAction;
   final FocusNode? focusNode;
   final TextCapitalization textCapitalization;
+  final bool showPasswordToggle; // 새로 추가
 
   const AppTextField({
     super.key,
@@ -44,6 +45,7 @@ class AppTextField extends StatefulWidget {
     this.textInputAction,
     this.focusNode,
     this.textCapitalization = TextCapitalization.none,
+    this.showPasswordToggle = false, // 기본값 false
   });
 
   const AppTextField.username({
@@ -66,7 +68,8 @@ class AppTextField extends StatefulWidget {
        obscureText = false,
        maxLines = 1,
        maxLength = null,
-       textCapitalization = TextCapitalization.none;
+       textCapitalization = TextCapitalization.none,
+       showPasswordToggle = false;
 
   const AppTextField.password({
     super.key,
@@ -88,7 +91,8 @@ class AppTextField extends StatefulWidget {
        obscureText = true,
        maxLines = 1,
        maxLength = null,
-       textCapitalization = TextCapitalization.none;
+       textCapitalization = TextCapitalization.none,
+       showPasswordToggle = true; // 비밀번호 필드는 자동으로 토글 버튼 표시
 
   const AppTextField.multiline({
     super.key,
@@ -110,7 +114,8 @@ class AppTextField extends StatefulWidget {
     this.focusNode,
     this.textCapitalization = TextCapitalization.sentences,
   }) : keyboardType = TextInputType.multiline,
-       obscureText = false;
+       obscureText = false,
+       showPasswordToggle = false;
 
   @override
   State<AppTextField> createState() => _AppTextFieldState();
@@ -125,7 +130,7 @@ class _AppTextFieldState extends State<AppTextField> {
   void initState() {
     super.initState();
     _obscureText = widget.obscureText;
-    
+
     if (widget.controller != null) {
       _controller = widget.controller!;
     } else {
@@ -148,10 +153,7 @@ class _AppTextFieldState extends State<AppTextField> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (widget.label != null) ...[
-          Text(
-            widget.label!,
-            style: AppTypography.label,
-          ),
+          Text(widget.label!, style: AppTypography.label),
           const SizedBox(height: 8),
         ],
         TextFormField(
@@ -182,24 +184,49 @@ class _AppTextFieldState extends State<AppTextField> {
   }
 
   Widget? _buildSuffixIcon() {
-    if (widget.obscureText && widget.keyboardType == TextInputType.visiblePassword) {
-      return IconButton(
-        icon: Icon(
-          _obscureText ? Icons.visibility : Icons.visibility_off,
-          color: AppColors.textTertiary,
-        ),
-        onPressed: () {
-          setState(() {
-            _obscureText = !_obscureText;
-          });
-        },
-      );
+    // 비밀번호 토글 기능이 활성화된 경우
+    if (widget.showPasswordToggle) {
+      // 커스텀 suffixIcon이 있으면 Row로 둘 다 표시
+      if (widget.suffixIcon != null) {
+        return Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            widget.suffixIcon!,
+            IconButton(
+              icon: Icon(
+                _obscureText ? Icons.visibility_off : Icons.visibility,
+                color: AppColors.textTertiary,
+              ),
+              onPressed: () {
+                setState(() {
+                  _obscureText = !_obscureText;
+                });
+              },
+            ),
+          ],
+        );
+      } else {
+        // 커스텀 suffixIcon이 없으면 비밀번호 토글만 표시
+        return IconButton(
+          icon: Icon(
+            _obscureText ? Icons.visibility_off : Icons.visibility,
+            color: AppColors.textTertiary,
+          ),
+          onPressed: () {
+            setState(() {
+              _obscureText = !_obscureText;
+            });
+          },
+        );
+      }
     }
+
+    // 비밀번호 토글 기능이 없으면 기존 suffixIcon만 반환
     return widget.suffixIcon;
   }
 }
 
-// 검색 전용 텍스트 필드
+// 검색 전용 텍스트 필드는 기존과 동일
 class AppSearchField extends StatelessWidget {
   final String? hint;
   final String? initialValue;
@@ -233,16 +260,10 @@ class AppSearchField extends StatelessWidget {
       style: AppTypography.bodyM,
       decoration: InputDecoration(
         hintText: hint,
-        prefixIcon: const Icon(
-          Icons.search,
-          color: AppColors.textTertiary,
-        ),
+        prefixIcon: const Icon(Icons.search, color: AppColors.textTertiary),
         suffixIcon: controller?.text.isNotEmpty == true
             ? IconButton(
-                icon: const Icon(
-                  Icons.clear,
-                  color: AppColors.textTertiary,
-                ),
+                icon: const Icon(Icons.clear, color: AppColors.textTertiary),
                 onPressed: () {
                   controller?.clear();
                   onClear?.call();
@@ -263,7 +284,10 @@ class AppSearchField extends StatelessWidget {
           borderRadius: BorderRadius.circular(25),
           borderSide: const BorderSide(color: AppColors.primary, width: 2),
         ),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 12,
+        ),
       ),
     );
   }

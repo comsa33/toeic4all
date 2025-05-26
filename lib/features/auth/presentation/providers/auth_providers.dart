@@ -60,15 +60,17 @@ final logoutUseCaseProvider = Provider<LogoutUseCase>((ref) {
   return LogoutUseCase(repository);
 });
 
-final passwordResetRequestUseCaseProvider = Provider<PasswordResetRequestUseCase>((ref) {
-  final repository = ref.watch(authRepositoryProvider);
-  return PasswordResetRequestUseCase(repository);
-});
+final passwordResetRequestUseCaseProvider =
+    Provider<PasswordResetRequestUseCase>((ref) {
+      final repository = ref.watch(authRepositoryProvider);
+      return PasswordResetRequestUseCase(repository);
+    });
 
-final passwordResetConfirmUseCaseProvider = Provider<PasswordResetConfirmUseCase>((ref) {
-  final repository = ref.watch(authRepositoryProvider);
-  return PasswordResetConfirmUseCase(repository);
-});
+final passwordResetConfirmUseCaseProvider =
+    Provider<PasswordResetConfirmUseCase>((ref) {
+      final repository = ref.watch(authRepositoryProvider);
+      return PasswordResetConfirmUseCase(repository);
+    });
 
 final changePasswordUseCaseProvider = Provider<ChangePasswordUseCase>((ref) {
   final repository = ref.watch(authRepositoryProvider);
@@ -90,18 +92,32 @@ final naverLoginUseCaseProvider = Provider<NaverLoginUseCase>((ref) {
   return NaverLoginUseCase(repository);
 });
 
-// Auth Controller Provider
-final authControllerProvider = StateNotifierProvider<AuthController, AuthState>((ref) {
-  return AuthController(
-    loginUseCase: ref.watch(loginUseCaseProvider),
-    signUpUseCase: ref.watch(signUpUseCaseProvider),
-    logoutUseCase: ref.watch(logoutUseCaseProvider),
-    refreshTokenUseCase: ref.watch(refreshTokenUseCaseProvider),
-    passwordResetRequestUseCase: ref.watch(passwordResetRequestUseCaseProvider),
-    passwordResetConfirmUseCase: ref.watch(passwordResetConfirmUseCaseProvider),
-    changePasswordUseCase: ref.watch(changePasswordUseCaseProvider),
-    googleLoginUseCase: ref.watch(googleLoginUseCaseProvider),
-    kakaoLoginUseCase: ref.watch(kakaoLoginUseCaseProvider),
-    naverLoginUseCase: ref.watch(naverLoginUseCaseProvider),
-  );
+// 새로 추가된 UseCase
+final getCurrentUserUseCaseProvider = Provider<GetCurrentUserUseCase>((ref) {
+  final repository = ref.watch(authRepositoryProvider);
+  return GetCurrentUserUseCase(repository);
 });
+
+// Auth Controller Provider - 의존성 추가
+final authControllerProvider = StateNotifierProvider<AuthController, AuthState>(
+  (ref) {
+    return AuthController(
+      loginUseCase: ref.watch(loginUseCaseProvider),
+      signUpUseCase: ref.watch(signUpUseCaseProvider),
+      logoutUseCase: ref.watch(logoutUseCaseProvider),
+      refreshTokenUseCase: ref.watch(refreshTokenUseCaseProvider),
+      passwordResetRequestUseCase: ref.watch(
+        passwordResetRequestUseCaseProvider,
+      ),
+      passwordResetConfirmUseCase: ref.watch(
+        passwordResetConfirmUseCaseProvider,
+      ),
+      changePasswordUseCase: ref.watch(changePasswordUseCaseProvider),
+      googleLoginUseCase: ref.watch(googleLoginUseCaseProvider),
+      kakaoLoginUseCase: ref.watch(kakaoLoginUseCaseProvider),
+      naverLoginUseCase: ref.watch(naverLoginUseCaseProvider),
+      getCurrentUserUseCase: ref.watch(getCurrentUserUseCaseProvider), // 추가
+      localDataSource: ref.watch(authLocalDataSourceProvider), // 추가
+    );
+  },
+);

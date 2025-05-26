@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../domain/entities/user.dart';
 import '../../domain/entities/auth_response.dart';
 import '../../domain/usecases/auth_usecases.dart';
+import '../../data/datasources/auth_local_datasource.dart';
 
 class AuthState {
   final bool isLoading;
@@ -11,6 +12,8 @@ class AuthState {
   final String? errorMessage;
   final String? accessToken;
   final String? refreshToken;
+  final bool isInitialized;
+  final bool isCheckingAuth; // 자동 로그인 체크 중인지 표시
 
   const AuthState({
     this.isLoading = false,
@@ -19,6 +22,8 @@ class AuthState {
     this.errorMessage,
     this.accessToken,
     this.refreshToken,
+    this.isInitialized = false,
+    this.isCheckingAuth = false, // 추가
   });
 
   AuthState copyWith({
@@ -28,6 +33,8 @@ class AuthState {
     String? errorMessage,
     String? accessToken,
     String? refreshToken,
+    bool? isInitialized,
+    bool? isCheckingAuth, // 추가
   }) {
     return AuthState(
       isLoading: isLoading ?? this.isLoading,
@@ -36,6 +43,8 @@ class AuthState {
       errorMessage: errorMessage ?? this.errorMessage,
       accessToken: accessToken ?? this.accessToken,
       refreshToken: refreshToken ?? this.refreshToken,
+      isInitialized: isInitialized ?? this.isInitialized,
+      isCheckingAuth: isCheckingAuth ?? this.isCheckingAuth, // 추가
     );
   }
 }
@@ -51,6 +60,8 @@ class AuthController extends StateNotifier<AuthState> {
   final GoogleLoginUseCase _googleLoginUseCase;
   final KakaoLoginUseCase _kakaoLoginUseCase;
   final NaverLoginUseCase _naverLoginUseCase;
+  final GetCurrentUserUseCase _getCurrentUserUseCase;
+  final AuthLocalDataSource _localDataSource;
 
   AuthController({
     required LoginUseCase loginUseCase,
@@ -63,6 +74,8 @@ class AuthController extends StateNotifier<AuthState> {
     required GoogleLoginUseCase googleLoginUseCase,
     required KakaoLoginUseCase kakaoLoginUseCase,
     required NaverLoginUseCase naverLoginUseCase,
+    required GetCurrentUserUseCase getCurrentUserUseCase,
+    required AuthLocalDataSource localDataSource,
   }) : _loginUseCase = loginUseCase,
        _signUpUseCase = signUpUseCase,
        _logoutUseCase = logoutUseCase,
@@ -73,7 +86,74 @@ class AuthController extends StateNotifier<AuthState> {
        _googleLoginUseCase = googleLoginUseCase,
        _kakaoLoginUseCase = kakaoLoginUseCase,
        _naverLoginUseCase = naverLoginUseCase,
+       _getCurrentUserUseCase = getCurrentUserUseCase,
+       _localDataSource = localDataSource,
        super(const AuthState());
+
+  // 앱 시작 시 자동 로그인 체크 (중복 실행 방지)
+  Future<void> checkAuthStatus() async {
+    // 이미 체크 중이거나 초기화 완료된 경우 스킵
+    if (state.isCheckingAuth || state.isInitialized) {
+      debugPrint('🔄 자동 로그인 체크 스킵: 이미 체크 중이거나 완료됨');
+      return;
+    }
+
+    debugPrint('🔍 자동 로그인 체크 시작');
+    state = state.copyWith(isCheckingAuth: true);
+
+    try {
+      // 저장된 토큰 확인
+      final accessToken = await _localDataSource.getAccessToken();
+      final refreshToken = await _localDataSource.getRefreshToken();
+
+      if (accessToken != null && refreshToken != null) {
+        debugPrint('✅ 저장된 토큰 발견 - 토큰 갱신 시도');
+
+        // 바로 토큰 갱신부터 시도 (getCurrentUser API가 없으므로)
+        final refreshResult = await _refreshTokenUseCase.call(
+          RefreshTokenParams(refreshToken: refreshToken),
+        );
+
+        refreshResult.fold(
+          (refreshFailure) {
+            debugPrint('❌ 토큰 갱신 실패 - 로그아웃 처리: ${refreshFailure.message}');
+            _clearAuthData();
+          },
+          (newToken) async {
+            debugPrint('✅ 토큰 갱신 성공');
+
+            // 토큰만으로 간단한 사용자 정보 생성 (임시)
+            // 실제로는 토큰에서 사용자 ID를 디코딩하거나 별도 API 호출 필요
+            final tempUser = User(
+              id: 'temp_id', // 실제로는 토큰에서 추출
+              username: 'user', // 실제로는 토큰에서 추출 또는 캐시된 데이터 사용
+              email: 'user@example.com', // 실제로는 캐시된 데이터 사용
+              role: 'user',
+              profile: const UserProfile(name: '사용자'),
+              stats: const UserStats(),
+              subscription: const UserSubscription(),
+            );
+
+            debugPrint('✅ 자동 로그인 성공');
+            state = state.copyWith(
+              isAuthenticated: true,
+              user: tempUser,
+              accessToken: newToken.accessToken,
+              refreshToken: newToken.refreshToken,
+              isInitialized: true,
+              isCheckingAuth: false,
+            );
+          },
+        );
+      } else {
+        debugPrint('ℹ️ 저장된 토큰 없음 - 로그인 필요');
+        state = state.copyWith(isInitialized: true, isCheckingAuth: false);
+      }
+    } catch (e) {
+      debugPrint('❌ 자동 로그인 체크 중 오류: $e');
+      state = state.copyWith(isInitialized: true, isCheckingAuth: false);
+    }
+  }
 
   Future<void> signInWithUsername({
     required String username,
@@ -103,12 +183,6 @@ class AuthController extends StateNotifier<AuthState> {
         );
         debugPrint('📛 유저 이름: ${authResponse.user.profile.name}');
 
-        // 상태 업데이트 BEFORE
-        debugPrint(
-          '🔄 상태 업데이트 전: isAuthenticated=${state.isAuthenticated}, hasToken=${state.accessToken != null}',
-        );
-
-        // 상태 업데이트
         state = state.copyWith(
           isLoading: false,
           isAuthenticated: true,
@@ -118,11 +192,6 @@ class AuthController extends StateNotifier<AuthState> {
           errorMessage: null,
         );
 
-        // 상태 업데이트 AFTER
-        debugPrint(
-          '🔄 상태 업데이트 후: isAuthenticated=${state.isAuthenticated}, hasToken=${state.accessToken != null}',
-        );
-        debugPrint('👤 상태의 유저: ${state.user?.username}');
         debugPrint('🎯 로그인 성공 - /questions로 이동해야 함');
       },
     );
@@ -153,6 +222,7 @@ class AuthController extends StateNotifier<AuthState> {
         );
       },
       (user) {
+        debugPrint('✅ 회원가입 성공: ${user.username}');
         state = state.copyWith(
           isLoading: false,
           user: user,
@@ -162,10 +232,31 @@ class AuthController extends StateNotifier<AuthState> {
     );
   }
 
+  // 비밀번호 재설정 요청
+  Future<void> requestPasswordReset(String email) async {
+    state = state.copyWith(isLoading: true, errorMessage: null);
+
+    final result = await _passwordResetRequestUseCase(
+      PasswordResetRequestParams(email: email),
+    );
+
+    result.fold(
+      (failure) {
+        state = state.copyWith(
+          isLoading: false,
+          errorMessage: _getErrorMessage(failure),
+        );
+      },
+      (_) {
+        debugPrint('✅ 비밀번호 재설정 이메일 발송 성공');
+        state = state.copyWith(isLoading: false, errorMessage: null);
+      },
+    );
+  }
+
   Future<void> signInWithGoogle({String? code, String? redirectUri}) async {
     state = state.copyWith(isLoading: true, errorMessage: null);
 
-    // 사용자가 외부 Google 인증 페이지를 통해 코드를 받아온 경우
     if (code != null && redirectUri != null) {
       final result = await _googleLoginUseCase(
         GoogleLoginParams(code: code, redirectUri: redirectUri),
@@ -190,22 +281,20 @@ class AuthController extends StateNotifier<AuthState> {
         },
       );
     } else {
-      // 외부 브라우저로 Google 인증 페이지 열기
-      // 여기서 웹뷰나 외부 브라우저를 열어 인증할 수 있음
       state = state.copyWith(
         isLoading: false,
         errorMessage:
-            'Google 로그인 URL: https://accounts.google.com/o/oauth2/v2/auth?client_id=492018860076-5c1jfbpkk33c914rkh05k0he8c25thj6.apps.googleusercontent.com&redirect_uri=https://toeic4all-apis.po24lio.com/api/v1/docs&scope=email%20profile&response_type=code',
+            'Google 로그인 URL: https://accounts.google.com/o/oauth2/v2/auth...',
       );
     }
   }
 
   Future<void> signInWithApple() async {
-    // Placeholder implementation
-    state = (state ?? const AuthState()).copyWith(
-      isLoading: true,
-      errorMessage: null,
-    );
+    state = state.copyWith(isLoading: true, errorMessage: null);
+
+    // Apple Sign-In 미구현
+    await Future.delayed(const Duration(seconds: 1));
+
     state = state.copyWith(
       isLoading: false,
       errorMessage: 'Apple 로그인은 아직 지원하지 않습니다',
@@ -213,12 +302,8 @@ class AuthController extends StateNotifier<AuthState> {
   }
 
   Future<void> signInWithKakao({String? code, String? redirectUri}) async {
-    state = (state ?? const AuthState()).copyWith(
-      isLoading: true,
-      errorMessage: null,
-    );
+    state = state.copyWith(isLoading: true, errorMessage: null);
 
-    // 사용자가 외부 Kakao 인증 페이지를 통해 코드를 받아온 경우
     if (code != null && redirectUri != null) {
       final result = await _kakaoLoginUseCase(
         KakaoLoginParams(code: code, redirectUri: redirectUri),
@@ -243,11 +328,10 @@ class AuthController extends StateNotifier<AuthState> {
         },
       );
     } else {
-      // 외부 브라우저로 Kakao 인증 페이지 열기
       state = state.copyWith(
         isLoading: false,
         errorMessage:
-            'Kakao 로그인 URL: https://kauth.kakao.com/oauth/authorize?client_id=b814e58f7a794e1924ab668f19b9a018&redirect_uri=https://toeic4all-apis.po24lio.com/api/v1/docs&response_type=code',
+            'Kakao 로그인 URL: https://kauth.kakao.com/oauth/authorize...',
       );
     }
   }
@@ -259,7 +343,6 @@ class AuthController extends StateNotifier<AuthState> {
   }) async {
     state = state.copyWith(isLoading: true, errorMessage: null);
 
-    // 사용자가 외부 Naver 인증 페이지를 통해 코드를 받아온 경우
     if (code != null && redirectUri != null && naverState != null) {
       final result = await _naverLoginUseCase(
         NaverLoginParams(
@@ -288,18 +371,17 @@ class AuthController extends StateNotifier<AuthState> {
         },
       );
     } else {
-      // 외부 브라우저로 Naver 인증 페이지 열기
       state = state.copyWith(
         isLoading: false,
         errorMessage:
-            'Naver 로그인 URL: https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=dPEWiT72BQLlRtc_u4qN&redirect_uri=https://toeic4all-apis.po24lio.com/api/v1/docs&state=TOEIC4ALL',
+            'Naver 로그인 URL: https://nid.naver.com/oauth2.0/authorize...',
       );
     }
   }
 
   Future<void> signOut() async {
     if (state.refreshToken == null) {
-      state = const AuthState();
+      await _clearAuthData();
       return;
     }
 
@@ -309,15 +391,15 @@ class AuthController extends StateNotifier<AuthState> {
       LogoutParams(refreshToken: state.refreshToken!),
     );
 
-    result.fold(
-      (failure) {
-        // Even if logout fails on server, clear local state
-        state = const AuthState();
-      },
-      (_) {
-        state = const AuthState();
-      },
-    );
+    // 서버 로그아웃 성공 여부와 관계없이 로컬 상태 초기화
+    await _clearAuthData();
+  }
+
+  // 로컬 인증 데이터 초기화
+  Future<void> _clearAuthData() async {
+    await _localDataSource.clearAuthData();
+    state = const AuthState(isInitialized: true, isCheckingAuth: false);
+    debugPrint('🧹 인증 데이터 초기화 완료');
   }
 
   void clearError() {
@@ -325,7 +407,7 @@ class AuthController extends StateNotifier<AuthState> {
   }
 
   String _getErrorMessage(dynamic failure) {
-    // TODO: Implement proper error message handling based on failure type
-    return 'An error occurred. Please try again.';
+    // TODO: failure 타입에 따른 상세한 에러 메시지 처리
+    return '요청 처리 중 오류가 발생했습니다. 다시 시도해주세요.';
   }
 }
