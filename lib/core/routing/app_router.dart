@@ -1,7 +1,7 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'main_app_layout.dart';
 import '../../features/auth/presentation/pages/splash_screen.dart';
 import '../../features/auth/presentation/pages/login_screen.dart';
 import '../../features/auth/presentation/pages/signup_screen.dart';
@@ -9,15 +9,14 @@ import '../../features/auth/presentation/pages/forgot_password_screen.dart';
 import '../../features/auth/presentation/pages/settings_screen.dart';
 import '../../features/auth/presentation/controllers/auth_controller.dart';
 import '../../features/auth/presentation/providers/auth_providers.dart';
+import '../../features/auth/domain/entities/user.dart';
 import '../../features/test/test_screen.dart';
 import '../../features/questions/presentation/pages/questions_main_screen.dart';
 import '../../features/questions/presentation/pages/part5_filter_screen.dart';
-import '../../shared/widgets/app_button.dart';
 
 // GoRouter 라우팅을 위한 상태 변경 알림 클래스
 class AuthStateNotifier extends ChangeNotifier {
   final Ref _ref;
-  AuthState? _previousAuthState;
 
   AuthStateNotifier(this._ref) {
     _ref.listen<AuthState>(authControllerProvider, (previous, next) {
@@ -30,7 +29,6 @@ class AuthStateNotifier extends ChangeNotifier {
         debugPrint(
           '⚡ 라우터 리디렉션 트리거: isAuth=${next.isAuthenticated}, hasToken=${next.accessToken != null}',
         );
-        _previousAuthState = next;
         notifyListeners();
       }
     });
@@ -83,10 +81,10 @@ final routerProvider = Provider<GoRouter>((ref) {
           currentPath == '/signup' ||
           currentPath == '/forgot-password';
 
-      // 1. 인증된 사용자가 인증 페이지 접근 시 문제 서비스로 리디렉션
+      // 1. 인증된 사용자가 인증 페이지 접근 시 홈 화면으로 리디렉션
       if (isAuthenticated && isOnAuthPage) {
-        debugPrint('🔄 인증된 사용자가 인증 페이지 접근 - 문제 서비스로 리디렉션');
-        return '/questions';
+        debugPrint('🔄 인증된 사용자가 인증 페이지 접근 - 홈 화면으로 리디렉션');
+        return '/home';
       }
 
       // 2. 인증되지 않은 사용자가 보호된 페이지 접근 시 로그인으로 리디렉션
@@ -116,34 +114,45 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/forgot-password',
         builder: (context, state) => const ForgotPasswordScreen(),
       ),
-      GoRoute(path: '/home', builder: (context, state) => const HomeScreen()),
-      GoRoute(
-        path: '/questions',
-        builder: (context, state) => const QuestionsMainScreen(),
+
+      // 메인 앱 레이아웃을 위한 ShellRoute
+      ShellRoute(
+        builder: (context, state, child) =>
+            MainAppLayout(currentLocation: state.uri.path, child: child),
         routes: [
           GoRoute(
-            path: '/part5/filter',
-            builder: (context, state) => const Part5FilterScreen(),
+            path: '/home',
+            builder: (context, state) => const HomeScreen(),
+          ),
+          GoRoute(
+            path: '/questions',
+            builder: (context, state) => const QuestionsMainScreen(),
+            routes: [
+              GoRoute(
+                path: '/part5/filter',
+                builder: (context, state) => const Part5FilterScreen(),
+              ),
+            ],
+          ),
+          GoRoute(
+            path: '/statistics',
+            builder: (context, state) => const StatisticsScreen(),
+          ),
+          GoRoute(
+            path: '/profile',
+            builder: (context, state) => const ProfileScreen(),
+          ),
+          GoRoute(
+            path: '/settings',
+            builder: (context, state) => const SettingsScreen(),
           ),
         ],
-      ),
-      GoRoute(
-        path: '/statistics',
-        builder: (context, state) => const StatisticsScreen(),
-      ),
-      GoRoute(
-        path: '/profile',
-        builder: (context, state) => const ProfileScreen(),
-      ),
-      GoRoute(
-        path: '/settings',
-        builder: (context, state) => const SettingsScreen(),
       ),
     ],
   );
 });
 
-// Home Screen with logout functionality
+// Home Screen with improved navigation
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
@@ -153,131 +162,64 @@ class HomeScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('TOEIC4ALL'),
-        centerTitle: true,
+        title: const Text(
+          'TOEIC4ALL',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        centerTitle: false,
+        elevation: 0,
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        foregroundColor: Theme.of(context).colorScheme.onSurface,
         actions: [
+          // 설정 아이콘
           IconButton(
-            onPressed: () {
-              _showLogoutDialog(context, ref);
-            },
-            icon: const Icon(Icons.logout),
-            tooltip: '로그아웃',
+            onPressed: () => context.push('/settings'),
+            icon: const Icon(Icons.settings_outlined),
+            tooltip: '설정',
           ),
+          // 프로필 아이콘
+          if (authState.user != null)
+            Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: GestureDetector(
+                onTap: () => context.push('/profile'),
+                child: CircleAvatar(
+                  radius: 16,
+                  backgroundColor: Theme.of(context).colorScheme.primary,
+                  child: Text(
+                    authState.user!.profile.name.substring(0, 1).toUpperCase(),
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ),
         ],
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(24),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            // 환영 메시지 카드
             if (authState.user != null) ...[
-              Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    children: [
-                      CircleAvatar(
-                        radius: 40,
-                        backgroundColor: Theme.of(context).colorScheme.primary,
-                        child: Text(
-                          authState.user!.profile.name
-                              .substring(0, 1)
-                              .toUpperCase(),
-                          style: const TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      Text(
-                        '환영합니다, ${authState.user!.profile.name}님!',
-                        style: Theme.of(context).textTheme.headlineSmall,
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        authState.user!.email,
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: Theme.of(context).colorScheme.onSurfaceVariant,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: 32),
+              _WelcomeCard(user: authState.user!),
+              const SizedBox(height: 24),
             ],
 
-            // Feature buttons
-            Expanded(
-              child: GridView.count(
-                crossAxisCount: 2,
-                crossAxisSpacing: 16,
-                mainAxisSpacing: 16,
-                children: [
-                  _FeatureCard(
-                    icon: Icons.quiz,
-                    title: '문제 풀이',
-                    subtitle: 'TOEIC 문제 연습',
-                    onTap: () => context.push('/questions'),
-                  ),
-                  _FeatureCard(
-                    icon: Icons.analytics,
-                    title: '통계',
-                    subtitle: '학습 진도 확인',
-                    onTap: () => context.push('/statistics'),
-                  ),
-                  _FeatureCard(
-                    icon: Icons.person,
-                    title: '프로필',
-                    subtitle: '내 정보 관리',
-                    onTap: () => context.push('/profile'),
-                  ),
-                  _FeatureCard(
-                    icon: Icons.settings,
-                    title: '설정',
-                    subtitle: '앱 설정',
-                    onTap: () => context.push('/settings'),
-                  ),
-                ],
-              ),
-            ),
+            // 빠른 시작 섹션
+            const _QuickStartSection(),
 
-            AppButton.outline(
-              text: '로그아웃',
-              onPressed: () => _showLogoutDialog(context, ref),
-            ),
+            const SizedBox(height: 32),
+
+            // 기능 그리드
+            const _FeatureGrid(),
           ],
         ),
       ),
-    );
-  }
-
-  void _showLogoutDialog(BuildContext context, WidgetRef ref) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('로그아웃'),
-          content: const Text('정말로 로그아웃하시겠습니까?'),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: const Text('취소'),
-            ),
-            AppButton.primary(
-              text: '로그아웃',
-              onPressed: () {
-                Navigator.of(context).pop();
-                ref.read(authControllerProvider.notifier).signOut();
-              },
-            ),
-          ],
-        );
-      },
     );
   }
 }
@@ -368,6 +310,234 @@ class ProfileScreen extends StatelessWidget {
           textAlign: TextAlign.center,
         ),
       ),
+    );
+  }
+}
+
+// 환영 메시지 카드 위젯
+class _WelcomeCard extends StatelessWidget {
+  final User user;
+
+  const _WelcomeCard({required this.user});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Theme.of(context).colorScheme.primary,
+            Theme.of(context).colorScheme.primary.withOpacity(0.8),
+          ],
+        ),
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
+            blurRadius: 8,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 60,
+            height: 60,
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.2),
+              borderRadius: BorderRadius.circular(30),
+            ),
+            child: Icon(Icons.person, size: 30, color: Colors.white),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  '안녕하세요, ${user.profile.name}님!',
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  '오늘도 토익 공부를 시작해보세요',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.white.withOpacity(0.9),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// 빠른 시작 섹션 위젯
+class _QuickStartSection extends StatelessWidget {
+  const _QuickStartSection();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          '빠른 시작',
+          style: Theme.of(
+            context,
+          ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 16),
+        Row(
+          children: [
+            Expanded(
+              child: _QuickActionCard(
+                icon: Icons.flash_on,
+                title: '모의고사',
+                subtitle: '실전 연습',
+                onTap: () => context.go('/questions'),
+                color: Colors.orange,
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: _QuickActionCard(
+                icon: Icons.quiz,
+                title: '파트별 문제',
+                subtitle: '유형별 학습',
+                onTap: () => context.go('/questions'),
+                color: Colors.blue,
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+// 빠른 액션 카드 위젯
+class _QuickActionCard extends StatelessWidget {
+  final IconData icon;
+  final String title;
+  final String subtitle;
+  final VoidCallback onTap;
+  final Color color;
+
+  const _QuickActionCard({
+    required this.icon,
+    required this.title,
+    required this.subtitle,
+    required this.onTap,
+    required this.color,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 2,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(12),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            children: [
+              Container(
+                width: 48,
+                height: 48,
+                decoration: BoxDecoration(
+                  color: color.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(24),
+                ),
+                child: Icon(icon, size: 24, color: color),
+              ),
+              const SizedBox(height: 12),
+              Text(
+                title,
+                style: Theme.of(
+                  context,
+                ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 4),
+              Text(
+                subtitle,
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// 기능 그리드 위젯
+class _FeatureGrid extends StatelessWidget {
+  const _FeatureGrid();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          '주요 기능',
+          style: Theme.of(
+            context,
+          ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 16),
+        GridView.count(
+          crossAxisCount: 2,
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          crossAxisSpacing: 12,
+          mainAxisSpacing: 12,
+          childAspectRatio: 1.2,
+          children: [
+            _FeatureCard(
+              icon: Icons.quiz_outlined,
+              title: '문제 풀이',
+              subtitle: '다양한 토익 문제',
+              onTap: () => context.go('/questions'),
+            ),
+            _FeatureCard(
+              icon: Icons.analytics_outlined,
+              title: '학습 통계',
+              subtitle: '성과 분석',
+              onTap: () => context.go('/statistics'),
+            ),
+            _FeatureCard(
+              icon: Icons.bookmark_outlined,
+              title: '오답 노트',
+              subtitle: '틀린 문제 복습',
+              onTap: () => context.go('/statistics'),
+            ),
+            _FeatureCard(
+              icon: Icons.school_outlined,
+              title: '학습 계획',
+              subtitle: '맞춤 커리큘럼',
+              onTap: () => context.go('/profile'),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

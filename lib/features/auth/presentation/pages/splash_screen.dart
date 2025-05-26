@@ -100,8 +100,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
     if (!forceLogin &&
         authState.isAuthenticated &&
         authState.accessToken != null) {
-      debugPrint('✅ 자동 로그인 성공 - 문제 서비스로 이동');
-      context.go('/questions');
+      debugPrint('✅ 자동 로그인 성공 - 홈 화면으로 이동');
+      context.go('/home');
     } else {
       debugPrint('🔑 로그인 필요 - 로그인 화면으로 이동');
       context.go('/login');
