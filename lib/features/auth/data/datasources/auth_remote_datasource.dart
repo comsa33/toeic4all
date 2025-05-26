@@ -4,6 +4,7 @@ import '../../../../core/network/api_client.dart';
 import '../../../../core/constants/api_endpoints.dart';
 import '../../../../core/errors/exceptions.dart';
 import '../models/auth_response_model.dart';
+import '../models/token_refresh_response_model.dart';
 import '../models/user_model.dart';
 
 abstract class AuthRemoteDataSource {
@@ -35,7 +36,7 @@ abstract class AuthRemoteDataSource {
   });
 
   Future<void> signOut();
-  Future<AuthResponseModel> refreshToken(String refreshToken);
+  Future<TokenRefreshResponseModel> refreshToken(String refreshToken);
   Future<UserModel> getCurrentUser();
   Future<void> resetPassword(String email);
   Future<UserModel> updateProfile({String? name, String? profileImageUrl});
@@ -176,17 +177,45 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<AuthResponseModel> refreshToken(String refreshToken) async {
+  Future<TokenRefreshResponseModel> refreshToken(String refreshToken) async {
     try {
+      debugPrint('🔄 토큰 갱신 요청 시작');
       final response = await _apiClient.post(
         ApiEndpoints.refreshToken,
         data: {'refresh_token': refreshToken},
       );
 
-      return AuthResponseModel.fromJson(response.data);
+      debugPrint('🔍 토큰 갱신 응답 데이터: ${response.data}');
+      debugPrint('🔍 응답 데이터 타입: ${response.data.runtimeType}');
+
+      if (response.data is Map<String, dynamic>) {
+        final data = response.data as Map<String, dynamic>;
+        debugPrint('🔍 파싱할 JSON: $data');
+
+        // 필수 필드가 있는지 확인
+        if (data['access_token'] == null) {
+          debugPrint('❌ access_token이 null입니다');
+          throw ServerException(
+            message: 'Invalid response: access_token is null',
+          );
+        }
+        if (data['refresh_token'] == null) {
+          debugPrint('❌ refresh_token이 null입니다');
+          throw ServerException(
+            message: 'Invalid response: refresh_token is null',
+          );
+        }
+
+        return TokenRefreshResponseModel.fromJson(data);
+      } else {
+        debugPrint('❌ 응답 데이터가 Map<String, dynamic> 형식이 아닙니다');
+        throw ServerException(message: 'Invalid response format');
+      }
     } on DioException catch (e) {
+      debugPrint('❌ DioException 발생: ${e.toString()}');
       throw _handleDioException(e);
     } catch (e) {
+      debugPrint('❌ 토큰 갱신 중 예외 발생: ${e.toString()}');
       throw ServerException(message: e.toString());
     }
   }

@@ -3,7 +3,8 @@ import '../../../../core/errors/failures.dart';
 import '../../../../core/errors/exceptions.dart';
 import '../../domain/entities/user.dart';
 import '../../domain/entities/auth_response.dart';
-import '../../domain/repositories/auth_repository.dart' show AuthRepository, Token, Session, PasswordStatus;
+import '../../domain/repositories/auth_repository.dart'
+    show AuthRepository, Token, Session, PasswordStatus;
 import '../datasources/auth_remote_datasource.dart';
 import '../datasources/auth_local_datasource.dart';
 import '../models/auth_response_model.dart';
@@ -16,8 +17,8 @@ class AuthRepositoryImpl implements AuthRepository {
   AuthRepositoryImpl({
     required AuthRemoteDataSource remoteDataSource,
     required AuthLocalDataSource localDataSource,
-  })  : _remoteDataSource = remoteDataSource,
-        _localDataSource = localDataSource;
+  }) : _remoteDataSource = remoteDataSource,
+       _localDataSource = localDataSource;
 
   @override
   Future<Either<Failure, AuthResponse>> login({
@@ -29,10 +30,10 @@ class AuthRepositoryImpl implements AuthRepository {
         username: username,
         password: password,
       );
-      
+
       // Cache the auth response locally
       await _localDataSource.cacheAuthResponse(result);
-      
+
       return Right(result.toEntity());
     } on ValidationException catch (e) {
       return Left(Failure.validation(message: e.message));
@@ -59,7 +60,7 @@ class AuthRepositoryImpl implements AuthRepository {
         password: password,
         confirmPassword: confirmPassword,
       );
-      
+
       return Right(result.toEntity().user);
     } on ValidationException catch (e) {
       return Left(Failure.validation(message: e.message));
@@ -76,14 +77,20 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<Either<Failure, Token>> refreshToken(String refreshToken) async {
     try {
       final result = await _remoteDataSource.refreshToken(refreshToken);
-      
-      // Cache the new tokens
-      await _localDataSource.cacheAuthResponse(result);
-      
-      return Right(Token(
+
+      // 새로운 토큰을 로컬에 저장
+      await _localDataSource.saveTokens(
         accessToken: result.accessToken,
         refreshToken: result.refreshToken,
-      ));
+      );
+
+      return Right(
+        Token(
+          accessToken: result.accessToken,
+          refreshToken: result.refreshToken,
+          expiresAt: DateTime.now().add(Duration(seconds: result.expiresIn)),
+        ),
+      );
     } on AuthException catch (e) {
       return Left(Failure.auth(message: e.message));
     } on ServerException catch (e) {
@@ -151,9 +158,7 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<Failure, void>> verifyEmail({
-    required String token,
-  }) async {
+  Future<Either<Failure, void>> verifyEmail({required String token}) async {
     try {
       // Implementation needed in remote data source
       return const Right(null);
@@ -206,10 +211,7 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<Either<Failure, PasswordStatus>> getPasswordStatus() async {
     try {
       // Implementation needed in remote data source
-      return const Right(PasswordStatus(
-        hasPassword: true,
-        isExpired: false,
-      ));
+      return const Right(PasswordStatus(hasPassword: true, isExpired: false));
     } catch (e) {
       return Left(Failure.unknown(message: e.toString()));
     }
@@ -311,7 +313,7 @@ class AuthRepositoryImpl implements AuthRepository {
       if (cachedUser != null) {
         return Right(cachedUser.toEntity());
       }
-      
+
       // If no cached user, fetch from remote
       final result = await _remoteDataSource.getCurrentUser();
       await _localDataSource.cacheUser(result);

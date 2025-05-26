@@ -39,6 +39,14 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
     }
 
     _isInitializing = true;
+
+    final currentState = ref.read(authControllerProvider);
+    if (currentState.isInitialized) {
+      debugPrint('✅ 이미 초기화됨 - 인증 체크 건너뛰기');
+      _navigateToNextScreen();
+      return;
+    }
+
     debugPrint('🚀 앱 초기화 시작');
 
     try {
@@ -47,7 +55,6 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
 
       // 자동 로그인 체크 시작 (한 번만)
       final authController = ref.read(authControllerProvider.notifier);
-      final currentState = ref.read(authControllerProvider);
 
       if (!currentState.isInitialized) {
         debugPrint('🔍 자동 로그인 체크 시작');
