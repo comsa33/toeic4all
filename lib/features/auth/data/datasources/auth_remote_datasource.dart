@@ -199,57 +199,56 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
       debugPrint('🔍 서버에서 받은 사용자 데이터: ${data.toString()}');
 
-      // API 스펙에 맞게 데이터 매핑
+      // API 스펙에 맞게 데이터 매핑 (UserMeResponse 구조 사용)
       return UserModel(
         id: data['id'] ?? '',
         username: data['username'] ?? '',
         email: data['email'] ?? '',
         role: data['role'] ?? 'user',
         profile: UserProfileModel(
-          // API는 full_name을 사용하지만 Flutter는 name을 사용
+          // API는 full_name을 사용
           name: data['profile']?['full_name'] ?? data['username'] ?? '',
           profileImageUrl: data['profile']?['profile_image'],
-          dateOfBirth: data['profile']?['dateOfBirth'] != null
-              ? DateTime.tryParse(data['profile']['dateOfBirth'])
-              : null,
-          phone: data['profile']?['phone'],
+          // API 스펙에는 없는 필드들 - null 처리
+          dateOfBirth: null,
+          phone: null,
           bio: data['profile']?['bio'],
-          nationality: data['profile']?['nationality'],
-          targetScore: data['profile']?['targetScore'],
-          currentLevel: data['profile']?['currentLevel'],
-          interests: data['profile']?['interests'] != null
-              ? List<String>.from(data['profile']['interests'])
-              : [],
+          nationality: null,
+          targetScore: null,
+          currentLevel: null,
+          interests: [],
         ),
         stats: UserStatsModel(
-          totalTestsTaken: data['stats']?['totalTestsTaken'] ?? 0,
-          averageScore: data['stats']?['averageScore'] ?? 0,
-          bestScore: data['stats']?['bestScore'] ?? 0,
-          partScores: data['stats']?['partScores'] != null
-              ? Map<String, int>.from(data['stats']['partScores'])
-              : {},
-          studyStreak: data['stats']?['studyStreak'] ?? 0,
-          totalStudyTime: data['stats']?['totalStudyTime'] ?? 0,
-          lastTestDate: data['stats']?['lastTestDate'] != null
-              ? DateTime.tryParse(data['stats']['lastTestDate'])
-              : null,
-          lastStudyDate: data['stats']?['lastStudyDate'] != null
-              ? DateTime.tryParse(data['stats']['lastStudyDate'])
-              : null,
+          // API 스펙의 stats는 additionalProperties 타입이므로 안전하게 처리
+          totalTestsTaken:
+              (data['stats'] as Map<String, dynamic>?)?['totalTestsTaken'] ?? 0,
+          averageScore:
+              (data['stats'] as Map<String, dynamic>?)?['averageScore'] ?? 0,
+          bestScore:
+              (data['stats'] as Map<String, dynamic>?)?['bestScore'] ?? 0,
+          partScores: {},
+          studyStreak:
+              (data['stats'] as Map<String, dynamic>?)?['studyStreak'] ?? 0,
+          totalStudyTime:
+              (data['stats'] as Map<String, dynamic>?)?['totalStudyTime'] ?? 0,
+          lastTestDate: null,
+          lastStudyDate: null,
         ),
         subscription: UserSubscriptionModel(
-          type: data['subscription']?['type'] ?? 'free',
-          startDate: data['subscription']?['startDate'] != null
-              ? DateTime.tryParse(data['subscription']['startDate'])
-              : null,
-          endDate: data['subscription']?['endDate'] != null
-              ? DateTime.tryParse(data['subscription']['endDate'])
-              : null,
-          isActive: data['subscription']?['isActive'] ?? false,
-          paymentMethod: data['subscription']?['paymentMethod'],
-          features: data['subscription']?['features'] != null
-              ? Map<String, dynamic>.from(data['subscription']['features'])
-              : {},
+          // API 스펙의 subscription도 additionalProperties 타입
+          type:
+              (data['subscription'] as Map<String, dynamic>?)?['type'] ??
+              'free',
+          startDate: null,
+          endDate: null,
+          isActive:
+              (data['subscription'] as Map<String, dynamic>?)?['isActive'] ??
+              false,
+          paymentMethod: null,
+          features:
+              (data['subscription'] as Map<String, dynamic>?)?['features']
+                  as Map<String, dynamic>? ??
+              {},
         ),
         createdAt: data['created_at'] != null
             ? DateTime.tryParse(data['created_at'])
