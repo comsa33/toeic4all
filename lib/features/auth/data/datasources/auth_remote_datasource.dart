@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import '../../../../core/network/api_client.dart';
 import '../../../../core/constants/api_endpoints.dart';
 import '../../../../core/errors/exceptions.dart';
@@ -10,14 +11,14 @@ abstract class AuthRemoteDataSource {
     required String username,
     required String password,
   });
-  
+
   Future<AuthResponseModel> signUpWithEmail({
     required String username,
     required String email,
     required String password,
     required String confirmPassword,
   });
-  
+
   Future<AuthResponseModel> signInWithGoogle({
     required String code,
     required String redirectUri,
@@ -32,15 +33,12 @@ abstract class AuthRemoteDataSource {
     required String redirectUri,
     required String state,
   });
-  
+
   Future<void> signOut();
   Future<AuthResponseModel> refreshToken(String refreshToken);
   Future<UserModel> getCurrentUser();
   Future<void> resetPassword(String email);
-  Future<UserModel> updateProfile({
-    String? name,
-    String? profileImageUrl,
-  });
+  Future<UserModel> updateProfile({String? name, String? profileImageUrl});
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -56,12 +54,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     try {
       final response = await _apiClient.post(
         ApiEndpoints.login,
-        data: {
-          'username': username,
-          'password': password,
-        },
+        data: {'username': username, 'password': password},
       );
-      
+
       return AuthResponseModel.fromJson(response.data);
     } on DioException catch (e) {
       throw _handleDioException(e);
@@ -87,7 +82,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
           'confirm_password': confirmPassword,
         },
       );
-      
+
       return AuthResponseModel.fromJson(response.data);
     } on DioException catch (e) {
       throw _handleDioException(e);
@@ -104,12 +99,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     try {
       final response = await _apiClient.post(
         ApiEndpoints.googleLogin,
-        queryParameters: {
-          'code': code,
-          'redirect_uri': redirectUri,
-        },
+        queryParameters: {'code': code, 'redirect_uri': redirectUri},
       );
-      
+
       return AuthResponseModel.fromJson(response.data);
     } on DioException catch (e) {
       throw _handleDioException(e);
@@ -137,12 +129,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     try {
       final response = await _apiClient.post(
         ApiEndpoints.kakaoLogin,
-        queryParameters: {
-          'code': code,
-          'redirect_uri': redirectUri,
-        },
+        queryParameters: {'code': code, 'redirect_uri': redirectUri},
       );
-      
+
       return AuthResponseModel.fromJson(response.data);
     } on DioException catch (e) {
       throw _handleDioException(e);
@@ -166,7 +155,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
           'state': state,
         },
       );
-      
+
       return AuthResponseModel.fromJson(response.data);
     } on DioException catch (e) {
       throw _handleDioException(e);
@@ -193,7 +182,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         ApiEndpoints.refreshToken,
         data: {'refresh_token': refreshToken},
       );
-      
+
       return AuthResponseModel.fromJson(response.data);
     } on DioException catch (e) {
       throw _handleDioException(e);
@@ -207,62 +196,75 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     try {
       final response = await _apiClient.get(ApiEndpoints.currentUser);
       final data = response.data as Map<String, dynamic>;
-      
-      // Create a complete UserModel with default values for missing fields
+
+      debugPrint('🔍 서버에서 받은 사용자 데이터: ${data.toString()}');
+
+      // API 스펙에 맞게 데이터 매핑
       return UserModel(
-        id: data['id'] ?? data['_id'] ?? '',
+        id: data['id'] ?? '',
         username: data['username'] ?? '',
         email: data['email'] ?? '',
         role: data['role'] ?? 'user',
         profile: UserProfileModel(
-          name: data['name'] ?? data['profile']?['name'] ?? '',
-          profileImageUrl: data['profile_image_url'] ?? data['profile']?['profileImageUrl'],
-          dateOfBirth: data['profile']?['dateOfBirth'] != null 
-              ? DateTime.tryParse(data['profile']['dateOfBirth']) 
+          // API는 full_name을 사용하지만 Flutter는 name을 사용
+          name: data['profile']?['full_name'] ?? data['username'] ?? '',
+          profileImageUrl: data['profile']?['profile_image'],
+          dateOfBirth: data['profile']?['dateOfBirth'] != null
+              ? DateTime.tryParse(data['profile']['dateOfBirth'])
               : null,
           phone: data['profile']?['phone'],
           bio: data['profile']?['bio'],
           nationality: data['profile']?['nationality'],
           targetScore: data['profile']?['targetScore'],
           currentLevel: data['profile']?['currentLevel'],
-          interests: List<String>.from(data['profile']?['interests'] ?? []),
+          interests: data['profile']?['interests'] != null
+              ? List<String>.from(data['profile']['interests'])
+              : [],
         ),
         stats: UserStatsModel(
           totalTestsTaken: data['stats']?['totalTestsTaken'] ?? 0,
           averageScore: data['stats']?['averageScore'] ?? 0,
           bestScore: data['stats']?['bestScore'] ?? 0,
-          partScores: Map<String, int>.from(data['stats']?['partScores'] ?? {}),
+          partScores: data['stats']?['partScores'] != null
+              ? Map<String, int>.from(data['stats']['partScores'])
+              : {},
           studyStreak: data['stats']?['studyStreak'] ?? 0,
           totalStudyTime: data['stats']?['totalStudyTime'] ?? 0,
-          lastTestDate: data['stats']?['lastTestDate'] != null 
-              ? DateTime.tryParse(data['stats']['lastTestDate']) 
+          lastTestDate: data['stats']?['lastTestDate'] != null
+              ? DateTime.tryParse(data['stats']['lastTestDate'])
               : null,
-          lastStudyDate: data['stats']?['lastStudyDate'] != null 
-              ? DateTime.tryParse(data['stats']['lastStudyDate']) 
+          lastStudyDate: data['stats']?['lastStudyDate'] != null
+              ? DateTime.tryParse(data['stats']['lastStudyDate'])
               : null,
         ),
         subscription: UserSubscriptionModel(
           type: data['subscription']?['type'] ?? 'free',
-          startDate: data['subscription']?['startDate'] != null 
-              ? DateTime.tryParse(data['subscription']['startDate']) 
+          startDate: data['subscription']?['startDate'] != null
+              ? DateTime.tryParse(data['subscription']['startDate'])
               : null,
-          endDate: data['subscription']?['endDate'] != null 
-              ? DateTime.tryParse(data['subscription']['endDate']) 
+          endDate: data['subscription']?['endDate'] != null
+              ? DateTime.tryParse(data['subscription']['endDate'])
               : null,
           isActive: data['subscription']?['isActive'] ?? false,
           paymentMethod: data['subscription']?['paymentMethod'],
-          features: Map<String, dynamic>.from(data['subscription']?['features'] ?? {}),
+          features: data['subscription']?['features'] != null
+              ? Map<String, dynamic>.from(data['subscription']['features'])
+              : {},
         ),
-        createdAt: data['created_at'] != null || data['createdAt'] != null 
-            ? DateTime.tryParse(data['created_at'] ?? data['createdAt']) 
+        createdAt: data['created_at'] != null
+            ? DateTime.tryParse(data['created_at'])
             : null,
-        updatedAt: data['updated_at'] != null || data['updatedAt'] != null 
-            ? DateTime.tryParse(data['updated_at'] ?? data['updatedAt']) 
+        updatedAt: data['updated_at'] != null
+            ? DateTime.tryParse(data['updated_at'])
             : null,
       );
     } on DioException catch (e) {
+      debugPrint('❌ getCurrentUser DioException: ${e.toString()}');
+      debugPrint('   Status Code: ${e.response?.statusCode}');
+      debugPrint('   Response Data: ${e.response?.data}');
       throw _handleDioException(e);
     } catch (e) {
+      debugPrint('❌ getCurrentUser Exception: ${e.toString()}');
       throw ServerException(message: e.toString());
     }
   }
@@ -270,10 +272,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<void> resetPassword(String email) async {
     try {
-      await _apiClient.post(
-        ApiEndpoints.resetPassword,
-        data: {'email': email},
-      );
+      await _apiClient.post(ApiEndpoints.resetPassword, data: {'email': email});
     } on DioException catch (e) {
       throw _handleDioException(e);
     } catch (e) {
@@ -290,12 +289,12 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       final data = <String, dynamic>{};
       if (name != null) data['name'] = name;
       if (profileImageUrl != null) data['profile_image_url'] = profileImageUrl;
-      
+
       final response = await _apiClient.put(
         ApiEndpoints.updateProfile,
         data: data,
       );
-      
+
       return UserModel.fromJson(response.data);
     } on DioException catch (e) {
       throw _handleDioException(e);
@@ -313,7 +312,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       case DioExceptionType.badResponse:
         final statusCode = e.response?.statusCode;
         final message = e.response?.data?['message'] ?? 'Server error';
-        
+
         switch (statusCode) {
           case 400:
             return ServerException(message: message, statusCode: statusCode);
@@ -324,7 +323,10 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
           case 404:
             return ServerException(message: message, statusCode: statusCode);
           case 500:
-            return ServerException(message: 'Internal server error', statusCode: statusCode);
+            return ServerException(
+              message: 'Internal server error',
+              statusCode: statusCode,
+            );
           default:
             return ServerException(message: message, statusCode: statusCode);
         }

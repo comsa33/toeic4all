@@ -1,3 +1,5 @@
+// lib/features/auth/presentation/pages/splash_screen.dart
+
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,6 +18,8 @@ class SplashScreen extends ConsumerStatefulWidget {
 }
 
 class _SplashScreenState extends ConsumerState<SplashScreen> {
+  bool _hasNavigated = false; // 네비게이션 중복 실행 방지
+
   @override
   void initState() {
     super.initState();
@@ -23,7 +27,11 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   }
 
   Future<void> _initializeApp() async {
+    if (_hasNavigated) return;
+
     try {
+      debugPrint('🚀 앱 초기화 시작');
+
       // 스플래시 화면 최소 표시 시간
       final splashDelay = Future.delayed(const Duration(seconds: 2));
 
@@ -35,19 +43,26 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
       // 둘 다 완료될 때까지 대기
       await Future.wait([splashDelay, authCheck]);
 
-      if (mounted) {
+      if (mounted && !_hasNavigated) {
         _navigateToNextScreen();
       }
     } catch (e) {
       debugPrint('❌ 앱 초기화 중 오류: $e');
-      if (mounted) {
+      if (mounted && !_hasNavigated) {
         // 오류가 발생해도 로그인 화면으로 이동
-        context.go('/login');
+        _navigateToNextScreen(forceLogin: true);
       }
     }
   }
 
-  void _navigateToNextScreen() {
+  void _navigateToNextScreen({bool forceLogin = false}) {
+    if (_hasNavigated) {
+      debugPrint('⚠️ 이미 네비게이션됨 - 건너뛰기');
+      return;
+    }
+
+    _hasNavigated = true;
+
     final authState = ref.read(authControllerProvider);
 
     debugPrint('🧭 스플래시 화면 - 네비게이션 결정');
@@ -55,8 +70,11 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
     debugPrint('   - isAuthenticated: ${authState.isAuthenticated}');
     debugPrint('   - hasToken: ${authState.accessToken != null}');
     debugPrint('   - user: ${authState.user?.username}');
+    debugPrint('   - forceLogin: $forceLogin');
 
-    if (authState.isAuthenticated && authState.accessToken != null) {
+    if (!forceLogin &&
+        authState.isAuthenticated &&
+        authState.accessToken != null) {
       debugPrint('✅ 자동 로그인 성공 - 문제 서비스로 이동');
       context.go('/questions');
     } else {
@@ -67,13 +85,20 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // 인증 상태 변화 감지
+    // 인증 상태 변화 감지 - 한 번만 실행되도록 수정
     ref.listen(authControllerProvider, (previous, next) {
-      // 초기화가 완료되면 네비게이션 실행
-      if (next.isInitialized && !next.isLoading && mounted) {
+      // 초기화가 완료되고, 로딩이 끝났으며, 아직 네비게이션하지 않았을 때만 실행
+      if (next.isInitialized &&
+          !next.isLoading &&
+          mounted &&
+          !_hasNavigated &&
+          (previous?.isInitialized != next.isInitialized ||
+              previous?.isLoading != next.isLoading)) {
+        debugPrint('📡 인증 상태 변화 감지 - 네비게이션 실행');
+
         // 약간의 지연을 두고 네비게이션 실행 (애니메이션 완료를 위해)
         Future.delayed(const Duration(milliseconds: 500), () {
-          if (mounted) {
+          if (mounted && !_hasNavigated) {
             _navigateToNextScreen();
           }
         });

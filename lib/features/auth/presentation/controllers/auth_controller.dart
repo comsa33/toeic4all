@@ -12,7 +12,7 @@ class AuthState {
   final String? errorMessage;
   final String? accessToken;
   final String? refreshToken;
-  final bool isInitialized; // 앱 초기화 완료 여부
+  final bool isInitialized;
 
   const AuthState({
     this.isLoading = false,
@@ -59,6 +59,9 @@ class AuthController extends StateNotifier<AuthState> {
   final GetCurrentUserUseCase _getCurrentUserUseCase;
   final AuthLocalDataSource _localDataSource;
 
+  // 중복 실행 방지 플래그
+  bool _isCheckingAuth = false;
+
   AuthController({
     required LoginUseCase loginUseCase,
     required SignUpUseCase signUpUseCase,
@@ -86,8 +89,14 @@ class AuthController extends StateNotifier<AuthState> {
        _localDataSource = localDataSource,
        super(const AuthState());
 
-  // 앱 시작 시 자동 로그인 체크
+  // 앱 시작 시 자동 로그인 체크 - 중복 실행 방지
   Future<void> checkAuthStatus() async {
+    if (_isCheckingAuth) {
+      debugPrint('⚠️ 이미 인증 체크 중 - 건너뛰기');
+      return;
+    }
+
+    _isCheckingAuth = true;
     debugPrint('🔍 자동 로그인 체크 시작');
 
     try {
@@ -104,6 +113,7 @@ class AuthController extends StateNotifier<AuthState> {
         result.fold(
           (failure) async {
             debugPrint('❌ 토큰으로 사용자 정보 조회 실패 - 토큰 갱신 시도');
+            debugPrint('   실패 이유: ${failure.toString()}');
 
             // 토큰 갱신 시도
             final refreshResult = await _refreshTokenUseCase.call(
@@ -112,18 +122,30 @@ class AuthController extends StateNotifier<AuthState> {
 
             refreshResult.fold(
               (refreshFailure) {
-                debugPrint('❌ 토큰 갱신 실패 - 로그아웃 처리');
+                debugPrint('❌ 토큰 갱신 실패: ${refreshFailure.toString()}');
                 _clearAuthData();
               },
               (newToken) async {
-                debugPrint('✅ 토큰 갱신 성공 - 사용자 정보 재조회');
+                debugPrint('✅ 토큰 갱신 성공');
+
+                // 새 토큰 저장
+                await _localDataSource.saveTokens(
+                  accessToken: newToken.accessToken,
+                  refreshToken: newToken.refreshToken,
+                );
 
                 // 새 토큰으로 사용자 정보 재조회
                 final userResult = await _getCurrentUserUseCase.call();
                 userResult.fold(
                   (userFailure) {
-                    debugPrint('❌ 토큰 갱신 후에도 사용자 정보 조회 실패');
-                    _clearAuthData();
+                    debugPrint(
+                      '❌ 토큰 갱신 후에도 사용자 정보 조회 실패: ${userFailure.toString()}',
+                    );
+                    // 토큰은 유효하므로 기본 사용자 정보로 설정
+                    _setAuthenticatedWithoutUser(
+                      newToken.accessToken,
+                      newToken.refreshToken,
+                    );
                   },
                   (user) {
                     debugPrint('✅ 자동 로그인 성공: ${user.username}');
@@ -157,7 +179,21 @@ class AuthController extends StateNotifier<AuthState> {
     } catch (e) {
       debugPrint('❌ 자동 로그인 체크 중 오류: $e');
       state = state.copyWith(isInitialized: true);
+    } finally {
+      _isCheckingAuth = false;
     }
+  }
+
+  // 사용자 정보 없이 인증된 상태로 설정 (토큰은 유효하지만 사용자 정보 조회 실패 시)
+  void _setAuthenticatedWithoutUser(String accessToken, String refreshToken) {
+    debugPrint('⚠️ 사용자 정보 없이 인증 상태 설정 (토큰 유지)');
+    state = state.copyWith(
+      isAuthenticated: true,
+      user: null, // 사용자 정보는 나중에 다시 조회 시도
+      accessToken: accessToken,
+      refreshToken: refreshToken,
+      isInitialized: true,
+    );
   }
 
   Future<void> signInWithUsername({
