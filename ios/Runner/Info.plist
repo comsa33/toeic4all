@@ -24,12 +24,27 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>CFBundleURLTypes</key>
 	<array>
+		<!-- Google Sign-In URL Scheme -->
 		<dict>
 			<key>CFBundleURLName</key>
 			<string>com.googleusercontent.apps.492018860076-vgsfs0r9qmaihc9qp3gig8nkl9vq6ma2</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>com.googleusercontent.apps.492018860076-vgsfs0r9qmaihc9qp3gig8nkl9vq6ma2</string>
+			</array>
+		</dict>
+		<!-- Kakao Login URL Scheme -->
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>kakao39460d79912e5b0a6518a8c86237771d</string>
+			</array>
+		</dict>
+		<!-- Naver Login URL Scheme -->
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>naverlogin</string>
 			</array>
 		</dict>
 	</array>
@@ -56,5 +71,23 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	
+	<!-- LSApplicationQueriesSchemes for Kakao and Naver -->
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>kakaokompassauth</string>
+		<string>storykompassauth</string>
+		<string>kakaolink</string>
+		<string>kakaotalk</string>
+		<string>naversearchapp</string>
+		<string>naversearchthirdlogin</string>
+	</array>
+	
+	<!-- App Transport Security -->
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 </dict>
 </plist>

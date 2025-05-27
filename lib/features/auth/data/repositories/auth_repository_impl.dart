@@ -299,6 +299,54 @@ class AuthRepositoryImpl implements AuthRepository {
     }
   }
 
+  @override
+  Future<Either<Failure, AuthResponse>> kakaoLoginMobile({
+    required String accessToken,
+  }) async {
+    try {
+      debugPrint('🔄 모바일 카카오 로그인 Repository 호출');
+      final result = await _remoteDataSource.signInWithKakaoMobile(
+        accessToken: accessToken,
+      );
+      await _localDataSource.cacheAuthResponse(result);
+      debugPrint('✅ 모바일 카카오 로그인 Repository 성공');
+      return Right(result.toEntity());
+    } on AuthException catch (e) {
+      debugPrint('❌ 모바일 카카오 로그인 인증 오류: ${e.message}');
+      return Left(Failure.auth(message: e.message));
+    } on ServerException catch (e) {
+      debugPrint('❌ 모바일 카카오 로그인 서버 오류: ${e.message}');
+      return Left(Failure.server(message: e.message));
+    } catch (e) {
+      debugPrint('❌ 모바일 카카오 로그인 알 수 없는 오류: $e');
+      return Left(Failure.unknown(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, AuthResponse>> naverLoginMobile({
+    required String accessToken,
+  }) async {
+    try {
+      debugPrint('🔄 모바일 네이버 로그인 Repository 호출');
+      final result = await _remoteDataSource.signInWithNaverMobile(
+        accessToken: accessToken,
+      );
+      await _localDataSource.cacheAuthResponse(result);
+      debugPrint('✅ 모바일 네이버 로그인 Repository 성공');
+      return Right(result.toEntity());
+    } on AuthException catch (e) {
+      debugPrint('❌ 모바일 네이버 로그인 인증 오류: ${e.message}');
+      return Left(Failure.auth(message: e.message));
+    } on ServerException catch (e) {
+      debugPrint('❌ 모바일 네이버 로그인 서버 오류: ${e.message}');
+      return Left(Failure.server(message: e.message));
+    } catch (e) {
+      debugPrint('❌ 모바일 네이버 로그인 알 수 없는 오류: $e');
+      return Left(Failure.unknown(message: e.toString()));
+    }
+  }
+
   /*
   // 임시 비활성화 - 네이버 로그인
   @override

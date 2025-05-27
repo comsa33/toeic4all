@@ -81,6 +81,14 @@ abstract class AuthRepository {
     required String redirectUri,
   });
 
+  Future<Either<Failure, AuthResponse>> kakaoLoginMobile({
+    required String accessToken,
+  });
+
+  Future<Either<Failure, AuthResponse>> naverLoginMobile({
+    required String accessToken,
+  });
+
   /*
   // 임시 비활성화 - 네이버 로그인
   Future<Either<Failure, AuthResponse>> naverLogin({

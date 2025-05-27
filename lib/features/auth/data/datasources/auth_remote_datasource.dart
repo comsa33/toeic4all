@@ -29,6 +29,15 @@ abstract class AuthRemoteDataSource {
     required String idToken,
     String? accessToken,
   });
+  
+  Future<AuthResponseModel> signInWithKakaoMobile({
+    required String accessToken,
+  });
+  
+  Future<AuthResponseModel> signInWithNaverMobile({
+    required String accessToken,
+  });
+  
   Future<AuthResponseModel> signInWithApple();
   Future<AuthResponseModel> signInWithKakao({
     required String code,
@@ -179,6 +188,54 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     } on DioException catch (e) {
       throw _handleDioException(e);
     } catch (e) {
+      throw ServerException(message: e.toString());
+    }
+  }
+
+  @override
+  Future<AuthResponseModel> signInWithKakaoMobile({
+    required String accessToken,
+  }) async {
+    try {
+      debugPrint('🔄 모바일 카카오 로그인 API 호출 시작');
+      debugPrint('🔑 Access Token: ${accessToken.substring(0, 20)}...');
+
+      final response = await _apiClient.post(
+        ApiEndpoints.kakaoLoginMobile,
+        data: {'access_token': accessToken},
+      );
+
+      debugPrint('✅ 모바일 카카오 로그인 API 응답 성공');
+      return AuthResponseModel.fromJson(response.data);
+    } on DioException catch (e) {
+      debugPrint('❌ 모바일 카카오 로그인 API 오류: ${e.message}');
+      throw _handleDioException(e);
+    } catch (e) {
+      debugPrint('❌ 모바일 카카오 로그인 예외: $e');
+      throw ServerException(message: e.toString());
+    }
+  }
+
+  @override
+  Future<AuthResponseModel> signInWithNaverMobile({
+    required String accessToken,
+  }) async {
+    try {
+      debugPrint('🔄 모바일 네이버 로그인 API 호출 시작');
+      debugPrint('🔑 Access Token: ${accessToken.substring(0, 20)}...');
+
+      final response = await _apiClient.post(
+        ApiEndpoints.naverLoginMobile,
+        data: {'access_token': accessToken},
+      );
+
+      debugPrint('✅ 모바일 네이버 로그인 API 응답 성공');
+      return AuthResponseModel.fromJson(response.data);
+    } on DioException catch (e) {
+      debugPrint('❌ 모바일 네이버 로그인 API 오류: ${e.message}');
+      throw _handleDioException(e);
+    } catch (e) {
+      debugPrint('❌ 모바일 네이버 로그인 예외: $e');
       throw ServerException(message: e.toString());
     }
   }

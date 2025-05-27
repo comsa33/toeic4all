@@ -252,6 +252,50 @@ class KakaoLoginParams {
   });
 }
 
+// Social Login UseCase - Kakao Mobile
+class KakaoLoginMobileUseCase implements UseCase<AuthResponse, KakaoLoginMobileParams> {
+  final AuthRepository repository;
+
+  KakaoLoginMobileUseCase(this.repository);
+
+  @override
+  Future<Either<Failure, AuthResponse>> call(KakaoLoginMobileParams params) async {
+    return await repository.kakaoLoginMobile(
+      accessToken: params.accessToken,
+    );
+  }
+}
+
+class KakaoLoginMobileParams {
+  final String accessToken;
+
+  KakaoLoginMobileParams({
+    required this.accessToken,
+  });
+}
+
+// Social Login UseCase - Naver Mobile
+class NaverLoginMobileUseCase implements UseCase<AuthResponse, NaverLoginMobileParams> {
+  final AuthRepository repository;
+
+  NaverLoginMobileUseCase(this.repository);
+
+  @override
+  Future<Either<Failure, AuthResponse>> call(NaverLoginMobileParams params) async {
+    return await repository.naverLoginMobile(
+      accessToken: params.accessToken,
+    );
+  }
+}
+
+class NaverLoginMobileParams {
+  final String accessToken;
+
+  NaverLoginMobileParams({
+    required this.accessToken,
+  });
+}
+
 /*
 // 임시 비활성화 - Social Login UseCase - Naver
 class NaverLoginUseCase implements UseCase<AuthResponse, NaverLoginParams> {

@@ -2,6 +2,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../core/network/api_client.dart';
 import '../../../../core/services/google_sign_in_service.dart';
+import '../../../../core/services/kakao_sign_in_service.dart';
+import '../../../../core/services/naver_sign_in_service.dart';
 import '../../domain/repositories/auth_repository.dart';
 import '../../domain/usecases/auth_usecases.dart';
 import '../../data/datasources/auth_local_datasource.dart';
@@ -33,6 +35,16 @@ final authLocalDataSourceProvider = Provider<AuthLocalDataSource>((ref) {
 // Google Sign-In Service
 final googleSignInServiceProvider = Provider<GoogleSignInService>((ref) {
   return GoogleSignInService();
+});
+
+// Kakao Sign-In Service
+final kakaoSignInServiceProvider = Provider<KakaoSignInService>((ref) {
+  return KakaoSignInService();
+});
+
+// Naver Sign-In Service
+final naverSignInServiceProvider = Provider<NaverSignInService>((ref) {
+  return NaverSignInService();
 });
 
 // Repository
@@ -98,6 +110,16 @@ final kakaoLoginUseCaseProvider = Provider<KakaoLoginUseCase>((ref) {
   return KakaoLoginUseCase(repository);
 });
 
+final kakaoLoginMobileUseCaseProvider = Provider<KakaoLoginMobileUseCase>((ref) {
+  final repository = ref.watch(authRepositoryProvider);
+  return KakaoLoginMobileUseCase(repository);
+});
+
+final naverLoginMobileUseCaseProvider = Provider<NaverLoginMobileUseCase>((ref) {
+  final repository = ref.watch(authRepositoryProvider);
+  return NaverLoginMobileUseCase(repository);
+});
+
 // 임시 비활성화 - 네이버 로그인
 /*
 final naverLoginUseCaseProvider = Provider<NaverLoginUseCase>((ref) {
@@ -130,10 +152,13 @@ final authControllerProvider = StateNotifierProvider<AuthController, AuthState>(
       googleLoginUseCase: ref.watch(googleLoginUseCaseProvider),
       googleLoginMobileUseCase: ref.watch(googleLoginMobileUseCaseProvider),
       kakaoLoginUseCase: ref.watch(kakaoLoginUseCaseProvider),
-      // naverLoginUseCase: ref.watch(naverLoginUseCaseProvider), // 임시 비활성화
-      getCurrentUserUseCase: ref.watch(getCurrentUserUseCaseProvider), // 추가
-      localDataSource: ref.watch(authLocalDataSourceProvider), // 추가
-      googleSignInService: ref.watch(googleSignInServiceProvider), // 추가
+      kakaoLoginMobileUseCase: ref.watch(kakaoLoginMobileUseCaseProvider),
+      naverLoginMobileUseCase: ref.watch(naverLoginMobileUseCaseProvider),
+      getCurrentUserUseCase: ref.watch(getCurrentUserUseCaseProvider),
+      localDataSource: ref.watch(authLocalDataSourceProvider),
+      googleSignInService: ref.watch(googleSignInServiceProvider),
+      kakaoSignInService: ref.watch(kakaoSignInServiceProvider),
+      naverSignInService: ref.watch(naverSignInServiceProvider),
     );
   },
 );

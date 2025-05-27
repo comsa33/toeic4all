@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/services/google_sign_in_service.dart';
+import '../../../../core/services/kakao_sign_in_service.dart';
+import '../../../../core/services/naver_sign_in_service.dart';
 import '../../domain/entities/user.dart';
 import '../../domain/usecases/auth_usecases.dart';
 import '../../data/datasources/auth_local_datasource.dart';
@@ -56,10 +58,13 @@ class AuthController extends StateNotifier<AuthState> {
   final GoogleLoginUseCase _googleLoginUseCase;
   final GoogleLoginMobileUseCase _googleLoginMobileUseCase;
   final KakaoLoginUseCase _kakaoLoginUseCase;
-  // final NaverLoginUseCase _naverLoginUseCase; // 임시 비활성화
+  final KakaoLoginMobileUseCase _kakaoLoginMobileUseCase;
+  final NaverLoginMobileUseCase _naverLoginMobileUseCase;
   final GetCurrentUserUseCase _getCurrentUserUseCase;
   final AuthLocalDataSource _localDataSource;
   final GoogleSignInService _googleSignInService;
+  final KakaoSignInService _kakaoSignInService;
+  final NaverSignInService _naverSignInService;
 
   // 중복 실행 방지 플래그
   bool _isCheckingAuth = false;
@@ -75,10 +80,13 @@ class AuthController extends StateNotifier<AuthState> {
     required GoogleLoginUseCase googleLoginUseCase,
     required GoogleLoginMobileUseCase googleLoginMobileUseCase,
     required KakaoLoginUseCase kakaoLoginUseCase,
-    // required NaverLoginUseCase naverLoginUseCase, // 임시 비활성화
+    required KakaoLoginMobileUseCase kakaoLoginMobileUseCase,
+    required NaverLoginMobileUseCase naverLoginMobileUseCase,
     required GetCurrentUserUseCase getCurrentUserUseCase,
     required AuthLocalDataSource localDataSource,
     required GoogleSignInService googleSignInService,
+    required KakaoSignInService kakaoSignInService,
+    required NaverSignInService naverSignInService,
   }) : _loginUseCase = loginUseCase,
        _signUpUseCase = signUpUseCase,
        _logoutUseCase = logoutUseCase,
@@ -89,10 +97,13 @@ class AuthController extends StateNotifier<AuthState> {
        _googleLoginUseCase = googleLoginUseCase,
        _googleLoginMobileUseCase = googleLoginMobileUseCase,
        _kakaoLoginUseCase = kakaoLoginUseCase,
-       // _naverLoginUseCase = naverLoginUseCase, // 임시 비활성화
+       _kakaoLoginMobileUseCase = kakaoLoginMobileUseCase,
+       _naverLoginMobileUseCase = naverLoginMobileUseCase,
        _getCurrentUserUseCase = getCurrentUserUseCase,
        _localDataSource = localDataSource,
        _googleSignInService = googleSignInService,
+       _kakaoSignInService = kakaoSignInService,
+       _naverSignInService = naverSignInService,
        super(const AuthState());
 
   // 앱 시작 시 자동 로그인 체크 - 중복 실행 방지
@@ -383,19 +394,41 @@ class AuthController extends StateNotifier<AuthState> {
   Future<void> signInWithKakao({String? code, String? redirectUri}) async {
     state = state.copyWith(isLoading: true, errorMessage: null);
 
-    if (code != null && redirectUri != null) {
-      final result = await _kakaoLoginUseCase(
-        KakaoLoginParams(code: code, redirectUri: redirectUri),
+    try {
+      debugPrint('🔄 카카오 로그인 시작');
+      
+      // 카카오 SDK를 사용하여 실제 로그인 수행
+      final String? accessToken = await _kakaoSignInService.signIn();
+      
+      if (accessToken == null) {
+        debugPrint('❌ 카카오 로그인 취소됨 또는 실패');
+        state = state.copyWith(
+          isLoading: false,
+          errorMessage: '카카오 로그인이 취소되었습니다.',
+        );
+        return;
+      }
+
+      debugPrint('✅ 카카오 Access Token 획득 성공');
+      
+      // 백엔드 API에 Access Token 전송
+      final result = await _kakaoLoginMobileUseCase(
+        KakaoLoginMobileParams(accessToken: accessToken),
       );
 
       result.fold(
         (failure) {
+          debugPrint('❌ 백엔드 카카오 로그인 실패: ${failure.toString()}');
           state = state.copyWith(
             isLoading: false,
             errorMessage: _getErrorMessage(failure),
           );
         },
         (authResponse) {
+          debugPrint('✅ 카카오 로그인 성공!');
+          debugPrint('🔑 토큰 정보: ${authResponse.accessToken.substring(0, 20)}...');
+          debugPrint('👤 유저 정보: ${authResponse.user.username}, ${authResponse.user.email}');
+          
           state = state.copyWith(
             isLoading: false,
             isAuthenticated: true,
@@ -406,11 +439,68 @@ class AuthController extends StateNotifier<AuthState> {
           );
         },
       );
-    } else {
+    } catch (e) {
+      debugPrint('❌ 카카오 로그인 예외 발생: $e');
       state = state.copyWith(
         isLoading: false,
-        errorMessage:
-            'Kakao 로그인 URL: https://kauth.kakao.com/oauth/authorize...',
+        errorMessage: '카카오 로그인 중 오류가 발생했습니다. 다시 시도해주세요.',
+      );
+    }
+  }
+
+  Future<void> signInWithNaver() async {
+    state = state.copyWith(isLoading: true, errorMessage: null);
+
+    try {
+      debugPrint('🔄 네이버 로그인 시작');
+      
+      // 네이버 SDK를 사용하여 실제 로그인 수행
+      final String? accessToken = await _naverSignInService.signIn();
+      
+      if (accessToken == null) {
+        debugPrint('❌ 네이버 로그인 취소됨 또는 실패');
+        state = state.copyWith(
+          isLoading: false,
+          errorMessage: '네이버 로그인이 취소되었습니다.',
+        );
+        return;
+      }
+
+      debugPrint('✅ 네이버 Access Token 획득 성공');
+      
+      // 백엔드 API에 Access Token 전송
+      final result = await _naverLoginMobileUseCase(
+        NaverLoginMobileParams(accessToken: accessToken),
+      );
+
+      result.fold(
+        (failure) {
+          debugPrint('❌ 백엔드 네이버 로그인 실패: ${failure.toString()}');
+          state = state.copyWith(
+            isLoading: false,
+            errorMessage: _getErrorMessage(failure),
+          );
+        },
+        (authResponse) {
+          debugPrint('✅ 네이버 로그인 성공!');
+          debugPrint('🔑 토큰 정보: ${authResponse.accessToken.substring(0, 20)}...');
+          debugPrint('👤 유저 정보: ${authResponse.user.username}, ${authResponse.user.email}');
+          
+          state = state.copyWith(
+            isLoading: false,
+            isAuthenticated: true,
+            user: authResponse.user,
+            accessToken: authResponse.accessToken,
+            refreshToken: authResponse.refreshToken,
+            errorMessage: null,
+          );
+        },
+      );
+    } catch (e) {
+      debugPrint('❌ 네이버 로그인 예외 발생: $e');
+      state = state.copyWith(
+        isLoading: false,
+        errorMessage: '네이버 로그인 중 오류가 발생했습니다. 다시 시도해주세요.',
       );
     }
   }
