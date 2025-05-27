@@ -100,7 +100,9 @@ final googleLoginUseCaseProvider = Provider<GoogleLoginUseCase>((ref) {
   return GoogleLoginUseCase(repository);
 });
 
-final googleLoginMobileUseCaseProvider = Provider<GoogleLoginMobileUseCase>((ref) {
+final googleLoginMobileUseCaseProvider = Provider<GoogleLoginMobileUseCase>((
+  ref,
+) {
   final repository = ref.watch(authRepositoryProvider);
   return GoogleLoginMobileUseCase(repository);
 });
@@ -110,12 +112,16 @@ final kakaoLoginUseCaseProvider = Provider<KakaoLoginUseCase>((ref) {
   return KakaoLoginUseCase(repository);
 });
 
-final kakaoLoginMobileUseCaseProvider = Provider<KakaoLoginMobileUseCase>((ref) {
+final kakaoLoginMobileUseCaseProvider = Provider<KakaoLoginMobileUseCase>((
+  ref,
+) {
   final repository = ref.watch(authRepositoryProvider);
   return KakaoLoginMobileUseCase(repository);
 });
 
-final naverLoginMobileUseCaseProvider = Provider<NaverLoginMobileUseCase>((ref) {
+final naverLoginMobileUseCaseProvider = Provider<NaverLoginMobileUseCase>((
+  ref,
+) {
   final repository = ref.watch(authRepositoryProvider);
   return NaverLoginMobileUseCase(repository);
 });
@@ -159,6 +165,7 @@ final authControllerProvider = StateNotifierProvider<AuthController, AuthState>(
       googleSignInService: ref.watch(googleSignInServiceProvider),
       kakaoSignInService: ref.watch(kakaoSignInServiceProvider),
       naverSignInService: ref.watch(naverSignInServiceProvider),
+      ref: ref, // Ref 전달
     );
   },
 );

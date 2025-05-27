@@ -11,9 +11,7 @@ final tokenStorageProvider = Provider<TokenStorage>((ref) {
 
 class TokenStorage {
   static const _storage = FlutterSecureStorage(
-    aOptions: AndroidOptions(
-      encryptedSharedPreferences: true,
-    ),
+    aOptions: AndroidOptions(encryptedSharedPreferences: true),
     iOptions: IOSOptions(
       accessibility: KeychainAccessibility.first_unlock_this_device,
     ),
@@ -57,15 +55,18 @@ class AuthInterceptor extends Interceptor {
   AuthInterceptor(this._ref);
 
   @override
-  void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
+  void onRequest(
+    RequestOptions options,
+    RequestInterceptorHandler handler,
+  ) async {
     try {
       final tokenStorage = _ref.read(tokenStorageProvider);
       final token = await tokenStorage.getAccessToken();
-      
+
       if (token != null) {
         options.headers['Authorization'] = 'Bearer $token';
       }
-      
+
       handler.next(options);
     } catch (e) {
       handler.reject(
@@ -92,14 +93,18 @@ class LoggingInterceptor extends Interceptor {
 
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
-    print('RESPONSE[${response.statusCode}] => PATH: ${response.requestOptions.path}');
+    print(
+      'RESPONSE[${response.statusCode}] => PATH: ${response.requestOptions.path}',
+    );
     print('Data: ${response.data}');
     handler.next(response);
   }
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
-    print('ERROR[${err.response?.statusCode}] => PATH: ${err.requestOptions.path}');
+    print(
+      'ERROR[${err.response?.statusCode}] => PATH: ${err.requestOptions.path}',
+    );
     print('Message: ${err.message}');
     handler.next(err);
   }
@@ -123,7 +128,7 @@ class ErrorInterceptor extends Interceptor {
       case DioExceptionType.badResponse:
         final statusCode = err.response?.statusCode;
         final message = err.response?.data?['message'] ?? '서버 오류가 발생했습니다';
-        
+
         switch (statusCode) {
           case 400:
             exception = ValidationException(message: message);
@@ -139,7 +144,10 @@ class ErrorInterceptor extends Interceptor {
             break;
           case 500:
           default:
-            exception = ServerException(message: message, statusCode: statusCode);
+            exception = ServerException(
+              message: message,
+              statusCode: statusCode,
+            );
             break;
         }
         break;
@@ -149,7 +157,9 @@ class ErrorInterceptor extends Interceptor {
         return;
       case DioExceptionType.unknown:
       default:
-        exception = ServerException(message: err.message ?? '알 수 없는 오류가 발생했습니다');
+        exception = ServerException(
+          message: err.message ?? '알 수 없는 오류가 발생했습니다',
+        );
         break;
     }
 
@@ -174,27 +184,27 @@ class RefreshTokenInterceptor extends Interceptor {
   void onError(DioException err, ErrorInterceptorHandler handler) async {
     if (err.response?.statusCode == 401 && !_isRefreshing) {
       _isRefreshing = true;
-      
+
       try {
         final tokenStorage = _ref.read(tokenStorageProvider);
         final refreshToken = await tokenStorage.getRefreshToken();
-        
+
         if (refreshToken != null) {
           final dio = Dio();
           final response = await dio.post(
             '${ApiEndpoints.baseUrl}${ApiEndpoints.refreshToken}',
             data: {'refresh_token': refreshToken},
           );
-          
+
           final newAccessToken = response.data['access_token'];
           final newRefreshToken = response.data['refresh_token'];
-          
+
           await tokenStorage.saveTokens(newAccessToken, newRefreshToken);
-          
+
           // 원래 요청 재시도
           final requestOptions = err.requestOptions;
           requestOptions.headers['Authorization'] = 'Bearer $newAccessToken';
-          
+
           final retryResponse = await Dio().fetch(requestOptions);
           handler.resolve(retryResponse);
         } else {

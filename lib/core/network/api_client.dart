@@ -13,22 +13,24 @@ class ApiClient {
   final Ref _ref;
 
   ApiClient(this._ref) {
-    _dio = Dio(BaseOptions(
-      baseUrl: ApiEndpoints.baseUrl,
-      connectTimeout: const Duration(seconds: 30),
-      receiveTimeout: const Duration(seconds: 30),
-      sendTimeout: const Duration(seconds: 30),
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
-    ));
+    _dio = Dio(
+      BaseOptions(
+        baseUrl: ApiEndpoints.baseUrl,
+        connectTimeout: const Duration(seconds: 30),
+        receiveTimeout: const Duration(seconds: 30),
+        sendTimeout: const Duration(seconds: 30),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+      ),
+    );
 
     // 인터셉터 추가
     _dio.interceptors.add(AuthInterceptor(_ref));
     _dio.interceptors.add(LoggingInterceptor());
     _dio.interceptors.add(ErrorInterceptor());
-    _dio.interceptors.add(RefreshTokenInterceptor(_ref));
+    // _dio.interceptors.add(RefreshTokenInterceptor(_ref)); // 임시 비활성화 - AuthController에서 토큰 갱신 처리
   }
 
   Dio get dio => _dio;

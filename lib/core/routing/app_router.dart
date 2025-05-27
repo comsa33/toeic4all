@@ -187,7 +187,7 @@ class HomeScreen extends ConsumerWidget {
             tooltip: '설정',
           ),
           // 프로필 아이콘
-          if (authState.user != null)
+          if (authState.isAuthenticated)
             Padding(
               padding: const EdgeInsets.only(right: 8.0),
               child: GestureDetector(
@@ -195,14 +195,18 @@ class HomeScreen extends ConsumerWidget {
                 child: CircleAvatar(
                   radius: 16,
                   backgroundColor: Theme.of(context).colorScheme.primary,
-                  child: Text(
-                    authState.user!.profile.name.substring(0, 1).toUpperCase(),
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
+                  child: authState.user != null
+                      ? Text(
+                          authState.user!.profile.name
+                              .substring(0, 1)
+                              .toUpperCase(),
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        )
+                      : const Icon(Icons.person, size: 16, color: Colors.white),
                 ),
               ),
             ),
@@ -266,9 +270,9 @@ class _FeatureCard extends StatelessWidget {
               const SizedBox(height: 8),
               Text(
                 title,
-                style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+                style: Theme.of(
+                  context,
+                ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 4),

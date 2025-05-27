@@ -49,7 +49,7 @@ dependencies:
   # Social Login
   google_sign_in: ^6.2.1
   kakao_flutter_sdk: ^1.9.1
-  flutter_naver_login: ^1.8.0
+  # flutter_naver_login: ^2.1.1  # TODO: API 호환성 문제로 임시 비활성화
   
   # UI/UX
   flutter_animate: ^4.5.0
