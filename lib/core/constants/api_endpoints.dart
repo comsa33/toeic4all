@@ -30,6 +30,7 @@ class ApiEndpoints {
 
   // Social login endpoints
   static const String googleLogin = '$authVersion/social/google';
+  static const String googleLoginMobile = '$authVersion/social/google/mobile';
   static const String kakaoLogin = '$authVersion/social/kakao';
   static const String naverLogin = '$authVersion/social/naver';
 

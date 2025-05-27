@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../../core/services/google_sign_in_service.dart';
 import '../../domain/entities/user.dart';
 import '../../domain/usecases/auth_usecases.dart';
 import '../../data/datasources/auth_local_datasource.dart';
@@ -53,10 +54,12 @@ class AuthController extends StateNotifier<AuthState> {
   final PasswordResetConfirmUseCase _passwordResetConfirmUseCase;
   final ChangePasswordUseCase _changePasswordUseCase;
   final GoogleLoginUseCase _googleLoginUseCase;
+  final GoogleLoginMobileUseCase _googleLoginMobileUseCase;
   final KakaoLoginUseCase _kakaoLoginUseCase;
-  final NaverLoginUseCase _naverLoginUseCase;
+  // final NaverLoginUseCase _naverLoginUseCase; // 임시 비활성화
   final GetCurrentUserUseCase _getCurrentUserUseCase;
   final AuthLocalDataSource _localDataSource;
+  final GoogleSignInService _googleSignInService;
 
   // 중복 실행 방지 플래그
   bool _isCheckingAuth = false;
@@ -70,10 +73,12 @@ class AuthController extends StateNotifier<AuthState> {
     required PasswordResetConfirmUseCase passwordResetConfirmUseCase,
     required ChangePasswordUseCase changePasswordUseCase,
     required GoogleLoginUseCase googleLoginUseCase,
+    required GoogleLoginMobileUseCase googleLoginMobileUseCase,
     required KakaoLoginUseCase kakaoLoginUseCase,
-    required NaverLoginUseCase naverLoginUseCase,
+    // required NaverLoginUseCase naverLoginUseCase, // 임시 비활성화
     required GetCurrentUserUseCase getCurrentUserUseCase,
     required AuthLocalDataSource localDataSource,
+    required GoogleSignInService googleSignInService,
   }) : _loginUseCase = loginUseCase,
        _signUpUseCase = signUpUseCase,
        _logoutUseCase = logoutUseCase,
@@ -82,10 +87,12 @@ class AuthController extends StateNotifier<AuthState> {
        _passwordResetConfirmUseCase = passwordResetConfirmUseCase,
        _changePasswordUseCase = changePasswordUseCase,
        _googleLoginUseCase = googleLoginUseCase,
+       _googleLoginMobileUseCase = googleLoginMobileUseCase,
        _kakaoLoginUseCase = kakaoLoginUseCase,
-       _naverLoginUseCase = naverLoginUseCase,
+       // _naverLoginUseCase = naverLoginUseCase, // 임시 비활성화
        _getCurrentUserUseCase = getCurrentUserUseCase,
        _localDataSource = localDataSource,
+       _googleSignInService = googleSignInService,
        super(const AuthState());
 
   // 앱 시작 시 자동 로그인 체크 - 중복 실행 방지
@@ -307,19 +314,41 @@ class AuthController extends StateNotifier<AuthState> {
   Future<void> signInWithGoogle({String? code, String? redirectUri}) async {
     state = state.copyWith(isLoading: true, errorMessage: null);
 
-    if (code != null && redirectUri != null) {
-      final result = await _googleLoginUseCase(
-        GoogleLoginParams(code: code, redirectUri: redirectUri),
+    try {
+      debugPrint('🔄 Google Sign-In 시작');
+      
+      // Google Sign-In SDK를 사용하여 실제 로그인 수행
+      final String? idToken = await _googleSignInService.signIn();
+      
+      if (idToken == null) {
+        debugPrint('❌ Google Sign-In 취소됨 또는 실패');
+        state = state.copyWith(
+          isLoading: false,
+          errorMessage: 'Google 로그인이 취소되었습니다.',
+        );
+        return;
+      }
+
+      debugPrint('✅ Google ID Token 획득 성공');
+      
+      // 백엔드 API에 ID Token 전송
+      final result = await _googleLoginMobileUseCase(
+        GoogleLoginMobileParams(idToken: idToken),
       );
 
       result.fold(
         (failure) {
+          debugPrint('❌ 백엔드 Google 로그인 실패: ${failure.toString()}');
           state = state.copyWith(
             isLoading: false,
             errorMessage: _getErrorMessage(failure),
           );
         },
         (authResponse) {
+          debugPrint('✅ Google 로그인 성공!');
+          debugPrint('🔑 토큰 정보: ${authResponse.accessToken.substring(0, 20)}...');
+          debugPrint('👤 유저 정보: ${authResponse.user.username}, ${authResponse.user.email}');
+          
           state = state.copyWith(
             isLoading: false,
             isAuthenticated: true,
@@ -330,11 +359,11 @@ class AuthController extends StateNotifier<AuthState> {
           );
         },
       );
-    } else {
+    } catch (e) {
+      debugPrint('❌ Google Sign-In 예외 발생: $e');
       state = state.copyWith(
         isLoading: false,
-        errorMessage:
-            'Google 로그인 URL: https://accounts.google.com/o/oauth2/v2/auth...',
+        errorMessage: 'Google 로그인 중 오류가 발생했습니다. 다시 시도해주세요.',
       );
     }
   }
@@ -386,6 +415,8 @@ class AuthController extends StateNotifier<AuthState> {
     }
   }
 
+  /*
+  // 임시 비활성화 - 네이버 로그인
   Future<void> signInWithNaver({
     String? code,
     String? redirectUri,
@@ -428,6 +459,7 @@ class AuthController extends StateNotifier<AuthState> {
       );
     }
   }
+  */
 
   Future<void> signOut() async {
     if (state.refreshToken == null) {
@@ -439,6 +471,14 @@ class AuthController extends StateNotifier<AuthState> {
 
     // 서버 로그아웃 시도 (결과는 무시하고 로컬 정리를 진행)
     await _logoutUseCase(LogoutParams(refreshToken: state.refreshToken!));
+
+    // Google Sign-In에서도 로그아웃
+    try {
+      await _googleSignInService.signOut();
+      debugPrint('✅ Google Sign-In 로그아웃 완료');
+    } catch (e) {
+      debugPrint('⚠️ Google Sign-In 로그아웃 중 오류 (무시): $e');
+    }
 
     // 자동 로그인이 비활성화된 경우 토큰 완전 삭제
     final isAutoLoginEnabled = await _localDataSource.isAutoLoginEnabled();

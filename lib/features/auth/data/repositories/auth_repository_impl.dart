@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:flutter/foundation.dart';
 import '../../../../core/errors/failures.dart';
 import '../../../../core/errors/exceptions.dart';
 import '../../domain/entities/user.dart';
@@ -252,6 +253,32 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
+  Future<Either<Failure, AuthResponse>> googleLoginMobile({
+    required String idToken,
+    String? accessToken,
+  }) async {
+    try {
+      debugPrint('🔄 모바일 Google 로그인 Repository 호출');
+      final result = await _remoteDataSource.signInWithGoogleMobile(
+        idToken: idToken,
+        accessToken: accessToken,
+      );
+      await _localDataSource.cacheAuthResponse(result);
+      debugPrint('✅ 모바일 Google 로그인 Repository 성공');
+      return Right(result.toEntity());
+    } on AuthException catch (e) {
+      debugPrint('❌ 모바일 Google 로그인 인증 오류: ${e.message}');
+      return Left(Failure.auth(message: e.message));
+    } on ServerException catch (e) {
+      debugPrint('❌ 모바일 Google 로그인 서버 오류: ${e.message}');
+      return Left(Failure.server(message: e.message));
+    } catch (e) {
+      debugPrint('❌ 모바일 Google 로그인 알 수 없는 오류: $e');
+      return Left(Failure.unknown(message: e.toString()));
+    }
+  }
+
+  @override
   Future<Either<Failure, AuthResponse>> kakaoLogin({
     required String code,
     required String redirectUri,
@@ -272,6 +299,8 @@ class AuthRepositoryImpl implements AuthRepository {
     }
   }
 
+  /*
+  // 임시 비활성화 - 네이버 로그인
   @override
   Future<Either<Failure, AuthResponse>> naverLogin({
     required String code,
@@ -294,6 +323,7 @@ class AuthRepositoryImpl implements AuthRepository {
       return Left(Failure.unknown(message: e.toString()));
     }
   }
+  */
 
   @override
   Future<bool> isLoggedIn() async {

@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../core/network/api_client.dart';
+import '../../../../core/services/google_sign_in_service.dart';
 import '../../domain/repositories/auth_repository.dart';
 import '../../domain/usecases/auth_usecases.dart';
 import '../../data/datasources/auth_local_datasource.dart';
@@ -27,6 +28,11 @@ final authRemoteDataSourceProvider = Provider<AuthRemoteDataSource>((ref) {
 final authLocalDataSourceProvider = Provider<AuthLocalDataSource>((ref) {
   final prefs = ref.watch(sharedPreferencesProvider);
   return AuthLocalDataSourceImpl(prefs);
+});
+
+// Google Sign-In Service
+final googleSignInServiceProvider = Provider<GoogleSignInService>((ref) {
+  return GoogleSignInService();
 });
 
 // Repository
@@ -82,15 +88,23 @@ final googleLoginUseCaseProvider = Provider<GoogleLoginUseCase>((ref) {
   return GoogleLoginUseCase(repository);
 });
 
+final googleLoginMobileUseCaseProvider = Provider<GoogleLoginMobileUseCase>((ref) {
+  final repository = ref.watch(authRepositoryProvider);
+  return GoogleLoginMobileUseCase(repository);
+});
+
 final kakaoLoginUseCaseProvider = Provider<KakaoLoginUseCase>((ref) {
   final repository = ref.watch(authRepositoryProvider);
   return KakaoLoginUseCase(repository);
 });
 
+// 임시 비활성화 - 네이버 로그인
+/*
 final naverLoginUseCaseProvider = Provider<NaverLoginUseCase>((ref) {
   final repository = ref.watch(authRepositoryProvider);
   return NaverLoginUseCase(repository);
 });
+*/
 
 // 새로 추가된 UseCase
 final getCurrentUserUseCaseProvider = Provider<GetCurrentUserUseCase>((ref) {
@@ -114,10 +128,12 @@ final authControllerProvider = StateNotifierProvider<AuthController, AuthState>(
       ),
       changePasswordUseCase: ref.watch(changePasswordUseCaseProvider),
       googleLoginUseCase: ref.watch(googleLoginUseCaseProvider),
+      googleLoginMobileUseCase: ref.watch(googleLoginMobileUseCaseProvider),
       kakaoLoginUseCase: ref.watch(kakaoLoginUseCaseProvider),
-      naverLoginUseCase: ref.watch(naverLoginUseCaseProvider),
+      // naverLoginUseCase: ref.watch(naverLoginUseCaseProvider), // 임시 비활성화
       getCurrentUserUseCase: ref.watch(getCurrentUserUseCaseProvider), // 추가
       localDataSource: ref.watch(authLocalDataSourceProvider), // 추가
+      googleSignInService: ref.watch(googleSignInServiceProvider), // 추가
     );
   },
 );

@@ -24,16 +24,24 @@ abstract class AuthRemoteDataSource {
     required String code,
     required String redirectUri,
   });
+  
+  Future<AuthResponseModel> signInWithGoogleMobile({
+    required String idToken,
+    String? accessToken,
+  });
   Future<AuthResponseModel> signInWithApple();
   Future<AuthResponseModel> signInWithKakao({
     required String code,
     required String redirectUri,
   });
+  /*
+  // 임시 비활성화 - 네이버 로그인
   Future<AuthResponseModel> signInWithNaver({
     required String code,
     required String redirectUri,
     required String state,
   });
+  */
 
   Future<void> signOut();
   Future<TokenRefreshResponseModel> refreshToken(String refreshToken);
@@ -112,6 +120,40 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
+  Future<AuthResponseModel> signInWithGoogleMobile({
+    required String idToken,
+    String? accessToken,
+  }) async {
+    try {
+      debugPrint('🔄 모바일 Google 로그인 API 호출 시작');
+      debugPrint('🔑 ID Token: ${idToken.substring(0, 20)}...');
+      
+      final Map<String, dynamic> data = {
+        'id_token': idToken,
+      };
+      
+      if (accessToken != null) {
+        data['access_token'] = accessToken;
+        debugPrint('🔑 Access Token도 포함됨');
+      }
+
+      final response = await _apiClient.post(
+        ApiEndpoints.googleLoginMobile,
+        data: data,
+      );
+
+      debugPrint('✅ 모바일 Google 로그인 API 응답 성공');
+      return AuthResponseModel.fromJson(response.data);
+    } on DioException catch (e) {
+      debugPrint('❌ 모바일 Google 로그인 API 오류: ${e.message}');
+      throw _handleDioException(e);
+    } catch (e) {
+      debugPrint('❌ 모바일 Google 로그인 예외: $e');
+      throw ServerException(message: e.toString());
+    }
+  }
+
+  @override
   Future<AuthResponseModel> signInWithApple() async {
     try {
       // Apple Sign-In logic will be implemented here
@@ -141,6 +183,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     }
   }
 
+  /*
+  // 임시 비활성화 - 네이버 로그인
   @override
   Future<AuthResponseModel> signInWithNaver({
     required String code,
@@ -164,6 +208,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       throw ServerException(message: e.toString());
     }
   }
+  */
 
   @override
   Future<void> signOut() async {

@@ -202,6 +202,31 @@ class GoogleLoginParams {
   });
 }
 
+// Social Login UseCase - Google Mobile
+class GoogleLoginMobileUseCase implements UseCase<AuthResponse, GoogleLoginMobileParams> {
+  final AuthRepository repository;
+
+  GoogleLoginMobileUseCase(this.repository);
+
+  @override
+  Future<Either<Failure, AuthResponse>> call(GoogleLoginMobileParams params) async {
+    return await repository.googleLoginMobile(
+      idToken: params.idToken,
+      accessToken: params.accessToken,
+    );
+  }
+}
+
+class GoogleLoginMobileParams {
+  final String idToken;
+  final String? accessToken;
+
+  GoogleLoginMobileParams({
+    required this.idToken,
+    this.accessToken,
+  });
+}
+
 // Social Login UseCase - Kakao
 class KakaoLoginUseCase implements UseCase<AuthResponse, KakaoLoginParams> {
   final AuthRepository repository;
@@ -227,7 +252,8 @@ class KakaoLoginParams {
   });
 }
 
-// Social Login UseCase - Naver
+/*
+// 임시 비활성화 - Social Login UseCase - Naver
 class NaverLoginUseCase implements UseCase<AuthResponse, NaverLoginParams> {
   final AuthRepository repository;
 
@@ -254,6 +280,7 @@ class NaverLoginParams {
     required this.state,
   });
 }
+*/
 
 class GetCurrentUserUseCase implements NoParamsUseCase<User> {
   final AuthRepository repository;

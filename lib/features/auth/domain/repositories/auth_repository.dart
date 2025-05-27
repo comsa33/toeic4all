@@ -71,16 +71,24 @@ abstract class AuthRepository {
     required String redirectUri,
   });
 
+  Future<Either<Failure, AuthResponse>> googleLoginMobile({
+    required String idToken,
+    String? accessToken,
+  });
+
   Future<Either<Failure, AuthResponse>> kakaoLogin({
     required String code,
     required String redirectUri,
   });
 
+  /*
+  // 임시 비활성화 - 네이버 로그인
   Future<Either<Failure, AuthResponse>> naverLogin({
     required String code,
     required String redirectUri,
     required String state,
   });
+  */
 
   // 로그인 상태 확인
   Future<bool> isLoggedIn();

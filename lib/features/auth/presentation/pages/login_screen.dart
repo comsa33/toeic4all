@@ -133,7 +133,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         ref.read(authControllerProvider.notifier).signInWithKakao();
         break;
       case 'naver':
-        ref.read(authControllerProvider.notifier).signInWithNaver();
+        // ref.read(authControllerProvider.notifier).signInWithNaver();
         break;
     }
   }
