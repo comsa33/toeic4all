@@ -677,7 +677,7 @@ class _ImprovedChoiceButton extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            border: Border.all(color: borderColor!, width: 2),
+            border: Border.all(color: borderColor, width: 2),
             borderRadius: BorderRadius.circular(12),
           ),
           child: Row(

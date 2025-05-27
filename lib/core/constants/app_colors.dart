@@ -26,6 +26,9 @@ class AppColors {
   static const textSecondary = Color(0xFF6B7280);
   static const textTertiary = Color(0xFF9CA3AF);
   
+  // Border/Outline
+  static const outline = Color(0xFFD1D5DB);
+  
   // Gradient
   static const primaryGradient = LinearGradient(
     colors: [primary, primaryLight],

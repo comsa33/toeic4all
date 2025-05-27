@@ -13,6 +13,9 @@ import '../../features/auth/domain/entities/user.dart';
 import '../../features/test/test_screen.dart';
 import '../../features/questions/presentation/pages/questions_main_screen.dart';
 import '../../features/questions/presentation/pages/part5_filter_screen.dart';
+import '../../features/profile/presentation/pages/profile_screen.dart';
+import '../../features/profile/presentation/pages/profile_edit_screen.dart';
+import '../../features/statistics/presentation/pages/statistics_screen.dart';
 
 // GoRouter 라우팅을 위한 상태 변경 알림 클래스
 class AuthStateNotifier extends ChangeNotifier {
@@ -141,6 +144,12 @@ final routerProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: '/profile',
             builder: (context, state) => const ProfileScreen(),
+            routes: [
+              GoRoute(
+                path: '/edit',
+                builder: (context, state) => const ProfileEditScreen(),
+              ),
+            ],
           ),
           GoRoute(
             path: '/settings',
@@ -240,6 +249,7 @@ class _FeatureCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      elevation: 2,
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(12),
@@ -250,15 +260,15 @@ class _FeatureCard extends StatelessWidget {
             children: [
               Icon(
                 icon,
-                size: 48,
+                size: 32,
                 color: Theme.of(context).colorScheme.primary,
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: 8),
               Text(
                 title,
-                style: Theme.of(
-                  context,
-                ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+                style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 4),
@@ -271,43 +281,6 @@ class _FeatureCard extends StatelessWidget {
               ),
             ],
           ),
-        ),
-      ),
-    );
-  }
-}
-
-// Placeholder screens
-class StatisticsScreen extends StatelessWidget {
-  const StatisticsScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('통계')),
-      body: const Center(
-        child: Text(
-          '통계 화면\n곧 업데이트됩니다!',
-          style: TextStyle(fontSize: 18),
-          textAlign: TextAlign.center,
-        ),
-      ),
-    );
-  }
-}
-
-class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('프로필')),
-      body: const Center(
-        child: Text(
-          '프로필 화면\n곧 업데이트됩니다!',
-          style: TextStyle(fontSize: 18),
-          textAlign: TextAlign.center,
         ),
       ),
     );
