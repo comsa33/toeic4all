@@ -14,6 +14,7 @@ class UserModel with _$UserModel {
     required UserProfileModel profile,
     required UserStatsModel stats,
     required UserSubscriptionModel subscription,
+    @Default(LoginProvider.username) LoginProvider loginProvider,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) = _UserModel;
@@ -82,6 +83,7 @@ extension UserModelX on UserModel {
       profile: profile.toEntity(),
       stats: stats.toEntity(),
       subscription: subscription.toEntity(),
+      loginProvider: loginProvider,
       createdAt: createdAt,
       updatedAt: updatedAt,
     );
@@ -142,6 +144,7 @@ extension UserX on User {
       profile: profile.toModel(),
       stats: stats.toModel(),
       subscription: subscription.toModel(),
+      loginProvider: loginProvider,
       createdAt: createdAt,
       updatedAt: updatedAt,
     );

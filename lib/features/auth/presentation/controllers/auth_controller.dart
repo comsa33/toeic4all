@@ -355,6 +355,36 @@ class AuthController extends StateNotifier<AuthState> {
     );
   }
 
+  // 비밀번호 변경
+  Future<void> changePassword({
+    required String currentPassword,
+    required String newPassword,
+    required String confirmPassword,
+  }) async {
+    state = state.copyWith(isLoading: true, errorMessage: null);
+
+    final result = await _changePasswordUseCase(
+      ChangePasswordParams(
+        currentPassword: currentPassword,
+        newPassword: newPassword,
+        confirmPassword: confirmPassword,
+      ),
+    );
+
+    result.fold(
+      (failure) {
+        state = state.copyWith(
+          isLoading: false,
+          errorMessage: _getErrorMessage(failure),
+        );
+      },
+      (_) {
+        debugPrint('✅ 비밀번호 변경 성공');
+        state = state.copyWith(isLoading: false, errorMessage: null);
+      },
+    );
+  }
+
   Future<void> signInWithGoogle({String? code, String? redirectUri}) async {
     state = state.copyWith(isLoading: true, errorMessage: null);
 
@@ -397,10 +427,15 @@ class AuthController extends StateNotifier<AuthState> {
             '👤 유저 정보: ${authResponse.user.username}, ${authResponse.user.email}',
           );
 
+          // Google 로그인임을 명시적으로 설정
+          final userWithCorrectProvider = authResponse.user.copyWith(
+            loginProvider: LoginProvider.google,
+          );
+
           state = state.copyWith(
             isLoading: false,
             isAuthenticated: true,
-            user: authResponse.user,
+            user: userWithCorrectProvider,
             accessToken: authResponse.accessToken,
             refreshToken: authResponse.refreshToken,
             errorMessage: null,
@@ -470,10 +505,15 @@ class AuthController extends StateNotifier<AuthState> {
             '👤 유저 정보: ${authResponse.user.username}, ${authResponse.user.email}',
           );
 
+          // 카카오 로그인임을 명시적으로 설정
+          final userWithCorrectProvider = authResponse.user.copyWith(
+            loginProvider: LoginProvider.kakao,
+          );
+
           state = state.copyWith(
             isLoading: false,
             isAuthenticated: true,
-            user: authResponse.user,
+            user: userWithCorrectProvider,
             accessToken: authResponse.accessToken,
             refreshToken: authResponse.refreshToken,
             errorMessage: null,
@@ -541,10 +581,15 @@ class AuthController extends StateNotifier<AuthState> {
             '👤 유저 정보: ${authResponse.user.username}, ${authResponse.user.email}',
           );
 
+          // 네이버 로그인임을 명시적으로 설정
+          final userWithCorrectProvider = authResponse.user.copyWith(
+            loginProvider: LoginProvider.naver,
+          );
+
           state = state.copyWith(
             isLoading: false,
             isAuthenticated: true,
-            user: authResponse.user,
+            user: userWithCorrectProvider,
             accessToken: authResponse.accessToken,
             refreshToken: authResponse.refreshToken,
             errorMessage: null,

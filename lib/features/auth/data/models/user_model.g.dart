@@ -17,6 +17,9 @@ _$UserModelImpl _$$UserModelImplFromJson(Map<String, dynamic> json) =>
       stats: UserStatsModel.fromJson(json['stats'] as Map<String, dynamic>),
       subscription: UserSubscriptionModel.fromJson(
           json['subscription'] as Map<String, dynamic>),
+      loginProvider:
+          $enumDecodeNullable(_$LoginProviderEnumMap, json['loginProvider']) ??
+              LoginProvider.username,
       createdAt: json['createdAt'] == null
           ? null
           : DateTime.parse(json['createdAt'] as String),
@@ -34,9 +37,17 @@ Map<String, dynamic> _$$UserModelImplToJson(_$UserModelImpl instance) =>
       'profile': instance.profile,
       'stats': instance.stats,
       'subscription': instance.subscription,
+      'loginProvider': _$LoginProviderEnumMap[instance.loginProvider]!,
       'createdAt': instance.createdAt?.toIso8601String(),
       'updatedAt': instance.updatedAt?.toIso8601String(),
     };
+
+const _$LoginProviderEnumMap = {
+  LoginProvider.username: 'username',
+  LoginProvider.google: 'google',
+  LoginProvider.kakao: 'kakao',
+  LoginProvider.naver: 'naver',
+};
 
 _$UserProfileModelImpl _$$UserProfileModelImplFromJson(
         Map<String, dynamic> json) =>

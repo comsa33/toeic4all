@@ -25,12 +25,14 @@ mixin _$AuthResponseModel {
   @JsonKey(name: 'refresh_token')
   String get refreshToken => throw _privateConstructorUsedError;
   @JsonKey(name: 'token_type')
-  String? get tokenType => throw _privateConstructorUsedError; // 추가
+  String? get tokenType => throw _privateConstructorUsedError;
   @JsonKey(name: 'user_id')
   String get userId => throw _privateConstructorUsedError;
   String get username => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
   String get role => throw _privateConstructorUsedError;
+  @JsonKey(name: 'login_provider')
+  String get loginProvider => throw _privateConstructorUsedError;
   @JsonKey(name: 'expires_in')
   int get expiresIn => throw _privateConstructorUsedError;
 
@@ -58,6 +60,7 @@ abstract class $AuthResponseModelCopyWith<$Res> {
       String username,
       String email,
       String role,
+      @JsonKey(name: 'login_provider') String loginProvider,
       @JsonKey(name: 'expires_in') int expiresIn});
 }
 
@@ -83,6 +86,7 @@ class _$AuthResponseModelCopyWithImpl<$Res, $Val extends AuthResponseModel>
     Object? username = null,
     Object? email = null,
     Object? role = null,
+    Object? loginProvider = null,
     Object? expiresIn = null,
   }) {
     return _then(_value.copyWith(
@@ -114,6 +118,10 @@ class _$AuthResponseModelCopyWithImpl<$Res, $Val extends AuthResponseModel>
           ? _value.role
           : role // ignore: cast_nullable_to_non_nullable
               as String,
+      loginProvider: null == loginProvider
+          ? _value.loginProvider
+          : loginProvider // ignore: cast_nullable_to_non_nullable
+              as String,
       expiresIn: null == expiresIn
           ? _value.expiresIn
           : expiresIn // ignore: cast_nullable_to_non_nullable
@@ -138,6 +146,7 @@ abstract class _$$AuthResponseModelImplCopyWith<$Res>
       String username,
       String email,
       String role,
+      @JsonKey(name: 'login_provider') String loginProvider,
       @JsonKey(name: 'expires_in') int expiresIn});
 }
 
@@ -161,6 +170,7 @@ class __$$AuthResponseModelImplCopyWithImpl<$Res>
     Object? username = null,
     Object? email = null,
     Object? role = null,
+    Object? loginProvider = null,
     Object? expiresIn = null,
   }) {
     return _then(_$AuthResponseModelImpl(
@@ -192,6 +202,10 @@ class __$$AuthResponseModelImplCopyWithImpl<$Res>
           ? _value.role
           : role // ignore: cast_nullable_to_non_nullable
               as String,
+      loginProvider: null == loginProvider
+          ? _value.loginProvider
+          : loginProvider // ignore: cast_nullable_to_non_nullable
+              as String,
       expiresIn: null == expiresIn
           ? _value.expiresIn
           : expiresIn // ignore: cast_nullable_to_non_nullable
@@ -211,6 +225,7 @@ class _$AuthResponseModelImpl implements _AuthResponseModel {
       required this.username,
       required this.email,
       required this.role,
+      @JsonKey(name: 'login_provider') this.loginProvider = 'username',
       @JsonKey(name: 'expires_in') this.expiresIn = 3600});
 
   factory _$AuthResponseModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -225,7 +240,6 @@ class _$AuthResponseModelImpl implements _AuthResponseModel {
   @override
   @JsonKey(name: 'token_type')
   final String? tokenType;
-// 추가
   @override
   @JsonKey(name: 'user_id')
   final String userId;
@@ -236,12 +250,15 @@ class _$AuthResponseModelImpl implements _AuthResponseModel {
   @override
   final String role;
   @override
+  @JsonKey(name: 'login_provider')
+  final String loginProvider;
+  @override
   @JsonKey(name: 'expires_in')
   final int expiresIn;
 
   @override
   String toString() {
-    return 'AuthResponseModel(accessToken: $accessToken, refreshToken: $refreshToken, tokenType: $tokenType, userId: $userId, username: $username, email: $email, role: $role, expiresIn: $expiresIn)';
+    return 'AuthResponseModel(accessToken: $accessToken, refreshToken: $refreshToken, tokenType: $tokenType, userId: $userId, username: $username, email: $email, role: $role, loginProvider: $loginProvider, expiresIn: $expiresIn)';
   }
 
   @override
@@ -260,6 +277,8 @@ class _$AuthResponseModelImpl implements _AuthResponseModel {
                 other.username == username) &&
             (identical(other.email, email) || other.email == email) &&
             (identical(other.role, role) || other.role == role) &&
+            (identical(other.loginProvider, loginProvider) ||
+                other.loginProvider == loginProvider) &&
             (identical(other.expiresIn, expiresIn) ||
                 other.expiresIn == expiresIn));
   }
@@ -267,7 +286,7 @@ class _$AuthResponseModelImpl implements _AuthResponseModel {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, accessToken, refreshToken,
-      tokenType, userId, username, email, role, expiresIn);
+      tokenType, userId, username, email, role, loginProvider, expiresIn);
 
   /// Create a copy of AuthResponseModel
   /// with the given fields replaced by the non-null parameter values.
@@ -295,6 +314,7 @@ abstract class _AuthResponseModel implements AuthResponseModel {
           required final String username,
           required final String email,
           required final String role,
+          @JsonKey(name: 'login_provider') final String loginProvider,
           @JsonKey(name: 'expires_in') final int expiresIn}) =
       _$AuthResponseModelImpl;
 
@@ -309,7 +329,7 @@ abstract class _AuthResponseModel implements AuthResponseModel {
   String get refreshToken;
   @override
   @JsonKey(name: 'token_type')
-  String? get tokenType; // 추가
+  String? get tokenType;
   @override
   @JsonKey(name: 'user_id')
   String get userId;
@@ -319,6 +339,9 @@ abstract class _AuthResponseModel implements AuthResponseModel {
   String get email;
   @override
   String get role;
+  @override
+  @JsonKey(name: 'login_provider')
+  String get loginProvider;
   @override
   @JsonKey(name: 'expires_in')
   int get expiresIn;

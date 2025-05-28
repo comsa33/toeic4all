@@ -27,6 +27,7 @@ mixin _$UserModel {
   UserProfileModel get profile => throw _privateConstructorUsedError;
   UserStatsModel get stats => throw _privateConstructorUsedError;
   UserSubscriptionModel get subscription => throw _privateConstructorUsedError;
+  LoginProvider get loginProvider => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
 
@@ -53,6 +54,7 @@ abstract class $UserModelCopyWith<$Res> {
       UserProfileModel profile,
       UserStatsModel stats,
       UserSubscriptionModel subscription,
+      LoginProvider loginProvider,
       DateTime? createdAt,
       DateTime? updatedAt});
 
@@ -83,6 +85,7 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
     Object? profile = null,
     Object? stats = null,
     Object? subscription = null,
+    Object? loginProvider = null,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
   }) {
@@ -115,6 +118,10 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
           ? _value.subscription
           : subscription // ignore: cast_nullable_to_non_nullable
               as UserSubscriptionModel,
+      loginProvider: null == loginProvider
+          ? _value.loginProvider
+          : loginProvider // ignore: cast_nullable_to_non_nullable
+              as LoginProvider,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -173,6 +180,7 @@ abstract class _$$UserModelImplCopyWith<$Res>
       UserProfileModel profile,
       UserStatsModel stats,
       UserSubscriptionModel subscription,
+      LoginProvider loginProvider,
       DateTime? createdAt,
       DateTime? updatedAt});
 
@@ -204,6 +212,7 @@ class __$$UserModelImplCopyWithImpl<$Res>
     Object? profile = null,
     Object? stats = null,
     Object? subscription = null,
+    Object? loginProvider = null,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
   }) {
@@ -236,6 +245,10 @@ class __$$UserModelImplCopyWithImpl<$Res>
           ? _value.subscription
           : subscription // ignore: cast_nullable_to_non_nullable
               as UserSubscriptionModel,
+      loginProvider: null == loginProvider
+          ? _value.loginProvider
+          : loginProvider // ignore: cast_nullable_to_non_nullable
+              as LoginProvider,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -259,6 +272,7 @@ class _$UserModelImpl implements _UserModel {
       required this.profile,
       required this.stats,
       required this.subscription,
+      this.loginProvider = LoginProvider.username,
       this.createdAt,
       this.updatedAt});
 
@@ -280,13 +294,16 @@ class _$UserModelImpl implements _UserModel {
   @override
   final UserSubscriptionModel subscription;
   @override
+  @JsonKey()
+  final LoginProvider loginProvider;
+  @override
   final DateTime? createdAt;
   @override
   final DateTime? updatedAt;
 
   @override
   String toString() {
-    return 'UserModel(id: $id, username: $username, email: $email, role: $role, profile: $profile, stats: $stats, subscription: $subscription, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'UserModel(id: $id, username: $username, email: $email, role: $role, profile: $profile, stats: $stats, subscription: $subscription, loginProvider: $loginProvider, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -303,6 +320,8 @@ class _$UserModelImpl implements _UserModel {
             (identical(other.stats, stats) || other.stats == stats) &&
             (identical(other.subscription, subscription) ||
                 other.subscription == subscription) &&
+            (identical(other.loginProvider, loginProvider) ||
+                other.loginProvider == loginProvider) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -312,7 +331,7 @@ class _$UserModelImpl implements _UserModel {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, username, email, role,
-      profile, stats, subscription, createdAt, updatedAt);
+      profile, stats, subscription, loginProvider, createdAt, updatedAt);
 
   /// Create a copy of UserModel
   /// with the given fields replaced by the non-null parameter values.
@@ -339,6 +358,7 @@ abstract class _UserModel implements UserModel {
       required final UserProfileModel profile,
       required final UserStatsModel stats,
       required final UserSubscriptionModel subscription,
+      final LoginProvider loginProvider,
       final DateTime? createdAt,
       final DateTime? updatedAt}) = _$UserModelImpl;
 
@@ -359,6 +379,8 @@ abstract class _UserModel implements UserModel {
   UserStatsModel get stats;
   @override
   UserSubscriptionModel get subscription;
+  @override
+  LoginProvider get loginProvider;
   @override
   DateTime? get createdAt;
   @override

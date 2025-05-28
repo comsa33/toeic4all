@@ -1,5 +1,13 @@
 // filepath: /Users/ruo/projects/toeic4all/lib/features/auth/domain/entities/user.dart
 
+// 로그인 제공자 열거형 추가
+enum LoginProvider {
+  username, // 아이디(username) 로그인
+  google,   // 구글 로그인
+  kakao,    // 카카오 로그인
+  naver,    // 네이버 로그인
+}
+
 class User {
   final String id;
   final String username;
@@ -8,6 +16,7 @@ class User {
   final UserProfile profile;
   final UserStats stats;
   final UserSubscription subscription;
+  final LoginProvider loginProvider; // 로그인 제공자 필드 추가
   final DateTime? createdAt;
   final DateTime? updatedAt;
 
@@ -19,9 +28,16 @@ class User {
     required this.profile,
     required this.stats,
     required this.subscription,
+    this.loginProvider = LoginProvider.username, // 기본값은 아이디 로그인
     this.createdAt,
     this.updatedAt,
   });
+
+  // 소셜 로그인 사용자인지 확인하는 편의 메서드
+  bool get isSocialLogin => 
+      loginProvider == LoginProvider.google || 
+      loginProvider == LoginProvider.kakao || 
+      loginProvider == LoginProvider.naver;
 
   User copyWith({
     String? id,
@@ -31,6 +47,7 @@ class User {
     UserProfile? profile,
     UserStats? stats,
     UserSubscription? subscription,
+    LoginProvider? loginProvider,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) {
@@ -42,6 +59,7 @@ class User {
       profile: profile ?? this.profile,
       stats: stats ?? this.stats,
       subscription: subscription ?? this.subscription,
+      loginProvider: loginProvider ?? this.loginProvider,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );

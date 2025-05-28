@@ -16,6 +16,7 @@ _$AuthResponseModelImpl _$$AuthResponseModelImplFromJson(
       username: json['username'] as String,
       email: json['email'] as String,
       role: json['role'] as String,
+      loginProvider: json['login_provider'] as String? ?? 'username',
       expiresIn: (json['expires_in'] as num?)?.toInt() ?? 3600,
     );
 
@@ -29,5 +30,6 @@ Map<String, dynamic> _$$AuthResponseModelImplToJson(
       'username': instance.username,
       'email': instance.email,
       'role': instance.role,
+      'login_provider': instance.loginProvider,
       'expires_in': instance.expiresIn,
     };

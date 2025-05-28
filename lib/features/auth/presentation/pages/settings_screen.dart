@@ -174,9 +174,18 @@ class SettingsScreen extends ConsumerWidget {
                 const Divider(height: 1),
                 ListTile(
                   title: const Text('비밀번호 변경'),
-                  subtitle: const Text('계정 비밀번호를 변경합니다'),
-                  trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-                  onTap: () => _showChangePasswordDialog(context, ref),
+                  subtitle: Text(
+                    authState.user?.isSocialLogin == true
+                        ? '소셜 로그인 계정은 비밀번호 변경이 불가능합니다'
+                        : '계정 비밀번호를 변경합니다',
+                  ),
+                  trailing: authState.user?.isSocialLogin == true
+                      ? const Icon(Icons.info_outline, color: Colors.grey)
+                      : const Icon(Icons.arrow_forward_ios, size: 16),
+                  enabled: authState.user?.isSocialLogin != true,
+                  onTap: authState.user?.isSocialLogin == true
+                      ? () => _showSocialLoginPasswordDialog(context)
+                      : () => _showChangePasswordDialog(context, ref),
                 ),
               ],
             ),
@@ -321,12 +330,32 @@ class SettingsScreen extends ConsumerWidget {
     );
   }
 
-  void _showChangePasswordDialog(BuildContext context, WidgetRef ref) {
+  void _showSocialLoginPasswordDialog(BuildContext context) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('비밀번호 변경'),
-        content: const Text('비밀번호 변경 기능은 추후 업데이트에서 제공될 예정입니다.'),
+        title: const Text('비밀번호 변경 불가'),
+        content: const Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Icon(
+              Icons.info_outline,
+              color: Colors.blue,
+              size: 32,
+            ),
+            SizedBox(height: 16),
+            Text(
+              '소셜 로그인으로 가입하신 계정은 비밀번호 변경이 불가능합니다.',
+              style: TextStyle(fontSize: 16),
+            ),
+            SizedBox(height: 8),
+            Text(
+              '로그인 시 사용하신 소셜 계정(Google, Kakao, Naver)에서 비밀번호를 변경해주세요.',
+              style: TextStyle(fontSize: 14, color: Colors.grey),
+            ),
+          ],
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
@@ -335,6 +364,11 @@ class SettingsScreen extends ConsumerWidget {
         ],
       ),
     );
+  }
+
+  void _showChangePasswordDialog(BuildContext context, WidgetRef ref) {
+    // 비밀번호 변경 화면으로 이동
+    context.push('/change-password');
   }
 
   void _showThemeDialog(BuildContext context, WidgetRef ref) {
