@@ -7,6 +7,8 @@ import '../../../../shared/widgets/app_button.dart';
 import '../../../../shared/widgets/app_text_field.dart';
 import '../controllers/auth_controller.dart';
 import '../providers/auth_providers.dart';
+import '../utils/auth_message_handler.dart';
+import '../widgets/password_policy_widgets.dart';
 
 class SignUpScreen extends ConsumerStatefulWidget {
   const SignUpScreen({super.key});
@@ -36,17 +38,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
     if (_formKey.currentState?.validate() ?? false) {
       if (!_agreeToTerms) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Row(
-              children: [
-                Icon(Icons.warning, color: Colors.white),
-                SizedBox(width: 8),
-                Expanded(child: Text('이용약관과 개인정보 처리방침에 동의해주세요.')),
-              ],
-            ),
-            backgroundColor: Colors.orange,
-            behavior: SnackBarBehavior.floating,
-          ),
+          AuthSnackBarHelper.warning('이용약관과 개인정보 처리방침에 동의해주세요.'),
         );
         return;
       }
@@ -72,17 +64,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
         debugPrint('❌ 회원가입 중 예외 발생: $e');
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Row(
-                children: [
-                  const Icon(Icons.error, color: Colors.white),
-                  const SizedBox(width: 8),
-                  const Expanded(child: Text('회원가입에 실패했습니다. 다시 시도해주세요.')),
-                ],
-              ),
-              backgroundColor: Colors.red,
-              behavior: SnackBarBehavior.floating,
-            ),
+            AuthSnackBarHelper.error('회원가입에 실패했습니다. 다시 시도해주세요.'),
           );
         }
       }
@@ -120,7 +102,10 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                '${_nameController.text}님, 환영합니다!\nTOEIC4ALL에 성공적으로 가입되었습니다.',
+                AuthMessageHandler.getSuccessMessage(
+                  action: 'signup',
+                  userName: _nameController.text,
+                ),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.onSurfaceVariant,
@@ -176,17 +161,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           if (mounted) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Row(
-                  children: [
-                    const Icon(Icons.error, color: Colors.white),
-                    const SizedBox(width: 8),
-                    Expanded(child: Text(next.errorMessage!)),
-                  ],
-                ),
-                backgroundColor: Theme.of(context).colorScheme.error,
-                behavior: SnackBarBehavior.floating,
-              ),
+              AuthSnackBarHelper.error(next.errorMessage!),
             );
             ref.read(authControllerProvider.notifier).clearError();
           }
@@ -260,25 +235,28 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
 
                 const SizedBox(height: 16),
 
-                // Password Field - 수정된 부분
-                AppTextField.password(
+                // 향상된 비밀번호 필드
+                EnhancedPasswordField(
                   controller: _passwordController,
-                  prefixIcon: const Icon(Icons.lock_outline),
+                  label: '비밀번호',
+                  hint: '비밀번호를 입력하세요',
                   validator: Validators.password,
                   textInputAction: TextInputAction.next,
+                  showStrengthIndicator: true,
+                  showPolicyDetails: true,
                 ),
 
                 const SizedBox(height: 16),
 
-                // Confirm Password Field - 수정된 부분
-                AppTextField.password(
+                // 비밀번호 확인 필드
+                EnhancedPasswordField(
                   controller: _confirmPasswordController,
                   label: '비밀번호 확인',
                   hint: '비밀번호를 다시 입력하세요',
-                  prefixIcon: const Icon(Icons.lock_outline),
                   validator: _validateConfirmPassword,
                   textInputAction: TextInputAction.done,
                   onSubmitted: (_) => _handleSignUp(),
+                  showStrengthIndicator: false,
                 ),
 
                 const SizedBox(height: 24),

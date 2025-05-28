@@ -35,7 +35,7 @@ abstract class AuthRepository {
   });
 
   // 비밀번호 변경
-  Future<Either<Failure, void>> changePassword({
+  Future<Either<Failure, String>> changePassword({
     required String currentPassword,
     required String newPassword,
     required String confirmPassword,

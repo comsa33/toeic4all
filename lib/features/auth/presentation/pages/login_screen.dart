@@ -6,6 +6,7 @@ import '../../../../core/utils/validators.dart';
 import '../../../../shared/widgets/app_button.dart';
 import '../../../../shared/widgets/app_text_field.dart';
 import '../providers/auth_providers.dart';
+import '../utils/auth_message_handler.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -19,6 +20,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _autoLoginEnabled = true; // 자동 로그인 체크박스 상태
+  String? _currentSocialProvider; // 현재 진행 중인 소셜 로그인 제공자
 
   @override
   void initState() {
@@ -46,6 +48,70 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     } catch (e) {
       debugPrint('자동 로그인 설정 로드 실패: $e');
     }
+  }
+
+  // 로그인 시도 상태 확인
+  Widget _buildLoginAttemptWarning() {
+    final loginAttemptService = ref.watch(loginAttemptServiceProvider);
+    final status = loginAttemptService.getStatus();
+    
+    if (status.isNormal) {
+      return const SizedBox.shrink();
+    }
+    
+    Color backgroundColor;
+    IconData icon;
+    String message;
+    
+    if (status.isLockedOut) {
+      backgroundColor = Theme.of(context).colorScheme.errorContainer;
+      icon = Icons.lock;
+      message = status.getWarningMessage();
+    } else if (status.isWarning) {
+      backgroundColor = Colors.orange.withOpacity(0.1);
+      icon = Icons.warning;
+      message = status.getWarningMessage();
+    } else {
+      return const SizedBox.shrink();
+    }
+    
+    return Container(
+      margin: const EdgeInsets.only(bottom: 16),
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: backgroundColor,
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(
+          color: status.isLockedOut 
+            ? Theme.of(context).colorScheme.error
+            : Colors.orange,
+          width: 1,
+        ),
+      ),
+      child: Row(
+        children: [
+          Icon(
+            icon,
+            color: status.isLockedOut 
+              ? Theme.of(context).colorScheme.error
+              : Colors.orange.shade700,
+            size: 20,
+          ),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              message,
+              style: TextStyle(
+                color: status.isLockedOut 
+                  ? Theme.of(context).colorScheme.error
+                  : Colors.orange.shade700,
+                fontSize: 14,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   Future<void> _handleLogin() async {
@@ -84,17 +150,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
           // 성공 메시지 표시
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Row(
-                children: [
-                  const Icon(Icons.check_circle, color: Colors.white),
-                  const SizedBox(width: 8),
-                  Text('환영합니다, ${authState.user?.profile.name ?? username}님!'),
-                ],
+            AuthSnackBarHelper.success(
+              AuthMessageHandler.getSuccessMessage(
+                action: 'login',
+                userName: authState.user?.profile.name ?? username,
               ),
-              backgroundColor: Colors.green,
-              duration: const Duration(seconds: 3),
-              behavior: SnackBarBehavior.floating,
             ),
           );
         } else {
@@ -104,37 +164,74 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         debugPrint('❌ 로그인 중 예외 발생: $e');
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Row(
-                children: [
-                  const Icon(Icons.error, color: Colors.white),
-                  const SizedBox(width: 8),
-                  const Expanded(child: Text('로그인에 실패했습니다. 다시 시도해주세요.')),
-                ],
-              ),
-              backgroundColor: Colors.red,
-              behavior: SnackBarBehavior.floating,
-            ),
+            AuthSnackBarHelper.error('로그인에 실패했습니다. 다시 시도해주세요.'),
           );
         }
       }
     }
   }
 
-  void _handleSocialLogin(String provider) {
-    switch (provider) {
-      case 'google':
-        ref.read(authControllerProvider.notifier).signInWithGoogle();
-        break;
-      case 'apple':
-        ref.read(authControllerProvider.notifier).signInWithApple();
-        break;
-      case 'kakao':
-        ref.read(authControllerProvider.notifier).signInWithKakao();
-        break;
-      case 'naver':
-        ref.read(authControllerProvider.notifier).signInWithNaver();
-        break;
+  // 소셜 로그인 처리
+  Future<void> _handleSocialLogin(String provider) async {
+    final authState = ref.read(authControllerProvider);
+    
+    // 각 소셜 로그인별 로딩 상태 확인하여 중복 실행 방지
+    if ((provider == 'google' && authState.isGoogleLoading) ||
+        (provider == 'apple' && authState.isAppleLoading) ||
+        (provider == 'kakao' && authState.isKakaoLoading) ||
+        (provider == 'naver' && authState.isNaverLoading)) {
+      debugPrint('⚠️ 이미 ${provider} 로그인이 진행 중입니다');
+      return;
+    }
+    
+    try {
+      // 소셜 로그인 메서드 호출
+      bool success = false;
+      String? userName;
+      
+      switch (provider) {
+        case 'google':
+          await ref.read(authControllerProvider.notifier).signInWithGoogle();
+          break;
+        case 'apple':
+          await ref.read(authControllerProvider.notifier).signInWithApple();
+          break;
+        case 'kakao':
+          await ref.read(authControllerProvider.notifier).signInWithKakao();
+          break;
+        case 'naver':
+          await ref.read(authControllerProvider.notifier).signInWithNaver();
+          break;
+      }
+      
+      // 로그인 성공 확인
+      final newAuthState = ref.read(authControllerProvider);
+      if (newAuthState.isAuthenticated && !authState.isAuthenticated) {
+        userName = newAuthState.user?.profile.name;
+        
+        if (mounted && userName != null) {
+          // 성공 메시지 표시 (만약 AuthController에서 설정하지 않았다면)
+          if (newAuthState.successMessage == null) {
+            String providerName = '';
+            switch (provider) {
+              case 'google': providerName = 'Google'; break;
+              case 'apple': providerName = 'Apple'; break;
+              case 'kakao': providerName = '카카오'; break;
+              case 'naver': providerName = '네이버'; break;
+            }
+            
+            String message = '$providerName 계정으로 로그인되었습니다. 환영합니다, $userName님!';
+            ScaffoldMessenger.of(context).showSnackBar(AuthSnackBarHelper.success(message));
+          }
+        }
+      }
+    } catch (e) {
+      debugPrint('❌ ${provider} 로그인 중 오류 발생: $e');
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          AuthSnackBarHelper.error('${provider} 로그인에 실패했습니다. 다시 시도해주세요.'),
+        );
+      }
     }
   }
 
@@ -142,26 +239,40 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   Widget build(BuildContext context) {
     final authState = ref.watch(authControllerProvider);
 
-    // 에러 메시지 표시
+    // 에러/성공 메시지 표시
     ref.listen(authControllerProvider, (previous, next) {
+      // 에러 메시지 처리
       if (next.errorMessage != null &&
           next.errorMessage != previous?.errorMessage) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           if (mounted) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Row(
-                  children: [
-                    const Icon(Icons.error, color: Colors.white),
-                    const SizedBox(width: 8),
-                    Expanded(child: Text(next.errorMessage!)),
-                  ],
-                ),
-                backgroundColor: Theme.of(context).colorScheme.error,
-                behavior: SnackBarBehavior.floating,
-              ),
+              AuthSnackBarHelper.error(next.errorMessage!),
             );
             ref.read(authControllerProvider.notifier).clearError();
+          }
+        });
+      }
+      
+      // 성공 메시지 처리
+      if (next.successMessage != null &&
+          next.successMessage != previous?.successMessage) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              AuthSnackBarHelper.success(next.successMessage!),
+            );
+            ref.read(authControllerProvider.notifier).clearError();
+          }
+        });
+      }
+      
+      // 인증 상태 변경 처리 - 소셜 로그인 성공 시 네비게이션
+      if (next.isAuthenticated && next.accessToken != null && !previous!.isAuthenticated) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted) {
+            // 소셜 로그인 성공 시에도 메인 화면으로 이동
+            context.go('/questions');
           }
         });
       }
@@ -217,6 +328,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 ),
 
                 const SizedBox(height: 48),
+
+                // Login Attempt Warning
+                _buildLoginAttemptWarning(),
 
                 // Username Field
                 AppTextField.username(
@@ -321,22 +435,26 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     _SocialLoginButton(
                       icon: Icons.g_mobiledata,
                       label: 'Google',
-                      onPressed: () => _handleSocialLogin('google'),
+                      onPressed: authState.isGoogleLoading ? null : () => _handleSocialLogin('google'),
+                      isLoading: authState.isGoogleLoading,
                     ),
                     _SocialLoginButton(
                       icon: Icons.apple,
                       label: 'Apple',
-                      onPressed: () => _handleSocialLogin('apple'),
+                      onPressed: authState.isAppleLoading ? null : () => _handleSocialLogin('apple'),
+                      isLoading: authState.isAppleLoading,
                     ),
                     _SocialLoginButton(
                       icon: Icons.chat_bubble,
                       label: 'Kakao',
-                      onPressed: () => _handleSocialLogin('kakao'),
+                      onPressed: authState.isKakaoLoading ? null : () => _handleSocialLogin('kakao'),
+                      isLoading: authState.isKakaoLoading,
                     ),
                     _SocialLoginButton(
                       icon: Icons.language,
                       label: 'Naver',
-                      onPressed: () => _handleSocialLogin('naver'),
+                      onPressed: authState.isNaverLoading ? null : () => _handleSocialLogin('naver'),
+                      isLoading: authState.isNaverLoading,
                     ),
                   ],
                 ),
@@ -369,12 +487,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 class _SocialLoginButton extends StatelessWidget {
   final IconData icon;
   final String label;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
+  final bool isLoading;
 
   const _SocialLoginButton({
     required this.icon,
     required this.label,
     required this.onPressed,
+    this.isLoading = false,
   });
 
   @override
@@ -390,14 +510,25 @@ class _SocialLoginButton extends StatelessWidget {
             ),
             borderRadius: BorderRadius.circular(16),
           ),
-          child: IconButton(
-            onPressed: onPressed,
-            icon: Icon(
-              icon,
-              size: 28,
-              color: Theme.of(context).colorScheme.onSurface,
-            ),
-          ),
+          child: isLoading 
+            ? Center(
+                child: SizedBox(
+                  width: 24,
+                  height: 24,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                ),
+              )
+            : IconButton(
+                onPressed: onPressed,
+                icon: Icon(
+                  icon,
+                  size: 28,
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
+              ),
         ),
         const SizedBox(height: 8),
         Text(label, style: Theme.of(context).textTheme.bodySmall),

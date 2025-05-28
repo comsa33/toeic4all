@@ -145,15 +145,37 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<Failure, void>> changePassword({
+  Future<Either<Failure, String>> changePassword({
     required String currentPassword,
     required String newPassword,
     required String confirmPassword,
   }) async {
     try {
-      // Implementation needed in remote data source
-      return const Right(null);
+      debugPrint('🔄 AuthRepository.changePassword 호출 시작');
+      debugPrint('📍 매개변수 확인:');
+      debugPrint('  - currentPassword 길이: ${currentPassword.length}');
+      debugPrint('  - newPassword 길이: ${newPassword.length}');
+      debugPrint('  - confirmPassword 길이: ${confirmPassword.length}');
+      
+      final successMessage = await _remoteDataSource.changePassword(
+        currentPassword: currentPassword,
+        newPassword: newPassword,
+        confirmPassword: confirmPassword,
+      );
+      
+      debugPrint('✅ AuthRepository.changePassword 성공: $successMessage');
+      return Right(successMessage);
+    } on ValidationException catch (e) {
+      debugPrint('❌ AuthRepository.changePassword 검증 오류: ${e.message}');
+      return Left(Failure.validation(message: e.message));
+    } on AuthException catch (e) {
+      debugPrint('❌ AuthRepository.changePassword 인증 오류: ${e.message}');
+      return Left(Failure.auth(message: e.message));
+    } on ServerException catch (e) {
+      debugPrint('❌ AuthRepository.changePassword 서버 오류: ${e.message}');
+      return Left(Failure.server(message: e.message));
     } catch (e) {
+      debugPrint('❌ AuthRepository.changePassword 알 수 없는 오류: $e');
       return Left(Failure.unknown(message: e.toString()));
     }
   }

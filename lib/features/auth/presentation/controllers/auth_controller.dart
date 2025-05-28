@@ -3,28 +3,42 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../../../../core/services/google_sign_in_service.dart';
 import '../../../../core/services/kakao_sign_in_service.dart';
-import '../../../../core/services/naver_sign_in_service.dart';
+// import '../../../../core/services/naver_sign_in_service.dart'; // TODO: Naver 로그인 구현 시 활성화
+import '../../../../core/services/login_attempt_service.dart';
 import '../../domain/entities/user.dart';
 import '../../domain/usecases/auth_usecases.dart';
 import '../../data/datasources/auth_local_datasource.dart';
+import '../utils/auth_message_handler.dart';
 
 class AuthState {
   final bool isLoading;
   final bool isAuthenticated;
   final User? user;
   final String? errorMessage;
+  final String? successMessage;
   final String? accessToken;
   final String? refreshToken;
   final bool isInitialized;
+
+  // 소셜 로그인 버튼별 로딩 상태
+  final bool isGoogleLoading;
+  final bool isKakaoLoading;
+  final bool isNaverLoading;
+  final bool isAppleLoading;
 
   const AuthState({
     this.isLoading = false,
     this.isAuthenticated = false,
     this.user,
     this.errorMessage,
+    this.successMessage,
     this.accessToken,
     this.refreshToken,
     this.isInitialized = false,
+    this.isGoogleLoading = false,
+    this.isKakaoLoading = false,
+    this.isNaverLoading = false,
+    this.isAppleLoading = false,
   });
 
   AuthState copyWith({
@@ -32,18 +46,28 @@ class AuthState {
     bool? isAuthenticated,
     User? user,
     String? errorMessage,
+    String? successMessage,
     String? accessToken,
     String? refreshToken,
     bool? isInitialized,
+    bool? isGoogleLoading,
+    bool? isKakaoLoading,
+    bool? isNaverLoading,
+    bool? isAppleLoading,
   }) {
     return AuthState(
       isLoading: isLoading ?? this.isLoading,
       isAuthenticated: isAuthenticated ?? this.isAuthenticated,
       user: user ?? this.user,
       errorMessage: errorMessage ?? this.errorMessage,
+      successMessage: successMessage ?? this.successMessage,
       accessToken: accessToken ?? this.accessToken,
       refreshToken: refreshToken ?? this.refreshToken,
       isInitialized: isInitialized ?? this.isInitialized,
+      isGoogleLoading: isGoogleLoading ?? this.isGoogleLoading,
+      isKakaoLoading: isKakaoLoading ?? this.isKakaoLoading,
+      isNaverLoading: isNaverLoading ?? this.isNaverLoading,
+      isAppleLoading: isAppleLoading ?? this.isAppleLoading,
     );
   }
 }
@@ -54,19 +78,20 @@ class AuthController extends StateNotifier<AuthState> {
   final LogoutUseCase _logoutUseCase;
   final RefreshTokenUseCase _refreshTokenUseCase;
   final PasswordResetRequestUseCase _passwordResetRequestUseCase;
-  final PasswordResetConfirmUseCase _passwordResetConfirmUseCase;
+  // final PasswordResetConfirmUseCase _passwordResetConfirmUseCase; // TODO: 패스워드 리셋 확인 기능 구현 시 사용
   final ChangePasswordUseCase _changePasswordUseCase;
-  final GoogleLoginUseCase _googleLoginUseCase;
+  // final GoogleLoginUseCase _googleLoginUseCase; // TODO: 웹 Google 로그인 구현 시 사용
   final GoogleLoginMobileUseCase _googleLoginMobileUseCase;
-  final KakaoLoginUseCase _kakaoLoginUseCase;
+  // final KakaoLoginUseCase _kakaoLoginUseCase; // TODO: 웹 Kakao 로그인 구현 시 사용
   final KakaoLoginMobileUseCase _kakaoLoginMobileUseCase;
-  final NaverLoginMobileUseCase _naverLoginMobileUseCase;
+  // final NaverLoginMobileUseCase _naverLoginMobileUseCase; // TODO: Naver 로그인 구현 시 사용
   final GetCurrentUserUseCase _getCurrentUserUseCase;
   final AuthLocalDataSource _localDataSource;
   final GoogleSignInService _googleSignInService;
   final KakaoSignInService _kakaoSignInService;
-  final NaverSignInService _naverSignInService;
-  final Ref _ref; // TokenStorage에 접근하기 위해 Ref 추가
+  // final NaverSignInService _naverSignInService; // TODO: Naver 로그인 구현 시 사용
+  final LoginAttemptService _loginAttemptService;
+  // final Ref _ref; // TODO: TokenStorage 직접 접근이 필요한 경우 사용
 
   // 중복 실행 방지 플래그
   bool _isCheckingAuth = false;
@@ -77,37 +102,39 @@ class AuthController extends StateNotifier<AuthState> {
     required LogoutUseCase logoutUseCase,
     required RefreshTokenUseCase refreshTokenUseCase,
     required PasswordResetRequestUseCase passwordResetRequestUseCase,
-    required PasswordResetConfirmUseCase passwordResetConfirmUseCase,
+    // required PasswordResetConfirmUseCase passwordResetConfirmUseCase, // TODO: 패스워드 리셋 확인 기능 구현 시 사용
     required ChangePasswordUseCase changePasswordUseCase,
-    required GoogleLoginUseCase googleLoginUseCase,
+    // required GoogleLoginUseCase googleLoginUseCase, // TODO: 웹 Google 로그인 구현 시 사용
     required GoogleLoginMobileUseCase googleLoginMobileUseCase,
-    required KakaoLoginUseCase kakaoLoginUseCase,
+    // required KakaoLoginUseCase kakaoLoginUseCase, // TODO: 웹 Kakao 로그인 구현 시 사용
     required KakaoLoginMobileUseCase kakaoLoginMobileUseCase,
-    required NaverLoginMobileUseCase naverLoginMobileUseCase,
+    // required NaverLoginMobileUseCase naverLoginMobileUseCase, // TODO: Naver 로그인 구현 시 사용
     required GetCurrentUserUseCase getCurrentUserUseCase,
     required AuthLocalDataSource localDataSource,
     required GoogleSignInService googleSignInService,
     required KakaoSignInService kakaoSignInService,
-    required NaverSignInService naverSignInService,
-    required Ref ref, // Ref 추가
+    // required NaverSignInService naverSignInService, // TODO: Naver 로그인 구현 시 사용
+    required LoginAttemptService loginAttemptService,
+    // required Ref ref, // TODO: TokenStorage 직접 접근이 필요한 경우 사용
   }) : _loginUseCase = loginUseCase,
        _signUpUseCase = signUpUseCase,
        _logoutUseCase = logoutUseCase,
        _refreshTokenUseCase = refreshTokenUseCase,
        _passwordResetRequestUseCase = passwordResetRequestUseCase,
-       _passwordResetConfirmUseCase = passwordResetConfirmUseCase,
+       // _passwordResetConfirmUseCase = passwordResetConfirmUseCase,
        _changePasswordUseCase = changePasswordUseCase,
-       _googleLoginUseCase = googleLoginUseCase,
+       // _googleLoginUseCase = googleLoginUseCase,
        _googleLoginMobileUseCase = googleLoginMobileUseCase,
-       _kakaoLoginUseCase = kakaoLoginUseCase,
+       // _kakaoLoginUseCase = kakaoLoginUseCase,
        _kakaoLoginMobileUseCase = kakaoLoginMobileUseCase,
-       _naverLoginMobileUseCase = naverLoginMobileUseCase,
+       // _naverLoginMobileUseCase = naverLoginMobileUseCase,
        _getCurrentUserUseCase = getCurrentUserUseCase,
        _localDataSource = localDataSource,
        _googleSignInService = googleSignInService,
        _kakaoSignInService = kakaoSignInService,
-       _naverSignInService = naverSignInService,
-       _ref = ref,
+       // _naverSignInService = naverSignInService,
+       _loginAttemptService = loginAttemptService,
+       // _ref = ref,
        super(const AuthState());
 
   // 앱 시작 시 자동 로그인 체크 - 중복 실행 방지
@@ -261,7 +288,24 @@ class AuthController extends StateNotifier<AuthState> {
     required String password,
   }) async {
     debugPrint('🔄 로그인 시작: $username');
-    state = state.copyWith(isLoading: true, errorMessage: null);
+
+    // 로그인 시도 전 계정 잠금 상태 확인
+    if (_loginAttemptService.isLockedOut()) {
+      final status = _loginAttemptService.getStatus();
+      state = state.copyWith(
+        isLoading: false,
+        errorMessage:
+            '계정이 일시적으로 잠겨있습니다. ${status.remainingMinutes}분 후에 다시 시도해주세요.',
+        isAuthenticated: false,
+      );
+      return;
+    }
+
+    state = state.copyWith(
+      isLoading: true,
+      errorMessage: null,
+      successMessage: null,
+    );
 
     final result = await _loginUseCase(
       LoginParams(username: username, password: password),
@@ -270,9 +314,24 @@ class AuthController extends StateNotifier<AuthState> {
     result.fold(
       (failure) {
         debugPrint('❌ 로그인 실패: ${failure.toString()}');
+
+        // 로그인 실패 시 시도 횟수 기록
+        _loginAttemptService.recordFailedAttempt();
+        final attemptStatus = _loginAttemptService.getStatus();
+
+        String errorMessage = _getErrorMessage(failure);
+
+        // 로그인 시도 상태에 따른 경고 메시지 추가
+        if (attemptStatus.isWarning) {
+          errorMessage += '\n\n⚠️ ${attemptStatus.getWarningMessage()}';
+        } else if (attemptStatus.isLockedOut) {
+          errorMessage =
+              '계정이 일시적으로 잠겨있습니다. ${attemptStatus.remainingMinutes}분 후에 다시 시도해주세요.';
+        }
+
         state = state.copyWith(
           isLoading: false,
-          errorMessage: _getErrorMessage(failure),
+          errorMessage: errorMessage,
           isAuthenticated: false,
         );
       },
@@ -284,6 +343,9 @@ class AuthController extends StateNotifier<AuthState> {
         );
         debugPrint('📛 유저 이름: ${authResponse.user.profile.name}');
 
+        // 로그인 성공 시 시도 횟수 초기화
+        _loginAttemptService.resetAttempts();
+
         state = state.copyWith(
           isLoading: false,
           isAuthenticated: true,
@@ -291,6 +353,7 @@ class AuthController extends StateNotifier<AuthState> {
           accessToken: authResponse.accessToken,
           refreshToken: authResponse.refreshToken,
           errorMessage: null,
+          successMessage: null, // 로그인 성공 시 이전 성공 메시지 클리어
         );
 
         debugPrint('🎯 로그인 성공 - /questions로 이동해야 함');
@@ -303,7 +366,11 @@ class AuthController extends StateNotifier<AuthState> {
     required String email,
     required String password,
   }) async {
-    state = state.copyWith(isLoading: true, errorMessage: null);
+    state = state.copyWith(
+      isLoading: true,
+      errorMessage: null,
+      successMessage: null,
+    );
 
     final result = await _signUpUseCase(
       SignUpParams(
@@ -361,6 +428,12 @@ class AuthController extends StateNotifier<AuthState> {
     required String newPassword,
     required String confirmPassword,
   }) async {
+    debugPrint('🔄 AuthController.changePassword 호출');
+    debugPrint('📍 현재 인증 상태:');
+    debugPrint('  - isAuthenticated: ${state.isAuthenticated}');
+    debugPrint('  - accessToken 존재: ${state.accessToken != null}');
+    debugPrint('  - accessToken 길이: ${state.accessToken?.length ?? 0}');
+
     state = state.copyWith(isLoading: true, errorMessage: null);
 
     final result = await _changePasswordUseCase(
@@ -373,20 +446,26 @@ class AuthController extends StateNotifier<AuthState> {
 
     result.fold(
       (failure) {
+        debugPrint('❌ AuthController.changePassword 실패: ${failure.message}');
         state = state.copyWith(
           isLoading: false,
           errorMessage: _getErrorMessage(failure),
         );
       },
-      (_) {
-        debugPrint('✅ 비밀번호 변경 성공');
-        state = state.copyWith(isLoading: false, errorMessage: null);
+      (successMessage) {
+        debugPrint('✅ AuthController.changePassword 성공: $successMessage');
+        state = state.copyWith(
+          isLoading: false,
+          errorMessage: null,
+          successMessage: successMessage,
+        );
       },
     );
   }
 
   Future<void> signInWithGoogle({String? code, String? redirectUri}) async {
-    state = state.copyWith(isLoading: true, errorMessage: null);
+    // 일반 로딩 상태 대신 Google 로딩 상태만 true로 설정
+    state = state.copyWith(isGoogleLoading: true, errorMessage: null);
 
     try {
       debugPrint('🔄 Google Sign-In 시작');
@@ -397,7 +476,7 @@ class AuthController extends StateNotifier<AuthState> {
       if (idToken == null) {
         debugPrint('❌ Google Sign-In 취소됨 또는 실패');
         state = state.copyWith(
-          isLoading: false,
+          isGoogleLoading: false,
           errorMessage: 'Google 로그인이 취소되었습니다.',
         );
         return;
@@ -414,7 +493,7 @@ class AuthController extends StateNotifier<AuthState> {
         (failure) {
           debugPrint('❌ 백엔드 Google 로그인 실패: ${failure.toString()}');
           state = state.copyWith(
-            isLoading: false,
+            isGoogleLoading: false,
             errorMessage: _getErrorMessage(failure),
           );
         },
@@ -432,39 +511,50 @@ class AuthController extends StateNotifier<AuthState> {
             loginProvider: LoginProvider.google,
           );
 
+          // 소셜 로그인 성공 시에도 로그인 시도 횟수 초기화
+          _loginAttemptService.resetAttempts();
+
           state = state.copyWith(
-            isLoading: false,
+            isGoogleLoading: false,
             isAuthenticated: true,
             user: userWithCorrectProvider,
             accessToken: authResponse.accessToken,
             refreshToken: authResponse.refreshToken,
             errorMessage: null,
+            successMessage: AuthMessageHandler.getSuccessMessage(
+              action: 'login',
+              userName: userWithCorrectProvider.profile.name,
+              provider: 'Google',
+            ),
           );
         },
       );
     } catch (e) {
       debugPrint('❌ Google Sign-In 예외 발생: $e');
       state = state.copyWith(
-        isLoading: false,
+        isGoogleLoading: false,
         errorMessage: 'Google 로그인 중 오류가 발생했습니다. 다시 시도해주세요.',
       );
     }
   }
 
   Future<void> signInWithApple() async {
-    state = state.copyWith(isLoading: true, errorMessage: null);
+    state = state.copyWith(isAppleLoading: true, errorMessage: null);
 
     // Apple Sign-In 미구현
     await Future.delayed(const Duration(seconds: 1));
 
     state = state.copyWith(
-      isLoading: false,
+      isAppleLoading: false,
       errorMessage: 'Apple 로그인은 아직 지원하지 않습니다',
     );
+
+    // TODO: Apple 로그인 구현 시 성공 케이스에서 로그인 시도 리셋 추가
+    // await _loginAttemptService.resetLoginAttempts();
   }
 
   Future<void> signInWithKakao({String? code, String? redirectUri}) async {
-    state = state.copyWith(isLoading: true, errorMessage: null);
+    state = state.copyWith(isKakaoLoading: true, errorMessage: null);
 
     try {
       debugPrint('🔄 카카오 로그인 시작');
@@ -475,7 +565,7 @@ class AuthController extends StateNotifier<AuthState> {
       if (accessToken == null) {
         debugPrint('❌ 카카오 로그인 취소됨 또는 실패');
         state = state.copyWith(
-          isLoading: false,
+          isKakaoLoading: false,
           errorMessage: '카카오 로그인이 취소되었습니다.',
         );
         return;
@@ -492,7 +582,7 @@ class AuthController extends StateNotifier<AuthState> {
         (failure) {
           debugPrint('❌ 백엔드 카카오 로그인 실패: ${failure.toString()}');
           state = state.copyWith(
-            isLoading: false,
+            isKakaoLoading: false,
             errorMessage: _getErrorMessage(failure),
           );
         },
@@ -510,36 +600,47 @@ class AuthController extends StateNotifier<AuthState> {
             loginProvider: LoginProvider.kakao,
           );
 
+          // 소셜 로그인 성공 시에도 로그인 시도 횟수 초기화
+          _loginAttemptService.resetAttempts();
+
           state = state.copyWith(
-            isLoading: false,
+            isKakaoLoading: false,
             isAuthenticated: true,
             user: userWithCorrectProvider,
             accessToken: authResponse.accessToken,
             refreshToken: authResponse.refreshToken,
             errorMessage: null,
+            successMessage: AuthMessageHandler.getSuccessMessage(
+              action: 'login',
+              userName: userWithCorrectProvider.profile.name,
+              provider: '카카오',
+            ),
           );
         },
       );
     } catch (e) {
       debugPrint('❌ 카카오 로그인 예외 발생: $e');
       state = state.copyWith(
-        isLoading: false,
+        isKakaoLoading: false,
         errorMessage: '카카오 로그인 중 오류가 발생했습니다. 다시 시도해주세요.',
       );
     }
   }
 
   Future<void> signInWithNaver() async {
-    state = state.copyWith(isLoading: true, errorMessage: null);
+    state = state.copyWith(isNaverLoading: true, errorMessage: null);
 
     // TODO: 네이버 로그인 플러그인 API 호환성 문제로 임시 비활성화
     debugPrint('⚠️ 네이버 로그인 임시 비활성화됨 - 플러그인 API 호환성 문제');
 
     state = state.copyWith(
-      isLoading: false,
+      isNaverLoading: false,
       errorMessage: '네이버 로그인은 현재 준비 중입니다. 다른 로그인 방법을 이용해주세요.',
     );
     return;
+
+    // TODO: 네이버 로그인 구현 시 성공 케이스에서 로그인 시도 리셋 추가
+    // await _loginAttemptService.resetLoginAttempts();
 
     /*
     try {
@@ -631,7 +732,10 @@ class AuthController extends StateNotifier<AuthState> {
             errorMessage: _getErrorMessage(failure),
           );
         },
-        (authResponse) {
+        (authResponse) async {
+          // 로그인 성공 시 시도 횟수 리셋
+          await _loginAttemptService.resetLoginAttempts();
+          
           state = state.copyWith(
             isLoading: false,
             isAuthenticated: true,
@@ -723,11 +827,36 @@ class AuthController extends StateNotifier<AuthState> {
   }
 
   void clearError() {
-    state = state.copyWith(errorMessage: null);
+    state = state.copyWith(errorMessage: null, successMessage: null);
+  }
+
+  void setSuccessMessage(String message) {
+    state = state.copyWith(successMessage: message);
   }
 
   String _getErrorMessage(dynamic failure) {
-    // TODO: failure 타입에 따른 상세한 에러 메시지 처리
-    return '요청 처리 중 오류가 발생했습니다. 다시 시도해주세요.';
+    return AuthMessageHandler.getErrorMessage(failure);
+  }
+
+  // 토큰 갱신 후 상태 업데이트 (RefreshTokenInterceptor에서 사용)
+  Future<void> updateTokensAfterRefresh(
+    String newAccessToken,
+    String newRefreshToken,
+  ) async {
+    debugPrint('🔄 토큰 갱신 후 상태 업데이트');
+
+    // SharedPreferences에도 저장
+    await _localDataSource.saveTokens(
+      accessToken: newAccessToken,
+      refreshToken: newRefreshToken,
+    );
+
+    // 상태 업데이트
+    state = state.copyWith(
+      accessToken: newAccessToken,
+      refreshToken: newRefreshToken,
+    );
+
+    debugPrint('✅ AuthController 토큰 상태 업데이트 완료');
   }
 }

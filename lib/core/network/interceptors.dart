@@ -1,8 +1,11 @@
+import 'dart:math' as math;
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../constants/api_endpoints.dart';
 import '../errors/exceptions.dart';
+import '../../features/auth/presentation/providers/auth_providers.dart';
 
 // 토큰 스토리지 Provider
 final tokenStorageProvider = Provider<TokenStorage>((ref) {
@@ -60,19 +63,32 @@ class AuthInterceptor extends Interceptor {
     RequestInterceptorHandler handler,
   ) async {
     try {
-      final tokenStorage = _ref.read(tokenStorageProvider);
-      final token = await tokenStorage.getAccessToken();
-
-      if (token != null) {
-        options.headers['Authorization'] = 'Bearer $token';
+      print('🔍 API 요청: ${options.method} ${options.path}');
+      
+      // AuthController에서 현재 액세스 토큰을 가져옴
+      final authState = _ref.read(authControllerProvider);
+      
+      print('🔍 Auth State 확인:');
+      print('  - isAuthenticated: ${authState.isAuthenticated}');
+      print('  - accessToken 존재: ${authState.accessToken != null}');
+      print('  - accessToken 길이: ${authState.accessToken?.length ?? 0}');
+      
+      if (authState.accessToken != null && authState.accessToken!.isNotEmpty) {
+        options.headers['Authorization'] = 'Bearer ${authState.accessToken}';
+        print('✅ Authorization 헤더 추가됨: Bearer ${authState.accessToken!.substring(0, math.min(20, authState.accessToken!.length))}...');
+      } else {
+        print('⚠️ 액세스 토큰이 없거나 비어있습니다');
+        print('⚠️ 현재 요청 경로: ${options.path}');
       }
 
+      print('🔍 최종 요청 헤더: ${options.headers}');
       handler.next(options);
     } catch (e) {
+      print('❌ Authorization 헤더 추가 실패: $e');
       handler.reject(
         DioException(
           requestOptions: options,
-          error: 'Failed to add authorization header',
+          error: 'Failed to add authorization header: $e',
         ),
       );
     }
@@ -184,12 +200,16 @@ class RefreshTokenInterceptor extends Interceptor {
   void onError(DioException err, ErrorInterceptorHandler handler) async {
     if (err.response?.statusCode == 401 && !_isRefreshing) {
       _isRefreshing = true;
+      print('🔄 401 오류 감지 - 토큰 갱신 시도');
 
       try {
-        final tokenStorage = _ref.read(tokenStorageProvider);
-        final refreshToken = await tokenStorage.getRefreshToken();
+        // AuthController에서 현재 리프레시 토큰을 가져옴
+        final authState = _ref.read(authControllerProvider);
+        final refreshToken = authState.refreshToken;
 
-        if (refreshToken != null) {
+        if (refreshToken != null && refreshToken.isNotEmpty) {
+          print('🔑 리프레시 토큰 발견: ${refreshToken.substring(0, 20)}...');
+          
           final dio = Dio();
           final response = await dio.post(
             '${ApiEndpoints.baseUrl}${ApiEndpoints.refreshToken}',
@@ -199,28 +219,53 @@ class RefreshTokenInterceptor extends Interceptor {
           final newAccessToken = response.data['access_token'];
           final newRefreshToken = response.data['refresh_token'];
 
-          await tokenStorage.saveTokens(newAccessToken, newRefreshToken);
+          print('✅ 토큰 갱신 성공: ${newAccessToken.substring(0, 20)}...');
+
+          // AuthController의 토큰 갱신 메서드 호출 (내부에서 상태 업데이트)
+          // 이 부분은 AuthController에 적절한 메서드가 있다고 가정
+          // 실제로는 TokenStorage도 함께 업데이트해야 함
+          await _updateTokensInStorage(newAccessToken, newRefreshToken);
 
           // 원래 요청 재시도
           final requestOptions = err.requestOptions;
           requestOptions.headers['Authorization'] = 'Bearer $newAccessToken';
 
           final retryResponse = await Dio().fetch(requestOptions);
+          print('✅ 원본 요청 재시도 성공');
           handler.resolve(retryResponse);
         } else {
+          print('❌ 리프레시 토큰이 없음 - 로그아웃 처리');
           // 리프레시 토큰이 없으면 로그아웃
-          await tokenStorage.deleteTokens();
+          final authController = _ref.read(authControllerProvider.notifier);
+          await authController.signOut();
           handler.next(err);
         }
       } catch (e) {
+        print('❌ 토큰 갱신 실패: $e');
         // 토큰 갱신 실패 시 로그아웃
-        await _ref.read(tokenStorageProvider).deleteTokens();
+        final authController = _ref.read(authControllerProvider.notifier);
+        await authController.signOut();
         handler.next(err);
       } finally {
         _isRefreshing = false;
       }
     } else {
       handler.next(err);
+    }
+  }
+
+  // 토큰 갱신 후 로컬 스토리지 업데이트
+  Future<void> _updateTokensInStorage(String accessToken, String refreshToken) async {
+    try {
+      // SharedPreferences에 저장 (AuthLocalDataSource와 동일한 방식)
+      final prefs = await SharedPreferences.getInstance();
+      await Future.wait([
+        prefs.setString('access_token', accessToken),
+        prefs.setString('refresh_token', refreshToken),
+      ]);
+      print('✅ SharedPreferences 토큰 업데이트 완료');
+    } catch (e) {
+      print('⚠️ SharedPreferences 토큰 업데이트 실패: $e');
     }
   }
 }

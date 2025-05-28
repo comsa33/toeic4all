@@ -3,7 +3,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../core/network/api_client.dart';
 import '../../../../core/services/google_sign_in_service.dart';
 import '../../../../core/services/kakao_sign_in_service.dart';
-import '../../../../core/services/naver_sign_in_service.dart';
+// import '../../../../core/services/naver_sign_in_service.dart'; // TODO: Naver 로그인 구현 시 활성화
+import '../../../../core/services/login_attempt_service.dart';
 import '../../domain/repositories/auth_repository.dart';
 import '../../domain/usecases/auth_usecases.dart';
 import '../../data/datasources/auth_local_datasource.dart';
@@ -42,9 +43,15 @@ final kakaoSignInServiceProvider = Provider<KakaoSignInService>((ref) {
   return KakaoSignInService();
 });
 
-// Naver Sign-In Service
-final naverSignInServiceProvider = Provider<NaverSignInService>((ref) {
-  return NaverSignInService();
+// Naver Sign-In Service (TODO: Naver 로그인 구현 시 활성화)
+// final naverSignInServiceProvider = Provider<NaverSignInService>((ref) {
+//   return NaverSignInService();
+// });
+
+// Login Attempt Service
+final loginAttemptServiceProvider = Provider<LoginAttemptService>((ref) {
+  final prefs = ref.watch(sharedPreferencesProvider);
+  return LoginAttemptService(prefs);
 });
 
 // Repository
@@ -151,21 +158,20 @@ final authControllerProvider = StateNotifierProvider<AuthController, AuthState>(
       passwordResetRequestUseCase: ref.watch(
         passwordResetRequestUseCaseProvider,
       ),
-      passwordResetConfirmUseCase: ref.watch(
-        passwordResetConfirmUseCaseProvider,
-      ),
+      // passwordResetConfirmUseCase: ref.watch(passwordResetConfirmUseCaseProvider), // TODO: 기능 구현 시 활성화
       changePasswordUseCase: ref.watch(changePasswordUseCaseProvider),
-      googleLoginUseCase: ref.watch(googleLoginUseCaseProvider),
+      // googleLoginUseCase: ref.watch(googleLoginUseCaseProvider), // TODO: 웹 Google 로그인 구현 시 활성화
       googleLoginMobileUseCase: ref.watch(googleLoginMobileUseCaseProvider),
-      kakaoLoginUseCase: ref.watch(kakaoLoginUseCaseProvider),
+      // kakaoLoginUseCase: ref.watch(kakaoLoginUseCaseProvider), // TODO: 웹 Kakao 로그인 구현 시 활성화
       kakaoLoginMobileUseCase: ref.watch(kakaoLoginMobileUseCaseProvider),
-      naverLoginMobileUseCase: ref.watch(naverLoginMobileUseCaseProvider),
+      // naverLoginMobileUseCase: ref.watch(naverLoginMobileUseCaseProvider), // TODO: Naver 로그인 구현 시 활성화
       getCurrentUserUseCase: ref.watch(getCurrentUserUseCaseProvider),
       localDataSource: ref.watch(authLocalDataSourceProvider),
       googleSignInService: ref.watch(googleSignInServiceProvider),
       kakaoSignInService: ref.watch(kakaoSignInServiceProvider),
-      naverSignInService: ref.watch(naverSignInServiceProvider),
-      ref: ref, // Ref 전달
+      // naverSignInService: ref.watch(naverSignInServiceProvider), // TODO: Naver 로그인 구현 시 활성화
+      loginAttemptService: ref.watch(loginAttemptServiceProvider),
+      // ref: ref, // TODO: TokenStorage 직접 접근이 필요한 경우 활성화
     );
   },
 );

@@ -150,13 +150,13 @@ class PasswordResetConfirmParams {
 }
 
 // Change Password UseCase
-class ChangePasswordUseCase implements UseCase<void, ChangePasswordParams> {
+class ChangePasswordUseCase implements UseCase<String, ChangePasswordParams> {
   final AuthRepository repository;
 
   ChangePasswordUseCase(this.repository);
 
   @override
-  Future<Either<Failure, void>> call(ChangePasswordParams params) async {
+  Future<Either<Failure, String>> call(ChangePasswordParams params) async {
     return await repository.changePassword(
       currentPassword: params.currentPassword,
       newPassword: params.newPassword,

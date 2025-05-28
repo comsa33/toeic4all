@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/constants/app_colors.dart';
-import '../../../../core/utils/validators.dart';
+import '../../../../core/utils/password_policy_validator.dart';
 import '../../../../shared/widgets/app_button.dart';
-import '../../../../shared/widgets/app_text_field.dart';
+import '../../../../shared/widgets/enhanced_password_field.dart';
 import '../providers/auth_providers.dart';
 
 class ChangePasswordScreen extends ConsumerStatefulWidget {
@@ -35,27 +35,129 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
       final newPassword = _newPasswordController.text.trim();
       final confirmPassword = _confirmPasswordController.text.trim();
 
-      await ref.read(authControllerProvider.notifier).changePassword(
-        currentPassword: currentPassword,
-        newPassword: newPassword,
-        confirmPassword: confirmPassword,
-      );
+      // 비밀번호 정책 검증
+      final policyResult = PasswordPolicyValidator.validatePassword(newPassword);
+      if (!policyResult.isValid) {
+        _showErrorSnackBar('새 비밀번호가 보안 정책을 만족하지 않습니다. 정책 요구사항을 확인해주세요.');
+        return;
+      }
 
-      // AuthController에서 에러가 없다면 성공
-      final authState = ref.read(authControllerProvider);
-      if (mounted && authState.errorMessage == null && !authState.isLoading) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('비밀번호가 성공적으로 변경되었습니다.'),
-            backgroundColor: Colors.green,
-            duration: Duration(seconds: 3),
-          ),
+      // 비밀번호 확인 검증
+      if (newPassword != confirmPassword) {
+        _showErrorSnackBar('새 비밀번호와 확인 비밀번호가 일치하지 않습니다.');
+        return;
+      }
+
+      try {
+        await ref.read(authControllerProvider.notifier).changePassword(
+          currentPassword: currentPassword,
+          newPassword: newPassword,
+          confirmPassword: confirmPassword,
         );
-        
-        // 설정 화면으로 돌아가기
-        context.pop();
+      } catch (e) {
+        if (mounted) {
+          _showErrorSnackBar('예상치 못한 오류가 발생했습니다: ${e.toString()}');
+        }
       }
     }
+  }
+
+  void _showSuccessDialog(String message) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        icon: Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: Colors.green.withValues(alpha: 0.1),
+            shape: BoxShape.circle,
+          ),
+          child: const Icon(
+            Icons.check_circle,
+            color: Colors.green,
+            size: 48,
+          ),
+        ),
+        title: const Text(
+          '비밀번호 변경 완료',
+          textAlign: TextAlign.center,
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              message,
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 16),
+            ),
+            const SizedBox(height: 16),
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Colors.blue.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.security,
+                    size: 20,
+                    color: Colors.blue.shade700,
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      '보안을 위해 다른 기기에서도 다시 로그인해주세요.',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.blue.shade700,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          AppButton.primary(
+            text: '확인',
+            onPressed: () {
+              // 성공 메시지 클리어
+              ref.read(authControllerProvider.notifier).clearError();
+              Navigator.of(context).pop(); // 다이얼로그 닫기
+              context.pop(); // 설정 화면으로 돌아가기
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showErrorSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Row(
+          children: [
+            const Icon(Icons.error, color: Colors.white),
+            const SizedBox(width: 8),
+            Expanded(child: Text(message)),
+          ],
+        ),
+        backgroundColor: Theme.of(context).colorScheme.error,
+        behavior: SnackBarBehavior.floating,
+        action: SnackBarAction(
+          label: '닫기',
+          textColor: Colors.white,
+          onPressed: () {
+            ScaffoldMessenger.of(context).hideCurrentSnackBar();
+          },
+        ),
+      ),
+    );
   }
 
   String? _validateConfirmPassword(String? value) {
@@ -68,29 +170,39 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
     return null;
   }
 
+  String? _validateNewPassword(String? value) {
+    if (value == null || value.isEmpty) {
+      return '새 비밀번호를 입력해주세요';
+    }
+    
+    final policyResult = PasswordPolicyValidator.validatePassword(value);
+    if (!policyResult.isValid) {
+      return '비밀번호 정책을 확인해주세요';
+    }
+    
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     final authState = ref.watch(authControllerProvider);
 
-    // 에러 메시지 표시
+    // 에러 메시지 및 성공 메시지 표시
     ref.listen(authControllerProvider, (previous, next) {
       if (next.errorMessage != null &&
           next.errorMessage != previous?.errorMessage) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           if (mounted) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Row(
-                  children: [
-                    const Icon(Icons.error, color: Colors.white),
-                    const SizedBox(width: 8),
-                    Expanded(child: Text(next.errorMessage!)),
-                  ],
-                ),
-                backgroundColor: Theme.of(context).colorScheme.error,
-                behavior: SnackBarBehavior.floating,
-              ),
-            );
+            _showErrorSnackBar(next.errorMessage!);
+          }
+        });
+      }
+      
+      if (next.successMessage != null &&
+          next.successMessage != previous?.successMessage) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted) {
+            _showSuccessDialog(next.successMessage!);
           }
         });
       }
@@ -155,11 +267,10 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
                 const SizedBox(height: 40),
 
                 // 현재 비밀번호 입력 필드
-                AppTextField.password(
+                EnhancedPasswordField(
                   controller: _currentPasswordController,
                   label: '현재 비밀번호',
                   hint: '현재 비밀번호를 입력하세요',
-                  prefixIcon: const Icon(Icons.lock_outline),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return '현재 비밀번호를 입력해주세요';
@@ -167,31 +278,35 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
                     return null;
                   },
                   textInputAction: TextInputAction.next,
+                  showStrengthIndicator: false, // 현재 비밀번호는 강도 표시 안 함
+                  showPolicyDetails: false,     // 현재 비밀번호는 정책 체크 안 함
                 ),
 
-                const SizedBox(height: 16),
+                const SizedBox(height: 24),
 
                 // 새 비밀번호 입력 필드
-                AppTextField.password(
+                EnhancedPasswordField(
                   controller: _newPasswordController,
                   label: '새 비밀번호',
                   hint: '새 비밀번호를 입력하세요',
-                  prefixIcon: const Icon(Icons.lock_person_outlined),
-                  validator: Validators.password,
+                  validator: _validateNewPassword,
                   textInputAction: TextInputAction.next,
+                  showStrengthIndicator: true,
+                  showPolicyDetails: true,
                 ),
 
-                const SizedBox(height: 16),
+                const SizedBox(height: 24),
 
                 // 새 비밀번호 확인 입력 필드
-                AppTextField.password(
+                EnhancedPasswordField(
                   controller: _confirmPasswordController,
                   label: '새 비밀번호 확인',
                   hint: '새 비밀번호를 다시 입력하세요',
-                  prefixIcon: const Icon(Icons.lock_person_outlined),
                   validator: _validateConfirmPassword,
                   textInputAction: TextInputAction.done,
-                  onSubmitted: (_) => _handleChangePassword(),
+                  onSubmitted: () => _handleChangePassword(),
+                  showStrengthIndicator: false, // 확인 필드는 강도 표시 안 함
+                  showPolicyDetails: false,     // 확인 필드는 정책 체크 안 함
                 ),
 
                 const SizedBox(height: 32),

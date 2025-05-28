@@ -56,6 +56,11 @@ abstract class AuthRemoteDataSource {
   Future<TokenRefreshResponseModel> refreshToken(String refreshToken);
   Future<UserModel> getCurrentUser();
   Future<void> resetPassword(String email);
+  Future<String> changePassword({
+    required String currentPassword,
+    required String newPassword,
+    required String confirmPassword,
+  });
   Future<UserModel> updateProfile({String? name, String? profileImageUrl});
 }
 
@@ -411,6 +416,43 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
+  Future<String> changePassword({
+    required String currentPassword,
+    required String newPassword,
+    required String confirmPassword,
+  }) async {
+    try {
+      debugPrint('🔄 비밀번호 변경 API 호출 시작');
+      debugPrint('📍 엔드포인트: ${ApiEndpoints.passwordChange}');
+      
+      final response = await _apiClient.post(
+        ApiEndpoints.passwordChange,
+        data: {
+          'current_password': currentPassword,
+          'new_password': newPassword,
+          'confirm_password': confirmPassword,
+        },
+      );
+      
+      debugPrint('✅ 비밀번호 변경 API 호출 성공');
+      debugPrint('📋 응답 상태: ${response.statusCode}');
+      debugPrint('📋 응답 데이터: ${response.data}');
+      
+      // 서버로부터 받은 성공 메시지 반환
+      final message = response.data?['message'] ?? '비밀번호가 성공적으로 변경되었습니다.';
+      return message;
+    } on DioException catch (e) {
+      debugPrint('❌ 비밀번호 변경 API 오류: ${e.message}');
+      debugPrint('📋 상태 코드: ${e.response?.statusCode}');
+      debugPrint('📋 응답 데이터: ${e.response?.data}');
+      throw _handlePasswordChangeException(e);
+    } catch (e) {
+      debugPrint('❌ 비밀번호 변경 예외: $e');
+      throw ServerException(message: e.toString());
+    }
+  }
+
+  @override
   Future<UserModel> updateProfile({
     String? name,
     String? profileImageUrl,
@@ -466,6 +508,46 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         return ServerException(message: 'No internet connection');
       default:
         return ServerException(message: e.message ?? 'Unknown error');
+    }
+  }
+
+  // 비밀번호 변경에 특화된 예외 처리
+  Exception _handlePasswordChangeException(DioException e) {
+    switch (e.type) {
+      case DioExceptionType.connectionTimeout:
+      case DioExceptionType.sendTimeout:
+      case DioExceptionType.receiveTimeout:
+        return ServerException(message: '네트워크 연결 시간이 초과되었습니다. 잠시 후 다시 시도해주세요.');
+      case DioExceptionType.badResponse:
+        final statusCode = e.response?.statusCode;
+        final errorDetail = e.response?.data?['detail'] ?? 
+                           e.response?.data?['message'] ?? 
+                           '알 수 없는 오류가 발생했습니다.';
+
+        switch (statusCode) {
+          case 400:
+            // 비밀번호 정책 위반이나 불일치 오류
+            return ValidationException(message: errorDetail);
+          case 401:
+            // 현재 비밀번호 틀림 또는 인증 실패
+            return AuthException(message: errorDetail);
+          case 403:
+            // 소셜 로그인 사용자
+            return AuthException(message: errorDetail);
+          case 404:
+            // 사용자 없음
+            return AuthException(message: '사용자를 찾을 수 없습니다. 다시 로그인해주세요.');
+          case 500:
+            return ServerException(message: '서버에 일시적인 문제가 발생했습니다. 잠시 후 다시 시도해주세요.');
+          default:
+            return ServerException(message: errorDetail, statusCode: statusCode);
+        }
+      case DioExceptionType.cancel:
+        return ServerException(message: '요청이 취소되었습니다.');
+      case DioExceptionType.connectionError:
+        return ServerException(message: '인터넷 연결을 확인해주세요.');
+      default:
+        return ServerException(message: e.message ?? '알 수 없는 오류가 발생했습니다.');
     }
   }
 }
